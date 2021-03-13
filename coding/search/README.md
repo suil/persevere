@@ -16,8 +16,8 @@
         * [Letter Combinations of a Phone Number](#Letter-Combinations-of-a-Phone-Number)
         * [Restore IP Addresses](#Restore-IP-Addresses)
         * [Binary Tree Paths](#Binary-Tree-Paths)
-        * [5. 排列](#5-排列)
-        * [6. 含有相同元素求排列](#6-含有相同元素求排列)
+        * [Permutations](#Permutations)
+        * [Permutations II](#Permutations-II)
         * [7. 组合](#7-组合)
         * [8. 组合求和](#8-组合求和)
         * [9. 含有相同元素的组合求和](#9-含有相同元素的组合求和)
@@ -725,99 +725,65 @@ function binaryTreePathsHelper(root, paths, output) {
 }
 ```
 
-### 5. 排列
+### Permutations
 
-46\. Permutations (Medium)
+Complexity is factorial.
 
-[Leetcode](https://leetcode.com/problems/permutations/description/) / [力扣](https://leetcode-cn.com/problems/permutations/description/)
+[46\. Permutations (Medium)](https://leetcode.com/problems/permutations/description/)
 
-```html
-[1,2,3] have the following permutations:
-[
-  [1,2,3],
-  [1,3,2],
-  [2,1,3],
-  [2,3,1],
-  [3,1,2],
-  [3,2,1]
-]
-```
+```javascript
+var permute = function(nums) {
+    const output = [];
+    permuteHelper(nums, [], output);
+    return output;
+};
 
-```java
-public List<List<Integer>> permute(int[] nums) {
-    List<List<Integer>> permutes = new ArrayList<>();
-    List<Integer> permuteList = new ArrayList<>();
-    boolean[] hasVisited = new boolean[nums.length];
-    backtracking(permuteList, permutes, hasVisited, nums);
-    return permutes;
-}
-
-private void backtracking(List<Integer> permuteList, List<List<Integer>> permutes, boolean[] visited, final int[] nums) {
-    if (permuteList.size() == nums.length) {
-        permutes.add(new ArrayList<>(permuteList)); // 重新构造一个 List
+function permuteHelper(nums, permutations, output) {
+    if (nums.length === 0) {
+        output.push([...permutations]);
         return;
     }
-    for (int i = 0; i < visited.length; i++) {
-        if (visited[i]) {
-            continue;
-        }
-        visited[i] = true;
-        permuteList.add(nums[i]);
-        backtracking(permuteList, permutes, visited, nums);
-        permuteList.remove(permuteList.size() - 1);
-        visited[i] = false;
+    
+    for (let i = 0; i < nums.length; i++) {
+        const nextNums = nums.filter((_, index) => index !== i);
+        const nextPermutations = [...permutations, nums[i]];
+        permuteHelper(nextNums, nextPermutations, output);
     }
 }
 ```
 
-### 6. 含有相同元素求排列
+### Permutations II
 
-47\. Permutations II (Medium)
+[47\. Permutations II (Medium)](https://leetcode.com/problems/permutations-ii/description/)
 
-[Leetcode](https://leetcode.com/problems/permutations-ii/description/) / [力扣](https://leetcode-cn.com/problems/permutations-ii/description/)
+```javascript
+var permuteUnique = function(nums) {
+    nums.sort();
+    const output = [];
+    permuteUniqueHelper(nums, [], output);
+    return output;
+};
 
-```html
-[1,1,2] have the following unique permutations:
-[[1,1,2], [1,2,1], [2,1,1]]
-```
-
-数组元素可能含有相同的元素，进行排列时就有可能出现重复的排列，要求重复的排列只返回一个。
-
-在实现上，和 Permutations 不同的是要先排序，然后在添加一个元素时，判断这个元素是否等于前一个元素，如果等于，并且前一个元素还未访问，那么就跳过这个元素。
-
-```java
-public List<List<Integer>> permuteUnique(int[] nums) {
-    List<List<Integer>> permutes = new ArrayList<>();
-    List<Integer> permuteList = new ArrayList<>();
-    Arrays.sort(nums);  // 排序
-    boolean[] hasVisited = new boolean[nums.length];
-    backtracking(permuteList, permutes, hasVisited, nums);
-    return permutes;
-}
-
-private void backtracking(List<Integer> permuteList, List<List<Integer>> permutes, boolean[] visited, final int[] nums) {
-    if (permuteList.size() == nums.length) {
-        permutes.add(new ArrayList<>(permuteList));
-        return;
+function permuteUniqueHelper(nums, permutations, output) {
+    if (nums.length === 0) {
+        output.push([...permutations]);
+        return output;
     }
-
-    for (int i = 0; i < visited.length; i++) {
-        if (i != 0 && nums[i] == nums[i - 1] && !visited[i - 1]) {
-            continue;  // 防止重复
-        }
-        if (visited[i]){
+    
+    for (let i = 0; i < nums.length; i++) {
+        if (i > 0 && nums[i] === nums[i - 1]) {
             continue;
         }
-        visited[i] = true;
-        permuteList.add(nums[i]);
-        backtracking(permuteList, permutes, visited, nums);
-        permuteList.remove(permuteList.size() - 1);
-        visited[i] = false;
+        const nextNums = nums.filter((_, index) => index !== i);
+        const nextPermutations = [...permutations, nums[i]];
+        permuteUniqueHelper(nextNums, nextPermutations, output);
     }
 }
 ```
 
 ### 7. 组合
+
+Complexity is exponential
 
 77\. Combinations (Medium)
 
