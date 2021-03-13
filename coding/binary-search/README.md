@@ -2,7 +2,7 @@
 <!-- GFM-TOC -->
 * [Binary Search](#Binary-Search)
     * [Sqrt(x)](#Sqrtx)
-    * [2. 大于给定元素的最小元素](#2-大于给定元素的最小元素)
+    * [Find Smallest Letter Greater Than Target](#Find-Smallest-Letter-Greater-Than-Target)
     * [3. 有序数组的 Single Element](#3-有序数组的-single-element)
     * [4. 第一个错误的版本](#4-第一个错误的版本)
     * [5. 旋转数组的最小数字](#5-旋转数组的最小数字)
@@ -81,43 +81,36 @@ This is the difference:
 [69\. Sqrt(x) (Easy)](https://leetcode.com/problems/sqrtx/description/)
 
 ```javascript
-
+var mySqrt = function(x) {
+    if (x <= 1) {
+        return x;
+    }
+    
+    let low = 1, high = Math.floor(x / 2);
+    
+    while (low <= high) {
+        const mid = Math.floor(low + (high - low) / 2);
+        const square = mid * mid;
+        
+        if (square > x) {
+            high = mid - 1;
+        } else {
+            low = mid + 1;
+        }
+    }
+    
+    return high;
+};
 ```
 
-## 2. 大于给定元素的最小元素
+## Find Smallest Letter Greater Than Target
 
 744\. Find Smallest Letter Greater Than Target (Easy)
 
-[Leetcode](https://leetcode.com/problems/find-smallest-letter-greater-than-target/description/) / [力扣](https://leetcode-cn.com/problems/find-smallest-letter-greater-than-target/description/)
+[744\. Find Smallest Letter Greater Than Target (Easy)](https://leetcode.com/problems/find-smallest-letter-greater-than-target/description/)
 
-```html
-Input:
-letters = ["c", "f", "j"]
-target = "d"
-Output: "f"
+```javascript
 
-Input:
-letters = ["c", "f", "j"]
-target = "k"
-Output: "c"
-```
-
-题目描述：给定一个有序的字符数组 letters 和一个字符 target，要求找出 letters 中大于 target 的最小字符，如果找不到就返回第 1 个字符。
-
-```java
-public char nextGreatestLetter(char[] letters, char target) {
-    int n = letters.length;
-    int l = 0, h = n - 1;
-    while (l <= h) {
-        int m = l + (h - l) / 2;
-        if (letters[m] <= target) {
-            l = m + 1;
-        } else {
-            h = m - 1;
-        }
-    }
-    return l < n ? letters[l] : letters[0];
-}
 ```
 
 ## 3. 有序数组的 Single Element
