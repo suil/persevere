@@ -875,7 +875,27 @@ function combinationSum2Helper(candidates, target, current, combinations, output
 [216\. Combination Sum III (Medium)](https://leetcode.com/problems/combination-sum-iii/description/)
 
 ```javascript
+var combinationSum3 = function(k, n) {
+    const output = [];
+    combinationSum3Helper(k, n, 1, [], output);
+    return output;
+};
 
+function combinationSum3Helper(k, target, current, combinations, output) {
+    const combSum = combinations.reduce((memo, c) => memo + c, 0);
+    if (current > 9 || combSum >= target || combinations.length === k) {
+        if (combSum === target && combinations.length === k) {
+            output.push([...combinations]);
+            return;
+        }
+    }
+    
+    for (let i = current; i <= 9; i++) {
+        const nextCurrent = i + 1;
+        const nextCombinations = [...combinations, i];
+        combinationSum3Helper(k, target, nextCurrent, nextCombinations, output);
+    }
+}
 ```
 
 ### 11. 子集
