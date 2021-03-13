@@ -23,10 +23,8 @@
         * [Combination Sum II](#Combination-Sum-II)
         * [Combination Sum III](#Combination-Sum-III)
         * [Subsets](#Subsets)
-        * [12. 含有相同元素求子集](#12-含有相同元素求子集)
-        * [13. 分割字符串使得每个部分都是回文数](#13-分割字符串使得每个部分都是回文数)
-        * [14. 数独](#14-数独)
-        * [15. N 皇后](#15-n-皇后)
+        * [Subsets II](#Subsets-II)
+        * [Palindrome Partitioning](#Palindrome-Partitioning)
 <!-- GFM-TOC -->
 
 
@@ -905,9 +903,9 @@ function combinationSum3Helper(k, target, current, combinations, output) {
 ```javascript
 var subsets = function(nums) {
     const results = [];
-    for (let i = 0; i <= nums.length; i++) {
+    for (let k = 0; k <= nums.length; k++) {
         const output = [];
-        subsetsHelper(nums, i, 0, [], output);
+        subsetsHelper(nums, k, 0, [], output);
         results.push(...output);
     }
     return results;
@@ -934,180 +932,41 @@ function subsetsHelper(nums, k, current, combinations, output) {
 [90\. Subsets II (Medium)](https://leetcode.com/problems/subsets-ii/description/)
 
 ```javascript
-
-```
-
-### 13. 分割字符串使得每个部分都是回文数
-
-131\. Palindrome Partitioning (Medium)
-
-[Leetcode](https://leetcode.com/problems/palindrome-partitioning/description/) / [力扣](https://leetcode-cn.com/problems/palindrome-partitioning/description/)
-
-```html
-For example, given s = "aab",
-Return
-
-[
-  ["aa","b"],
-  ["a","a","b"]
-]
-```
-
-```java
-public List<List<String>> partition(String s) {
-    List<List<String>> partitions = new ArrayList<>();
-    List<String> tempPartition = new ArrayList<>();
-    doPartition(s, partitions, tempPartition);
-    return partitions;
-}
-
-private void doPartition(String s, List<List<String>> partitions, List<String> tempPartition) {
-    if (s.length() == 0) {
-        partitions.add(new ArrayList<>(tempPartition));
+var subsetsWithDup = function(nums) {
+    nums.sort();
+    
+    const results = [];
+    for (let k = 0; k <= nums.length; k++) {
+        const output = [];
+        subsetsWithDupHelper(nums, k, 0, [], output);
+        results.push(...output);
+    }
+    return results;
+};
+function subsetsWithDupHelper(nums, k, current, combinations, output) {
+    if (current >= nums.length || combinations.length === k) {
+        if (combinations.length === k) {
+            output.push([...combinations])
+        }
         return;
     }
-    for (int i = 0; i < s.length(); i++) {
-        if (isPalindrome(s, 0, i)) {
-            tempPartition.add(s.substring(0, i + 1));
-            doPartition(s.substring(i + 1), partitions, tempPartition);
-            tempPartition.remove(tempPartition.size() - 1);
-        }
-    }
-}
-
-private boolean isPalindrome(String s, int begin, int end) {
-    while (begin < end) {
-        if (s.charAt(begin++) != s.charAt(end--)) {
-            return false;
-        }
-    }
-    return true;
-}
-```
-
-### 14. 数独
-
-37\. Sudoku Solver (Hard)
-
-[Leetcode](https://leetcode.com/problems/sudoku-solver/description/) / [力扣](https://leetcode-cn.com/problems/sudoku-solver/description/)
-
-<div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/0e8fdc96-83c1-4798-9abe-45fc91d70b9d.png"/> </div><br>
-
-```java
-private boolean[][] rowsUsed = new boolean[9][10];
-private boolean[][] colsUsed = new boolean[9][10];
-private boolean[][] cubesUsed = new boolean[9][10];
-private char[][] board;
-
-public void solveSudoku(char[][] board) {
-    this.board = board;
-    for (int i = 0; i < 9; i++)
-        for (int j = 0; j < 9; j++) {
-            if (board[i][j] == '.') {
-                continue;
-            }
-            int num = board[i][j] - '0';
-            rowsUsed[i][num] = true;
-            colsUsed[j][num] = true;
-            cubesUsed[cubeNum(i, j)][num] = true;
-        }
-        backtracking(0, 0);
-}
-
-private boolean backtracking(int row, int col) {
-    while (row < 9 && board[row][col] != '.') {
-        row = col == 8 ? row + 1 : row;
-        col = col == 8 ? 0 : col + 1;
-    }
-    if (row == 9) {
-        return true;
-    }
-    for (int num = 1; num <= 9; num++) {
-        if (rowsUsed[row][num] || colsUsed[col][num] || cubesUsed[cubeNum(row, col)][num]) {
+    
+    for (let i = current; i < nums.length; i++) {
+        if (i > current && nums[i] === nums[i - 1]) {
             continue;
         }
-        rowsUsed[row][num] = colsUsed[col][num] = cubesUsed[cubeNum(row, col)][num] = true;
-        board[row][col] = (char) (num + '0');
-        if (backtracking(row, col)) {
-            return true;
-        }
-        board[row][col] = '.';
-        rowsUsed[row][num] = colsUsed[col][num] = cubesUsed[cubeNum(row, col)][num] = false;
-    }
-    return false;
-}
-
-private int cubeNum(int i, int j) {
-    int r = i / 3;
-    int c = j / 3;
-    return r * 3 + c;
-}
-```
-
-### 15. N 皇后
-
-51\. N-Queens (Hard)
-
-[Leetcode](https://leetcode.com/problems/n-queens/description/) / [力扣](https://leetcode-cn.com/problems/n-queens/description/)
-
-<div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/067b310c-6877-40fe-9dcf-10654e737485.jpg"/> </div><br>
-
-在 n\*n 的矩阵中摆放 n 个皇后，并且每个皇后不能在同一行，同一列，同一对角线上，求所有的 n 皇后的解。
-
-一行一行地摆放，在确定一行中的那个皇后应该摆在哪一列时，需要用三个标记数组来确定某一列是否合法，这三个标记数组分别为：列标记数组、45 度对角线标记数组和 135 度对角线标记数组。
-
-45 度对角线标记数组的长度为 2 \* n - 1，通过下图可以明确 (r, c) 的位置所在的数组下标为 r + c。
-
-<div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/9c422923-1447-4a3b-a4e1-97e663738187.jpg" width="300px"> </div><br>
-
-
-135 度对角线标记数组的长度也是 2 \* n - 1，(r, c) 的位置所在的数组下标为 n - 1 - (r - c)。
-
-<div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/7a85e285-e152-4116-b6dc-3fab27ba9437.jpg" width="300px"> </div><br>
-
-```java
-private List<List<String>> solutions;
-private char[][] nQueens;
-private boolean[] colUsed;
-private boolean[] diagonals45Used;
-private boolean[] diagonals135Used;
-private int n;
-
-public List<List<String>> solveNQueens(int n) {
-    solutions = new ArrayList<>();
-    nQueens = new char[n][n];
-    for (int i = 0; i < n; i++) {
-        Arrays.fill(nQueens[i], '.');
-    }
-    colUsed = new boolean[n];
-    diagonals45Used = new boolean[2 * n - 1];
-    diagonals135Used = new boolean[2 * n - 1];
-    this.n = n;
-    backtracking(0);
-    return solutions;
-}
-
-private void backtracking(int row) {
-    if (row == n) {
-        List<String> list = new ArrayList<>();
-        for (char[] chars : nQueens) {
-            list.add(new String(chars));
-        }
-        solutions.add(list);
-        return;
-    }
-
-    for (int col = 0; col < n; col++) {
-        int diagonals45Idx = row + col;
-        int diagonals135Idx = n - 1 - (row - col);
-        if (colUsed[col] || diagonals45Used[diagonals45Idx] || diagonals135Used[diagonals135Idx]) {
-            continue;
-        }
-        nQueens[row][col] = 'Q';
-        colUsed[col] = diagonals45Used[diagonals45Idx] = diagonals135Used[diagonals135Idx] = true;
-        backtracking(row + 1);
-        colUsed[col] = diagonals45Used[diagonals45Idx] = diagonals135Used[diagonals135Idx] = false;
-        nQueens[row][col] = '.';
+        const nextCurrent = i + 1;
+        const nextCombinations = [...combinations, nums[i]];
+        subsetsWithDupHelper(nums, k, nextCurrent, nextCombinations, output);
     }
 }
 ```
+
+### Palindrome Partitioning
+
+[131\. Palindrome Partitioning (Medium)](https://leetcode.com/problems/palindrome-partitioning/description/)
+
+```javascript
+
+```
+
