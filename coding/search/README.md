@@ -15,7 +15,7 @@
     * [Backtracking](#backtracking)
         * [Letter Combinations of a Phone Number](#Letter-Combinations-of-a-Phone-Number)
         * [Restore IP Addresses](#Restore-IP-Addresses)
-        * [4. 输出二叉树中所有从根到叶子的路径](#4-输出二叉树中所有从根到叶子的路径)
+        * [Binary Tree Paths](#Binary-Tree-Paths)
         * [5. 排列](#5-排列)
         * [6. 含有相同元素求排列](#6-含有相同元素求排列)
         * [7. 组合](#7-组合)
@@ -698,63 +698,30 @@ function restoreIpAddressesHelper(s, segments, output) {
 }
 ```
 
-### 4. 输出二叉树中所有从根到叶子的路径
+### Binary Tree Paths
 
-257\. Binary Tree Paths (Easy)
+[257\. Binary Tree Paths (Easy)](https://leetcode.com/problems/binary-tree-paths/description/)
 
-[Leetcode](https://leetcode.com/problems/binary-tree-paths/description/) / [力扣](https://leetcode-cn.com/problems/binary-tree-paths/description/)
+```javascript
+var binaryTreePaths = function(root) {
+    const output = [];
+    binaryTreePathsHelper(root, [], output);
+    return output;
+};
 
-```html
-  1
- /  \
-2    3
- \
-  5
-```
-
-```html
-["1->2->5", "1->3"]
-```
-
-```java
-
-public List<String> binaryTreePaths(TreeNode root) {
-    List<String> paths = new ArrayList<>();
-    if (root == null) {
-        return paths;
-    }
-    List<Integer> values = new ArrayList<>();
-    backtracking(root, values, paths);
-    return paths;
-}
-
-private void backtracking(TreeNode node, List<Integer> values, List<String> paths) {
-    if (node == null) {
+function binaryTreePathsHelper(root, paths, output) {
+    if (!root.left && !root.right) {
+        output.push([...paths, root.val].join('->'));
         return;
     }
-    values.add(node.val);
-    if (isLeaf(node)) {
-        paths.add(buildPath(values));
-    } else {
-        backtracking(node.left, values, paths);
-        backtracking(node.right, values, paths);
+    
+    if (root.left) {
+        binaryTreePathsHelper(root.left, [...paths, root.val], output);
     }
-    values.remove(values.size() - 1);
-}
-
-private boolean isLeaf(TreeNode node) {
-    return node.left == null && node.right == null;
-}
-
-private String buildPath(List<Integer> values) {
-    StringBuilder str = new StringBuilder();
-    for (int i = 0; i < values.size(); i++) {
-        str.append(values.get(i));
-        if (i != values.size() - 1) {
-            str.append("->");
-        }
+    
+    if (root.right) {
+        binaryTreePathsHelper(root.right, [...paths, root.val], output);
     }
-    return str.toString();
 }
 ```
 
