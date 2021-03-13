@@ -13,7 +13,7 @@
         * [5. 能到达的太平洋和大西洋的区域](#5-能到达的太平洋和大西洋的区域)
     * [Backtracking](#backtracking)
         * [1. 数字键盘组合](#1-数字键盘组合)
-        * [Restore IP Addresses](#2-ip-地址划分)
+        * [Restore IP Addresses](#Restore-IP-Addresses)
         * [3. 在矩阵中寻找字符串](#3-在矩阵中寻找字符串)
         * [4. 输出二叉树中所有从根到叶子的路径](#4-输出二叉树中所有从根到叶子的路径)
         * [5. 排列](#5-排列)
@@ -583,52 +583,51 @@ private void dfs(int r, int c, boolean[][] canReach) {
 
 ## Backtracking
 
-Backtracking（回溯）属于 DFS。
+Backtracking is a special case of DFS.
 
-- 普通 DFS 主要用在   **可达性问题**  ，这种问题只需要执行到特点的位置然后返回即可。
-- 而 Backtracking 主要用于求解   **排列组合**   问题，例如有 { 'a','b','c' } 三个字符，求解所有由这三个字符排列得到的字符串，这种问题在执行到特定的位置返回之后还会继续执行求解过程。
+- DFS is used to solve **connectivity**.
+- Backtracking is used to **permutation and combination** problems.
+- Backtracking solves the problem from bottom up.
+- Backtracking needs at least two extra parameters **intermediate result** and **final output**
 
-因为 Backtracking 不是立即返回，而要继续求解，因此在程序实现时，需要注意对元素的标记问题：
+### Letter Combinations of a Phone Number
 
-- 在访问一个新元素进入新的递归调用时，需要将新元素标记为已经访问，这样才能在继续递归调用时不用重复访问该元素；
-- 但是在递归返回时，需要将元素标记为未访问，因为只需要保证在一个递归链中不同时访问一个元素，可以访问已经访问过但是不在当前递归链中的元素。
+[17\. Letter Combinations of a Phone Number (Medium)](https://leetcode.com/problems/letter-combinations-of-a-phone-number/description/)
 
-### 1. 数字键盘组合
-
-17\. Letter Combinations of a Phone Number (Medium)
-
-[Leetcode](https://leetcode.com/problems/letter-combinations-of-a-phone-number/description/) / [力扣](https://leetcode-cn.com/problems/letter-combinations-of-a-phone-number/description/)
-
-<div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/9823768c-212b-4b1a-b69a-b3f59e07b977.jpg"/> </div><br>
-
-```html
-Input:Digit string "23"
-Output: ["ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"].
-```
-
-```java
-private static final String[] KEYS = {"", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
-
-public List<String> letterCombinations(String digits) {
-    List<String> combinations = new ArrayList<>();
-    if (digits == null || digits.length() == 0) {
-        return combinations;
+```javascript
+var letterCombinations = function(digits) {
+    if (digits.length === 0) {
+        return [];
     }
-    doCombination(new StringBuilder(), combinations, digits);
-    return combinations;
-}
+    
+    const output = [];
+    letterCombinationsHelper(digits, [], output);
+    return output;
+};
 
-private void doCombination(StringBuilder prefix, List<String> combinations, final String digits) {
-    if (prefix.length() == digits.length()) {
-        combinations.add(prefix.toString());
-        return;
+const map = {
+    '2': ['a', 'b', 'c'],
+    '3': ['d', 'e', 'f'],
+    '4': ['g', 'h', 'i'],
+    '5': ['j', 'k', 'l'],
+    '6': ['m', 'n', 'o'],
+    '7': ['p', 'q', 'r', 's'],
+    '8': ['t', 'u', 'v'],
+    '9': ['w', 'x', 'y', 'z'],
+};
+
+function letterCombinationsHelper(digits, combinations, output) {
+    if (digits.length === 0) {
+        output.push(combinations.join(''));
+        return output;
     }
-    int curDigits = digits.charAt(prefix.length()) - '0';
-    String letters = KEYS[curDigits];
-    for (char c : letters.toCharArray()) {
-        prefix.append(c);                         // 添加
-        doCombination(prefix, combinations, digits);
-        prefix.deleteCharAt(prefix.length() - 1); // 删除
+    
+    const firstDigit = digits[0];
+    const letters = map[firstDigit];
+    const nextDigits = digits.slice(1);
+
+    for (const letter of letters) {
+        letterCombinationsHelper(nextDigits, [...combinations, letter], output);
     }
 }
 ```
@@ -637,12 +636,7 @@ private void doCombination(StringBuilder prefix, List<String> combinations, fina
 
 [93\. Restore IP Addresses (Medium)](https://leetcode.com/problems/restore-ip-addresses/description/)
 
-```html
-Given "25525511135",
-return ["255.255.11.135", "255.255.111.35"].
-```
-
-```java
+```javascript
 public List<String> restoreIpAddresses(String s) {
     List<String> addresses = new ArrayList<>();
     StringBuilder tempAddress = new StringBuilder();
