@@ -1,6 +1,6 @@
 # Divided and Conquer
 <!-- GFM-TOC -->
-* [Divided and Conquer](#Divided and Conquer)
+* [Divided and Conquer](#Divided-and-Conquer)
     * [Different Ways to Add Parentheses](#Different-Ways-to-Add-Parentheses)
     * [Unique Binary Search Trees II](#Unique-Binary-Search-Trees-II)
 <!-- GFM-TOC -->
