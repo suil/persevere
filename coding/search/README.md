@@ -6,15 +6,15 @@
         * [2. 组成整数的最小平方数数量](#2-组成整数的最小平方数数量)
         * [3. 最短单词路径](#3-最短单词路径)
     * [DFS](#dfs)
-        * [1. 查找最大的连通面积](#1-查找最大的连通面积)
+        * [Max Area of Island](#Max-Area-of-Island)
         * [2. 矩阵中的连通分量数目](#2-矩阵中的连通分量数目)
         * [3. 好友关系的连通分量数目](#3-好友关系的连通分量数目)
         * [4. 填充封闭区域](#4-填充封闭区域)
         * [5. 能到达的太平洋和大西洋的区域](#5-能到达的太平洋和大西洋的区域)
+        * [Word Search](#Word-Search)
     * [Backtracking](#backtracking)
         * [Letter Combinations of a Phone Number](#Letter-Combinations-of-a-Phone-Number)
         * [Restore IP Addresses](#Restore-IP-Addresses)
-        * [3. 在矩阵中寻找字符串](#3-在矩阵中寻找字符串)
         * [4. 输出二叉树中所有从根到叶子的路径](#4-输出二叉树中所有从根到叶子的路径)
         * [5. 排列](#5-排列)
         * [6. 含有相同元素求排列](#6-含有相同元素求排列)
@@ -288,52 +288,38 @@ private int getShortestPath(List<Integer>[] graphic, int start, int end) {
 - 栈：用栈来保存当前节点信息，当遍历新节点返回时能够继续遍历当前节点。可以使用递归栈。
 - 标记：和 BFS 一样同样需要对已经遍历过的节点进行标记。
 
-### 1. 查找最大的连通面积
+### Max Area of Island
 
-695\. Max Area of Island (Medium)
+[695\. Max Area of Island (Medium)](https://leetcode.com/problems/max-area-of-island/description/)
 
-[Leetcode](https://leetcode.com/problems/max-area-of-island/description/) / [力扣](https://leetcode-cn.com/problems/max-area-of-island/description/)
-
-```html
-[[0,0,1,0,0,0,0,1,0,0,0,0,0],
- [0,0,0,0,0,0,0,1,1,1,0,0,0],
- [0,1,1,0,1,0,0,0,0,0,0,0,0],
- [0,1,0,0,1,1,0,0,1,0,1,0,0],
- [0,1,0,0,1,1,0,0,1,1,1,0,0],
- [0,0,0,0,0,0,0,0,0,0,1,0,0],
- [0,0,0,0,0,0,0,1,1,1,0,0,0],
- [0,0,0,0,0,0,0,1,1,0,0,0,0]]
-```
-
-```java
-private int m, n;
-private int[][] direction = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
-
-public int maxAreaOfIsland(int[][] grid) {
-    if (grid == null || grid.length == 0) {
-        return 0;
-    }
-    m = grid.length;
-    n = grid[0].length;
-    int maxArea = 0;
-    for (int i = 0; i < m; i++) {
-        for (int j = 0; j < n; j++) {
-            maxArea = Math.max(maxArea, dfs(grid, i, j));
+```javascript
+var maxAreaOfIsland = function(grid) {
+    let max = 0;
+    for (let row = 0; row < grid.length; row++) {
+        for (let col = 0; col < grid[0].length; col++) {
+            const area = maxAreaOfIslandHelper(grid, row, col);
+            max = Math.max(max, area);
         }
     }
-    return maxArea;
-}
+    return max;
+};
 
-private int dfs(int[][] grid, int r, int c) {
-    if (r < 0 || r >= m || c < 0 || c >= n || grid[r][c] == 0) {
+function maxAreaOfIslandHelper(grid, row, col) {
+    if (grid[row] === undefined
+        || grid[row][col] === undefined
+        || grid[row][col] === 0
+    ) {
         return 0;
     }
-    grid[r][c] = 0;
-    int area = 1;
-    for (int[] d : direction) {
-        area += dfs(grid, r + d[0], c + d[1]);
-    }
-    return area;
+    
+    grid[row][col] = 0;
+    
+    return (1 +
+        maxAreaOfIslandHelper(grid, row + 1, col) +
+        maxAreaOfIslandHelper(grid, row - 1, col) +
+        maxAreaOfIslandHelper(grid, row, col + 1) +
+        maxAreaOfIslandHelper(grid, row, col - 1)
+    );
 }
 ```
 
@@ -578,6 +564,55 @@ private void dfs(int r, int c, boolean[][] canReach) {
     }
 }
 ```
+### Word Search
+
+[79\. Word Search (Medium)](https://leetcode.com/problems/word-search/description/)
+
+This is different from 0-1 grid problem when it comes to flag the visited cell. Since the next searched word is related to previous word, the flag needs to be restored if the word is not found. So that next search can continue from there.
+
+```javascript
+var exist = function(board, word) {
+    for (let row = 0; row < board.length; row++) {
+        for (let col = 0; col < board[0].length; col++) {
+            const hasFound = existHelper(board, word, row, col);
+            if (hasFound) {
+                return true;
+            }
+        }
+    }
+    return false;
+};
+
+function existHelper(board, word, row, col) {
+    if (word.length === 0) {
+        return true;
+    }
+    if (board[row] === undefined
+       || board[row][col] === undefined
+       || board[row][col] !== word.substr(0, 1)
+    ) {
+        return false;
+    }
+
+    const letter = board[row][col];
+    board[row][col] = undefined;
+    
+    const nextWord = word.substring(1);
+    const hasFound = (
+        existHelper(board, nextWord, row + 1, col)
+        || existHelper(board, nextWord, row - 1, col)
+        || existHelper(board, nextWord, row, col + 1)
+        || existHelper(board, nextWord, row, col - 1)
+    );
+    
+    if (hasFound) {
+        return true;
+    }
+    
+    board[row][col] = letter;
+    return false;
+}
+```
 
 ## Backtracking
 
@@ -661,14 +696,6 @@ function restoreIpAddressesHelper(s, segments, output) {
         restoreIpAddressesHelper(nextS, nextSegments, output);
     }
 }
-```
-
-### 3. Word Search
-
-[79\. Word Search (Medium)](https://leetcode.com/problems/word-search/description/)
-
-```javascript
-
 ```
 
 ### 4. 输出二叉树中所有从根到叶子的路径
