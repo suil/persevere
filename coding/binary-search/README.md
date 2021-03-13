@@ -3,7 +3,7 @@
 * [Binary Search](#Binary-Search)
     * [Sqrt(x)](#Sqrtx)
     * [Find Smallest Letter Greater Than Target](#Find-Smallest-Letter-Greater-Than-Target)
-    * [3. 有序数组的 Single Element](#3-有序数组的-single-element)
+    * [Single Element in a Sorted Array](#Single-Element-in-a-Sorted-Array-Medium)
     * [4. 第一个错误的版本](#4-第一个错误的版本)
     * [5. 旋转数组的最小数字](#5-旋转数组的最小数字)
     * [6. 查找区间](#6-查找区间)
@@ -138,22 +138,8 @@ var nextGreatestLetter = function(letters, target) {
 
 因为 h 的赋值表达式为 h = m，那么循环条件也就只能使用 l \< h 这种形式。
 
-```java
-public int singleNonDuplicate(int[] nums) {
-    int l = 0, h = nums.length - 1;
-    while (l < h) {
-        int m = l + (h - l) / 2;
-        if (m % 2 == 1) {
-            m--;   // 保证 l/h/m 都在偶数位，使得查找区间大小一直都是奇数
-        }
-        if (nums[m] == nums[m + 1]) {
-            l = m + 2;
-        } else {
-            h = m;
-        }
-    }
-    return nums[l];
-}
+```javascript
+
 ```
 
 ## 4. 第一个错误的版本
