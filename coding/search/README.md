@@ -18,9 +18,9 @@
         * [Binary Tree Paths](#Binary-Tree-Paths)
         * [Permutations](#Permutations)
         * [Permutations II](#Permutations-II)
-        * [7. 组合](#7-组合)
-        * [8. 组合求和](#8-组合求和)
-        * [9. 含有相同元素的组合求和](#9-含有相同元素的组合求和)
+        * [Combinations](#Combinations)
+        * [Combination Sum](#Combination-Sum)
+        * [Combination Sum II](#Combination-Sum-II)
         * [10. 1-9 数字的组合求和](#10-1-9-数字的组合求和)
         * [11. 子集](#11-子集)
         * [12. 含有相同元素求子集](#12-含有相同元素求子集)
@@ -781,126 +781,91 @@ function permuteUniqueHelper(nums, permutations, output) {
 }
 ```
 
-### 7. 组合
+### Combinations
 
-Complexity is exponential
+Complexity is exponential.
 
-77\. Combinations (Medium)
+[77\. Combinations (Medium)](https://leetcode.com/problems/combinations/description/)
 
-[Leetcode](https://leetcode.com/problems/combinations/description/) / [力扣](https://leetcode-cn.com/problems/combinations/description/)
+```javascript
+var combine = function(n, k) {
+    const output = [];
+    combineHelper(n, k, 1, [], output);
+    return output;
+};
 
-```html
-If n = 4 and k = 2, a solution is:
-[
-  [2,4],
-  [3,4],
-  [2,3],
-  [1,2],
-  [1,3],
-  [1,4],
-]
-```
-
-```java
-public List<List<Integer>> combine(int n, int k) {
-    List<List<Integer>> combinations = new ArrayList<>();
-    List<Integer> combineList = new ArrayList<>();
-    backtracking(combineList, combinations, 1, k, n);
-    return combinations;
-}
-
-private void backtracking(List<Integer> combineList, List<List<Integer>> combinations, int start, int k, final int n) {
-    if (k == 0) {
-        combinations.add(new ArrayList<>(combineList));
-        return;
-    }
-    for (int i = start; i <= n - k + 1; i++) {  // 剪枝
-        combineList.add(i);
-        backtracking(combineList, combinations, i + 1, k - 1, n);
-        combineList.remove(combineList.size() - 1);
-    }
-}
-```
-
-### 8. 组合求和
-
-39\. Combination Sum (Medium)
-
-[Leetcode](https://leetcode.com/problems/combination-sum/description/) / [力扣](https://leetcode-cn.com/problems/combination-sum/description/)
-
-```html
-given candidate set [2, 3, 6, 7] and target 7,
-A solution set is:
-[[7],[2, 2, 3]]
-```
-
-```java
-public List<List<Integer>> combinationSum(int[] candidates, int target) {
-    List<List<Integer>> combinations = new ArrayList<>();
-    backtracking(new ArrayList<>(), combinations, 0, target, candidates);
-    return combinations;
-}
-
-private void backtracking(List<Integer> tempCombination, List<List<Integer>> combinations,
-                          int start, int target, final int[] candidates) {
-
-    if (target == 0) {
-        combinations.add(new ArrayList<>(tempCombination));
-        return;
-    }
-    for (int i = start; i < candidates.length; i++) {
-        if (candidates[i] <= target) {
-            tempCombination.add(candidates[i]);
-            backtracking(tempCombination, combinations, i, target - candidates[i], candidates);
-            tempCombination.remove(tempCombination.size() - 1);
+function combineHelper(n, k, current, combinations, output) {
+    if (current > n || combinations.length === k) {
+        if (combinations.length === k) {
+            output.push([...combinations]);
         }
-    }
-}
-```
-
-### 9. 含有相同元素的组合求和
-
-40\. Combination Sum II (Medium)
-
-[Leetcode](https://leetcode.com/problems/combination-sum-ii/description/) / [力扣](https://leetcode-cn.com/problems/combination-sum-ii/description/)
-
-```html
-For example, given candidate set [10, 1, 2, 7, 6, 1, 5] and target 8,
-A solution set is:
-[
-  [1, 7],
-  [1, 2, 5],
-  [2, 6],
-  [1, 1, 6]
-]
-```
-
-```java
-public List<List<Integer>> combinationSum2(int[] candidates, int target) {
-    List<List<Integer>> combinations = new ArrayList<>();
-    Arrays.sort(candidates);
-    backtracking(new ArrayList<>(), combinations, new boolean[candidates.length], 0, target, candidates);
-    return combinations;
-}
-
-private void backtracking(List<Integer> tempCombination, List<List<Integer>> combinations,
-                          boolean[] hasVisited, int start, int target, final int[] candidates) {
-
-    if (target == 0) {
-        combinations.add(new ArrayList<>(tempCombination));
         return;
     }
-    for (int i = start; i < candidates.length; i++) {
-        if (i != 0 && candidates[i] == candidates[i - 1] && !hasVisited[i - 1]) {
+    
+    for (let i = current; i <= n; i++) {
+        const nextCurrent = i + 1;
+        const nextCombinations = [...combinations, i];
+        combineHelper(n, k, nextCurrent, nextCombinations, output);
+    }
+}
+```
+
+### Combination Sum
+
+[39\. Combination Sum (Medium)](https://leetcode.com/problems/combination-sum/description/)
+
+```javascript
+var combinationSum = function(candidates, target) {
+    const output = [];
+    combinationSumHelper(candidates, target, 0, [], output);
+    return output;
+};
+
+function combinationSumHelper(candidates, target, current, combinations, output) {
+    const combSum = combinations.reduce((memo, c) => memo + c, 0);
+    if (current >= candidates.length || combSum >= target) {
+        if (combSum === target) {
+            output.push([...combinations]);
+        }
+        return;
+    }
+    
+    for (let i = current; i < candidates.length; i++) {
+        const nextCurrent = i;
+        const nextCombinations = [...combinations, candidates[i]];
+        combinationSumHelper(candidates, target, nextCurrent, nextCombinations, output);
+    }
+}
+```
+
+### Combination Sum II
+
+[40\. Combination Sum II (Medium)](https://leetcode.com/problems/combination-sum-ii/description/)
+
+```javascript
+var combinationSum2 = function(candidates, target) {
+    const output = [];
+    candidates.sort();
+    combinationSum2Helper(candidates, target, 0, [], output);
+    return output;
+};
+
+function combinationSum2Helper(candidates, target, current, combinations, output) {
+    const combSum = combinations.reduce((memo, c) => memo + c, 0);
+    if (current >= candidates.length || combSum >= target) {
+        if (combSum === target) {
+            output.push([...combinations]);
+        }
+        return output;
+    }
+    
+    for (let i = current; i < candidates.length; i++) {
+        if (i > current && candidates[i] === candidates[i - 1]) {
             continue;
         }
-        if (candidates[i] <= target) {
-            tempCombination.add(candidates[i]);
-            hasVisited[i] = true;
-            backtracking(tempCombination, combinations, hasVisited, i + 1, target - candidates[i], candidates);
-            hasVisited[i] = false;
-            tempCombination.remove(tempCombination.size() - 1);
-        }
+        const nextCurrent = i + 1;
+        const nextCombinations = [...combinations, candidates[i]];
+        combinationSum2Helper(candidates, target, nextCurrent, nextCombinations, output);
     }
 }
 ```
