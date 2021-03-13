@@ -967,6 +967,39 @@ function subsetsWithDupHelper(nums, k, current, combinations, output) {
 [131\. Palindrome Partitioning (Medium)](https://leetcode.com/problems/palindrome-partitioning/description/)
 
 ```javascript
+var partition = function(s) {
+    const output = [];
+    partitionHelper(s, [], output);
+    return output;
+};
 
+function partitionHelper(s, partitions, output) {
+    if (s.length === 0) {
+        output.push([...partitions]);
+        return;
+    }
+    
+    for (let i = 0; i < s.length; i++) {
+        const substr = s.substring(0, i + 1);
+        if (isPalindrome(substr)) {
+            const nextS = s.substring(i + 1);
+            const nextPartitions = [...partitions, substr];
+            partitionHelper(nextS, nextPartitions, output);
+        }
+    }
+}
+function isPalindrome (s) {
+    if (!s) {
+        return false;
+    }
+    let start = 0;
+    let end = s.length - 1;
+    while (start < end) {
+        if (s[start++] !== s[end--]) {
+            return false;
+        }
+    }
+    return true;
+}
 ```
 
