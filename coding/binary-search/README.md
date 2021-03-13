@@ -5,7 +5,7 @@
     * [Find Smallest Letter Greater Than Target](#Find-Smallest-Letter-Greater-Than-Target)
     * [Single Element in a Sorted Array](#Single-Element-in-a-Sorted-Array-Medium)
     * [4. 第一个错误的版本](#4-第一个错误的版本)
-    * [5. 旋转数组的最小数字](#5-旋转数组的最小数字)
+    * [Find Minimum in Rotated Sorted Array](#Find-Minimum-in-Rotated-Sorted-Array)
     * [Find First and Last Position of Element in Sorted Array](#Find-First-and-Last-Position-of-Element-in-Sorted-Array)
 <!-- GFM-TOC -->
 
