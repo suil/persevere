@@ -12,7 +12,7 @@
         * [4. 填充封闭区域](#4-填充封闭区域)
         * [5. 能到达的太平洋和大西洋的区域](#5-能到达的太平洋和大西洋的区域)
     * [Backtracking](#backtracking)
-        * [1. 数字键盘组合](#1-数字键盘组合)
+        * [Letter Combinations of a Phone Number](#Letter-Combinations-of-a-Phone-Number)
         * [Restore IP Addresses](#Restore-IP-Addresses)
         * [3. 在矩阵中寻找字符串](#3-在矩阵中寻找字符串)
         * [4. 输出二叉树中所有从根到叶子的路径](#4-输出二叉树中所有从根到叶子的路径)
@@ -61,11 +61,9 @@
 - 队列：用来存储每一轮遍历得到的节点；
 - 标记：对于遍历过的节点，应该将它标记，防止重复遍历。
 
-### 1. 计算在网格中从原点到特定点的最短路径长度
+### Shortest Path in Binary Matrix
 
-1091\. Shortest Path in Binary Matrix(Medium)
-
-[Leetcode](https://leetcode.com/problems/shortest-path-in-binary-matrix/) / [力扣](https://leetcode-cn.com/problems/shortest-path-in-binary-matrix/)
+[1091\. Shortest Path in Binary Matrix (Medium)] (https://leetcode.com/problems/shortest-path-in-binary-matrix/) / [力扣](https://leetcode-cn.com/problems/shortest-path-in-binary-matrix/)
 
 ```html
 [[1,1,0,1],
