@@ -105,24 +105,28 @@ var mySqrt = function(x) {
 
 ## Find Smallest Letter Greater Than Target
 
-744\. Find Smallest Letter Greater Than Target (Easy)
-
 [744\. Find Smallest Letter Greater Than Target (Easy)](https://leetcode.com/problems/find-smallest-letter-greater-than-target/description/)
 
 ```javascript
-
+var nextGreatestLetter = function(letters, target) {
+    let l = 0, h = letters.length - 1;
+    
+    while (l <= h) {
+        const m = l + Math.floor((h - l) / 2);
+        if (letters[m] > target) {
+            h = m - 1;
+        } else {
+            l = m + 1;
+        }
+    }
+    
+    return letters[l] || letters[0];
+};
 ```
 
-## 3. 有序数组的 Single Element
+## Single Element in a Sorted Array (Medium)
 
-540\. Single Element in a Sorted Array (Medium)
-
-[Leetcode](https://leetcode.com/problems/single-element-in-a-sorted-array/description/) / [力扣](https://leetcode-cn.com/problems/single-element-in-a-sorted-array/description/)
-
-```html
-Input: [1, 1, 2, 3, 3, 4, 4, 8, 8]
-Output: 2
-```
+[540\. Single Element in a Sorted Array (Medium)](https://leetcode.com/problems/single-element-in-a-sorted-array/description/)
 
 题目描述：一个有序数组只有一个数不出现两次，找出这个数。
 
