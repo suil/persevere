@@ -74,6 +74,7 @@ function generateTreesHelper(start, end) {
     for (let i = start; i <= end; i++) {
         const leftTrees = generateTreesHelper(start, i - 1);
         const rightTrees = generateTreesHelper(i + 1, end);
+
         for (const leftTree of leftTrees) {
             for (const rightTree of rightTrees) {
                 const newTree = new TreeNode(i, leftTree, rightTree);
