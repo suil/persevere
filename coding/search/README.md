@@ -635,42 +635,37 @@ function letterCombinationsHelper(digits, combinations, output) {
 [93\. Restore IP Addresses (Medium)](https://leetcode.com/problems/restore-ip-addresses/description/)
 
 ```javascript
-public List<String> restoreIpAddresses(String s) {
-    List<String> addresses = new ArrayList<>();
-    StringBuilder tempAddress = new StringBuilder();
-    doRestore(0, tempAddress, addresses, s);
-    return addresses;
-}
+var restoreIpAddresses = function(s) {
+    const output = [];
+    restoreIpAddressesHelper(s, [], output);
+    return output;
+};
 
-private void doRestore(int k, StringBuilder tempAddress, List<String> addresses, String s) {
-    if (k == 4 || s.length() == 0) {
-        if (k == 4 && s.length() == 0) {
-            addresses.add(tempAddress.toString());
+function restoreIpAddressesHelper(s, segments, output) {
+    if (s.length === 0 || segments.length >= 4) {
+        if (s.length === 0 && segments.length === 4) {
+            output.push(segments.join('.'));
         }
         return;
     }
-    for (int i = 0; i < s.length() && i <= 2; i++) {
-        if (i != 0 && s.charAt(0) == '0') {
+    
+    for (let i = 1; i <= Math.min(3, s.length); i++) {
+        const segment = s.substring(0, i);
+        
+        if (Number(segment) > 255 || /^0\d/.test(segment)) {
             break;
         }
-        String part = s.substring(0, i + 1);
-        if (Integer.valueOf(part) <= 255) {
-            if (tempAddress.length() != 0) {
-                part = "." + part;
-            }
-            tempAddress.append(part);
-            doRestore(k + 1, tempAddress, addresses, s.substring(i + 1));
-            tempAddress.delete(tempAddress.length() - part.length(), tempAddress.length());
-        }
+        
+        const nextS = s.substring(i);
+        const nextSegments = [...segments, segment];
+        restoreIpAddressesHelper(nextS, nextSegments, output);
     }
 }
 ```
 
 ### 3. 在矩阵中寻找字符串
 
-79\. Word Search (Medium)
-
-[Leetcode](https://leetcode.com/problems/word-search/description/) / [力扣](https://leetcode-cn.com/problems/word-search/description/)
+[79\. Word Search (Medium)](https://leetcode.com/problems/word-search/description/) / [力扣](https://leetcode-cn.com/problems/word-search/description/)
 
 ```html
 For example,
