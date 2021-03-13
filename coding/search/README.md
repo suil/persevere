@@ -21,8 +21,8 @@
         * [Combinations](#Combinations)
         * [Combination Sum](#Combination-Sum)
         * [Combination Sum II](#Combination-Sum-II)
-        * [10. 1-9 数字的组合求和](#10-1-9-数字的组合求和)
-        * [11. 子集](#11-子集)
+        * [Combination Sum III](#Combination-Sum-III)
+        * [Subsets](#Subsets)
         * [12. 含有相同元素求子集](#12-含有相同元素求子集)
         * [13. 分割字符串使得每个部分都是回文数](#13-分割字符串使得每个部分都是回文数)
         * [14. 数独](#14-数独)
@@ -898,89 +898,43 @@ function combinationSum3Helper(k, target, current, combinations, output) {
 }
 ```
 
-### 11. 子集
+### Subsets
 
-78\. Subsets (Medium)
+[78\. Subsets (Medium)](https://leetcode.com/problems/subsets/description/)
 
-[Leetcode](https://leetcode.com/problems/subsets/description/) / [力扣](https://leetcode-cn.com/problems/subsets/description/)
-
-找出集合的所有子集，子集不能重复，[1, 2] 和 [2, 1] 这种子集算重复
-
-```java
-public List<List<Integer>> subsets(int[] nums) {
-    List<List<Integer>> subsets = new ArrayList<>();
-    List<Integer> tempSubset = new ArrayList<>();
-    for (int size = 0; size <= nums.length; size++) {
-        backtracking(0, tempSubset, subsets, size, nums); // 不同的子集大小
+```javascript
+var subsets = function(nums) {
+    const results = [];
+    for (let i = 0; i <= nums.length; i++) {
+        const output = [];
+        subsetsHelper(nums, i, 0, [], output);
+        results.push(...output);
     }
-    return subsets;
-}
+    return results;
+};
 
-private void backtracking(int start, List<Integer> tempSubset, List<List<Integer>> subsets,
-                          final int size, final int[] nums) {
-
-    if (tempSubset.size() == size) {
-        subsets.add(new ArrayList<>(tempSubset));
-        return;
-    }
-    for (int i = start; i < nums.length; i++) {
-        tempSubset.add(nums[i]);
-        backtracking(i + 1, tempSubset, subsets, size, nums);
-        tempSubset.remove(tempSubset.size() - 1);
-    }
-}
-```
-
-### 12. 含有相同元素求子集
-
-90\. Subsets II (Medium)
-
-[Leetcode](https://leetcode.com/problems/subsets-ii/description/) / [力扣](https://leetcode-cn.com/problems/subsets-ii/description/)
-
-```html
-For example,
-If nums = [1,2,2], a solution is:
-
-[
-  [2],
-  [1],
-  [1,2,2],
-  [2,2],
-  [1,2],
-  []
-]
-```
-
-```java
-public List<List<Integer>> subsetsWithDup(int[] nums) {
-    Arrays.sort(nums);
-    List<List<Integer>> subsets = new ArrayList<>();
-    List<Integer> tempSubset = new ArrayList<>();
-    boolean[] hasVisited = new boolean[nums.length];
-    for (int size = 0; size <= nums.length; size++) {
-        backtracking(0, tempSubset, subsets, hasVisited, size, nums); // 不同的子集大小
-    }
-    return subsets;
-}
-
-private void backtracking(int start, List<Integer> tempSubset, List<List<Integer>> subsets, boolean[] hasVisited,
-                          final int size, final int[] nums) {
-
-    if (tempSubset.size() == size) {
-        subsets.add(new ArrayList<>(tempSubset));
-        return;
-    }
-    for (int i = start; i < nums.length; i++) {
-        if (i != 0 && nums[i] == nums[i - 1] && !hasVisited[i - 1]) {
-            continue;
+function subsetsHelper(nums, k, current, combinations, output) {
+    if (current >= nums.length || combinations.length === k) {
+        if (combinations.length === k) {
+            output.push([...combinations])
         }
-        tempSubset.add(nums[i]);
-        hasVisited[i] = true;
-        backtracking(i + 1, tempSubset, subsets, hasVisited, size, nums);
-        hasVisited[i] = false;
-        tempSubset.remove(tempSubset.size() - 1);
+        return;
+    }
+    
+    for (let i = current; i < nums.length; i++) {
+        const nextCurrent = i + 1;
+        const nextCombinations = [...combinations, nums[i]];
+        subsetsHelper(nums, k, nextCurrent, nextCombinations, output);
     }
 }
+```
+
+### Subsets II
+
+[90\. Subsets II (Medium)](https://leetcode.com/problems/subsets-ii/description/)
+
+```javascript
+
 ```
 
 ### 13. 分割字符串使得每个部分都是回文数
