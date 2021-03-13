@@ -1,7 +1,7 @@
 # Binary Search
 <!-- GFM-TOC -->
 * [Binary Search](#Binary-Search)
-    * [Sqrt(x)](#Sqrt(x))
+    * [Sqrt(x)](#Sqrtx)
     * [2. 大于给定元素的最小元素](#2-大于给定元素的最小元素)
     * [3. 有序数组的 Single Element](#3-有序数组的-single-element)
     * [4. 第一个错误的版本](#4-第一个错误的版本)
