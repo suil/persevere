@@ -13,7 +13,7 @@
         * [5. 能到达的太平洋和大西洋的区域](#5-能到达的太平洋和大西洋的区域)
     * [Backtracking](#backtracking)
         * [1. 数字键盘组合](#1-数字键盘组合)
-        * [2. IP 地址划分](#2-ip-地址划分)
+        * [Restore IP Addresses](#2-ip-地址划分)
         * [3. 在矩阵中寻找字符串](#3-在矩阵中寻找字符串)
         * [4. 输出二叉树中所有从根到叶子的路径](#4-输出二叉树中所有从根到叶子的路径)
         * [5. 排列](#5-排列)
@@ -633,11 +633,9 @@ private void doCombination(StringBuilder prefix, List<String> combinations, fina
 }
 ```
 
-### 2. IP 地址划分
+### Restore IP Addresses
 
-93\. Restore IP Addresses(Medium)
-
-[Leetcode](https://leetcode.com/problems/restore-ip-addresses/description/) / [力扣](https://leetcode-cn.com/problems/restore-ip-addresses/description/)
+[93\. Restore IP Addresses (Medium)](https://leetcode.com/problems/restore-ip-addresses/description/)
 
 ```html
 Given "25525511135",

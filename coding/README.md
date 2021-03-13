@@ -10,7 +10,7 @@
 - [贪心思想](Leetcode%20题解%20-%20贪心思想.md)
 - [二分查找](Leetcode%20题解%20-%20二分查找.md)
 - [分治](Leetcode%20题解%20-%20分治.md)
-- [搜索](Leetcode%20题解%20-%20搜索.md)
+- [Search](search/README.md)
 - [动态规划](Leetcode%20题解%20-%20动态规划.md)
 - [数学](Leetcode%20题解%20-%20数学.md)
 
