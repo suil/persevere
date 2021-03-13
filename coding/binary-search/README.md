@@ -6,7 +6,7 @@
     * [Single Element in a Sorted Array](#Single-Element-in-a-Sorted-Array-Medium)
     * [4. 第一个错误的版本](#4-第一个错误的版本)
     * [5. 旋转数组的最小数字](#5-旋转数组的最小数字)
-    * [6. 查找区间](#6-查找区间)
+    * [Find First and Last Position of Element in Sorted Array](#Find-First-and-Last-Position-of-Element-in-Sorted-Array)
 <!-- GFM-TOC -->
 
 
@@ -169,79 +169,32 @@ public int firstBadVersion(int n) {
 }
 ```
 
-## 5. 旋转数组的最小数字
+## Find Minimum in Rotated Sorted Array
 
-153\. Find Minimum in Rotated Sorted Array (Medium)
+[Find Minimum in Rotated Sorted Array (Medium)](https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/description/)
 
-[Leetcode](https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/description/) / [力扣](https://leetcode-cn.com/problems/find-minimum-in-rotated-sorted-array/description/)
+```javascript
 
-```html
-Input: [3,4,5,1,2],
-Output: 1
 ```
 
-```java
-public int findMin(int[] nums) {
-    int l = 0, h = nums.length - 1;
+## Find First and Last Position of Element in Sorted Array
+
+[34\. Find First and Last Position of Element in Sorted Array (Medium)](https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/)
+
+```javascript
+var singleNonDuplicate = function(nums) {
+    let l = 0, h = nums.length - 1;
     while (l < h) {
-        int m = l + (h - l) / 2;
-        if (nums[m] <= nums[h]) {
-            h = m;
+        let m = l + (h - l) / 2;
+        if (m % 2 == 1) {
+            m--;
+        }
+        if (nums[m] == nums[m + 1]) {
+            l = m + 2;
         } else {
-            l = m + 1;
+            h = m;
         }
     }
     return nums[l];
-}
+};
 ```
-
-## 6. 查找区间
-
-34\. Find First and Last Position of Element in Sorted Array
-
-[Leetcode](https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/) / [力扣](https://leetcode-cn.com/problems/find-first-and-last-position-of-element-in-sorted-array/)
-
-```html
-Input: nums = [5,7,7,8,8,10], target = 8
-Output: [3,4]
-
-Input: nums = [5,7,7,8,8,10], target = 6
-Output: [-1,-1]
-```
-
-题目描述：给定一个有序数组 nums 和一个目标 target，要求找到 target 在 nums 中的第一个位置和最后一个位置。
-
-可以用二分查找找出第一个位置和最后一个位置，但是寻找的方法有所不同，需要实现两个二分查找。我们将寻找  target 最后一个位置，转换成寻找 target+1 第一个位置，再往前移动一个位置。这样我们只需要实现一个二分查找代码即可。
-
-```java
-public int[] searchRange(int[] nums, int target) {
-    int first = findFirst(nums, target);
-    int last = findFirst(nums, target + 1) - 1;
-    if (first == nums.length || nums[first] != target) {
-        return new int[]{-1, -1};
-    } else {
-        return new int[]{first, Math.max(first, last)};
-    }
-}
-
-private int findFirst(int[] nums, int target) {
-    int l = 0, h = nums.length; // 注意 h 的初始值
-    while (l < h) {
-        int m = l + (h - l) / 2;
-        if (nums[m] >= target) {
-            h = m;
-        } else {
-            l = m + 1;
-        }
-    }
-    return l;
-}
-```
-
-在寻找第一个位置的二分查找代码中，需要注意 h 的取值为 nums.length，而不是 nums.length - 1。先看以下示例：
-
-```
-nums = [2,2], target = 2
-```
-
-如果 h 的取值为 nums.length - 1，那么 last = findFirst(nums, target + 1) - 1 = 1 - 1 = 0。这是因为 findLeft 只会返回 [0, nums.length - 1] 范围的值，对于 findFirst([2,2], 3) ，我们希望返回 3 插入 nums 中的位置，也就是数组最后一个位置再往后一个位置，即 nums.length。所以我们需要将 h 取值为 nums.length，从而使得 findFirst返回的区间更大，能够覆盖 target 大于 nums 最后一个元素的情况。
