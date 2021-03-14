@@ -6,9 +6,9 @@
         * [Kth Element](#kth-element)
     * [Bucket Sort](#Bucket-Sort)
         * [Top K Frequent Elements](#Top-K-Frequent-Elements)
-        * [2. 按照字符出现次数对字符串排序](#2-按照字符出现次数对字符串排序)
-    * [荷兰国旗问题](#荷兰国旗问题)
-        * [1. 按颜色进行排序](#1-按颜色进行排序)
+        * [Sort Characters By Frequency](#Sort-Characters-By-Frequency)
+    * [Sorting for fixed small number of items](#Sorting-for-fixed-small-number-of-items)
+        * [Sort Colors (Medium)](#Sort-Colors)
 <!-- GFM-TOC -->
 
 
@@ -156,47 +156,57 @@ var topKFrequent = function(nums, k) {
 [451\. Sort Characters By Frequency (Medium)](https://leetcode.com/problems/sort-characters-by-frequency/description/)
 
 ```javascript
+var frequencySort = function(s) {
+    const freqMap = new Map();
+    let maxFreq = 0;
+    for (let i = 0; i < s.length; i++) {
+        freqMap.set(s[i], (freqMap.get(s[i]) || 0) + 1);
+        maxFreq = Math.max(maxFreq, freqMap.get(s[i]));
+    }
 
-```
-
-## 荷兰国旗问题
-
-荷兰国旗包含三种颜色：红、白、蓝。
-
-有三种颜色的球，算法的目标是将这三种球按颜色顺序正确地排列。它其实是三向切分快速排序的一种变种，在三向切分快速排序中，每次切分都将数组分成三个区间：小于切分元素、等于切分元素、大于切分元素，而该算法是将数组分成三个区间：等于红色、等于白色、等于蓝色。
-
-<div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/7a3215ec-6fb7-4935-8b0d-cb408208f7cb.png"/> </div><br>
-
-
-### 1. 按颜色进行排序
-
-75\. Sort Colors (Medium)
-
-[Leetcode](https://leetcode.com/problems/sort-colors/description/) / [力扣](https://leetcode-cn.com/problems/sort-colors/description/)
-
-```html
-Input: [2,0,2,1,1,0]
-Output: [0,0,1,1,2,2]
-```
-
-题目描述：只有 0/1/2 三种颜色。
-
-```java
-public void sortColors(int[] nums) {
-    int zero = -1, one = 0, two = nums.length;
-    while (one < two) {
-        if (nums[one] == 0) {
-            swap(nums, ++zero, one++);
-        } else if (nums[one] == 2) {
-            swap(nums, --two, one);
-        } else {
-            ++one;
+    const bucket = [...Array(maxFreq + 1)].map(_ => []);
+    for (const [num, freq] of freqMap) {
+        bucket[freq].push(num);
+    }
+    
+    const output = [];
+    for (let freq = bucket.length - 1; freq >= 0; freq--) {
+        const letters = bucket[freq];
+        for (const letter of letters) {
+            output.push(letter.repeat(freq))
         }
     }
-}
+    return output.join('');
+};
+```
 
-private void swap(int[] nums, int i, int j) {
-    int t = nums[i];
+## Sorting for fixed small number of values in an array
+### Sort Colors
+
+[75\. Sort Colors (Medium)](https://leetcode.com/problems/sort-colors/description/)
+
+```javascript
+var sortColors = function(nums) {
+    let low = 0;
+    let high = nums.length - 1;
+    let index = 0;
+
+    while (index <= high){
+        if (nums[index] === 0){
+            swap(nums, low, index);
+            index++;
+            low++;
+        } else if (nums[index] === 2){
+            swap(nums, index, high);
+            high--;
+        } else {
+            index++;
+        }
+    }
+};
+
+function swap(nums, i, j) {
+    const t = nums[i];
     nums[i] = nums[j];
     nums[j] = t;
 }
