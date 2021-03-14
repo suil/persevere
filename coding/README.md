@@ -6,7 +6,7 @@
 ## Coding problems by algorithmic categories.
 
 - [Two pointers](two-pointers/README.md)
-- [排序](Leetcode%20题解%20-%20排序.md)
+- [Sorting](sorting/README.md)
 - [Greedy](greedy/README.md)
 - [Binary Search](binary-search/README.md)
 - [Divide and Conquer](divide-conquer/README.md)
