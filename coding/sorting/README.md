@@ -2,8 +2,8 @@
 <!-- GFM-TOC -->
 * [Sorting](#Sorting)
     * [Quick Sort](#Quick-Sort)
-    * [堆](#堆)
-        * [1. Kth Element](#1-kth-element)
+    * [MinHeap](#minheap)
+        * [Kth Element](#kth-element)
     * [桶排序](#桶排序)
         * [1. 出现频率最多的 k 个元素](#1-出现频率最多的-k-个元素)
         * [2. 按照字符出现次数对字符串排序](#2-按照字符出现次数对字符串排序)
@@ -58,7 +58,7 @@ When partition() funciton in quick sorting is used, the array needs to be scramb
 
 It also can be used to solve **TopK Elements** problem.
 
-### 1. Kth Element
+### Kth Element
 
 [215\. Kth Largest Element in an Array (Medium)](https://leetcode.com/problems/kth-largest-element-in-an-array/description/)
 
