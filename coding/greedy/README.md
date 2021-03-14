@@ -1,7 +1,8 @@
 # Greedy
 <!-- GFM-TOC -->
 * [Greedy](#Greedy)
-    * [1. 分配饼干](#1-分配饼干)
+    * [Assignment](#Assignment)
+        * [Assign Cookies](#Assign-Cookies)
     * [2. 不重叠的区间个数](#2-不重叠的区间个数)
     * [3. 投飞镖刺破气球](#3-投飞镖刺破气球)
     * [4. 根据身高和序号重组队列](#4-根据身高和序号重组队列)
