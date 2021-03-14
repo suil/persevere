@@ -87,34 +87,34 @@ var findKthLargest = function(nums, k) {
 };
 
 function quickSelect(nums, start, end, k) {
-	if (start === end) { return nums[start]; }
-    
-	let left = start, right = end, pivot = nums[Math.floor((start + end) / 2)];
+    if (start === end) { return nums[start]; }
 
-	while (left <= right) {
-		while (nums[left] > pivot) {
-			left++
-		}
-		while (nums[right] < pivot) {
-			right--
-		}
-		if (left <= right) {
-			let temp = nums[left]
-			nums[left] = nums[right]
-			nums[right] = temp
-			left++
-			right--
-		}
-	}
+    let left = start, right = end, pivot = nums[Math.floor((start + end) / 2)];
 
-	if (start + k - 1 <= right) {
-		return quickSelect(nums, start, right, k)
-	}
-	if (start + k - 1 >= left) {
-		return quickSelect(nums, left, end, k - (left - start))
-	}
+    while (left <= right) {
+        while (nums[left] > pivot) {
+            left++
+        }
+        while (nums[right] < pivot) {
+            right--
+        }
+        if (left <= right) {
+            let temp = nums[left]
+            nums[left] = nums[right]
+            nums[right] = temp
+            left++
+            right--
+        }
+    }
 
-	return nums[right + 1]
+    if (start + k - 1 <= right) {
+        return quickSelect(nums, start, right, k)
+    }
+    if (start + k - 1 >= left) {
+        return quickSelect(nums, left, end, k - (left - start))
+    }
+
+    return nums[right + 1]
 }
 ```
 
