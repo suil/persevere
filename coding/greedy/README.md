@@ -10,7 +10,7 @@
     * [Best Time to Buy and Sell Stock](#Best-Time-to-Buy-and-Sell-Stock)
         * [Best Time to Buy and Sell Stock I](#Best-Time-to-Buy-and-Sell-Stock-I)
         * [Best Time to Buy and Sell Stock II](#Best-Time-to-Buy-and-Sell-Stock-II)
-    * [7. 种植花朵](#7-种植花朵)
+    * [Can Place Flowers](#Can-Place-Flowers)
     * [8. 判断是否为子序列](#8-判断是否为子序列)
     * [9. 修改一个数成为非递减数组](#9-修改一个数成为非递减数组)
     * [10. 子数组最大的和](#10-子数组最大的和)
@@ -117,15 +117,6 @@ var reconstructQueue = function(people) {
 [121\. Best Time to Buy and Sell Stock (Easy)](https://leetcode.com/problems/best-time-to-buy-and-sell-stock/description/)
 
 ```javascript
-
-```
-
-
-### Best Time to Buy and Sell Stock II
-
-[122\. Best Time to Buy and Sell Stock II (Easy)](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/description/)
-
-```javascript
 var maxProfit = function(prices) {
     let minPrice = Infinity;
     let maxprofit = -Infinity;
@@ -139,37 +130,30 @@ var maxProfit = function(prices) {
 };
 ```
 
+### Best Time to Buy and Sell Stock II
 
-## 7. 种植花朵
+[122\. Best Time to Buy and Sell Stock II (Easy)](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/description/)
 
-605\. Can Place Flowers (Easy)
-
-[Leetcode](https://leetcode.com/problems/can-place-flowers/description/) / [力扣](https://leetcode-cn.com/problems/can-place-flowers/description/)
-
-```html
-Input: flowerbed = [1,0,0,0,1], n = 1
-Output: True
-```
-
-题目描述：flowerbed 数组中 1 表示已经种下了花朵。花朵之间至少需要一个单位的间隔，求解是否能种下 n 朵花。
-
-```java
-public boolean canPlaceFlowers(int[] flowerbed, int n) {
-    int len = flowerbed.length;
-    int cnt = 0;
-    for (int i = 0; i < len && cnt < n; i++) {
-        if (flowerbed[i] == 1) {
-            continue;
-        }
-        int pre = i == 0 ? 0 : flowerbed[i - 1];
-        int next = i == len - 1 ? 0 : flowerbed[i + 1];
-        if (pre == 0 && next == 0) {
-            cnt++;
-            flowerbed[i] = 1;
+```javascript
+var maxProfit = function(prices) {
+    let profit = 0;
+    
+    for (let i = 1; i < prices.length; i++) {
+        if (prices[i] > prices[i - 1]) {
+            profit += prices[i] - prices[i - 1];
         }
     }
-    return cnt >= n;
-}
+    
+    return profit;
+};
+```
+
+## Can Place Flowers
+
+[605\. Can Place Flowers (Easy)](https://leetcode.com/problems/can-place-flowers/description/)
+
+```javascript
+
 ```
 
 ## 8. 判断是否为子序列
