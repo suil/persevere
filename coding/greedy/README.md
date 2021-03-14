@@ -47,22 +47,26 @@ var findContentChildren = function(g, s) {
 [435\. Non-overlapping Intervals (Medium)](https://leetcode.com/problems/non-overlapping-intervals/description/)
 
 ```javascript
-public int eraseOverlapIntervals(int[][] intervals) {
+var eraseOverlapIntervals = function(intervals) {
     if (intervals.length == 0) {
         return 0;
     }
-    Arrays.sort(intervals, Comparator.comparingInt(o -> o[1]));
-    int cnt = 1;
-    int end = intervals[0][1];
-    for (int i = 1; i < intervals.length; i++) {
+    
+    intervals.sort((a, b) => a[1] - b[1]);
+
+    let count = 0;
+    let end = intervals[0][1];
+    
+    for (let i = 1; i < intervals.length; i++) {
         if (intervals[i][0] < end) {
-            continue;
+            count++;
+        } else {
+            end = intervals[i][1];
         }
-        end = intervals[i][1];
-        cnt++;
     }
-    return intervals.length - cnt;
-}
+    
+    return count;
+};
 ```
 
 ## 3. 投飞镖刺破气球
