@@ -11,7 +11,7 @@
         * [Best Time to Buy and Sell Stock I](#Best-Time-to-Buy-and-Sell-Stock-I)
         * [Best Time to Buy and Sell Stock II](#Best-Time-to-Buy-and-Sell-Stock-II)
     * [Can Place Flowers](#Can-Place-Flowers)
-    * [8. 判断是否为子序列](#8-判断是否为子序列)
+    * [Is Subsequence](#Is-Subsequence)
     * [9. 修改一个数成为非递减数组](#9-修改一个数成为非递减数组)
     * [10. 子数组最大的和](#10-子数组最大的和)
     * [11. 分隔字符串使同种字符出现在一起](#11-分隔字符串使同种字符出现在一起)
@@ -153,31 +153,29 @@ var maxProfit = function(prices) {
 [605\. Can Place Flowers (Easy)](https://leetcode.com/problems/can-place-flowers/description/)
 
 ```javascript
-
-```
-
-## 8. 判断是否为子序列
-
-392\. Is Subsequence (Medium)
-
-[Leetcode](https://leetcode.com/problems/is-subsequence/description/) / [力扣](https://leetcode-cn.com/problems/is-subsequence/description/)
-
-```html
-s = "abc", t = "ahbgdc"
-Return true.
-```
-
-```java
-public boolean isSubsequence(String s, String t) {
-    int index = -1;
-    for (char c : s.toCharArray()) {
-        index = t.indexOf(c, index + 1);
-        if (index == -1) {
-            return false;
+var canPlaceFlowers = function(flowerbed, n) {
+    let count = 0;
+    for (let i = 0; i < flowerbed.length; i++) {
+        if (flowerbed[i] == 1) {
+            continue;
+        }
+        const prev = (i == 0 ? 0 : flowerbed[i - 1]);
+        const next = (i == flowerbed.length - 1 ? 0 : flowerbed[i + 1]);
+        if (prev === 0 && next === 0) {
+            count++;
+            flowerbed[i] = 1;
         }
     }
-    return true;
-}
+    return count >= n;
+};
+```
+
+## Is Subsequence
+
+[392\. Is Subsequence (Medium)](https://leetcode.com/problems/is-subsequence/description/)
+
+```javascript
+
 ```
 
 ## 9. 修改一个数成为非递减数组
