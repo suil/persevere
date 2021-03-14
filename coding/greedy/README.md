@@ -12,7 +12,7 @@
         * [Best Time to Buy and Sell Stock II](#Best-Time-to-Buy-and-Sell-Stock-II)
     * [Can Place Flowers](#Can-Place-Flowers)
     * [Is Subsequence](#Is-Subsequence)
-    * [9. 修改一个数成为非递减数组](#9-修改一个数成为非递减数组)
+    * [Non-decreasing Array](#Non-decreasing-Array)
     * [10. 子数组最大的和](#10-子数组最大的和)
     * [11. 分隔字符串使同种字符出现在一起](#11-分隔字符串使同种字符出现在一起)
 <!-- GFM-TOC -->
@@ -175,41 +175,24 @@ var canPlaceFlowers = function(flowerbed, n) {
 [392\. Is Subsequence (Medium)](https://leetcode.com/problems/is-subsequence/description/)
 
 ```javascript
-
-```
-
-## 9. 修改一个数成为非递减数组
-
-665\. Non-decreasing Array (Easy)
-
-[Leetcode](https://leetcode.com/problems/non-decreasing-array/description/) / [力扣](https://leetcode-cn.com/problems/non-decreasing-array/description/)
-
-```html
-Input: [4,2,3]
-Output: True
-Explanation: You could modify the first 4 to 1 to get a non-decreasing array.
-```
-
-题目描述：判断一个数组是否能只修改一个数就成为非递减数组。
-
-在出现 nums[i] \< nums[i - 1] 时，需要考虑的是应该修改数组的哪个数，使得本次修改能使 i 之前的数组成为非递减数组，并且   **不影响后续的操作**  。优先考虑令 nums[i - 1] = nums[i]，因为如果修改 nums[i] = nums[i - 1] 的话，那么 nums[i] 这个数会变大，就有可能比 nums[i + 1] 大，从而影响了后续操作。还有一个比较特别的情况就是 nums[i] \< nums[i - 2]，修改 nums[i - 1] = nums[i] 不能使数组成为非递减数组，只能修改 nums[i] = nums[i - 1]。
-
-```java
-public boolean checkPossibility(int[] nums) {
-    int cnt = 0;
-    for (int i = 1; i < nums.length && cnt < 2; i++) {
-        if (nums[i] >= nums[i - 1]) {
-            continue;
-        }
-        cnt++;
-        if (i - 2 >= 0 && nums[i - 2] > nums[i]) {
-            nums[i] = nums[i - 1];
-        } else {
-            nums[i - 1] = nums[i];
+var isSubsequence = function(s, t) {
+    let index = -1;
+    for (let i = 0; i < s.length; i++) {
+        index = t.indexOf(s[i], index + 1);
+        if (index == -1) {
+            return false;
         }
     }
-    return cnt <= 1;
-}
+    return true;
+};
+```
+
+## Non-decreasing Array
+
+[665\. Non-decreasing Array (Easy)](https://leetcode.com/problems/non-decreasing-array/description/)
+
+```javascript
+
 ```
 
 
