@@ -4,8 +4,8 @@
     * [Quick Sort](#Quick-Sort)
     * [MinHeap](#minheap)
         * [Kth Element](#kth-element)
-    * [桶排序](#桶排序)
-        * [1. 出现频率最多的 k 个元素](#1-出现频率最多的-k-个元素)
+    * [Bucket Sort](#Bucket-Sort)
+        * [Top K Frequent Elements](#Top-K-Frequent-Elements)
         * [2. 按照字符出现次数对字符串排序](#2-按照字符出现次数对字符串排序)
     * [荷兰国旗问题](#荷兰国旗问题)
         * [1. 按颜色进行排序](#1-按颜色进行排序)
@@ -93,125 +93,70 @@ function quickSelect(nums, start, end, k) {
 
     while (left <= right) {
         while (nums[left] > pivot) {
-            left++
+            left++;
         }
         while (nums[right] < pivot) {
-            right--
+            right--;
         }
         if (left <= right) {
-            let temp = nums[left]
-            nums[left] = nums[right]
-            nums[right] = temp
-            left++
-            right--
+            let temp = nums[left];
+            nums[left] = nums[right];
+            nums[right] = temp;
+            left++;
+            right--;
         }
     }
 
     if (start + k - 1 <= right) {
-        return quickSelect(nums, start, right, k)
+        return quickSelect(nums, start, right, k);
     }
     if (start + k - 1 >= left) {
-        return quickSelect(nums, left, end, k - (left - start))
+        return quickSelect(nums, left, end, k - (left - start));
     }
 
-    return nums[right + 1]
+    return nums[right + 1];
 }
 ```
 
-## 桶排序
+## Bucket Sort
 
-### 1. 出现频率最多的 k 个元素
+### Top K Frequent Elements
 
-347\. Top K Frequent Elements (Medium)
+[347\. Top K Frequent Elements (Medium)](https://leetcode.com/problems/top-k-frequent-elements/description/)
 
-[Leetcode](https://leetcode.com/problems/top-k-frequent-elements/description/) / [力扣](https://leetcode-cn.com/problems/top-k-frequent-elements/description/)
-
-```html
-Given [1,1,1,2,2,3] and k = 2, return [1,2].
-```
-
-设置若干个桶，每个桶存储出现频率相同的数。桶的下标表示数出现的频率，即第 i 个桶中存储的数出现的频率为 i。
-
-把数都放到桶之后，从后向前遍历桶，最先得到的 k 个数就是出现频率最多的的 k 个数。
-
-```java
-public int[] topKFrequent(int[] nums, int k) {
-    Map<Integer, Integer> frequencyForNum = new HashMap<>();
-    for (int num : nums) {
-        frequencyForNum.put(num, frequencyForNum.getOrDefault(num, 0) + 1);
+```javascript
+var topKFrequent = function(nums, k) {
+    const freqMap = new Map();
+    let maxFreq = 0;
+    for (const num of nums) {
+        freqMap.set(num, (freqMap.get(num) || 0) + 1);
+        maxFreq = Math.max(maxFreq, freqMap.get(num));
     }
-    List<Integer>[] buckets = new ArrayList[nums.length + 1];
-    for (int key : frequencyForNum.keySet()) {
-        int frequency = frequencyForNum.get(key);
-        if (buckets[frequency] == null) {
-            buckets[frequency] = new ArrayList<>();
-        }
-        buckets[frequency].add(key);
+
+    const bucket = [...Array(maxFreq + 1)].map(_ => []);
+    for (const [num, freq] of freqMap) {
+        bucket[freq].push(num);
     }
-    List<Integer> topK = new ArrayList<>();
-    for (int i = buckets.length - 1; i >= 0 && topK.size() < k; i--) {
-        if (buckets[i] == null) {
-            continue;
-        }
-        if (buckets[i].size() <= (k - topK.size())) {
-            topK.addAll(buckets[i]);
-        } else {
-            topK.addAll(buckets[i].subList(0, k - topK.size()));
-        }
-    }
-    int[] res = new int[k];
-    for (int i = 0; i < k; i++) {
-        res[i] = topK.get(i);
-    }
-    return res;
-}
-```
 
-### 2. 按照字符出现次数对字符串排序
-
-451\. Sort Characters By Frequency (Medium)
-
-[Leetcode](https://leetcode.com/problems/sort-characters-by-frequency/description/) / [力扣](https://leetcode-cn.com/problems/sort-characters-by-frequency/description/)
-
-```html
-Input:
-"tree"
-
-Output:
-"eert"
-
-Explanation:
-'e' appears twice while 'r' and 't' both appear once.
-So 'e' must appear before both 'r' and 't'. Therefore "eetr" is also a valid answer.
-```
-
-```java
-public String frequencySort(String s) {
-    Map<Character, Integer> frequencyForNum = new HashMap<>();
-    for (char c : s.toCharArray())
-        frequencyForNum.put(c, frequencyForNum.getOrDefault(c, 0) + 1);
-
-    List<Character>[] frequencyBucket = new ArrayList[s.length() + 1];
-    for (char c : frequencyForNum.keySet()) {
-        int f = frequencyForNum.get(c);
-        if (frequencyBucket[f] == null) {
-            frequencyBucket[f] = new ArrayList<>();
-        }
-        frequencyBucket[f].add(c);
-    }
-    StringBuilder str = new StringBuilder();
-    for (int i = frequencyBucket.length - 1; i >= 0; i--) {
-        if (frequencyBucket[i] == null) {
-            continue;
-        }
-        for (char c : frequencyBucket[i]) {
-            for (int j = 0; j < i; j++) {
-                str.append(c);
+    const output = [];
+    for (let i = bucket.length - 1; i >= 0; i--) {
+        for (const num of bucket[i]) {
+            output.push(num);
+            if (output.length >= k) {
+                return output;
             }
         }
     }
-    return str.toString();
-}
+    return output;
+};
+```
+
+### Sort Characters By Frequency
+
+[451\. Sort Characters By Frequency (Medium)](https://leetcode.com/problems/sort-characters-by-frequency/description/)
+
+```javascript
+
 ```
 
 ## 荷兰国旗问题
