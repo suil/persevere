@@ -153,6 +153,7 @@ A few conditions and initial values will change
 - comparison changes to `nums[m] <= nums[h]`
 - assignment changes to `h = m`
 
+### First Bad Version
 [278\. First Bad Version (Easy)](https://leetcode.com/problems/first-bad-version/description/)
 
 ```javascript
@@ -176,8 +177,8 @@ var solution = function(isBadVersion) {
     };
 };
 ```
-
-[Find Minimum in Rotated Sorted Array (Medium)](https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/description/)
+### Find Minimum in Rotated Sorted Array
+[153. Find Minimum in Rotated Sorted Array (Medium)](https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/description/)
 
 ```javascript
 var findMin = function(nums) {
@@ -194,8 +195,7 @@ var findMin = function(nums) {
 };
 ```
 
-## Find First and Last Position of Element in Sorted Array
-
+### Find First and Last Position of Element in Sorted Array
 [34\. Find First and Last Position of Element in Sorted Array (Medium)](https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/)
 
 ```javascript
