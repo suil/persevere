@@ -6,7 +6,7 @@
     * [Intervals](#Intervals)
         * [Non-overlapping Intervals](#Non-overlapping-Intervals)
         * [Minimum Number of Arrows to Burst Balloons](#Minimum-Number-of-Arrows-to-Burst-Balloons)
-    * [4. 根据身高和序号重组队列](#4-根据身高和序号重组队列)
+    * [Queue Reconstruction by Height](#Queue-Reconstruction-by-Height)
     * [5. 买卖股票最大的收益](#5-买卖股票最大的收益)
     * [6. 买卖股票的最大收益 II](#6-买卖股票的最大收益-ii)
     * [7. 种植花朵](#7-种植花朵)
@@ -97,17 +97,7 @@ var findMinArrowShots = function(points) {
 [406\. Queue Reconstruction by Height(Medium)](https://leetcode.com/problems/queue-reconstruction-by-height/description/)
 
 ```javascript
-public int[][] reconstructQueue(int[][] people) {
-    if (people == null || people.length == 0 || people[0].length == 0) {
-        return new int[0][0];
-    }
-    Arrays.sort(people, (a, b) -> (a[0] == b[0] ? a[1] - b[1] : b[0] - a[0]));
-    List<int[]> queue = new ArrayList<>();
-    for (int[] p : people) {
-        queue.add(p[1], p);
-    }
-    return queue.toArray(new int[queue.size()][]);
-}
+
 ```
 
 ## 5. 买卖股票最大的收益
