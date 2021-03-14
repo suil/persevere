@@ -4,8 +4,9 @@
     * [Sqrt(x)](#Sqrtx)
     * [Find Smallest Letter Greater Than Target](#Find-Smallest-Letter-Greater-Than-Target)
     * [Single Element in a Sorted Array](#Single-Element-in-a-Sorted-Array-Medium)
-    * [First Bad Version](#First-Bad-Version)
-    * [Rotated Sorted Array](#Rotated-Sorted-Array)
+    * [Locate Special Element in a Sorted Array](#Locate-Special-Element-in-a-Sorted-Array)
+        * [First Bad Version](#First-Bad-Version)
+        * [Rotated Sorted Array](#Rotated-Sorted-Array)
     * [Find First and Last Position of Element in Sorted Array](#Find-First-and-Last-Position-of-Element-in-Sorted-Array)
 <!-- GFM-TOC -->
 
