@@ -7,7 +7,7 @@
     * [Locate Special Element in a Sorted Array](#Locate-Special-Element-in-a-Sorted-Array)
         * [First Bad Version](#First-Bad-Version)
         * [Rotated Sorted Array](#Rotated-Sorted-Array)
-    * [Find First and Last Position of Element in Sorted Array](#Find-First-and-Last-Position-of-Element-in-Sorted-Array)
+        * [Find First and Last Position of Element in Sorted Array](#Find-First-and-Last-Position-of-Element-in-Sorted-Array)
 <!-- GFM-TOC -->
 
 
@@ -60,7 +60,7 @@ Different initial value and boarder conditions can produce different variations.
 function binarySearch(nums, key) {
     let l = 0, h = nums.length;
     while (l < h) {
-        int m = l + (h - l) / 2;
+        int m = l + Math.floor((h - l) / 2);
         if (nums[m] >= key) {
             h = m;
         } else {
@@ -199,5 +199,26 @@ var findMin = function(nums) {
 [34\. Find First and Last Position of Element in Sorted Array (Medium)](https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/)
 
 ```javascript
-
+var searchRange = function(nums, target) {
+    let l = 0, h = nums.length - 1;
+    
+    while (l < h) {
+        const m = l + Math.floor((h - l) / 2);
+        if (nums[m] >= target) {
+            h = m;
+        } else {
+            l = m + 1;
+        }
+    }
+    
+    if (l < 0 || l >= nums.length || nums[l] != target) {
+        return [-1, -1];
+    }
+    
+    let end = l;
+    while (end < nums.length && nums[end] === nums[l]) {
+        end++
+    }
+    return [l, end - 1]
+};
 ```
