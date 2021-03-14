@@ -13,7 +13,7 @@
     * [Can Place Flowers](#Can-Place-Flowers)
     * [Is Subsequence](#Is-Subsequence)
     * [Non-decreasing Array](#Non-decreasing-Array)
-    * [10. 子数组最大的和](#10-子数组最大的和)
+    * [Maximum Subarray](#Maximum-Subarray)
     * [11. 分隔字符串使同种字符出现在一起](#11-分隔字符串使同种字符出现在一起)
 <!-- GFM-TOC -->
 
@@ -192,35 +192,36 @@ var isSubsequence = function(s, t) {
 [665\. Non-decreasing Array (Easy)](https://leetcode.com/problems/non-decreasing-array/description/)
 
 ```javascript
+var checkPossibility = function(nums) {
+    let count = 0;
+    for (let i = 1; i < nums.length; i++) {
+        if (nums[i] >= nums[i - 1]) {
+            continue;
+        }
 
+        count++;
+        if (count > 1) {
+            return false;
+        }
+
+        if (i >= 2 && nums[i - 2] > nums[i]) {
+            nums[i] = nums[i - 1];
+        } else {
+            nums[i - 1] = nums[i];
+        }
+    }
+    return true;
+};
 ```
 
 
 
-## 10. 子数组最大的和
+## Maximum Subarray
 
-53\. Maximum Subarray (Easy)
+[53\. Maximum Subarray (Easy)](https://leetcode.com/problems/maximum-subarray/description/)
 
-[Leetcode](https://leetcode.com/problems/maximum-subarray/description/) / [力扣](https://leetcode-cn.com/problems/maximum-subarray/description/)
+```javascript
 
-```html
-For example, given the array [-2,1,-3,4,-1,2,1,-5,4],
-the contiguous subarray [4,-1,2,1] has the largest sum = 6.
-```
-
-```java
-public int maxSubArray(int[] nums) {
-    if (nums == null || nums.length == 0) {
-        return 0;
-    }
-    int preSum = nums[0];
-    int maxSum = preSum;
-    for (int i = 1; i < nums.length; i++) {
-        preSum = preSum > 0 ? preSum + nums[i] : nums[i];
-        maxSum = Math.max(maxSum, preSum);
-    }
-    return maxSum;
-}
 ```
 
 ## 11. 分隔字符串使同种字符出现在一起
