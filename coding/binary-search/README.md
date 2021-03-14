@@ -4,8 +4,8 @@
     * [Sqrt(x)](#Sqrtx)
     * [Find Smallest Letter Greater Than Target](#Find-Smallest-Letter-Greater-Than-Target)
     * [Single Element in a Sorted Array](#Single-Element-in-a-Sorted-Array-Medium)
-    * [4. 第一个错误的版本](#4-第一个错误的版本)
-    * [Find Minimum in Rotated Sorted Array](#Find-Minimum-in-Rotated-Sorted-Array)
+    * [First Bad Version](#First-Bad-Version)
+    * [Rotated Sorted Array](#Rotated-Sorted-Array)
     * [Find First and Last Position of Element in Sorted Array](#Find-First-and-Last-Position-of-Element-in-Sorted-Array)
 <!-- GFM-TOC -->
 
@@ -124,7 +124,7 @@ var nextGreatestLetter = function(letters, target) {
 };
 ```
 
-## Single Element in a Sorted Array (Medium)
+## Single Element in a Sorted Array
 
 [540\. Single Element in a Sorted Array (Medium)](https://leetcode.com/problems/single-element-in-a-sorted-array/description/)
 
@@ -146,39 +146,51 @@ var singleNonDuplicate = function(nums) {
 };
 ```
 
-## 4. 第一个错误的版本
+## Locate Special Element in a Sorted Array
+A few conditions and initial values will change
+- loop condition change to `while (l < h)`
+- comparison changes to `nums[m] <= nums[h]`
+- assignment changes to `h = m`
 
-278\. First Bad Version (Easy)
+[278\. First Bad Version (Easy)](https://leetcode.com/problems/first-bad-version/description/)
 
-[Leetcode](https://leetcode.com/problems/first-bad-version/description/) / [力扣](https://leetcode-cn.com/problems/first-bad-version/description/)
-
-题目描述：给定一个元素 n 代表有 [1, 2, ..., n] 版本，在第 x 位置开始出现错误版本，导致后面的版本都错误。可以调用 isBadVersion(int x) 知道某个版本是否错误，要求找到第一个错误的版本。
-
-如果第 m 个版本出错，则表示第一个错误的版本在 [l, m] 之间，令 h = m；否则第一个错误的版本在 [m + 1, h] 之间，令 l = m + 1。
-
-因为 h 的赋值表达式为 h = m，因此循环条件为 l \< h。
-
-```java
-public int firstBadVersion(int n) {
-    int l = 1, h = n;
-    while (l < h) {
-        int mid = l + (h - l) / 2;
-        if (isBadVersion(mid)) {
-            h = mid;
-        } else {
-            l = mid + 1;
+```javascript
+var solution = function(isBadVersion) {
+    /**
+     * @param {integer} n Total versions
+     * @return {integer} The first bad version
+     */
+    return function(n) {
+        let l = 0, h = n;
+        while (l < h) {
+            let m = Math.floor(l + (h - l) / 2)
+            let version = isBadVersion(m);
+            if (isBadVersion(m)) {
+                h = m;
+            } else {
+                l = m + 1;
+            }
         }
-    }
-    return l;
-}
+        return l;
+    };
+};
 ```
-
-## Find Minimum in Rotated Sorted Array
 
 [Find Minimum in Rotated Sorted Array (Medium)](https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/description/)
 
 ```javascript
-
+var findMin = function(nums) {
+    let l = 0, h = nums.length - 1;
+    while (l < h) {
+        let m = Math.floor(l + (h - l) / 2);
+        if (nums[m] <= nums[h]) {
+            h = m;
+        } else {
+            l = m + 1;
+        }
+    }
+    return nums[l];
+};
 ```
 
 ## Find First and Last Position of Element in Sorted Array
