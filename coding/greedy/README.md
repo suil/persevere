@@ -126,7 +126,17 @@ var reconstructQueue = function(people) {
 [122\. Best Time to Buy and Sell Stock II (Easy)](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/description/)
 
 ```javascript
-
+var maxProfit = function(prices) {
+    let minPrice = Infinity;
+    let maxprofit = -Infinity;
+    
+    for (const price of prices) {
+        minPrice = Math.min(minPrice, price);
+        maxprofit = Math.max(maxprofit, price - minPrice);
+    }
+    
+    return maxprofit;
+};
 ```
 
 
