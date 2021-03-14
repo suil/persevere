@@ -7,8 +7,9 @@
         * [Non-overlapping Intervals](#Non-overlapping-Intervals)
         * [Minimum Number of Arrows to Burst Balloons](#Minimum-Number-of-Arrows-to-Burst-Balloons)
     * [Queue Reconstruction by Height](#Queue-Reconstruction-by-Height)
-    * [5. 买卖股票最大的收益](#5-买卖股票最大的收益)
-    * [6. 买卖股票的最大收益 II](#6-买卖股票的最大收益-ii)
+    * [Best Time to Buy and Sell Stock](#Best-Time-to-Buy-and-Sell-Stock)
+        * [Best Time to Buy and Sell Stock I](#Best-Time-to-Buy-and-Sell-Stock-I)
+        * [Best Time to Buy and Sell Stock II](#Best-Time-to-Buy-and-Sell-Stock-II)
     * [7. 种植花朵](#7-种植花朵)
     * [8. 判断是否为子序列](#8-判断是否为子序列)
     * [9. 修改一个数成为非递减数组](#9-修改一个数成为非递减数组)
@@ -97,54 +98,35 @@ var findMinArrowShots = function(points) {
 [406\. Queue Reconstruction by Height(Medium)](https://leetcode.com/problems/queue-reconstruction-by-height/description/)
 
 ```javascript
+var reconstructQueue = function(people) {
+    people.sort((a, b) => a[0] !== b[0] ? b[0] - a[0] : a[1] - b[1]);
+    
+    const output = [];
+    for (const person of people) {
+        let insertIdx = person[1];
+        output.splice(insertIdx, 0, person);
+    }
+    return output;
+};
+```
+
+## Best Time to Buy and Sell Stock
+
+### Best Time to Buy and Sell Stock I
+
+[121\. Best Time to Buy and Sell Stock (Easy)](https://leetcode.com/problems/best-time-to-buy-and-sell-stock/description/)
+
+```javascript
 
 ```
 
-## 5. 买卖股票最大的收益
 
-121\. Best Time to Buy and Sell Stock (Easy)
+### Best Time to Buy and Sell Stock II
 
-[Leetcode](https://leetcode.com/problems/best-time-to-buy-and-sell-stock/description/) / [力扣](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/description/)
+[122\. Best Time to Buy and Sell Stock II (Easy)](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/description/)
 
-题目描述：一次股票交易包含买入和卖出，只进行一次交易，求最大收益。
+```javascript
 
-只要记录前面的最小价格，将这个最小价格作为买入价格，然后将当前的价格作为售出价格，查看当前收益是不是最大收益。
-
-```java
-public int maxProfit(int[] prices) {
-    int n = prices.length;
-    if (n == 0) return 0;
-    int soFarMin = prices[0];
-    int max = 0;
-    for (int i = 1; i < n; i++) {
-        if (soFarMin > prices[i]) soFarMin = prices[i];
-        else max = Math.max(max, prices[i] - soFarMin);
-    }
-    return max;
-}
-```
-
-
-## 6. 买卖股票的最大收益 II
-
-122\. Best Time to Buy and Sell Stock II (Easy)
-
-[Leetcode](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/description/) / [力扣](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/description/)
-
-题目描述：可以进行多次交易，多次交易之间不能交叉进行，可以进行多次交易。
-
-对于 [a, b, c, d]，如果有 a \<= b \<= c \<= d ，那么最大收益为 d - a。而 d - a = (d - c) + (c - b) + (b - a) ，因此当访问到一个 prices[i] 且 prices[i] - prices[i-1] \> 0，那么就把 prices[i] - prices[i-1] 添加到收益中。
-
-```java
-public int maxProfit(int[] prices) {
-    int profit = 0;
-    for (int i = 1; i < prices.length; i++) {
-        if (prices[i] > prices[i - 1]) {
-            profit += (prices[i] - prices[i - 1]);
-        }
-    }
-    return profit;
-}
 ```
 
 
