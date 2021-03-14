@@ -3,7 +3,8 @@
 * [Greedy](#Greedy)
     * [Assignment](#Assignment)
         * [Assign Cookies](#Assign-Cookies)
-    * [2. 不重叠的区间个数](#2-不重叠的区间个数)
+    * [Intervals](#Intervals)
+        * [Non-overlapping Intervals](#Non-overlapping-Intervals)
     * [3. 投飞镖刺破气球](#3-投飞镖刺破气球)
     * [4. 根据身高和序号重组队列](#4-根据身高和序号重组队列)
     * [5. 买卖股票最大的收益](#5-买卖股票最大的收益)
@@ -25,40 +26,27 @@
 [455\. Assign Cookies (Easy)](https://leetcode.com/problems/assign-cookies/description/)
 
 ```javascript
-
+var findContentChildren = function(g, s) {
+    g.sort((a, b) => a - b);
+    s.sort((a, b) => a - b);
+    let gi = 0, si = 0;
+    while (gi < g.length && si < s.length) {
+        if (g[gi] <= s[si]) {
+            gi++;
+        }
+        si++;
+    }
+    return gi;
+};
 ```
 
-## 2. 不重叠的区间个数
+## Intervals
 
-435\. Non-overlapping Intervals (Medium)
+### Non-overlapping Intervals
 
-[Leetcode](https://leetcode.com/problems/non-overlapping-intervals/description/) / [力扣](https://leetcode-cn.com/problems/non-overlapping-intervals/description/)
+[435\. Non-overlapping Intervals (Medium)](https://leetcode.com/problems/non-overlapping-intervals/description/)
 
-```html
-Input: [ [1,2], [1,2], [1,2] ]
-
-Output: 2
-
-Explanation: You need to remove two [1,2] to make the rest of intervals non-overlapping.
-```
-
-```html
-Input: [ [1,2], [2,3] ]
-
-Output: 0
-
-Explanation: You don't need to remove any of the intervals since they're already non-overlapping.
-```
-
-题目描述：计算让一组区间不重叠所需要移除的区间个数。
-
-先计算最多能组成的不重叠区间个数，然后用区间总个数减去不重叠区间的个数。
-
-在每次选择中，区间的结尾最为重要，选择的区间结尾越小，留给后面的区间的空间越大，那么后面能够选择的区间个数也就越大。
-
-按区间的结尾进行排序，每次选择结尾最小，并且和前一个区间不重叠的区间。
-
-```java
+```javascript
 public int eraseOverlapIntervals(int[][] intervals) {
     if (intervals.length == 0) {
         return 0;
@@ -76,19 +64,6 @@ public int eraseOverlapIntervals(int[][] intervals) {
     return intervals.length - cnt;
 }
 ```
-
-使用 lambda 表示式创建 Comparator 会导致算法运行时间过长，如果注重运行时间，可以修改为普通创建 Comparator 语句：
-
-```java
-Arrays.sort(intervals, new Comparator<int[]>() {
-     @Override
-     public int compare(int[] o1, int[] o2) {
-         return (o1[1] < o2[1]) ? -1 : ((o1[1] == o2[1]) ? 0 : 1);
-     }
-});
-```
-
-实现 compare() 函数时避免使用 `return o1[1] - o2[1];` 这种减法操作，防止溢出。
 
 ## 3. 投飞镖刺破气球
 
