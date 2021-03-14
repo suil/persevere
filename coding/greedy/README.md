@@ -14,7 +14,7 @@
     * [Is Subsequence](#Is-Subsequence)
     * [Non-decreasing Array](#Non-decreasing-Array)
     * [Maximum Subarray](#Maximum-Subarray)
-    * [11. 分隔字符串使同种字符出现在一起](#11-分隔字符串使同种字符出现在一起)
+    * [Partition Labels](#Partition-Labels)
 <!-- GFM-TOC -->
 
 
@@ -221,47 +221,39 @@ var checkPossibility = function(nums) {
 [53\. Maximum Subarray (Easy)](https://leetcode.com/problems/maximum-subarray/description/)
 
 ```javascript
-
-```
-
-## 11. 分隔字符串使同种字符出现在一起
-
-763\. Partition Labels (Medium)
-
-[Leetcode](https://leetcode.com/problems/partition-labels/description/) / [力扣](https://leetcode-cn.com/problems/partition-labels/description/)
-
-```html
-Input: S = "ababcbacadefegdehijhklij"
-Output: [9,7,8]
-Explanation:
-The partition is "ababcbaca", "defegde", "hijhklij".
-This is a partition so that each letter appears in at most one part.
-A partition like "ababcbacadefegde", "hijhklij" is incorrect, because it splits S into less parts.
-```
-
-```java
-public List<Integer> partitionLabels(String S) {
-    int[] lastIndexsOfChar = new int[26];
-    for (int i = 0; i < S.length(); i++) {
-        lastIndexsOfChar[char2Index(S.charAt(i))] = i;
+var maxSubArray = function(nums) {
+    let sum = nums[0];
+    let max = nums[0];
+    for (let i = 1; i < nums.length; i++) {
+        const num = nums[i];
+        sum = Math.max(num, num + sum);
+        max = Math.max(max, sum)
     }
-    List<Integer> partitions = new ArrayList<>();
-    int firstIndex = 0;
-    while (firstIndex < S.length()) {
-        int lastIndex = firstIndex;
-        for (int i = firstIndex; i < S.length() && i <= lastIndex; i++) {
-            int index = lastIndexsOfChar[char2Index(S.charAt(i))];
-            if (index > lastIndex) {
-                lastIndex = index;
-            }
+    return max;
+};
+```
+
+## Partition Labels
+
+[763\. Partition Labels (Medium)](https://leetcode.com/problems/partition-labels/description/)
+```javascript
+var partitionLabels = function(S) {
+    const positionMap = new Map();
+    for (let i = 0; i < S.length; i++) {
+        positionMap.set(S[i], i);
+    }
+    
+    let start = 0;
+    let end = 0;
+    let partitions = [];
+    for (let i = 0; i < S.length; i++) {
+        end = Math.max(end, positionMap.get(S[i]));
+        if (end === i) {
+            partitions.push(end - start + 1);
+            start = end + 1;
+            end = 0;
         }
-        partitions.add(lastIndex - firstIndex + 1);
-        firstIndex = lastIndex + 1;
     }
     return partitions;
-}
-
-private int char2Index(char c) {
-    return c - 'a';
-}
+};
 ```
