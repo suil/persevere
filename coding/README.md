@@ -7,7 +7,7 @@
 
 - [Two pointers](two-pointers/README.md)
 - [排序](Leetcode%20题解%20-%20排序.md)
-- [贪心思想](Leetcode%20题解%20-%20贪心思想.md)
+- [Greedy](greedy/README.md)
 - [Binary Search](binary-search/README.md)
 - [Divide and Conquer](divide-conquer/README.md)
 - [Search](search/README.md)
