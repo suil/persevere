@@ -174,5 +174,31 @@ var hasCycle = function(head) {
 [524\. Longest Word in Dictionary through Deleting (Medium)](https://leetcode.com/problems/longest-word-in-dictionary-through-deleting/description/)
 
 ```javascript
+var findLongestWord = function(s, dictionary) {
+    let output = '';
+    for (const word of dictionary) {
+        const isMatched = hasMatch(s, word);
+        if (isMatched) {
+            if (word.length > output.length) {
+                output = word;
+            } else if (word.length === output.length) {
+                output = word < output ? word : output;
+            }
+        }
+    }
+    return output;
+};
 
+function hasMatch(s, word) {
+    let sp = 0, wp = 0;
+    
+    while (sp < s.length && wp < word.length) {
+        if (s[sp] === word[wp]) {
+            wp++;
+        }
+        sp++;
+    }
+    
+    return wp === word.length;
+}
 ```
