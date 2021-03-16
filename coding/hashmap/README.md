@@ -1,6 +1,8 @@
 # HashMap
 <!-- GFM-TOC -->
 * [HashMap](#hashmap)
+    * [HashMap of occurence](#HashMap-of-occurence)
+        * [Bulls and Cows](#Bulls-and-Cows)
     * [Logger Rate Limiter](#Logger-Rate-Limiter)
     * [1. 数组中两个数的和为给定值](#1-数组中两个数的和为给定值)
     * [2. 判断数组是否含有重复元素](#2-判断数组是否含有重复元素)
@@ -15,9 +17,39 @@ JavaScript HashMap implementation could be Map object, regular object, or array.
 
 [Encode and Decode TinyURL](https://leetcode.com/problems/encode-and-decode-tinyurl/description/)
 
+## HashMap of occurence
+
+Use HashMap to store the number of occurence data can help solve problems.
+
+### Bulls and Cows
+[299. Bulls and Cows (Medium)](https://leetcode.com/problems/bulls-and-cows/)
+```javascript
+var getHint = function(secret, guess) {
+    const freqMap = new Map();
+    for (let i = 0; i < secret.length; i++) {
+        freqMap.set(secret[i], (freqMap.get(secret[i]) || 0) + 1);
+    } 
+    let numBull = 0, numCow = 0;
+    // Bulls take precendence.
+    for (let i = 0; i < guess.length; i++) {
+        if (secret[i] === guess[i]) {
+            numBull++;
+            freqMap.set(guess[i], (freqMap.get(guess[i]) - 1));
+        }
+    }
+    for (let i = 0; i < guess.length; i++) {
+        if (secret[i] !== guess[i] && freqMap.get(guess[i]) > 0) {
+            numCow++;
+            freqMap.set(guess[i], (freqMap.get(guess[i]) - 1));
+        }
+    }
+    return `${numBull}A${numCow}B`;
+};
+```
+
 ## Logger Rate Limiter
 
-[359. Logger Rate Limiter](https://leetcode.com/problems/logger-rate-limiter/)
+[359. Logger Rate Limiter (Easy)](https://leetcode.com/problems/logger-rate-limiter/)
 
 ```javascript
 var Logger = function() {

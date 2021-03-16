@@ -257,3 +257,25 @@ var partitionLabels = function(S) {
     return partitions;
 };
 ```
+
+## License Key Formatting
+
+[482. License Key Formatting](https://leetcode.com/problems/license-key-formatting/)
+```javascript
+var licenseKeyFormatting = function(S, K) {
+    const output = [];
+    let group = [];
+    for (let i = S.length - 1; i >= 0; i--) {
+        if (S[i] === '-') { continue; }
+        group.unshift(S[i].toUpperCase());
+        if (group.length >= K) {
+            output.unshift(group.join(''));
+            group = [];
+        }
+    }
+    if (group.length > 0) {
+        output.unshift(group.join(''));
+    }
+    return output.join('-');
+};
+```
