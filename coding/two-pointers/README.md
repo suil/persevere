@@ -7,7 +7,7 @@
     * [Valid Palindrome II](#Valid-Palindrome-II)
     * [Merge Sorted Array](#Merge-Sorted-Array)
     * [Linked List Cycle](#Linked-List-Cycle)
-    * [7. 最长子序列](#7-最长子序列)
+    * [Longest Word in Dictionary through Deleting](#Longest-Word-in-Dictionary-through-Deleting)
 <!-- GFM-TOC -->
 
 Two-pointer is an efficent way to navigate in an array.
@@ -151,63 +151,28 @@ var merge = function(nums1, m, nums2, n) {
 [141\. Linked List Cycle (Easy)](https://leetcode.com/problems/linked-list-cycle/description/)
 
 ```java
-public boolean hasCycle(ListNode head) {
-    if (head == null) {
-        return false;
-    }
-    ListNode l1 = head, l2 = head.next;
-    while (l1 != null && l2 != null && l2.next != null) {
-        if (l1 == l2) {
-            return true;
+var hasCycle = function(head) {
+    if (!head) return false;
+    
+    let slowPointer = head;
+    let fastPointer = head.next;
+    
+    while (slowPointer !== fastPointer) {
+        if (!fastPointer || !fastPointer.next) {
+            return false;
         }
-        l1 = l1.next;
-        l2 = l2.next.next;
+        slowPointer = slowPointer.next;
+        fastPointer = fastPointer.next.next;
     }
-    return false;
-}
+    
+    return true;
+};
 ```
 
-## 7. 最长子序列
+## Longest Word in Dictionary through Deleting
 
-524\. Longest Word in Dictionary through Deleting (Medium)
+[524\. Longest Word in Dictionary through Deleting (Medium)](https://leetcode.com/problems/longest-word-in-dictionary-through-deleting/description/)
 
-[Leetcode](https://leetcode.com/problems/longest-word-in-dictionary-through-deleting/description/) / [力扣](https://leetcode-cn.com/problems/longest-word-in-dictionary-through-deleting/description/)
+```javascript
 
-```
-Input:
-s = "abpcplea", d = ["ale","apple","monkey","plea"]
-
-Output:
-"apple"
-```
-
-题目描述：删除 s 中的一些字符，使得它构成字符串列表 d 中的一个字符串，找出能构成的最长字符串。如果有多个相同长度的结果，返回字典序的最小字符串。
-
-通过删除字符串 s 中的一个字符能得到字符串 t，可以认为 t 是 s 的子序列，我们可以使用双指针来判断一个字符串是否为另一个字符串的子序列。
-
-```java
-public String findLongestWord(String s, List<String> d) {
-    String longestWord = "";
-    for (String target : d) {
-        int l1 = longestWord.length(), l2 = target.length();
-        if (l1 > l2 || (l1 == l2 && longestWord.compareTo(target) < 0)) {
-            continue;
-        }
-        if (isSubstr(s, target)) {
-            longestWord = target;
-        }
-    }
-    return longestWord;
-}
-
-private boolean isSubstr(String s, String target) {
-    int i = 0, j = 0;
-    while (i < s.length() && j < target.length()) {
-        if (s.charAt(i) == target.charAt(j)) {
-            j++;
-        }
-        i++;
-    }
-    return j == target.length();
-}
 ```
