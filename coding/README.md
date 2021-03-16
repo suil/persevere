@@ -19,7 +19,7 @@
 - [链表](Leetcode%20题解%20-%20链表.md)
 - [树](Leetcode%20题解%20-%20树.md)
 - [栈和队列](Leetcode%20题解%20-%20栈和队列.md)
-- [哈希表](Leetcode%20题解%20-%20哈希表.md)
+- [HashMap](hashmap/README.md)
 - [字符串](Leetcode%20题解%20-%20字符串.md)
 - [数组与矩阵](Leetcode%20题解%20-%20数组与矩阵.md)
 - [图](Leetcode%20题解%20-%20图.md)
