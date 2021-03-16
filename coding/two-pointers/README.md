@@ -5,8 +5,8 @@
     * [Sum of Square Numbers](#Sum-of-Square-Numbers)
     * [Reverse Vowels of a String](#Reverse-Vowels-of-a-String)
     * [Valid Palindrome II](#Valid-Palindrome-II)
-    * [5. 归并两个有序数组](#5-归并两个有序数组)
-    * [6. 判断链表是否存在环](#6-判断链表是否存在环)
+    * [Merge Sorted Array](#Merge-Sorted-Array)
+    * [Linked List Cycle](#Linked-List-Cycle)
     * [7. 最长子序列](#7-最长子序列)
 <!-- GFM-TOC -->
 
@@ -117,49 +117,38 @@ function isPalindrome(s, i, j) {
 }
 ```
 
-## 5. 归并两个有序数组
+## Merge Sorted Array
 
-88\. Merge Sorted Array (Easy)
+[88\. Merge Sorted Array (Easy)](https://leetcode.com/problems/merge-sorted-array/description/)
 
-[Leetcode](https://leetcode.com/problems/merge-sorted-array/description/) / [力扣](https://leetcode-cn.com/problems/merge-sorted-array/description/)
-
-```html
-Input:
-nums1 = [1,2,3,0,0,0], m = 3
-nums2 = [2,5,6],       n = 3
-
-Output: [1,2,2,3,5,6]
-```
-
-题目描述：把归并结果存到第一个数组上。
-
-需要从尾开始遍历，否则在 nums1 上归并得到的值会覆盖还未进行归并比较的值。
-
-```java
-public void merge(int[] nums1, int m, int[] nums2, int n) {
-    int index1 = m - 1, index2 = n - 1;
-    int indexMerge = m + n - 1;
+```javascript
+var merge = function(nums1, m, nums2, n) {
+    let index1 = m - 1;
+    let index2 = n - 1;
+    let index = nums1.length - 1;
+    
     while (index1 >= 0 || index2 >= 0) {
         if (index1 < 0) {
-            nums1[indexMerge--] = nums2[index2--];
-        } else if (index2 < 0) {
-            nums1[indexMerge--] = nums1[index1--];
-        } else if (nums1[index1] > nums2[index2]) {
-            nums1[indexMerge--] = nums1[index1--];
+            nums1[index--] = nums2[index2--];
+            continue;
+        }
+        if (index2 < 0) {
+            nums1[index--] = nums1[index1--];
+            continue;
+        }
+        
+        if (nums1[index1] >= nums2[index2]) {
+            nums1[index--] = nums1[index1--];
         } else {
-            nums1[indexMerge--] = nums2[index2--];
+            nums1[index--] = nums2[index2--];
         }
     }
-}
+};
 ```
 
-## 6. 判断链表是否存在环
+## Linked List Cycle
 
-141\. Linked List Cycle (Easy)
-
-[Leetcode](https://leetcode.com/problems/linked-list-cycle/description/) / [力扣](https://leetcode-cn.com/problems/linked-list-cycle/description/)
-
-使用双指针，一个指针每次移动一个节点，一个指针每次移动两个节点，如果存在环，那么这两个指针一定会相遇。
+[141\. Linked List Cycle (Easy)](https://leetcode.com/problems/linked-list-cycle/description/)
 
 ```java
 public boolean hasCycle(ListNode head) {
