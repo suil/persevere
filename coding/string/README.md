@@ -11,6 +11,7 @@
     * [8. 判断一个整数是否是回文数](#8-判断一个整数是否是回文数)
     * [9. 统计二进制字符串中连续 1 和连续 0 数量相同的子字符串个数](#9-统计二进制字符串中连续-1-和连续-0-数量相同的子字符串个数)
     * [Repeated Substring Pattern](#Repeated-Substring-Pattern)
+    * [Long Pressed Name](#Long-Pressed-Name)
 <!-- GFM-TOC -->
 
 
@@ -249,5 +250,26 @@ var repeatedSubstringPattern = function(s) {
         if (pattern.repeat(s.length / pattern.length) === s) return true;
     }
     return false;
+};
+```
+
+## Long Pressed Name
+[925. Long Pressed Name](https://leetcode.com/problems/long-pressed-name/)
+```javascript
+var isLongPressedName = function(name, typed) {
+    if (name === typed) { return true; }
+    if (name.length > typed.length) { return false; }
+
+    let j = 0;
+    for (let i = 0; i < typed.length; i++) {
+        if (typed[i] === name[j]) {
+           j++;
+        } else if (typed[i] === name[j - 1]) {
+            continue;
+        } else {
+            return false;
+        }
+    }
+    return j === name.length;
 };
 ```

@@ -3,6 +3,7 @@
 * [HashMap](#hashmap)
     * [HashMap of occurence](#HashMap-of-occurence)
         * [Bulls and Cows](#Bulls-and-Cows)
+        * [X of a Kind in a Deck of Cards](#X-of-a-Kind-in-a-Deck-of-Cards)
     * [Logger Rate Limiter](#Logger-Rate-Limiter)
     * [1. 数组中两个数的和为给定值](#1-数组中两个数的和为给定值)
     * [2. 判断数组是否含有重复元素](#2-判断数组是否含有重复元素)
@@ -47,6 +48,25 @@ var getHint = function(secret, guess) {
 };
 ```
 
+### X of a Kind in a Deck of Cards
+[914. X of a Kind in a Deck of Cards](https://leetcode.com/problems/x-of-a-kind-in-a-deck-of-cards/)
+```javascript
+var hasGroupsSizeX = function(deck) {
+    const freqMap = new Map();
+    for (const card of deck) {
+        freqMap.set(card, (freqMap.get(card) || 0) + 1);
+    }
+    let g;
+    for (const [deck, count] of freqMap) {
+        g = (g === undefined) ? count : gcd(g, count);
+    }
+    return g >= 2;
+};
+function gcd(x, y) {
+    return x === 0 ? y : gcd(y % x, x)
+}
+
+```
 ## Logger Rate Limiter
 
 [359. Logger Rate Limiter (Easy)](https://leetcode.com/problems/logger-rate-limiter/)
