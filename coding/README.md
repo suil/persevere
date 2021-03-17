@@ -21,7 +21,7 @@
 - [栈和队列](Leetcode%20题解%20-%20栈和队列.md)
 - [HashMap](hashmap/README.md)
 - [String](string/README.md)
-- [数组与矩阵](Leetcode%20题解%20-%20数组与矩阵.md)
+- [Array and Matrix](array-matrix/README.md)
 - [图](Leetcode%20题解%20-%20图.md)
 - [位运算](Leetcode%20题解%20-%20位运算.md)
 Success is the sum of small efforts, repeated day in and day out.

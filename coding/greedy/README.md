@@ -214,12 +214,8 @@ var checkPossibility = function(nums) {
 };
 ```
 
-
-
 ## Maximum Subarray
-
 [53\. Maximum Subarray (Easy)](https://leetcode.com/problems/maximum-subarray/description/)
-
 ```javascript
 var maxSubArray = function(nums) {
     let sum = nums[0];
@@ -234,7 +230,6 @@ var maxSubArray = function(nums) {
 ```
 
 ## Partition Labels
-
 [763\. Partition Labels (Medium)](https://leetcode.com/problems/partition-labels/description/)
 ```javascript
 var partitionLabels = function(S) {
