@@ -12,6 +12,7 @@
     * [9. 统计二进制字符串中连续 1 和连续 0 数量相同的子字符串个数](#9-统计二进制字符串中连续-1-和连续-0-数量相同的子字符串个数)
     * [Repeated Substring Pattern](#Repeated-Substring-Pattern)
     * [Long Pressed Name](#Long-Pressed-Name)
+    * [Verifying an Alien Dictionary](#Verifying-an-Alien-Dictionary)
 <!-- GFM-TOC -->
 
 
@@ -272,4 +273,41 @@ var isLongPressedName = function(name, typed) {
     }
     return j === name.length;
 };
+```
+
+## Verifying an Alien Dictionary
+[953. Verifying an Alien Dictionary](https://leetcode.com/problems/verifying-an-alien-dictionary/)
+```javascript
+var isAlienSorted = function(words, order) {
+    const orderMap = new Map();
+    for (let i = 0; i < order.length; i++) {
+        orderMap.set(order[i], i);
+    }
+    
+    for (let i = 1; i < words.length; i++) {
+        if (compare(words[i - 1], words[i], orderMap) > 0) {
+            return false;
+        }
+    }
+    return true;
+};
+function compare(word1, word2, orderMap) {
+    const k = Math.min(word1.length, word2.length);
+    for (let i = 0; i < k; i++) {
+        if (word1[i] !== word2[i]) {
+            if (orderMap.get(word1[i]) > orderMap.get(word2[i])) {
+                return 1;
+            }
+            if (orderMap.get(word1[i]) < orderMap.get(word2[i])) {
+                return -1;
+            }
+            break;
+        }
+    }
+    if (word1.length === word2.length) {
+        return 0;
+    }
+    if (word1.length > word2.length) { return 1; }
+    if (word1.length < word2.length) { return -1; }
+}
 ```
