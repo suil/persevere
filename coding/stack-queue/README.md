@@ -8,6 +8,7 @@
     * [5. 数组中元素与下一个比它大的元素之间的距离](#5-数组中元素与下一个比它大的元素之间的距离)
     * [6. 循环数组中比当前元素大的下一个元素](#6-循环数组中比当前元素大的下一个元素)
     * [Backspace String Compare](#Backspace-String-Compare)
+    * [Minimum Remove to Make Valid Parentheses](#Minimum-Remove-to-Make-Valid-Parentheses)
 <!-- GFM-TOC -->
 
 
@@ -252,4 +253,26 @@ function build(s) {
     }
     return stack.join('');
 }
+```
+
+## Minimum Remove to Make Valid Parentheses
+[1249. Minimum Remove to Make Valid Parentheses](https://leetcode.com/problems/minimum-remove-to-make-valid-parentheses/)
+```javascript
+var minRemoveToMakeValid = function(s) {
+    const stack = [];
+    s = s.split('');
+    for (let i = 0; i < s.length; i++) {
+        if (s[i] === '(') {
+            stack.push(i);
+        } else if (s[i] === ')') {
+            if (stack.length === 0) {
+                s[i] = '';
+            } else {
+                stack.pop();
+            }
+        }
+    }
+    stack.forEach(i => s[i] = '');
+    return s.join('');
+};
 ```
