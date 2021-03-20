@@ -4,6 +4,7 @@
     * [Quick Sort](#Quick-Sort)
     * [MinHeap](#minheap)
         * [Kth Element](#kth-element)
+        * [K Closest Points to Origin](#K-Closest-Points-to-Origin)
     * [Bucket Sort](#Bucket-Sort)
         * [Top K Frequent Elements](#Top-K-Frequent-Elements)
         * [Sort Characters By Frequency](#Sort-Characters-By-Frequency)
@@ -13,41 +14,24 @@
 
 
 ## Quick Sort
-
 ```javascript
-function partition(items, left, right) {
-    const pivot = items[Math.floor(left + (right - left) / 2)];
-    let l = left;
-    let r = right;
-    while (l <= r) {
-        while (pivot > items[l]) {
-            l++;
-        }
-        while (items[r] > pivot) {
-            r--;
-        }
-        if (l <= r) {
-            var temp = items[l];
-            items[l] = items[r];
-            items[r] = temp;
-            l++;
-            r--;
-        }
+function partition(arr, start, end) {
+    let lo = start - 1, hi = end + 1;
+    const pivot = arr[Math.floor(start + (end - start) / 2)];
+    
+    while (true) {
+        while (arr[++lo] > pivot);
+        while (arr[--hi] < pivot);
+        if (lo >= hi) { return hi; }
+        [arr[lo], arr[hi]] = [arr[hi], arr[lo]];
     }
-    return l;
 }
-
-function quickSort(items, left, right) {
-    if (items.length > 1) {
-        const index = partition(items, left, right); //index returned from partition
-        if (left < index - 1) { //more elements on the left side of the pivot
-            quickSort(items, left, index - 1);
-        }
-        if (index < right) { //more elements on the right side of the pivot
-            quickSort(items, index, right);
-        }
-    }
-    return items;
+function quickSort(arr, start, end) {
+    if (start < end) {
+       const pivot = partition(arr, start, end);
+       quickSort(arr, start, pivot); 
+       quickSort(arr, pivot + 1, end);
+   }
 }
 ```
 This algorithm can be used to solve **Kth Element** problem.
@@ -58,7 +42,7 @@ When partition() funciton in quick sorting is used, the array needs to be scramb
 
 It also can be used to solve **TopK Elements** problem.
 
-### Kth Element
+### Kth Largest Element in an Array
 
 [215\. Kth Largest Element in an Array (Medium)](https://leetcode.com/problems/kth-largest-element-in-an-array/description/)
 
@@ -69,7 +53,7 @@ public int findKthLargest(int[] nums, int k) {
     PriorityQueue<Integer> pq = new PriorityQueue<>(); // 小顶堆
     for (int val : nums) {
         pq.add(val);
-        if (pq.size() > k)  // 维护堆的大小为 K
+        if (pq.size() > k)
             pq.poll();
     }
     return pq.peek();
@@ -80,41 +64,65 @@ public int findKthLargest(int[] nums, int k) {
 
 ```javascript
 var findKthLargest = function(nums, k) {
-    if(nums == null ||  nums.length == 0){
-        return 0;
+    return quickSelect(nums, 0, nums.length - 1, k);
+};
+function partition(arr, start, end) {
+    let lo = start - 1, hi = end + 1;
+    const pivot = arr[Math.floor(start + (end - start) / 2)];
+    while (true) {
+        while (arr[++lo] > pivot); // ascending '<'
+        while (arr[--hi] < pivot); // ascending '>'
+
+        if (lo >= hi) { return hi; }
+        [arr[lo], arr[hi]] = [arr[hi], arr[lo]];
     }
-    return quickSelect(nums, 0, nums.length - 1, k)
+}
+function quickSelect(arr, start, end, k) {
+    if (start === end) {
+        return arr[start];
+    }
+    const pivot = partition(arr, start, end);
+    if (pivot < k - 1) {
+        return quickSelect(arr, pivot + 1, end, k);
+    }
+    return quickSelect(arr, start, pivot, k);
+}
+```
+## K Closest Points to Origin
+This is to take all K top elements. Use variant of quick sorting algorithm. Only sort the first k elments
+
+[973. K Closest Points to Origin](https://leetcode.com/problems/k-closest-points-to-origin/)
+```javascript
+var kClosest = function(points, k) {
+    partialQuickSort(points, 0, points.length - 1, k)
+    return points.slice(0, k)
 };
 
-function quickSelect(nums, start, end, k) {
-    if (start === end) { return nums[start]; }
+function partition(arr, start, end) {
+    let lo = start - 1, hi = end + 1;
+    const pivot = arr[Math.floor(start + (end - start) / 2)];
+    while (true) {
+        while (distanceToOrigin(arr[++lo]) < distanceToOrigin(pivot));
+        while (distanceToOrigin(arr[--hi]) > distanceToOrigin(pivot));
 
-    let left = start, right = end, pivot = nums[Math.floor((start + end) / 2)];
-
-    while (left <= right) {
-        while (nums[left] > pivot) {
-            left++;
+        if (lo >= hi) {
+            return hi;
         }
-        while (nums[right] < pivot) {
-            right--;
-        }
-        if (left <= right) {
-            let temp = nums[left];
-            nums[left] = nums[right];
-            nums[right] = temp;
-            left++;
-            right--;
-        }
+        [arr[lo], arr[hi]] = [arr[hi], arr[lo]];
     }
-
-    if (start + k - 1 <= right) {
-        return quickSelect(nums, start, right, k);
+}
+function partialQuickSort(arr, start, end, k) {
+    if (start >= end) {
+        return;
     }
-    if (start + k - 1 >= left) {
-        return quickSelect(nums, left, end, k - (left - start));
+    const mi = partition(arr, start, end, k);
+    if (mi < k - 1) {
+        partialQuickSort(arr, mi + 1, end, k);
     }
-
-    return nums[right + 1];
+    return partialQuickSort(arr, start, mi, k);
+}
+function distanceToOrigin(point) {
+    return Math.sqrt(Math.pow(point[0], 2) + Math.pow(point[1], 2));
 }
 ```
 

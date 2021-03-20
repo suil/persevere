@@ -1,6 +1,6 @@
-# Leetcode 题解 - 数组与矩阵
+# Array and Matrix
 <!-- GFM-TOC -->
-* [Leetcode 题解 - 数组与矩阵](#leetcode-题解---数组与矩阵)
+* [Array and Matrix](#leetcode-题解---数组与矩阵)
     * [1. 把数组中的 0 移到末尾](#1-把数组中的-0-移到末尾)
     * [2. 改变矩阵维度](#2-改变矩阵维度)
     * [3. 找出数组中最长的连续 1](#3-找出数组中最长的连续-1)
@@ -14,6 +14,7 @@
     * [11. 嵌套数组](#11-嵌套数组)
     * [12. 分隔数组](#12-分隔数组)
     * [Longest Word in Dictionary](#Longest-Word-in-Dictionary)
+    * [Subarray Sum Equals K](#Subarray-Sum-Equals-K)
 <!-- GFM-TOC -->
 
 
@@ -478,5 +479,23 @@ var longestWord = function(words) {
     }
     
     return result;
+};
+```
+
+## 560. Subarray Sum Equals K
+[560. Subarray Sum Equals K](https://leetcode.com/problems/subarray-sum-equals-k/)
+```javascript
+var subarraySum = function(nums, k) {
+    let count = 0, sum = 0;
+    const map = new Map();
+    map.set(0, 1);
+    for (let i = 0; i < nums.length; i++) {
+        sum += nums[i];
+        if (map.has(sum - k)) {
+            count += map.get(sum - k);
+        }
+        map.set(sum, (map.get(sum) || 0) + 1);
+    }
+    return count;
 };
 ```
