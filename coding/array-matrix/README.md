@@ -15,6 +15,7 @@
     * [12. 分隔数组](#12-分隔数组)
     * [Longest Word in Dictionary](#Longest-Word-in-Dictionary)
     * [Subarray Sum Equals K](#Subarray-Sum-Equals-K)
+    * [Product of Array Except Self](#Product-of-Array-Except-Self)
 <!-- GFM-TOC -->
 
 
@@ -497,5 +498,28 @@ var subarraySum = function(nums, k) {
         map.set(sum, (map.get(sum) || 0) + 1);
     }
     return count;
+};
+```
+
+
+### Product of Array Except Self
+
+[238. Product of Array Except Self](https://leetcode.com/problems/product-of-array-except-self/description/)
+
+```javascript
+var productExceptSelf = function(nums) {
+    const numLen = nums.length;
+    const output = [1];
+    
+    for (let i = 1; i < numLen; i++) {
+        output[i] = output[i - 1] * nums[i - 1];
+    }
+    
+    let product = 1;
+    for (let i = numLen - 1; i >= 0; i--) {
+        output[i] = output[i] * product;
+        product = product * nums[i];
+    }
+    return output;
 };
 ```
