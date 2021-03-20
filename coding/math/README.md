@@ -14,8 +14,8 @@
     * [阶乘](#阶乘)
         * [1. 统计阶乘尾部有多少个 0](#1-统计阶乘尾部有多少个-0)
     * [字符串加法减法](#字符串加法减法)
-        * [1. 二进制加法](#1-二进制加法)
-        * [2. 字符串加法](#2-字符串加法)
+        * [Add Binary](#Add-Binary)
+        * [Add Strings](#Add-Strings)
     * [相遇问题](#相遇问题)
         * [1. 改变数组元素使所有的数组元素都相等](#1-改变数组元素使所有的数组元素都相等)
     * [多数投票问题](#多数投票问题)
@@ -262,56 +262,53 @@ public int trailingZeroes(int n) {
 
 ## 字符串加法减法
 
-### 1. 二进制加法
-
-67\. Add Binary (Easy)
-
-[Leetcode](https://leetcode.com/problems/add-binary/description/) / [力扣](https://leetcode-cn.com/problems/add-binary/description/)
-
-```html
-a = "11"
-b = "1"
-Return "100".
+### Add Binary
+[67\. Add Binary (Easy)](https://leetcode.com/problems/add-binary/description/)
+```javascript
+var addBinary = function(a, b) {
+    let aIndex = a.length - 1, bIndex = b.length - 1, carry = 0;
+    const output = [];
+    while (aIndex >= 0 || bIndex >= 0) {
+        let sum = carry;
+        if (aIndex >= 0) {
+            sum += Number(a[aIndex--]);
+        }
+        if (bIndex >= 0) {
+            sum += Number(b[bIndex--]);
+        }
+        output.unshift(sum % 2);
+        carry = Math.floor(sum / 2);
+    }
+    if (carry > 0) {
+        output.unshift(carry);
+    }
+    return output.join('');
+};
 ```
 
-```java
-public String addBinary(String a, String b) {
-    int i = a.length() - 1, j = b.length() - 1, carry = 0;
-    StringBuilder str = new StringBuilder();
-    while (carry == 1 || i >= 0 || j >= 0) {
-        if (i >= 0 && a.charAt(i--) == '1') {
-            carry++;
+### Add Strings
+[415. Add Strings](https://leetcode.com/problems/add-strings/description/)
+```javascript
+var addStrings = function(num1, num2) {
+    let index1 = num1.length - 1, index2 = num2.length - 1, carry = 0;
+    let output = [];
+    const base = '0'.charCodeAt(0);
+    while (index1 >= 0 || index2 >= 0) {
+        let sum = carry;
+        if (index1 >= 0) {
+            sum += num1.charCodeAt(index1--) - base;
         }
-        if (j >= 0 && b.charAt(j--) == '1') {
-            carry++;
+        if (index2 >= 0) {
+            sum += num2.charCodeAt(index2--) - base;
         }
-        str.append(carry % 2);
-        carry /= 2;
+        output.unshift(sum % 10);
+        carry = Math.floor(sum / 10);
     }
-    return str.reverse().toString();
-}
-```
-
-### 2. 字符串加法
-
-415\. Add Strings (Easy)
-
-[Leetcode](https://leetcode.com/problems/add-strings/description/) / [力扣](https://leetcode-cn.com/problems/add-strings/description/)
-
-字符串的值为非负整数。
-
-```java
-public String addStrings(String num1, String num2) {
-    StringBuilder str = new StringBuilder();
-    int carry = 0, i = num1.length() - 1, j = num2.length() - 1;
-    while (carry == 1 || i >= 0 || j >= 0) {
-        int x = i < 0 ? 0 : num1.charAt(i--) - '0';
-        int y = j < 0 ? 0 : num2.charAt(j--) - '0';
-        str.append((x + y + carry) % 10);
-        carry = (x + y + carry) / 10;
+    if (carry > 0) {
+        output.unshift(carry);
     }
-    return str.reverse().toString();
-}
+    return output.join('');
+};
 ```
 
 ## 相遇问题
