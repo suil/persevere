@@ -6,7 +6,7 @@
     * [3. 字符串中单词的翻转](#3-字符串中单词的翻转)
     * [4. 两个字符串包含的字符是否完全相同](#4-两个字符串包含的字符是否完全相同)
     * [5. 计算一组字符集合可以组成的回文字符串的最大长度](#5-计算一组字符集合可以组成的回文字符串的最大长度)
-    * [6. 字符串同构](#6-字符串同构)
+    * [Valid Anagram](#Valid-Anagram)
     * [7. 回文子字符串个数](#7-回文子字符串个数)
     * [8. 判断一个整数是否是回文数](#8-判断一个整数是否是回文数)
     * [9. 统计二进制字符串中连续 1 和连续 0 数量相同的子字符串个数](#9-统计二进制字符串中连续-1-和连续-0-数量相同的子字符串个数)
@@ -53,34 +53,18 @@ Return "student a am I"
 
 将每个单词翻转，然后将整个字符串翻转。
 
-## 4. 两个字符串包含的字符是否完全相同
-
-242\. Valid Anagram (Easy)
-
-[Leetcode](https://leetcode.com/problems/valid-anagram/description/) / [力扣](https://leetcode-cn.com/problems/valid-anagram/description/)
-
-```html
-s = "anagram", t = "nagaram", return true.
-s = "rat", t = "car", return false.
-```
-
-可以用 HashMap 来映射字符与出现次数，然后比较两个字符串出现的字符数量是否相同。
-
-由于本题的字符串只包含 26 个小写字符，因此可以使用长度为 26 的整型数组对字符串出现的字符进行统计，不再使用 HashMap。
-
-```java
-public boolean isAnagram(String s, String t) {
-    int[] cnts = new int[26];
-    for (char c : s.toCharArray()) {
-        cnts[c - 'a']++;
+## Valid Anagram
+[242. Valid Anagram](https://leetcode.com/problems/valid-anagram/description/)
+```javascript
+var isAnagram = function(s, t) {
+    if (s.length !== t.length) { return false; }
+    const map = new Map();
+    for (let i = 0; i < s.length; i++) {
+        map.set(s[i], (map.get(s[i]) || 0) + 1);
+        map.set(t[i], (map.get(t[i]) || 0) - 1);
     }
-    for (char c : t.toCharArray()) {
-        cnts[c - 'a']--;
-    }
-    for (int cnt : cnts) {
-        if (cnt != 0) {
-            return false;
-        }
+    for (const [char, count] of map) {
+        if (count !== 0) { return false; }
     }
     return true;
 }
@@ -309,5 +293,39 @@ function compare(word1, word2, orderMap) {
     }
     if (word1.length > word2.length) { return 1; }
     if (word1.length < word2.length) { return -1; }
+}
+```
+
+## Find All Anagrams in a String
+[438. Find All Anagrams in a String](https://leetcode.com/problems/find-all-anagrams-in-a-string/)
+```javascript
+var findAnagrams = function(s, p) {
+    const size = p.length;
+    const output = [];
+    const mapP = new Map();
+    for (let i = 0; i < p.length; i++) {
+        mapP.set(p[i], (mapP.get(p[i]) || 0) + 1);
+    }
+    const mapS = new Map();
+    for (let i = 0; i < s.length; i++) {
+        mapS.set(s[i], (mapS.get(s[i]) || 0) + 1);
+        if (compareMap(mapS, mapP)) {
+            output.push(i - size + 1);
+        }
+        if (i >= size - 1) {
+            mapS.set(s[i - size + 1], mapS.get(s[i - size + 1]) - 1);
+            if (mapS.get(s[i - size + 1]) <= 0) {
+                mapS.delete(s[i - size + 1]);
+            }
+        }
+    }
+    return output;
+};
+function compareMap(map1, map2) {
+    if (map1.size !== map2.size) { return false; }
+    for (const [key, val] of map1) {
+        if (map2.get(key) !== val) { return false; }
+    }
+    return true;
 }
 ```

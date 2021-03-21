@@ -17,6 +17,8 @@
         * [13. 间隔遍历](#13-间隔遍历)
         * [14. 找出二叉树中第二小的节点](#14-找出二叉树中第二小的节点)
         * [Serialize and Deserialize Binary Tree](#Serialize-and-Deserialize-Binary-Tree)
+        * [Binary Tree Maximum Path Sum](#Binary-Tree-Maximum-Path-Sum)
+        * [Binary Tree Right Side View](#Binary-Tree-Right-Side-View)
     * [层次遍历](#层次遍历)
         * [1. 一棵树每层节点的平均数](#1-一棵树每层节点的平均数)
         * [2. 得到左下角的节点](#2-得到左下角的节点)
@@ -38,6 +40,7 @@
     * [Trie](#trie)
         * [1. 实现一个 Trie](#1-实现一个-trie)
         * [2. 实现一个 Trie，用来求前缀和](#2-实现一个-trie，用来求前缀和)
+        * [Design Add and Search Words Data Structure](#Design-Add-and-Search-Words-Data-Structure)
 <!-- GFM-TOC -->
 
 
@@ -508,7 +511,66 @@ var deserializeHelper = function (lst) {
 	return root;
 };
 ```
+### Binary Tree Maximum Path Sum
+[124. Binary Tree Maximum Path Sum](https://leetcode.com/problems/binary-tree-maximum-path-sum/)
+```javascript
+var maxPathSum = function(root) {
+	let max = -Infinity;
+	function findMaxSums(node) {
+		if (!node) return 0;
+		let leftMaxSum = findMaxSums(node.left);
+		let rightMaxSum = findMaxSums(node.right);
+		let allSum = leftMaxSum + rightMaxSum + node.val;
+		let leftNodeSum = leftMaxSum + node.val;
+		let rightNodeSum = rightMaxSum + node.val;
+		// Max is all possible combinations
+		max = Math.max(max, node.val, allSum, leftNodeSum, rightNodeSum);
+		// Return the MAX path, which can be node.val, left + node.val, or right + node.val
+		return Math.max(leftNodeSum, rightNodeSum, node.val);
+	};
+	findMaxSums(root);
+	return max;
+};
+```
 
+### Binary Tree Right Side View
+[199. Binary Tree Right Side View](https://leetcode.com/problems/binary-tree-right-side-view/)
+```javascript
+var rightSideView = function(root) {
+    if (root === null) { return []; }
+    // return rightSideViewBfs(root)
+    const output = [];
+    rightSideViewDfs(root, 0, output);
+    return output;
+};
+
+function rightSideViewDfs(node, level, output) {
+    if (!node) { return; }
+    if (!output[level]) {
+        output[level] = node.val;
+    }
+    rightSideViewDfs(node.right, level + 1, output);
+    rightSideViewDfs(node.left, level + 1, output);
+}
+
+function rightSideViewBfs(root) {
+    let queue = [root];
+    let output = [];
+    while (queue.length > 0) {
+        const nextQueue = [];
+        let lastVal;
+        for (const node of queue) {
+            if (!node) { continue; }
+            lastVal = node.val;
+            if (node.left) { nextQueue.push(node.left); }
+            if (node.right) { nextQueue.push(node.right); }
+        }
+        output.push(lastVal);
+        queue = nextQueue;
+    }
+    return output;
+}
+```
 ## 层次遍历
 
 使用 BFS 进行层次遍历。不需要使用两个队列来分别存储当前层的节点和下一层的节点，因为在开始遍历一层的节点时，当前队列中的节点数就是当前层的节点数，只要控制遍历这么多节点数，就能保证这次遍历的都是当前层的节点。
@@ -1221,3 +1283,61 @@ class MapSum {
 }
 ```
 
+### Design Add and Search Words Data Structure
+[211. Design Add and Search Words Data Structure](https://leetcode.com/problems/design-add-and-search-words-data-structure/)
+```javascript
+class Node {
+    constructor() {
+        this.keys = new Map()
+        this.isWord = false
+    }
+}
+var WordDictionary = function() {
+    this.keys = new Map()
+    this.isWord = false
+    this.root = new Node()
+};
+WordDictionary.prototype.addWord = function(word) {
+    if (word.length == 0){
+        return;
+    }
+    let node = this.root, i = 0;
+    while (i < word.length) {
+        if (!node.keys.has(word.charAt(i))){
+           node.keys.set(word.charAt(i),new Node())
+        }
+        node = node.keys.get(word.charAt(i))
+        i++
+    }
+    node.isWord = true
+};
+WordDictionary.prototype.search = function(word) {
+    function find(word, i = 0, curr){
+        if (!curr) {
+            return false   
+        }
+        if (i == word.length){
+            return curr.isWord
+        }
+        if (word.charAt(i) == '.') {
+            for (let j=0; j < 26; j++) {
+                let s = String.fromCharCode(97 + j)
+                if (curr.keys.has(s)) {
+                    if (find(word,i+1,curr.keys.get(s))) {
+                        return true
+                    }
+                }
+            }
+        } else {
+            if (curr.keys.has(word.charAt(i))) {
+                curr = curr.keys.get(word.charAt(i))
+                if (find(word,i+1,curr)) {
+                    return true
+                }
+            }
+        }
+        return false;
+    }
+    return find(word,0,this.root);
+};
+```

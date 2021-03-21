@@ -163,17 +163,17 @@ var solution = function(isBadVersion) {
      * @return {integer} The first bad version
      */
     return function(n) {
-        let l = 0, h = n;
-        while (l < h) {
-            let m = Math.floor(l + (h - l) / 2)
-            let version = isBadVersion(m);
-            if (isBadVersion(m)) {
-                h = m;
+        let lo = 0, hi = n;
+        while (lo <= hi) {
+            const mid = Math.floor(lo + (hi - lo) / 2);
+            const isMidBadVersion = isBadVersion(mid);
+            if (isMidBadVersion) {
+                hi = mid - 1;
             } else {
-                l = m + 1;
+                lo = mid + 1;
             }
         }
-        return l;
+        return lo;
     };
 };
 ```

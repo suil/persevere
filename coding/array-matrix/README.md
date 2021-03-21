@@ -16,6 +16,7 @@
     * [Longest Word in Dictionary](#Longest-Word-in-Dictionary)
     * [Subarray Sum Equals K](#Subarray-Sum-Equals-K)
     * [Product of Array Except Self](#Product-of-Array-Except-Self)
+    * [Leftmost Column with at Least a One](#Leftmost-Column-with-at-Least-a-One)
 <!-- GFM-TOC -->
 
 
@@ -483,7 +484,7 @@ var longestWord = function(words) {
 };
 ```
 
-## 560. Subarray Sum Equals K
+## Subarray Sum Equals K
 [560. Subarray Sum Equals K](https://leetcode.com/problems/subarray-sum-equals-k/)
 ```javascript
 var subarraySum = function(nums, k) {
@@ -500,7 +501,6 @@ var subarraySum = function(nums, k) {
     return count;
 };
 ```
-
 
 ### Product of Array Except Self
 [238. Product of Array Except Self](https://leetcode.com/problems/product-of-array-except-self/description/)
@@ -522,4 +522,21 @@ var productExceptSelf = function(nums) {
 };
 ```
 
-
+### Leftmost Column with at Least a One
+[1428. Leftmost Column with at Least a One](https://leetcode.com/problems/leftmost-column-with-at-least-a-one/)
+```javascript
+var leftMostColumnWithOne = function(binaryMatrix) {
+    let [rows, cols] = binaryMatrix.dimensions()
+    let currentRow = 0;
+    let currentCol = cols - 1;
+    while (currentRow < rows && currentCol >= 0) {
+        let val = binaryMatrix.get(currentRow, currentCol)
+        if (val === 1) {
+            currentCol--
+        } else {
+            currentRow++
+        }
+    }
+    return (currentCol == cols - 1) ? -1 : currentCol + 1;
+};
+```
