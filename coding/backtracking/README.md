@@ -13,6 +13,7 @@
     * [Subsets](#Subsets)
     * [Subsets II](#Subsets-II)
     * [Palindrome Partitioning](#Palindrome-Partitioning)
+    * [Expression Add Operators](#Expression-Add-Operators)
 <!-- GFM-TOC -->
 
 ## Backtracking
@@ -439,5 +440,43 @@ function removeInvalidParenthesesHelper(str, numLeftParen, expression, output) {
         // not parentheses
         removeInvalidParenthesesHelper(nextS, numLeftParen, expression + str[0], output);
     }
+}
+```
+
+### Expression Add Operators
+[282. Expression Add Operators](https://leetcode.com/problems/expression-add-operators/)
+```javascript
+var addOperators = function(num, target) {
+    const output = [];
+    addOperatorsHelper(num, target, 0, 0, [], output);
+    return output;
+};
+
+function addOperatorsHelper(num, target, value, delta, path, output) {
+    if (num.length === 0) {
+        if (value === target) {
+            output.push(path.join(''));
+        }
+        return;
+    };
+
+    for (let i = 1; i <= num.length; i++) {
+        const currentNum = num.substring(0, i);
+        if (currentNum.length > 1 && currentNum[0] === '0') {
+            continue;
+        }
+        if (Number(currentNum) > Number.MAX_VALUE) {
+            continue;
+        }
+        const nextNum = num.substring(i);
+        const currentNumValue = Number(currentNum);
+        if (path.length === 0) {
+            addOperatorsHelper(nextNum, target, currentNumValue, +currentNumValue, [currentNum], output);
+        } else {
+            addOperatorsHelper(nextNum, target, value + currentNumValue, +currentNumValue, [...path, '+', currentNum], output);
+            addOperatorsHelper(nextNum, target, value - currentNumValue, -currentNumValue, [...path, '-', currentNum], output);
+            addOperatorsHelper(nextNum, target, value - delta + delta * currentNum, delta * currentNumValue, [...path, '*', currentNum], output);
+        };
+    };
 }
 ```

@@ -15,6 +15,7 @@
     * [Non-decreasing Array](#Non-decreasing-Array)
     * [Maximum Subarray](#Maximum-Subarray)
     * [Partition Labels](#Partition-Labels)
+    * [Task Scheduler](#Task-Scheduler)
 <!-- GFM-TOC -->
 
 
@@ -272,5 +273,29 @@ var licenseKeyFormatting = function(S, K) {
         output.unshift(group.join(''));
     }
     return output.join('-');
+};
+```
+
+## Task Scheduler
+[621. Task Scheduler](https://leetcode.com/problems/task-scheduler/)
+```javascript
+var leastInterval = function(tasks, n) {
+    const frequencies = [...Array(26)].fill(0);
+    for (const task of tasks) {
+        frequencies[task.charCodeAt(0) - 'A'.charCodeAt(0)]++;
+    }
+
+    frequencies.sort();
+
+    // max frequency
+    const maxFreq = frequencies[25];
+    let idleTime = (maxFreq - 1) * n;
+
+    for (let i = frequencies.length - 2; i >= 0 && idleTime > 0; --i) {
+        idleTime -= Math.min(maxFreq - 1, frequencies[i]); 
+    }
+    
+    idleTime = Math.max(0, idleTime);
+    return idleTime + tasks.length;
 };
 ```

@@ -19,6 +19,7 @@
         * [Serialize and Deserialize Binary Tree](#Serialize-and-Deserialize-Binary-Tree)
         * [Binary Tree Maximum Path Sum](#Binary-Tree-Maximum-Path-Sum)
         * [Binary Tree Right Side View](#Binary-Tree-Right-Side-View)
+        * [Convert Binary Search Tree to Sorted Doubly Linked List](#Convert-Binary-Search-Tree-to-Sorted-Doubly-Linked-List)
     * [层次遍历](#层次遍历)
         * [1. 一棵树每层节点的平均数](#1-一棵树每层节点的平均数)
         * [2. 得到左下角的节点](#2-得到左下角的节点)
@@ -1339,5 +1340,30 @@ WordDictionary.prototype.search = function(word) {
         return false;
     }
     return find(word,0,this.root);
+};
+```
+
+### Convert Binary Search Tree to Sorted Doubly Linked List
+[426. Convert Binary Search Tree to Sorted Doubly Linked List](https://leetcode.com/problems/convert-binary-search-tree-to-sorted-doubly-linked-list/)
+```javascript
+var treeToDoublyList = function(root) {
+    if (!root) return;
+    let head, previous;
+
+    function inOrderTraverse(node) {
+        if (node.left) inOrderTraverse(node.left);
+        if (!head) head = node;
+        if (previous) {
+            previous.right = node;
+            node.left = previous;
+        }
+        previous = node; // move pointer
+        if (node.right) inOrderTraverse(node.right);
+    }
+    
+    inOrderTraverse(root);
+    previous.right = head;
+    head.left = previous;
+    return head;
 };
 ```
