@@ -9,6 +9,7 @@
     * [6. 循环数组中比当前元素大的下一个元素](#6-循环数组中比当前元素大的下一个元素)
     * [Backspace String Compare](#Backspace-String-Compare)
     * [Minimum Remove to Make Valid Parentheses](#Minimum-Remove-to-Make-Valid-Parentheses)
+    * [Exclusive Time of Functions](#Exclusive-Time-of-Functions)
 <!-- GFM-TOC -->
 
 
@@ -274,5 +275,29 @@ var minRemoveToMakeValid = function(s) {
     }
     stack.forEach(i => s[i] = '');
     return s.join('');
+};
+```
+
+## Exclusive Time of Functions
+[636. Exclusive Time of Functions](https://leetcode.com/problems/exclusive-time-of-functions/)
+```javascript
+var exclusiveTime = function(n, logs) {
+    let output = [...Array(n)].fill(0);
+    const stack = [];
+    
+    for (let i = 0; i < logs.length; i++) {
+        let [id, action, time] = logs[i].split(':');
+        if (action == 'start') {
+            stack.push([time, 0]);
+        } else {
+            const start = stack.pop();
+            let timespan = time - start[0] + 1;
+            output[id] += timespan - start[1];
+            if (stack.length > 0) {
+                stack[stack.length - 1][1] += timespan;
+            }
+        }
+    }
+    return output;
 };
 ```

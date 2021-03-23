@@ -6,6 +6,7 @@
     * [Intervals](#Intervals)
         * [Non-overlapping Intervals](#Non-overlapping-Intervals)
         * [Minimum Number of Arrows to Burst Balloons](#Minimum-Number-of-Arrows-to-Burst-Balloons)
+        * [Interval List Intersections](#Interval-List-Intersections)
     * [Queue Reconstruction by Height](#Queue-Reconstruction-by-Height)
     * [Best Time to Buy and Sell Stock](#Best-Time-to-Buy-and-Sell-Stock)
         * [Best Time to Buy and Sell Stock I](#Best-Time-to-Buy-and-Sell-Stock-I)
@@ -53,12 +54,9 @@ var eraseOverlapIntervals = function(intervals) {
     if (intervals.length == 0) {
         return 0;
     }
-    
     intervals.sort((a, b) => a[1] - b[1]);
-
     let count = 0;
     let end = intervals[0][1];
-    
     for (let i = 1; i < intervals.length; i++) {
         if (intervals[i][0] < end) {
             count++;
@@ -66,7 +64,6 @@ var eraseOverlapIntervals = function(intervals) {
             end = intervals[i][1];
         }
     }
-    
     return count;
 };
 ```
@@ -94,6 +91,32 @@ var findMinArrowShots = function(points) {
 };
 ```
 
+### Interval List Intersections
+[986. Interval List Intersections](https://leetcode.com/problems/interval-list-intersections/)
+```javascript
+var intervalIntersection = function(firstList, secondList) {
+    const intersections = [];
+    let p1 = 0, p2 = 0;
+
+    while (p1 < firstList.length && p2 < secondList.length) {
+        // Let's check if A[i] intersects B[j].
+        // lo - the startpoint of the intersection
+        // hi - the endpoint of the intersection
+        const lo = Math.max(firstList[p1][0], secondList[p2][0]);
+        const hi = Math.min(firstList[p1][1], secondList[p2][1]);
+        if (lo <= hi) {
+            intersections.push([lo, hi]);
+        }
+
+        // Remove the interval with the smallest endpoint
+        if (firstList[p1][1] < secondList[p2][1])
+            p1++;
+        else
+            p2++;
+    }
+    return intersections;
+}
+```
 ## Queue Reconstruction by Height
 
 [406\. Queue Reconstruction by Height(Medium)](https://leetcode.com/problems/queue-reconstruction-by-height/description/)
