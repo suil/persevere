@@ -14,6 +14,7 @@
 - [Backtracking](backtracking/README.md)
 - [动态规划](Leetcode%20题解%20-%20动态规划.md)
 - [数学](Leetcode%20题解%20-%20数学.md)
+- [Regex](regex/README.md)
 
 ## Coding problems by data structures.
 
