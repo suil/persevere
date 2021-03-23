@@ -1,6 +1,6 @@
-# Leetcode 题解 - 字符串
+# String
 <!-- GFM-TOC -->
-* [Leetcode 题解 - 字符串](#leetcode-题解---字符串)
+* [String](#string)
     * [String Custom Sorting](#String-Custom-Sorting)
         * [Verifying an Alien Dictionary](#Verifying-an-Alien-Dictionary)
     * [Sliding Window + HashMap](#Sliding-window-+-Hashmap)
