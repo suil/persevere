@@ -3,7 +3,7 @@
 * [String](#string)
     * [String Custom Sorting](#String-Custom-Sorting)
         * [Verifying an Alien Dictionary](#Verifying-an-Alien-Dictionary)
-    * [Sliding Window + HashMap](#Sliding-window-+-Hashmap)
+    * [Sliding Window + HashMap](#Sliding-window--Hashmap)
         * [Longest Substring with At Most K Distinct Characters](#Longest-Substring-with-At-Most-K-Distinct-Characters)
     * [1. 字符串循环移位包含](#1-字符串循环移位包含)
     * [2. 字符串循环移位](#2-字符串循环移位)
