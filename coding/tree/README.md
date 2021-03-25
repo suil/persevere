@@ -96,6 +96,8 @@ public int maxDepth(TreeNode root) {
 ```
 
 ### Diameter of Binary Tree
+Diameter of the binary tree = left depth + right depth
+
 [543\. Diameter of Binary Tree (Easy)](https://leetcode.com/problems/diameter-of-binary-tree/description/)
 ```javascript
 var diameterOfBinaryTree = function(root) {
