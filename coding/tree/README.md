@@ -95,39 +95,25 @@ public int maxDepth(TreeNode root) {
 }
 ```
 
-### 3. 两节点的最长路径
-
-543\. Diameter of Binary Tree (Easy)
-
-[Leetcode](https://leetcode.com/problems/diameter-of-binary-tree/description/) / [力扣](https://leetcode-cn.com/problems/diameter-of-binary-tree/description/)
-
-```html
-Input:
-
-         1
-        / \
-       2  3
-      / \
-     4   5
-
-Return 3, which is the length of the path [4,2,1,3] or [5,2,1,3].
-```
-
-```java
-private int max = 0;
-
-public int diameterOfBinaryTree(TreeNode root) {
-    depth(root);
-    return max;
-}
-
-private int depth(TreeNode root) {
-    if (root == null) return 0;
-    int leftDepth = depth(root.left);
-    int rightDepth = depth(root.right);
-    max = Math.max(max, leftDepth + rightDepth);
-    return Math.max(leftDepth, rightDepth) + 1;
-}
+### Diameter of Binary Tree
+[543\. Diameter of Binary Tree (Easy)](https://leetcode.com/problems/diameter-of-binary-tree/description/)
+```javascript
+var diameterOfBinaryTree = function(root) {
+    let diameter = 0;
+    
+    function depthOfTree(node) {
+        if (!node) { return 0; }
+        const leftDepth = depthOfTree(node.left);
+        const rightDepth = depthOfTree(node.right);
+        
+        diameter = Math.max(diameter, leftDepth + rightDepth);
+        
+        return 1 + Math.max(leftDepth, rightDepth);
+    }
+    
+    depthOfTree(root);
+    return diameter
+};
 ```
 
 ### 4. 翻转树

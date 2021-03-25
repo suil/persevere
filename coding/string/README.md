@@ -5,6 +5,7 @@
         * [Verifying an Alien Dictionary](#Verifying-an-Alien-Dictionary)
     * [Sliding Window + HashMap](#Sliding-window--Hashmap)
         * [Longest Substring with At Most K Distinct Characters](#Longest-Substring-with-At-Most-K-Distinct-Characters)
+        * [Minimum Window Substring](Minimum-Window-Substring)
     * [1. 字符串循环移位包含](#1-字符串循环移位包含)
     * [2. 字符串循环移位](#2-字符串循环移位)
     * [3. 字符串中单词的翻转](#3-字符串中单词的翻转)
@@ -131,7 +132,6 @@ for (let i = 0; i < s.length; i++) {
 ```
 
 ### Longest Substring with At Most K Distinct Characters
-
 [340. Longest Substring with At Most K Distinct Characters](https://leetcode.com/problems/longest-substring-with-at-most-k-distinct-characters/)
 ```javascript
 var lengthOfLongestSubstringKDistinct = function(s, k) {
@@ -154,6 +154,41 @@ var lengthOfLongestSubstringKDistinct = function(s, k) {
 };
 ```
 
+### Minimum Window Substring
+[76. Minimum Window Substring](https://leetcode.com/problems/minimum-window-substring/)
+```javascript
+var minWindow = function(s, t) {
+    let map = new Map();
+    t.split('').forEach(c => map.set(c, (map.get(c) || 0) + 1));
+
+    let count = t.length;   // remaining matching count
+
+    let l = 0;
+    let output = '';
+    let minLen = Infinity;
+
+    for (let r = 0; r < s.length; r++) {
+        if (map.has(s[r])) {
+            if (map.get(s[r]) > 0) { count--; }
+            map.set(s[r], map.get(s[r]) - 1);
+        }
+
+        while (count === 0) {   // valid
+            if (r - l + 1 < minLen) {
+                minLen = r - l + 1;
+                output = s.substr(l, minLen);
+            }
+            
+            if (map.has(s[l])) {
+                if (map.get(s[l]) === 0) { count++; } // make it invalid
+                map.set(s[l], map.get(s[l]) + 1);
+            }
+            l++;
+        }
+    }
+    return output;
+};
+```
 ### Valid Anagram
 [242. Valid Anagram](https://leetcode.com/problems/valid-anagram/description/)
 ```javascript
