@@ -7,6 +7,7 @@
         * [Non-overlapping Intervals](#Non-overlapping-Intervals)
         * [Minimum Number of Arrows to Burst Balloons](#Minimum-Number-of-Arrows-to-Burst-Balloons)
         * [Interval List Intersections](#Interval-List-Intersections)
+        * [Meeting Rooms II](#Meeting-Rooms-II)
     * [Queue Reconstruction by Height](#Queue-Reconstruction-by-Height)
     * [Best Time to Buy and Sell Stock](#Best-Time-to-Buy-and-Sell-Stock)
         * [Best Time to Buy and Sell Stock I](#Best-Time-to-Buy-and-Sell-Stock-I)
@@ -117,6 +118,33 @@ var intervalIntersection = function(firstList, secondList) {
     return intersections;
 }
 ```
+### Meeting Rooms II
+[253. Meeting Rooms II](https://leetcode.com/problems/meeting-rooms-ii/)
+```javascript
+var minMeetingRooms = function(intervals) {
+    if (intervals.length < 1) { return 0; }
+    
+    // sort intervals by start time
+    intervals.sort((a, b) => a[0] - b[0]);
+    
+    //save the end time of all rooms
+    let roomEndTime = [intervals[0][1]];
+    for (let i = 1; i < intervals.length; i++){
+        const [start, end] = intervals[i];
+        
+        // the earliest available time 
+        const earliestRoomEndTime = Math.min(...roomEndTime)
+        
+        if (start < earliestRoomEndTime) {
+            roomEndTime.push(end);
+        } else {
+            roomEndTime[roomEndTime.indexOf(earliestRoomEndTime)] = end;
+        }
+    }
+    return roomEndTime.length;
+};
+```
+
 ## Queue Reconstruction by Height
 
 [406\. Queue Reconstruction by Height(Medium)](https://leetcode.com/problems/queue-reconstruction-by-height/description/)
