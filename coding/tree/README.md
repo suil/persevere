@@ -27,6 +27,7 @@
         * [1. 非递归实现二叉树的前序遍历](#1-非递归实现二叉树的前序遍历)
         * [2. 非递归实现二叉树的后序遍历](#2-非递归实现二叉树的后序遍历)
         * [3. 非递归实现二叉树的中序遍历](#3-非递归实现二叉树的中序遍历)
+        * [Closest Binary Search Tree Value](#Closest-Binary-Search-Tree-Value)
     * [BST](#bst)
         * [1. 修剪二叉查找树](#1-修剪二叉查找树)
         * [2. 寻找二叉查找树的第 k 个元素](#2-寻找二叉查找树的第-k-个元素)
@@ -746,6 +747,28 @@ public List<Integer> inorderTraversal(TreeNode root) {
 }
 ```
 
+### Closest Binary Search Tree Value
+[270. Closest Binary Search Tree Value](https://leetcode.com/problems/closest-binary-search-tree-value/)
+```javascript
+var closestValue = function(root, target) {
+    let minDistance = Infinity;
+    let output = -1;
+    function inOrder(node) {
+        if (node === null) {
+            return;
+        }
+        inOrder(node.left);
+        const distance = Math.abs(node.val - target);
+        if (distance < minDistance) {
+            minDistance = Math.min(minDistance, Math.abs(node.val - target));
+            output = node.val;
+        }
+        inOrder(node.right);
+    }
+    inOrder(root);
+    return output;
+};
+```
 ## BST
 
 二叉查找树（BST）：根节点大于等于左子树所有节点，小于等于右子树所有节点。

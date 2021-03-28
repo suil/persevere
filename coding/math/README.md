@@ -24,6 +24,7 @@
         * [1. 平方数](#1-平方数)
         * [2. 3 的 n 次方](#2-3-的-n-次方)
         * [4. 找出数组中的乘积最大的三个数](#4-找出数组中的乘积最大的三个数)
+        * [Divide Two Integers](#Divide-Two-Integers)
 <!-- GFM-TOC -->
 
 
@@ -517,3 +518,29 @@ public int maximumProduct(int[] nums) {
     return Math.max(max1*max2*max3, max1*min1*min2);
 }
 ```
+
+### Divide Two Integers
+[29. Divide Two Integers](https://leetcode.com/problems/divide-two-integers/)
+```javascript
+var divide = function(dividend, divisor) {
+    if (dividend === -Math.pow(2, 31) && divisor === -1) {
+        return Math.pow(2, 31) - 1;
+    }
+    if (divisor === 1) {
+      return dividend;
+    }
+    let isNegative = false;
+    if (dividend < 0 && divisor > 0 || dividend > 0 && divisor < 0) {
+        isNegative = true;
+    }
+    let newDividend = Math.abs(dividend);
+    const newDivisor = Math.abs(divisor);
+    let result = 0;
+    while (newDividend >= newDivisor) {
+        newDividend = newDividend - newDivisor;
+        result++;
+    }
+    return isNegative ? -result : result;
+};
+```
+

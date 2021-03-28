@@ -13,10 +13,15 @@
     * [10. 对角元素相等的矩阵](#10-对角元素相等的矩阵)
     * [11. 嵌套数组](#11-嵌套数组)
     * [12. 分隔数组](#12-分隔数组)
-    * [Longest Word in Dictionary](#Longest-Word-in-Dictionary)
-    * [Subarray Sum Equals K](#Subarray-Sum-Equals-K)
-    * [Product of Array Except Self](#Product-of-Array-Except-Self)
-    * [Leftmost Column with at Least a One](#Leftmost-Column-with-at-Least-a-One)
+    * [Array](#Array)
+        * [Longest Word in Dictionary](#Longest-Word-in-Dictionary)
+        * [Subarray Sum Equals K](#Subarray-Sum-Equals-K)
+        * [Product of Array Except Self](#Product-of-Array-Except-Self)
+        * [Leftmost Column with at Least a One](#Leftmost-Column-with-at-Least-a-One)
+        * [Monotonic Array](#Monotonic-Array)
+        * [Next Permutation](#Next-Permutation)
+    * [Matrix](#Matrix)
+        * [Sparse Matrix Multiplication](#Sparse-Matrix-Multiplication)
 <!-- GFM-TOC -->
 
 
@@ -456,8 +461,9 @@ public int maxChunksToSorted(int[] arr) {
     return ret;
 }
 ```
+## Array
 
-## Longest Word in Dictionary
+### Longest Word in Dictionary
 [720. Longest Word in Dictionary](https://leetcode.com/problems/longest-word-in-dictionary/)
 ```javascript
 var longestWord = function(words) {
@@ -484,7 +490,7 @@ var longestWord = function(words) {
 };
 ```
 
-## Subarray Sum Equals K
+### Subarray Sum Equals K
 [560. Subarray Sum Equals K](https://leetcode.com/problems/subarray-sum-equals-k/)
 ```javascript
 var subarraySum = function(nums, k) {
@@ -502,7 +508,7 @@ var subarraySum = function(nums, k) {
 };
 ```
 
-## 523. Continuous Subarray Sum
+### Continuous Subarray Sum
 [523. Continuous Subarray Sum](https://leetcode.com/problems/continuous-subarray-sum/)
 ```javascript
 var checkSubarraySum = function(nums, k) {
@@ -557,5 +563,64 @@ var leftMostColumnWithOne = function(binaryMatrix) {
         }
     }
     return (currentCol == cols - 1) ? -1 : currentCol + 1;
+};
+```
+
+### Monotonic Array
+[896. Monotonic Array](https://leetcode.com/problems/monotonic-array/)
+```javascript
+var isMonotonic = function(A) {
+    let increase = true, decrease = true;
+    for (let i = 0; i < A.length - 1; i++) {
+        if(A[i] > A[i + 1]) { increase = false; }
+        if(A[i] < A[i + 1]) { decrease = false; }
+    }
+    return increase || decrease;
+};
+```
+
+### 31. Next Permutation
+[Next Permutation](https://leetcode.com/problems/next-permutation/)
+```javascript
+var nextPermutation = function(nums) {
+    const len = nums.length;
+    let i = len - 2, j = len - 1;
+    
+    while (i >= 0 && nums[i] >= nums[i + 1]) { i--; }
+    
+    if (i >= 0) {
+        while (j > i && nums[j] <= nums[i]) { j--; }
+        [nums[i], nums[j]] = [nums[j], nums[i]];
+        reverse(nums, i + 1, len - 1);
+    } else {
+        reverse(nums, 0, len - 1);
+    }
+};
+var reverse = function (arr, start, end) {
+    while (start < end) {
+        [arr[start], arr[end]] = [arr[end], arr[start]];
+        start++;
+        end--;
+    }
+};
+```
+## Matrix
+
+### Sparse Matrix Multiplication
+[311. Sparse Matrix Multiplication](https://leetcode.com/problems/sparse-matrix-multiplication/)
+```javascript
+var multiply = function(mat1, mat2) {
+    const ans = [];
+    for (let row = 0; row < mat1.length; row++) {
+        ans.push([]);
+        for (let col = 0; col < mat2[0].length; col++) {
+            const mat1Row = mat1[row];
+            ans[row][col] = 0;
+            for (let k = 0; k < mat1Row.length; k++) {
+                ans[row][col] += mat1Row[k] * mat2[k][col];
+            }
+        }
+    }
+    return ans;
 };
 ```

@@ -8,6 +8,7 @@
         * [Minimum Number of Arrows to Burst Balloons](#Minimum-Number-of-Arrows-to-Burst-Balloons)
         * [Interval List Intersections](#Interval-List-Intersections)
         * [Meeting Rooms II](#Meeting-Rooms-II)
+        * [Merge Intervals](#Merge-Intervals)
     * [Queue Reconstruction by Height](#Queue-Reconstruction-by-Height)
     * [Best Time to Buy and Sell Stock](#Best-Time-to-Buy-and-Sell-Stock)
         * [Best Time to Buy and Sell Stock I](#Best-Time-to-Buy-and-Sell-Stock-I)
@@ -145,6 +146,30 @@ var minMeetingRooms = function(intervals) {
 };
 ```
 
+### Merge Intervals
+[Merge Intervals](https://leetcode.com/problems/merge-intervals/)
+```javascript
+var merge = function(intervals) {
+    if (intervals.length === 0) { return []; }
+    
+    intervals.sort((a, b) => a[0] - b[0]);
+    
+    const output = [];
+    let previous = intervals[0];
+    
+    for (let i = 1; i < intervals.length; i++) {
+        const current = intervals[i];
+        if (previous[1] >= current[0]) {
+            previous[1] = Math.max(previous[1], current[1]);
+        } else {
+            output.push(previous);
+            previous = current;
+        }
+    }
+    output.push(previous);
+    return output;
+};
+```
 ## Queue Reconstruction by Height
 
 [406\. Queue Reconstruction by Height(Medium)](https://leetcode.com/problems/queue-reconstruction-by-height/description/)
