@@ -22,7 +22,7 @@
         * [Next Permutation](#Next-Permutation)
     * [Matrix](#Matrix)
         * [Sparse Matrix Multiplication](#Sparse-Matrix-Multiplication)
-        * [Range Sum Query 2D - Immutable](#Range-Sum-Query-2D-Immutable)
+        * [Range Sum Query 2D - Immutable](#range-sum-query-2d---immutable)
 <!-- GFM-TOC -->
 
 
