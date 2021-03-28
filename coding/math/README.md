@@ -545,7 +545,7 @@ var divide = function(dividend, divisor) {
 };
 ```
 
-### 50. Pow(x, n)
+### Pow(x, n)
 [Pow(x, n)](https://leetcode.com/problems/powx-n/)
 ```javascript
 var myPow = function(x, n) {
