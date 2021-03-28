@@ -28,6 +28,8 @@
         * [2. 非递归实现二叉树的后序遍历](#2-非递归实现二叉树的后序遍历)
         * [3. 非递归实现二叉树的中序遍历](#3-非递归实现二叉树的中序遍历)
         * [Closest Binary Search Tree Value](#Closest-Binary-Search-Tree-Value)
+        * [Range Sum of BST](#Range-Sum-of-BST)
+        * [Vertical Order Traversal of a Binary Tree](#Vertical-Order-Traversal-of-a-Binary-Tree)
     * [BST](#bst)
         * [1. 修剪二叉查找树](#1-修剪二叉查找树)
         * [2. 寻找二叉查找树的第 k 个元素](#2-寻找二叉查找树的第-k-个元素)
@@ -767,6 +769,52 @@ var closestValue = function(root, target) {
     }
     inOrder(root);
     return output;
+};
+```
+
+### Range Sum of BST
+[938. Range Sum of BST](https://leetcode.com/problems/range-sum-of-bst/)
+```javascript
+var rangeSumBST = function(root, low, high) {
+    let sum = 0;
+    function inOrder(node) {
+        if (node === null) {
+            return;
+        }
+        inOrder(node.left);
+        if (node.val >= low && node.val <= high) {
+            sum += node.val;
+        }
+        inOrder(node.right);
+    }
+    inOrder(root);
+    return sum;
+};
+```
+
+### Vertical Order Traversal of a Binary Tree
+[987. Vertical Order Traversal of a Binary Tree](https://leetcode.com/problems/vertical-order-traversal-of-a-binary-tree/)
+```javascript
+var verticalTraversal = function(root) {
+    const nodeInfos = []; // holds the x, y, & val information of each node traversed
+
+    function inOrder(node, row, col) {
+        if (node === null) { return; }
+        inOrder(node.left, row + 1, col - 1); // traverse left
+		nodeInfos.push([row, col, node.val]);
+        inOrder(node.right, row + 1, col + 1); // traverse right
+    }
+    
+    inOrder(root, 0, 0);
+	
+    nodeInfos.sort((a, b) => a[1] - b[1] || a[0] - b[0] || a[2] - b[2]);
+    
+    const map = new Map();
+    for (const [row, col, val] of nodeInfos) {
+        if (!map.has(col)) map.set(col, []);
+        map.get(col).push(val);
+    }
+    return [...map.values()];
 };
 ```
 ## BST
