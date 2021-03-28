@@ -554,7 +554,7 @@ var myPow = function(x, n) {
     if (n < 0) { return myPow(1/x, -n); }
     
     let result = myPow(x * x, Math.floor(n / 2));
-    if (n % 2) {
+    if (n % 2 !== 0) {
         result *= x;
     }
     return result;

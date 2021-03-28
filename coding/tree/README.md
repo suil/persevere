@@ -29,6 +29,7 @@
         * [3. 非递归实现二叉树的中序遍历](#3-非递归实现二叉树的中序遍历)
         * [Closest Binary Search Tree Value](#Closest-Binary-Search-Tree-Value)
         * [Range Sum of BST](#Range-Sum-of-BST)
+    * [Vertical order traversal](#vertical-order-traversal)
         * [Vertical Order Traversal of a Binary Tree](#Vertical-Order-Traversal-of-a-Binary-Tree)
     * [BST](#bst)
         * [1. 修剪二叉查找树](#1-修剪二叉查找树)
@@ -791,31 +792,31 @@ var rangeSumBST = function(root, low, high) {
     return sum;
 };
 ```
+## Vertical order traversal]
 
 ### Vertical Order Traversal of a Binary Tree
 [987. Vertical Order Traversal of a Binary Tree](https://leetcode.com/problems/vertical-order-traversal-of-a-binary-tree/)
 ```javascript
 var verticalTraversal = function(root) {
-    const nodeInfos = []; // holds the x, y, & val information of each node traversed
-
-    function inOrder(node, row, col) {
-        if (node === null) { return; }
-        inOrder(node.left, row + 1, col - 1); // traverse left
-		nodeInfos.push([row, col, node.val]);
-        inOrder(node.right, row + 1, col + 1); // traverse right
-    }
+    const orders = [];
     
-    inOrder(root, 0, 0);
+    inOrder(root, 0, 0, orders);
 	
-    nodeInfos.sort((a, b) => a[1] - b[1] || a[0] - b[0] || a[2] - b[2]);
-    
+    orders.sort((a, b) => a[1] - b[1] || a[0] - b[0] || a[2] - b[2]);
+
     const map = new Map();
-    for (const [row, col, val] of nodeInfos) {
+    for (const [row, col, val] of orders) {
         if (!map.has(col)) map.set(col, []);
         map.get(col).push(val);
     }
     return [...map.values()];
 };
+function inOrder(node, row, col, orders) {
+    if (node === null) { return; }
+    verticalOrderHelper(node.left, row + 1, col - 1, orders);
+    orders.push([row, col, node.val]);
+    verticalOrderHelper(node.right, row + 1, col + 1, orders);
+}
 ```
 ## BST
 
