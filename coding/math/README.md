@@ -25,7 +25,7 @@
         * [2. 3 的 n 次方](#2-3-的-n-次方)
         * [4. 找出数组中的乘积最大的三个数](#4-找出数组中的乘积最大的三个数)
         * [Divide Two Integers](#Divide-Two-Integers)
-        * [Pow(x, n)](#Pow-x-,n)
+        * [Pow(x, n)](#Powx-n)
 <!-- GFM-TOC -->
 
 
