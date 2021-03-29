@@ -10,6 +10,7 @@
     * [Backspace String Compare](#Backspace-String-Compare)
     * [Minimum Remove to Make Valid Parentheses](#Minimum-Remove-to-Make-Valid-Parentheses)
     * [Exclusive Time of Functions](#Exclusive-Time-of-Functions)
+    * [Simplify Path](#Simplify-Path)
 <!-- GFM-TOC -->
 
 
@@ -299,5 +300,24 @@ var exclusiveTime = function(n, logs) {
         }
     }
     return output;
+};
+```
+
+## Simplify Path
+[71. Simplify Path](https://leetcode.com/problems/simplify-path/)
+```javascript
+var simplifyPath = function(path) {
+    const segments = path.split('/');
+    const stack = [];
+
+    for (let segment of segments) {
+        if (segment === '' || segment === '.') { continue; }
+        if (segment === '..') {
+            stack.pop();
+        } else {
+            stack.push(segment);
+        }
+    }
+    return '/' + stack.join('/');
 };
 ```
