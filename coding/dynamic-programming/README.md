@@ -29,7 +29,7 @@
         * [3. 01 字符构成最多的字符串](#3-01-字符构成最多的字符串)
         * [4. 找零钱的最少硬币数](#4-找零钱的最少硬币数)
         * [5. 找零钱的硬币数组合](#5-找零钱的硬币数组合)
-        * [6. 字符串按单词列表分割](#6-字符串按单词列表分割)
+        * [Word Break](#word-break)
         * [7. 组合总和](#7-组合总和)
     * [股票交易](#股票交易)
         * [1. 需要冷却期的股票交易](#1-需要冷却期的股票交易)
@@ -971,6 +971,22 @@ Word Dict has not restriction on how many times words can be used. So this is a 
 Since the letters in the string has sequence, this is a sequence required knapsack problem. For sequence-based knapsack problems, outer loop needs to be on knapsack itself.
 
 ```javascript
+var wordBreak = function(s, wordDict) {
+    const sLen = s.length;
+    const dp = [...Array(sLen + 1)].fill(false);
+    dp[0] = true;
+    
+    for (let i = 1; i <= sLen; i++) {
+        for (const word of wordDict) {
+            const wordLen = word.length;
+            if (i >= wordLen && word === s.substring(i - wordLen, i)) {
+                dp[i] = dp[i] || dp[i - wordLen];
+            }
+        }
+    }
+    
+    return dp[sLen];
+};
 ```
 
 ### 7. 组合总和

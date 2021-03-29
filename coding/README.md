@@ -20,7 +20,7 @@
 
 - [链表](Leetcode%20题解%20-%20链表.md)
 - [Trees](tree/README.md)
-- [栈和队列](Leetcode%20题解%20-%20栈和队列.md)
+- [Stack and Queue](stack-queue/README.md)
 - [HashMap](hashmap/README.md)
 - [String](string/README.md)
 - [Array and Matrix](array-matrix/README.md)
