@@ -19,7 +19,7 @@
     * [Maximum Subarray](#Maximum-Subarray)
     * [Partition Labels](#Partition-Labels)
     * [Task Scheduler](#Task-Scheduler)
-    * [Maximum Swap](#Maximum-Swap)
+    * [Maximum Swap](#../leetcode.md#maximum-swap)
 <!-- GFM-TOC -->
 
 
