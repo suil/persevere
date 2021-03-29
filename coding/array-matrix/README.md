@@ -20,6 +20,7 @@
         * [Leftmost Column with at Least a One](#Leftmost-Column-with-at-Least-a-One)
         * [Monotonic Array](#Monotonic-Array)
         * [Next Permutation](#Next-Permutation)
+        * [Intersection of Two Arrays](../leetcode.md#intersection-of-two-arrays)
     * [Matrix](#Matrix)
         * [Sparse Matrix Multiplication](#Sparse-Matrix-Multiplication)
         * [Range Sum Query 2D - Immutable](#range-sum-query-2d---immutable)

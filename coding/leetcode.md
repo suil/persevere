@@ -1,3 +1,23 @@
+## Intersection of Two Arrays
+[349. Intersection of Two Arrays](https://leetcode.com/problems/intersection-of-two-arrays/)
+```javascript
+var intersection = function(nums1, nums2) {
+    let set1 = new Set(nums1);
+    let set2 = new Set(nums2);
+    let map = new Map();
+    let res = [];
+    for (const item of set1) {
+         map.set(item, 1);
+    }
+    for (const item of set2) {
+        if (map.has(item)) {
+            map.set(item, 2);
+            res.push(item);
+        }
+    }
+    return res;
+};
+```
 ## Maximum Swap
 [670. Maximum Swap](https://leetcode.com/problems/maximum-swap/)
 ```javascript
