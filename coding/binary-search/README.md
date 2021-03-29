@@ -8,6 +8,7 @@
         * [First Bad Version](#First-Bad-Version)
         * [Rotated Sorted Array](#Rotated-Sorted-Array)
         * [Find First and Last Position of Element in Sorted Array](#Find-First-and-Last-Position-of-Element-in-Sorted-Array)
+        * [Random Pick with Weight](#random-pick-with-weight)
 <!-- GFM-TOC -->
 
 
@@ -212,5 +213,41 @@ var searchRange = function(nums, target) {
     let end = l;
     while (end < nums.length && nums[end] === nums[l]) { end++; }
     return [l, end - 1]
+};
+```
+
+### Random Pick with Weight
+[528. Random Pick with Weight](https://leetcode.com/problems/random-pick-with-weight/)
+```javascript
+var Solution = function(w) {
+    this.accuSums = [];
+    this.totalSum = 0;
+    
+    for (let i = 0; i < w.length; i++) {
+        this.totalSum += w[i];
+        this.accuSums[i] = this.totalSum;
+    }
+};
+
+/**
+ * @return {number}
+ */
+Solution.prototype.pickIndex = function() {
+    const target = this.totalSum * Math.random();
+    // for (let i = 0; i < this.accuSums.length; ++i) {
+    //     if (target < this.accuSums[i]) {
+    //         return i;
+    //     }
+    // }
+    let low = 0, high = this.accuSums.length - 1;
+    while (low < high) {
+        const mid = Math.floor(low + (high - low) / 2);
+        if (this.accuSums[mid] > target) {
+            high = mid;
+        } else {
+            low = mid + 1;
+        }
+    }
+    return low;
 };
 ```
