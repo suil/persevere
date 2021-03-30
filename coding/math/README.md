@@ -20,7 +20,7 @@
         * [1. 改变数组元素使所有的数组元素都相等](#1-改变数组元素使所有的数组元素都相等)
     * [多数投票问题](#多数投票问题)
         * [1. 数组中出现次数多于 n / 2 的元素](#1-数组中出现次数多于-n--2-的元素)
-    * [Randomness]
+    * [Randomness](#randomness)
         * [Random Pick Index](../leetcode.md#random-pick-index)
     * [其它](#其它)
         * [1. 平方数](#1-平方数)
@@ -442,6 +442,11 @@ public int majorityElement(int[] nums) {
     return majority;
 }
 ```
+
+## Randomness
+Reservoir sampling is a technique which is used to generate numbers randomly when we have a large pool of numbers. As mentioned in the note for this question, the array size can be large, hence it is a reasonable choice to use Reservoir Sampling. Consider an array of size nn from which we need to chose a number randomly. Consider these numbers to be coming in the form of a stream, hence at each step, we have to take the decision of whether or not to choose a given number, such that the overall probability of each number being chosen is same 1/n n1 in this case). If we have a total of nn numbers and we pick the i^{th}i h   number, this implies that we do not pick any number further from index (i + 1)(i+1) to nn.
+
+[Random Pick Index](../leetcode.md#random-pick-index)
 
 ## 其它
 
