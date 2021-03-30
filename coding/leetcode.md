@@ -42,3 +42,23 @@ var maximumSwap = function(num) {
     return num;
 };
 ```
+
+## Friends Of Appropriate Ages
+[825. Friends Of Appropriate Ages](https://leetcode.com/problems/friends-of-appropriate-ages/)
+```javascript
+var numFriendRequests = function(ages) {
+    const counts = Array(121).fill(0);
+    const accum = Array(121).fill(0);
+    
+    for (const age of ages) { ++counts[age]; }
+    for (let i = 1; i <= 120; ++i) {
+        accum[i] = accum[i - 1] + counts[i];
+    }
+    let ans = 0;
+    for (let i = 15; i <= 120; ++i) {
+        const base = accum[i - 1] - accum[Math.floor(i / 2 + 7)];
+        ans += base * counts[i] + counts[i] * (counts[i] - 1);
+    }
+    return ans;
+};
+```
