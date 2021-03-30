@@ -29,6 +29,7 @@
         * [3. 非递归实现二叉树的中序遍历](#3-非递归实现二叉树的中序遍历)
         * [Closest Binary Search Tree Value](#Closest-Binary-Search-Tree-Value)
         * [Range Sum of BST](#Range-Sum-of-BST)
+        * [Binary Search Tree Iterator](../leetcode.md#binary-search-tree-iterator)
     * [Vertical order traversal](#vertical-order-traversal)
         * [Vertical Order Traversal of a Binary Tree](#Vertical-Order-Traversal-of-a-Binary-Tree)
     * [BST](#bst)

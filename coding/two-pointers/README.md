@@ -8,6 +8,7 @@
     * [Merge Sorted Array](#Merge-Sorted-Array)
     * [Linked List Cycle](#Linked-List-Cycle)
     * [Longest Word in Dictionary through Deleting](#Longest-Word-in-Dictionary-through-Deleting)
+    * [Trapping Rain Water](../leetcode.md#trapping-rain-water)
 <!-- GFM-TOC -->
 
 Two-pointer is an efficent way to navigate in an array.

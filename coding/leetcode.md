@@ -1,3 +1,93 @@
+## Trapping Rain Water
+[42. Trapping Rain Water](https://leetcode.com/problems/trapping-rain-water/)
+
+Dynamic Programming solution:
+```javascript
+var trap = function(height) {
+    if (!height) { return 0; }
+    
+    let totalWater = 0;
+    let len = height.length;
+    let leftMax = [], rightMax = [];
+    
+    leftMax[0] = height[0];
+    rightMax[len - 1] = height[len - 1];
+    
+    for (let i = 1; i < len; i++) {
+        leftMax[i] = Math.max(height[i], leftMax[i-1])
+    }
+    for (let i = len - 2; i >= 0; i--) {
+        rightMax[i] = Math.max(height[i], rightMax[i+1]);
+    }
+    
+    for (let i = 0; i< len; i++){
+        let water = Math.min(leftMax[i], rightMax[i]) - height[i];
+        totalWater += water;
+    }
+    return totalWater;
+};
+```
+
+Two Pointer solution:
+```javascript
+var trap = function(height) {
+    if (!height || height.length === 0 || height.length === 1) {
+        return 0;
+    }
+
+    let i = 0, j = height.length - 1;
+    let maxR = -Infinity, maxL = -Infinity;
+    let totalWater = 0;
+
+    while (i < j) {
+        if (height[i] < height[j]) {
+            if (height[i] >= maxL) {
+                maxL = height[i];
+            } else {
+                totalWater += height[i] - maxL;
+            }
+            i++;
+        } else {
+            if (height[j] >= maxR) {
+                maxR = height[j];
+            } else {
+                totalWater += height[j] - maxR;
+            }
+            j--;
+        }
+    }
+    return Math.abs(totalWater);
+};
+```
+
+## Binary Search Tree Iterator
+[173. Binary Search Tree Iterator](https://leetcode.com/problems/binary-search-tree-iterator/)
+```javascript
+var BSTIterator = function(root) {
+    this.cache = []
+    const traverse = (node) => {
+        if (node === null) { return; }
+        if (node.left) traverse(node.left);
+        this.cache.push(node.val);
+        if (node.right) traverse(node.right);
+    }
+    traverse(root);
+};
+/**
+ * @return {number}
+ */
+BSTIterator.prototype.next = function() {
+    return this.cache.shift();
+};
+
+/**
+ * @return {boolean}
+ */
+BSTIterator.prototype.hasNext = function() {
+    return this.cache.length > 0;
+};
+```
+
 ## Intersection of Two Arrays
 [349. Intersection of Two Arrays](https://leetcode.com/problems/intersection-of-two-arrays/)
 ```javascript
