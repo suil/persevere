@@ -20,9 +20,10 @@
         * [Binary Tree Maximum Path Sum](#Binary-Tree-Maximum-Path-Sum)
         * [Binary Tree Right Side View](#Binary-Tree-Right-Side-View)
         * [Convert Binary Search Tree to Sorted Doubly Linked List](#Convert-Binary-Search-Tree-to-Sorted-Doubly-Linked-List)
-    * [层次遍历](#层次遍历)
+    * [BFS](#BFS)
         * [1. 一棵树每层节点的平均数](#1-一棵树每层节点的平均数)
-        * [2. 得到左下角的节点](#2-得到左下角的节点)
+        * [Find Bottom Left Tree Value](../leetcode.md#find-bottom-left-tree-value)
+        * [Check Completeness of a Binary Tree](../leetcode.md#check-completeness-of-a-binary-tree)
     * [前中后序遍历](#前中后序遍历)
         * [1. 非递归实现二叉树的前序遍历](#1-非递归实现二叉树的前序遍历)
         * [2. 非递归实现二叉树的后序遍历](#2-非递归实现二叉树的后序遍历)
@@ -565,9 +566,9 @@ function rightSideViewBfs(root) {
     return output;
 }
 ```
-## 层次遍历
+## BFS
 
-使用 BFS 进行层次遍历。不需要使用两个队列来分别存储当前层的节点和下一层的节点，因为在开始遍历一层的节点时，当前队列中的节点数就是当前层的节点数，只要控制遍历这么多节点数，就能保证这次遍历的都是当前层的节点。
+BFS can be used to traverse the tree by layers
 
 ### 1. 一棵树每层节点的平均数
 

@@ -158,6 +158,7 @@ var shortestDistance = function(grid) {
     return minDistance === Infinity ? -1 : minDistance;
 };
 ```
+
 ## Intersection of Two Arrays
 [349. Intersection of Two Arrays](https://leetcode.com/problems/intersection-of-two-arrays/)
 ```javascript
@@ -197,6 +198,25 @@ Solution.prototype.pick = function(target) {
         }
     }
     return index;
+};
+```
+## Find Bottom Left Tree Value
+[513. Find Bottom Left Tree Value](https://leetcode.com/problems/find-bottom-left-tree-value/description/)
+```javascript
+var findBottomLeftValue = function(root) {
+    let queue = [root];
+    let bottomLeftNode = root.val;
+    
+    while (queue.length > 0) {
+        bottomLeftNode = queue[0];
+        const nextQueue = [];
+        for (const node of queue) {
+            if (node.left) { nextQueue.push(node.left); }
+            if (node.right) { nextQueue.push(node.right); }
+        }
+        queue = nextQueue;
+    }
+    return bottomLeftNode.val
 };
 ```
 
@@ -242,5 +262,28 @@ var numFriendRequests = function(ages) {
         ans += base * counts[i] + counts[i] * (counts[i] - 1);
     }
     return ans;
+};
+```
+
+## Check Completeness of a Binary Tree
+[958. Check Completeness of a Binary Tree](https://leetcode.com/problems/check-completeness-of-a-binary-tree/)
+```javascript
+var isCompleteTree = function(root) {
+    let queue = [root];
+    let hasNullNode = false;
+    while (queue.length > 0) {
+        const nextQueue = [];
+        for (const node of queue) {
+            if (node === null) {
+                hasNullNode = true;
+            } else {
+                if (hasNullNode) { return false; }
+                nextQueue.push(node.left);
+                nextQueue.push(node.right);
+            }
+        }
+        queue = nextQueue;
+    }
+    return true;
 };
 ```
