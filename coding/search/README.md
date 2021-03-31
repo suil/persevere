@@ -5,6 +5,7 @@
         * [1. 计算在网格中从原点到特定点的最短路径长度](#1-计算在网格中从原点到特定点的最短路径长度)
         * [2. 组成整数的最小平方数数量](#2-组成整数的最小平方数数量)
         * [3. 最短单词路径](#3-最短单词路径)
+        * [Shortest Distance from All Buildings](../leetcode.md#shortest-distance-from-all-buildings)
     * [DFS](#dfs)
         * [Max Area of Island](#Max-Area-of-Island)
         * [2. 矩阵中的连通分量数目](#2-矩阵中的连通分量数目)

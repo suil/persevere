@@ -88,6 +88,76 @@ BSTIterator.prototype.hasNext = function() {
 };
 ```
 
+## Shortest Distance from All Buildings
+[317. Shortest Distance from All Buildings](https://leetcode.com/problems/shortest-distance-from-all-buildings/)
+```javascript
+const DIRECTIONS = [[0, 1], [1, 0], [0, -1], [-1, 0]];
+
+function distanceFromBuilding(grid, startRow, startCol, distances, reaches) {
+    const rowLen = grid.length;
+    const colLen = grid[0].length;
+    let queue = [[startRow, startCol]];
+    let minDistance = Infinity;
+    let dist = 0;
+    const visited = [...Array(rowLen)].map(() => [...Array(colLen)].fill(false));
+    
+    while (queue.length > 0) {
+        const nextQueue = [];
+        dist++;
+
+        for (const [row, col] of queue) {
+            for (const [rowDelta, colDelta] of DIRECTIONS) {
+                const nextRow = row + rowDelta;
+                const nextCol = col + colDelta;
+                if (grid[nextRow] === undefined
+                    || grid[nextRow][nextCol] === undefined 
+                    || grid[nextRow][nextCol] === 2
+                    || visited[nextRow][nextCol] === true
+                ) {
+                    continue;
+                }
+                
+                if (grid[nextRow][nextCol] === 0) {
+                    distances[nextRow][nextCol] += dist;
+                    reaches[nextRow][nextCol]++;
+                    nextQueue.push([nextRow, nextCol]);
+                }
+                visited[nextRow][nextCol] = true;
+            }
+        }
+        queue = nextQueue;
+    }
+    return minDistance;
+}
+var shortestDistance = function(grid) {
+    const rowLen = grid.length;
+    const colLen = grid[0].length;
+    const distances = [...Array(rowLen)].map(() => [...Array(colLen)].fill(0));
+    const reaches = [...Array(rowLen)].map(() => [...Array(colLen)].fill(0));
+    
+    let totalBuildings = 0;
+    for (let row = 0; row < rowLen; row += 1) {
+        for (let col = 0; col < colLen; col += 1) {
+            if (grid[row][col] === 1) {
+                totalBuildings++;
+                distanceFromBuilding(grid, row, col, distances, reaches);
+            }
+        }
+    }
+
+    let minDistance = Infinity;
+    for (let row = 0; row < rowLen; row++) {
+        for (let col = 0; col < colLen; col++) {
+            if (reaches[row][col] === totalBuildings
+                && distances[row][col] < minDistance
+            ) {
+                minDistance = distances[row][col];
+            }
+        }
+    }    
+    return minDistance === Infinity ? -1 : minDistance;
+};
+```
 ## Intersection of Two Arrays
 [349. Intersection of Two Arrays](https://leetcode.com/problems/intersection-of-two-arrays/)
 ```javascript
