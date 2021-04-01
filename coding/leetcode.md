@@ -59,6 +59,36 @@ var trap = function(height) {
     return Math.abs(totalWater);
 };
 ```
+## LRU Cache
+[146. LRU Cache](https://leetcode.com/problems/lru-cache/)
+```javascript
+var LRUCache = function(capacity) {
+    this.orderedMap = new Map();
+    this.capacity = capacity;
+};
+LRUCache.prototype.get = function(key) {
+    if (this.orderedMap.has(key)) {
+        let existingValue = this.orderedMap.get(key);
+        this.put(key, existingValue);
+        return existingValue;
+    }
+    return -1;
+};
+LRUCache.prototype.put = function(key, value) {
+    if (this.orderedMap.has(key)) {
+        // Let us Update key with new insertion order
+        this.orderedMap.delete(key);
+    }
+
+    // New or existing, just set it
+    this.orderedMap.set(key, value);
+
+    if (this.orderedMap.size > this.capacity) {
+        let keyLRU = [...this.orderedMap.keys()][0]; // this.orderedMap.keys().next().value;
+        this.orderedMap.delete(keyLRU);
+    }
+};
+```
 
 ## Binary Search Tree Iterator
 [173. Binary Search Tree Iterator](https://leetcode.com/problems/binary-search-tree-iterator/)

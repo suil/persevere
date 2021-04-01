@@ -11,6 +11,8 @@
     * [4. 最长连续序列](#4-最长连续序列)
     * [friends-of-appropriate-ages](../leedcode.md#friends-of-appropriate-ages)
     * [Group Shifted Strings](../leetcode.md#group-shifted-strings)
+    * Ordered HashMap
+        * [LRU Cache](../leetcode.md#lru-cache)
 <!-- GFM-TOC -->
 
 
