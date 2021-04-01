@@ -20,7 +20,9 @@
         * [Binary Tree Maximum Path Sum](#Binary-Tree-Maximum-Path-Sum)
         * [Binary Tree Right Side View](#Binary-Tree-Right-Side-View)
         * [Convert Binary Search Tree to Sorted Doubly Linked List](#Convert-Binary-Search-Tree-to-Sorted-Doubly-Linked-List)
-    * [BFS](#BFS)
+        * [Lowest Common Ancestor of a Binary Tree](../leetcode.md#lowest-common-ancestor-of-a-binary-tree)
+
+    * [Breath First Search](#Breath-First-Search)
         * [1. 一棵树每层节点的平均数](#1-一棵树每层节点的平均数)
         * [Find Bottom Left Tree Value](../leetcode.md#find-bottom-left-tree-value)
         * [Check Completeness of a Binary Tree](../leetcode.md#check-completeness-of-a-binary-tree)
@@ -33,12 +35,11 @@
         * [Binary Search Tree Iterator](../leetcode.md#binary-search-tree-iterator)
     * [Vertical order traversal](#vertical-order-traversal)
         * [Vertical Order Traversal of a Binary Tree](#Vertical-Order-Traversal-of-a-Binary-Tree)
-    * [BST](#bst)
+    * [Binary Search Tree](#bst)
         * [1. 修剪二叉查找树](#1-修剪二叉查找树)
         * [2. 寻找二叉查找树的第 k 个元素](#2-寻找二叉查找树的第-k-个元素)
         * [3. 把二叉查找树每个节点的值都加上比它大的节点的值](#3-把二叉查找树每个节点的值都加上比它大的节点的值)
         * [4. 二叉查找树的最近公共祖先](#4-二叉查找树的最近公共祖先)
-        * [5. 二叉树的最近公共祖先](#5-二叉树的最近公共祖先)
         * [6. 从有序数组中构造二叉查找树](#6-从有序数组中构造二叉查找树)
         * [7. 根据有序链表构造平衡的二叉查找树](#7-根据有序链表构造平衡的二叉查找树)
         * [8. 在二叉查找树中寻找两个节点，使它们的和为一个给定值](#8-在二叉查找树中寻找两个节点，使它们的和为一个给定值)
@@ -566,7 +567,7 @@ function rightSideViewBfs(root) {
     return output;
 }
 ```
-## BFS
+## Breath First Search
 
 BFS can be used to traverse the tree by layers
 

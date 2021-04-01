@@ -18,7 +18,7 @@
 
 ## Coding problems by data structures.
 
-- [链表](Leetcode%20题解%20-%20链表.md)
+- [Linked List](linked-list/README.md)
 - [Trees](tree/README.md)
 - [Stack and Queue](stack-queue/README.md)
 - [HashMap](hashmap/README.md)

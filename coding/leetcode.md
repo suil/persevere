@@ -87,6 +87,21 @@ BSTIterator.prototype.hasNext = function() {
     return this.cache.length > 0;
 };
 ```
+## Lowest Common Ancestor of a Binary Tree
+[236. Lowest Common Ancestor of a Binary Tree](https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/)
+```javascript
+var lowestCommonAncestor = function(root, p, q) {
+    if (root === null || root === p || root === q) {
+        return root
+    }
+    const left = lowestCommonAncestor(root.left, p, q)
+    const right = lowestCommonAncestor(root.right, p, q)
+    if (left && right) {
+        return root
+    }
+    return left || right
+};
+```
 
 ## Group Shifted Strings
 [249. Group Shifted Strings](https://leetcode.com/problems/group-shifted-strings/)
@@ -179,6 +194,24 @@ var shortestDistance = function(grid) {
     return minDistance === Infinity ? -1 : minDistance;
 };
 ```
+### Nested List Weight Sum
+[339. Nested List Weight Sum](https://leetcode.com/problems/nested-list-weight-sum/)
+```javascript
+var depthSum = function(nestedList) {
+    return depthSumHelper(nestedList, 1);
+};
+function depthSumHelper(nestedList, depth) {
+    let sum = 0;
+    for (const item of nestedList) {
+        if (item.isInteger()) {
+            sum += item.getInteger() * depth;
+        } else {
+            sum += depthSumHelper(item.getList(), depth + 1);
+        }
+    }
+    return sum;
+}
+```
 
 ## Intersection of Two Arrays
 [349. Intersection of Two Arrays](https://leetcode.com/problems/intersection-of-two-arrays/)
@@ -263,6 +296,42 @@ var maximumSwap = function(num) {
         }
     }
     return num;
+};
+```
+
+## Insert into a Sorted Circular Linked List
+[708. Insert into a Sorted Circular Linked List](https://leetcode.com/problems/insert-into-a-sorted-circular-linked-list/)
+```javascript
+var insert = function(head, insertVal) {
+    if (head === null) {
+        head = new Node(insertVal);
+        head.next = head;
+        return head;
+    }
+
+    var currNode = head;
+    var newNode = new Node(insertVal);
+    
+    do {
+        currNode = currNode.next;
+    } while (currNode.val <= currNode.next.val && currNode !== head);
+    
+    const actualTail = currNode;
+    currNode = currNode.next;
+    const actualHead = currNode;
+    
+    if (actualHead.val >= insertVal || actualTail.val <= insertVal) {
+        actualTail.next = newNode;
+        newNode.next = actualHead;
+    } else {
+        while (currNode.next.val <= insertVal && currNode.next !== actualHead) {
+            currNode = currNode.next;
+        }
+        const tmpNext = currNode.next;
+        currNode.next = newNode;
+        newNode.next = tmpNext;
+    }
+    return head;
 };
 ```
 
