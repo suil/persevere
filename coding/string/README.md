@@ -17,6 +17,7 @@
     * [9. 统计二进制字符串中连续 1 和连续 0 数量相同的子字符串个数](#9-统计二进制字符串中连续-1-和连续-0-数量相同的子字符串个数)
     * [Repeated Substring Pattern](#Repeated-Substring-Pattern)
     * [Long Pressed Name](#Long-Pressed-Name)
+    * [Group Shifted Strings](../leetcode.md#group-shifted-strings)
 <!-- GFM-TOC -->
 
 

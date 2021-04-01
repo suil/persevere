@@ -6,7 +6,6 @@ Dynamic Programming solution:
 var trap = function(height) {
     if (!height) { return 0; }
     
-    let totalWater = 0;
     let len = height.length;
     let leftMax = [], rightMax = [];
     
@@ -14,13 +13,14 @@ var trap = function(height) {
     rightMax[len - 1] = height[len - 1];
     
     for (let i = 1; i < len; i++) {
-        leftMax[i] = Math.max(height[i], leftMax[i-1])
+        leftMax[i] = Math.max(height[i], leftMax[i - 1])
     }
     for (let i = len - 2; i >= 0; i--) {
-        rightMax[i] = Math.max(height[i], rightMax[i+1]);
+        rightMax[i] = Math.max(height[i], rightMax[i + 1]);
     }
     
-    for (let i = 0; i< len; i++){
+    let totalWater = 0;
+    for (let i = 0; i < len; i++) {
         let water = Math.min(leftMax[i], rightMax[i]) - height[i];
         totalWater += water;
     }
@@ -88,6 +88,27 @@ BSTIterator.prototype.hasNext = function() {
 };
 ```
 
+## Group Shifted Strings
+[249. Group Shifted Strings](https://leetcode.com/problems/group-shifted-strings/)
+```javascript
+var groupStrings = function(strings) {
+    const map = new Map();
+    
+    for (const string of strings) {
+        const chars = string.split('');
+        const normalizedCode = [];
+        for (const char of chars) {
+            let code = char.charCodeAt() - chars[0].charCodeAt();
+            code = code >= 0 ? code : code + 26;
+            normalizedCode.push(code);
+        }
+        const key = normalizedCode.join(',');
+        if (!map.has(key)) { map.set(key, []); }
+        map.get(key).push(string);
+    }
+    return [...map.values()];
+};
+```
 ## Shortest Distance from All Buildings
 [317. Shortest Distance from All Buildings](https://leetcode.com/problems/shortest-distance-from-all-buildings/)
 ```javascript
