@@ -27,7 +27,8 @@
         * [2. 3 的 n 次方](#2-3-的-n-次方)
         * [4. 找出数组中的乘积最大的三个数](#4-找出数组中的乘积最大的三个数)
         * [Divide Two Integers](#Divide-Two-Integers)
-        * [Pow(x, n)](#Powx-n)
+        * [Pow(x, n)](../leetcode.md#powx-n)
+        * [Multiply Strings](../leetcode.md#multiply-strings)
 <!-- GFM-TOC -->
 
 
@@ -549,21 +550,5 @@ var divide = function(dividend, divisor) {
         result++;
     }
     return isNegative ? -result : result;
-};
-```
-
-### Pow(x, n)
-[Pow(x, n)](https://leetcode.com/problems/powx-n/)
-```javascript
-var myPow = function(x, n) {
-    if (n === 0) { return 1; }
-    if (n === 1) { return x; }
-    if (n < 0) { return myPow(1/x, -n); }
-    
-    let result = myPow(x * x, Math.floor(n / 2));
-    if (n % 2 !== 0) {
-        result *= x;
-    }
-    return result;
 };
 ```

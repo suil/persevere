@@ -59,6 +59,46 @@ var trap = function(height) {
     return Math.abs(totalWater);
 };
 ```
+## Multiply Strings
+[43. Multiply Strings](https://leetcode.com/problems/multiply-strings/)
+```javascript
+var multiply = function(num1, num2) {
+    const chars1 = num1.split('');
+    const chars2 = num2.split('');
+    const output = [...Array(num1.length + num2.length)].fill('0');
+    
+    for (let i = num1.length - 1; i >= 0 ; i--) {
+        for (let j = num2.length - 1; j >= 0; j--) {
+            const product = (chars1[i] - '0') * (chars2[j] - '0');
+            const temp = product + (output[i + j + 1] - '0');
+            output[i + j + 1] = String(temp % 10);
+            output[i + j] = String(output[i + j] - '0' + Math.floor(temp / 10));
+        }
+    }
+
+    while (output[0] === '0' && output.length > 1) {
+        output.shift();
+    }
+    return output.join('');
+};
+```
+
+### Pow(x, n)
+[50. Pow(x, n)](https://leetcode.com/problems/powx-n/)
+```javascript
+var myPow = function(x, n) {
+    if (n === 0) { return 1; }
+    if (n === 1) { return x; }
+    if (n < 0) { return myPow(1/x, -n); }
+    
+    let result = myPow(x * x, Math.floor(n / 2));
+    if (n % 2 !== 0) {
+        result *= x;
+    }
+    return result;
+};
+```
+
 ## LRU Cache
 [146. LRU Cache](https://leetcode.com/problems/lru-cache/)
 ```javascript
@@ -67,22 +107,16 @@ var LRUCache = function(capacity) {
     this.capacity = capacity;
 };
 LRUCache.prototype.get = function(key) {
-    if (this.orderedMap.has(key)) {
-        let existingValue = this.orderedMap.get(key);
-        this.put(key, existingValue);
-        return existingValue;
-    }
-    return -1;
+    if (!this.orderedMap.has(key)) { return -1; }
+    let existingValue = this.orderedMap.get(key);
+    this.put(key, existingValue);
+    return existingValue;
 };
 LRUCache.prototype.put = function(key, value) {
     if (this.orderedMap.has(key)) {
-        // Let us Update key with new insertion order
         this.orderedMap.delete(key);
     }
-
-    // New or existing, just set it
     this.orderedMap.set(key, value);
-
     if (this.orderedMap.size > this.capacity) {
         let keyLRU = [...this.orderedMap.keys()][0]; // this.orderedMap.keys().next().value;
         this.orderedMap.delete(keyLRU);
