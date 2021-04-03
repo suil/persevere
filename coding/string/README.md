@@ -18,6 +18,7 @@
     * [Repeated Substring Pattern](#Repeated-Substring-Pattern)
     * [Long Pressed Name](#Long-Pressed-Name)
     * [Group Shifted Strings](../leetcode.md#group-shifted-strings)
+    * [Goat Latin](../leetcode.md#goat-latin)
 <!-- GFM-TOC -->
 
 

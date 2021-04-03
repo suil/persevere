@@ -99,6 +99,74 @@ var myPow = function(x, n) {
 };
 ```
 
+## Word Break II
+[140. Word Break II](https://leetcode.com/problems/word-break-ii/)
+
+Backtracking with no memoization
+
+```javascript
+var wordBreak = function(s, wordDict) {
+    const output = [];
+    wordBreakHelper(s, wordDict, [], output);
+    return output;
+};
+function wordBreakHelper(s, wordDict, words, output) {
+    if (s.length === 0) {
+        output.push(words.join(' '));
+        return;
+    }
+   
+    for (let i = 0; i < s.length; i++) {
+        const substr = s.substring(0, i + 1);
+        if (wordDict.includes(substr)) {
+            const nextS = s.substring(i + 1);
+            const nextWords = [...words, substr];
+            wordBreakHelper(nextS, wordDict, nextWords, output);
+        }
+    }
+    // could loop thru wordDict
+    // for (const word of wordDict) {
+    //     const substr = s.substring(0, word.length);
+    //     if (substr !== word) { continue; }
+    //     const nextS = s.substring(word.length);
+    //     const nextWords = [...words, word];
+    //     wordBreakHelper(nextS, wordDict, nextWords, output, cache);
+    // }
+}
+```
+
+Backtracking with memoization (top-down dynamic programming)
+```javascript
+var wordBreak = function(s, wordDict) {
+    const memo = new Map();
+    const words = wordBreakHelperMemoization(s, 0, wordDict, memo);
+    return words.map(w => w.join(' '));
+};
+function wordBreakHelperMemoization(s, current, wordDict, memo) {
+    if (memo.has(current)) { return memo.get(current); }
+    
+    if (current >= s.length) {
+        return [[]];
+    }
+
+    const words = [];
+    for (let i = current; i < s.length; i++) {
+        const substr = s.substring(current, i + 1);
+        if (wordDict.includes(substr)) {
+            const nextCurrent = i + 1;
+            const nextWords = wordBreakHelperMemoization(s, nextCurrent, wordDict, memo);
+            for (const nextWord of nextWords) {
+                words.push([substr, ...nextWord]);
+            }
+        }
+    }
+
+    memo.set(current, words);
+    return words;
+}
+```
+
+
 ## LRU Cache
 [146. LRU Cache](https://leetcode.com/problems/lru-cache/)
 ```javascript
@@ -396,6 +464,26 @@ var insert = function(head, insertVal) {
         newNode.next = tmpNext;
     }
     return head;
+};
+```
+
+## Goat Latin
+[824. Goat Latin](https://leetcode.com/problems/goat-latin/)
+```javascript
+var toGoatLatin = function(S) {
+    let words = S.split(' ');
+    let vowels = new Set(['a', 'e', 'i', 'o', 'u']);
+    let ending = 'a';
+    
+    for (let i = 0; i < words.length; i++) {
+        if (vowels.has(words[i].substring(0, 1).toLowerCase())) {
+            words[i] += 'ma' + ending;
+        } else {
+            words[i] = words[i].substring(1, words[i].length) + words[i].substring(0, 1) + 'ma' + ending;
+        }
+        ending += 'a';
+    }
+    return words.join(' ');
 };
 ```
 
