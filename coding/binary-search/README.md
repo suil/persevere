@@ -9,6 +9,8 @@
         * [Search in Rotated Sorted Array](../leet.md#search-in-rotated-sorted-array)
         * [Find First and Last Position of Element in Sorted Array](#Find-First-and-Last-Position-of-Element-in-Sorted-Array)
         * [Random Pick with Weight](#random-pick-with-weight)
+        * [Missing Element in Sorted Array](../leetcode.md#missing-element-in-sorted-array)
+
 <!-- GFM-TOC -->
 
 

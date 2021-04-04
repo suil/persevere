@@ -331,6 +331,25 @@ var lowestCommonAncestor = function(root, p, q) {
     return left || right
 };
 ```
+## 246. Strobogrammatic Number
+[246. Strobogrammatic Number](https://leetcode.com/problems/strobogrammatic-number/)
+```javascript
+var isStrobogrammatic = function(num) {
+    let upsideDowns = {
+        '1' : '1',
+        '6' : '9',
+        '8' : '8',
+        '9' : '6',
+        '0' : '0'
+    }
+    for (let i = 0, j = num.length -1; i < num.length; i++, j--){
+        if (upsideDowns[num[i]] != num[j]) {
+            return false
+        }
+    }
+    return true;
+};
+```
 
 ## Group Shifted Strings
 [249. Group Shifted Strings](https://leetcode.com/problems/group-shifted-strings/)
@@ -627,6 +646,77 @@ var isCompleteTree = function(root) {
 };
 ```
 
+## Maximum Difference Between Node and Ancestor
+[1026. Maximum Difference Between Node and Ancestor](https://leetcode.com/problems/maximum-difference-between-node-and-ancestor/)
+
+With O(n<sup>2</sup>) complexity
+
+```javascript
+var maxAncestorDiff = function(root) {
+    let max = -Infinity;
+    
+    function helper(node, ancesters) {
+        if (node === null) {
+            return;
+        }
+        
+        ancesters.push(node);
+        helper(node.left, ancesters);
+        ancesters.pop();
+        
+        for (const ancester of ancesters) {
+            max = Math.max(max, Math.abs(ancester.val - node.val));
+        }
+        
+        ancesters.push(node);
+        helper(node.right, ancesters);
+        ancesters.pop();
+    }
+
+    helper(root, []);
+    return max;
+}
+```
+
+with O(n) complexity
+```javascript
+var maxAncestorDiff = function(root) {
+    const helper = (node, min, max) => {
+        if (!node) { return 0 };
+
+        const newMin = Math.min(min, node.val);
+        const newMax = Math.max(max, node.val);
+
+        const left = helper(node.left, newMin, newMax);
+        const right = helper(node.right, newMin, newMax);
+
+        return Math.max(newMax - newMin, left, right);
+    };
+
+    return helper(root, Infinity, -Infinity);
+};
+```
+
+## Missing Element in Sorted Array
+[1060. Missing Element in Sorted Array](https://leetcode.com/problems/missing-element-in-sorted-array/)
+```javascript
+var missingElement = function(nums, k) {
+    let left = 0, right = nums.length - 1;
+    
+    while (left < right) {
+        const mid = Math.floor(left + (right - left) / 2);
+        if (getMissingNumCount(nums, mid) >= k) {
+            right = mid;
+        } else {
+            left = mid + 1;
+        }
+    }
+    return nums[left - 1] + k - getMissingNumCount(nums, left - 1);
+};
+function getMissingNumCount(nums, index) {
+    return nums[index] - nums[0] - index;
+}
+```
 ## Dot Product of Two Sparse Vectors
 [1570. Dot Product of Two Sparse Vectors](https://leetcode.com/problems/dot-product-of-two-sparse-vectors/)
 ```javascript

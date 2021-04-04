@@ -1,7 +1,7 @@
 # Leetcode 题解 - 树
 <!-- GFM-TOC -->
 * [Leetcode 题解 - 树](#leetcode-题解---树)
-    * [递归](#递归)
+    * [Recursive](#Recursive)
         * [1. 树的高度](#1-树的高度)
         * [2. 平衡树](#2-平衡树)
         * [3. 两节点的最长路径](#3-两节点的最长路径)
@@ -21,6 +21,7 @@
         * [Binary Tree Right Side View](#Binary-Tree-Right-Side-View)
         * [Convert Binary Search Tree to Sorted Doubly Linked List](#Convert-Binary-Search-Tree-to-Sorted-Doubly-Linked-List)
         * [Lowest Common Ancestor of a Binary Tree](../leetcode.md#lowest-common-ancestor-of-a-binary-tree)
+        * [Maximum Difference Between Node and Ancestor](../leetcode.md#maximum-difference-between-node-and-ancestor)
 
     * [Breath First Search](#Breath-First-Search)
         * [1. 一棵树每层节点的平均数](#1-一棵树每层节点的平均数)
@@ -52,9 +53,9 @@
 <!-- GFM-TOC -->
 
 
-## 递归
+## Recursive
 
-一棵树要么是空树，要么有两个指针，每个指针指向一棵树。树是一种递归结构，很多树的问题可以使用递归来处理。
+Due to the recursive nature of binary trees, many problems can be solve by recursions.
 
 ### 1. 树的高度
 

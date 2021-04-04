@@ -19,6 +19,7 @@
     * [Long Pressed Name](#Long-Pressed-Name)
     * [Group Shifted Strings](../leetcode.md#group-shifted-strings)
     * [Goat Latin](../leetcode.md#goat-latin)
+    * [Strobogrammatic Number](../leetcode.md#strobogrammatic-number)
 <!-- GFM-TOC -->
 
 
