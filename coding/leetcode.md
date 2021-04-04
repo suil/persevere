@@ -1,3 +1,29 @@
+## Search in Rotated Sorted Array
+[33. Search in Rotated Sorted Array](https://leetcode.com/problems/search-in-rotated-sorted-array/)
+```javascript
+var search = function(nums, target) {
+    let start = 0, end = nums.length - 1;
+    while (start <= end) {
+        let mid = Math.floor(start + (end - start) / 2);
+        if (nums[mid] === target) { return mid; }
+        if (nums[mid] >= nums[start]) {
+            if (target >= nums[start] && target < nums[mid]) {
+                end = mid - 1;
+            } else {
+                start = mid + 1;
+            }
+        } else {
+            if (target <= nums[end] && target > nums[mid]) {
+                start = mid + 1;
+            } else {
+                end = mid - 1;
+            }
+        }
+    }
+    return -1;
+};
+```
+
 ## Trapping Rain Water
 [42. Trapping Rain Water](https://leetcode.com/problems/trapping-rain-water/)
 
