@@ -109,7 +109,7 @@ var multiply = function(num1, num2) {
 };
 ```
 
-### Pow(x, n)
+## Pow(x, n)
 [50. Pow(x, n)](https://leetcode.com/problems/powx-n/)
 ```javascript
 var myPow = function(x, n) {
@@ -122,6 +122,28 @@ var myPow = function(x, n) {
         result *= x;
     }
     return result;
+};
+```
+## Copy List with Random Pointer
+[138. Copy List with Random Pointer](https://leetcode.com/problems/copy-list-with-random-pointer/)
+```javascript
+var copyRandomList = function(head) {
+    if (!head) { return null; }
+    const map = new Map([[null, null]]);
+    let current = head;
+    
+    while (current !== null) {
+        map.set(current, new Node(current.val, null, null));
+        current = current.next;
+    }
+    
+    current = head;
+    while (current !== null) {
+        map.get(current).next = map.get(current.next);
+        map.get(current).random = map.get(current.random);
+        current = current.next;
+    }
+    return map.get(head);
 };
 ```
 
@@ -352,7 +374,7 @@ var shortestDistance = function(grid) {
     return minDistance === Infinity ? -1 : minDistance;
 };
 ```
-### Nested List Weight Sum
+## Nested List Weight Sum
 [339. Nested List Weight Sum](https://leetcode.com/problems/nested-list-weight-sum/)
 ```javascript
 var depthSum = function(nestedList) {
@@ -553,5 +575,27 @@ var isCompleteTree = function(root) {
         queue = nextQueue;
     }
     return true;
+};
+```
+
+## Dot Product of Two Sparse Vectors
+[1570. Dot Product of Two Sparse Vectors](https://leetcode.com/problems/dot-product-of-two-sparse-vectors/)
+```javascript
+var SparseVector = function(nums) {
+    this.map = new Map();
+    for (let i = 0; i < nums.length; i++) {
+        if (nums[i] != 0) {
+            this.map.set(i, nums[i]);
+        }
+    }
+};
+SparseVector.prototype.dotProduct = function(vec) {
+    let result = 0;
+    for (const [index, value] of this.map) {
+        if (vec.map.has(index)) {
+            result += value * vec.map.get(index);
+        }
+    }
+    return result;
 };
 ```

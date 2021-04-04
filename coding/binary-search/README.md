@@ -6,7 +6,7 @@
     * [Single Element in a Sorted Array](#Single-Element-in-a-Sorted-Array-Medium)
     * [Locate Special Element in a Sorted Array](#Locate-Special-Element-in-a-Sorted-Array)
         * [First Bad Version](#First-Bad-Version)
-        * [Rotated Sorted Array](#Rotated-Sorted-Array)
+        * [Search in Rotated Sorted Array](../leet.md#search-in-rotated-sorted-array)
         * [Find First and Last Position of Element in Sorted Array](#Find-First-and-Last-Position-of-Element-in-Sorted-Array)
         * [Random Pick with Weight](#random-pick-with-weight)
 <!-- GFM-TOC -->
