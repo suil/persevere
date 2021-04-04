@@ -15,6 +15,7 @@
     * [Palindrome Partitioning](#Palindrome-Partitioning)
     * [Expression Add Operators](#Expression-Add-Operators)
     * [Word Break II](../leetcode.md#word-break-ii)
+    * [Regular Expression Matching](../leetcode.md#regular-expression-matching)
 <!-- GFM-TOC -->
 
 ## Backtracking

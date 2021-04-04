@@ -41,6 +41,8 @@
         * [1. 删除两个字符串的字符使它们相等](#1-删除两个字符串的字符使它们相等)
         * [2. 编辑距离](#2-编辑距离)
         * [3. 复制粘贴字符](#3-复制粘贴字符)
+    * String Matching and Manipulationg
+        * [Regular Expression Matching](../leetcode.md#regular-expression-matching)
 <!-- GFM-TOC -->
 
 
