@@ -4,6 +4,8 @@
     * [HashMap of occurence](#HashMap-of-occurence)
         * [Bulls and Cows](#Bulls-and-Cows)
         * [X of a Kind in a Deck of Cards](#X-of-a-Kind-in-a-Deck-of-Cards)
+        * [Shortest Word Distance](../leetcode.md#shortest-word-distance)
+        * [Shortest Word Distance II](../leetcode.md#shortest-word-distance-ii)
     * [Logger Rate Limiter](#Logger-Rate-Limiter)
     * [1. 数组中两个数的和为给定值](#1-数组中两个数的和为给定值)
     * [2. 判断数组是否含有重复元素](#2-判断数组是否含有重复元素)
@@ -11,6 +13,7 @@
     * [4. 最长连续序列](#4-最长连续序列)
     * [friends-of-appropriate-ages](../leedcode.md#friends-of-appropriate-ages)
     * [Group Shifted Strings](../leetcode.md#group-shifted-strings)
+    * [Two Sum III - Data structure design](../leetcode.md#two-sum-iii-data-structure-design)
     * Ordered HashMap
         * [LRU Cache](../leetcode.md#lru-cache)
 <!-- GFM-TOC -->

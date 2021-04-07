@@ -1,6 +1,6 @@
 # Two Pointers
 <!-- GFM-TOC -->
-* [Two Pointers](#leetcode-题解---双指针)
+* Two Pointers
     * [Two Sum II](#two-sum-ii)
     * [Sum of Square Numbers](#Sum-of-Square-Numbers)
     * [Reverse Vowels of a String](#Reverse-Vowels-of-a-String)
@@ -9,6 +9,7 @@
     * [Linked List Cycle](#Linked-List-Cycle)
     * [Longest Word in Dictionary through Deleting](#Longest-Word-in-Dictionary-through-Deleting)
     * [Trapping Rain Water](../leetcode.md#trapping-rain-water)
+    * [Shortest Word Distance II](../leetcode.md#shortest-word-distance-ii)
 <!-- GFM-TOC -->
 
 Two-pointer is an efficent way to navigate in an array.

@@ -22,6 +22,8 @@
         * [Convert Binary Search Tree to Sorted Doubly Linked List](#Convert-Binary-Search-Tree-to-Sorted-Doubly-Linked-List)
         * [Lowest Common Ancestor of a Binary Tree](../leetcode.md#lowest-common-ancestor-of-a-binary-tree)
         * [Maximum Difference Between Node and Ancestor](../leetcode.md#maximum-difference-between-node-and-ancestor)
+        * [Binary Tree Upside Down](../leetcode.md#binary-tree-upside-down)
+        * [Find Leaves of Binary Tree](../leetcode.md#find-leaves-of-binary-tree)
 
     * [Breath First Search](#Breath-First-Search)
         * [1. 一棵树每层节点的平均数](#1-一棵树每层节点的平均数)

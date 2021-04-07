@@ -20,6 +20,7 @@
     * [Group Shifted Strings](../leetcode.md#group-shifted-strings)
     * [Goat Latin](../leetcode.md#goat-latin)
     * [Strobogrammatic Number](../leetcode.md#strobogrammatic-number)
+    * [Strobogrammatic Number II](../leetcode.md#strobogrammatic-number-ii)
 <!-- GFM-TOC -->
 
 

@@ -289,6 +289,47 @@ LRUCache.prototype.put = function(key, value) {
 };
 ```
 
+## Binary Tree Upside Down
+[156. Binary Tree Upside Down](https://leetcode.com/problems/binary-tree-upside-down/)
+```javascript
+var upsideDownBinaryTree = function(root) {
+    if (root === null) {
+        return null;
+    }
+    if (!root.left) { return root; }
+    var newRoot = upsideDownBinaryTree(root.left);
+    root.left.left = root.right;
+    root.left.right = root;
+    root.left = null;
+    root.right = null;
+    return newRoot;
+};
+```
+
+## Two Sum III - Data structure design
+[170. Two Sum III - Data structure design](https://leetcode.com/problems/two-sum-iii-data-structure-design/)
+```javascript
+var TwoSum = function() {
+    this.nums = new Map();
+};
+TwoSum.prototype.add = function(number) {
+    this.nums.set(number, (this.nums.get(number) || 0) + 1);
+};
+TwoSum.prototype.find = function(value) {
+    for (const [num, count] of this.nums) {
+        const diff = value - num;
+        if (!this.nums.has(diff)) { continue; }
+        let count = this.nums.get(diff);
+        if (diff === num) {
+            if (count > 1) { return true; }
+        } else {
+            return this.nums.has(diff);
+        }
+    }
+    return false;
+};
+```
+
 ## Binary Search Tree Iterator
 [173. Binary Search Tree Iterator](https://leetcode.com/problems/binary-search-tree-iterator/)
 ```javascript
@@ -331,6 +372,92 @@ var lowestCommonAncestor = function(root, p, q) {
     return left || right
 };
 ```
+## Shortest Word Distance
+[243. Shortest Word Distance](https://leetcode.com/problems/shortest-word-distance/)
+```javascript
+var shortestDistance = function(wordsDict, word1, word2) {
+    const map = new Map();
+    for (let i = 0; i < wordsDict.length; i++) {
+        const word = wordsDict[i];
+        if (!map.has(word)) { map.set(word, []); }
+        map.get(word).push(i);
+    }
+    
+    const positions1 = map.get(word1);
+    const positions2 = map.get(word2);
+    
+    let index1 = 0;
+    let index2 = 0;
+    
+    let min = Infinity;
+    while (index1 < positions1.length && index2 < positions2.length) {
+        const position1 = positions1[index1];
+        const position2 = positions2[index2];
+        min = Math.min(min, Math.abs(position1 - position2));
+        
+        if (position1 < position2) {
+            index1++;
+        } else {
+            index2++;
+        }
+    }
+    return min;
+};
+```
+
+## Shortest Word Distance II
+[244. Shortest Word Distance II](https://leetcode.com/problems/shortest-word-distance-ii/)
+
+The core algorithm in this problem is to find min difference between values in two sorted arrays.
+Example:
+
+Array1: [1, 3, 10, 38]
+Array2: [4, 9, 80, 100]
+
+min distance = Math.abs(value1 from Array1 - value2 from Array2)
+
+This can be solved by two pointers.
+
+```javascript
+var WordDistance = function(wordsDict) {
+    this.map = new Map();
+    for (let i = 0; i < wordsDict.length; i++) {
+        const word = wordsDict[i];
+        if (!this.map.has(word)) {
+            this.map.set(word, []);
+        }
+        this.map.get(word).push(i);
+    }
+};
+
+/** 
+ * @param {string} word1 
+ * @param {string} word2
+ * @return {number}
+ */
+WordDistance.prototype.shortest = function(word1, word2) {
+    const array1 = this.map.get(word1);
+    const array2 = this.map.get(word2);
+    let min = Infinity;
+
+    let i1 = 0;
+    let i2 = 0;
+
+    while (i1 < array1.length && i2 < array2.length) {
+        const position1 = array1[i1];
+        const position2 = array2[i2];
+        min = Math.min(min, Math.abs(position2 - position1));
+
+        if (position1 < position2) {
+            i1++;
+        } else {
+            i2++;
+        }
+    }
+    return min;
+};
+```
+
 ## 246. Strobogrammatic Number
 [246. Strobogrammatic Number](https://leetcode.com/problems/strobogrammatic-number/)
 ```javascript
@@ -349,6 +476,29 @@ var isStrobogrammatic = function(num) {
     }
     return true;
 };
+```
+
+## Strobogrammatic Number II
+[247. Strobogrammatic Number II](https://leetcode.com/problems/strobogrammatic-number-ii/)
+```javascript
+var findStrobogrammatic = function(n) {
+    return findStrobogrammaticRecursive(n);
+};
+function findStrobogrammaticRecursive(len, n) {
+    if (len === 0) { return ['']; }
+    if (len === 1) { return ['0', '1', '8']; }
+    let prevNums = findStrobogrammaticRecursive(len - 2);
+
+    const res = [];
+    for (let num of prevNums) {
+        if (len !== n) { res.push('0' + num + '0'); }
+        res.push('1' + num + '1');
+        res.push('6' + num + '9');
+        res.push('8' + num + '8');
+        res.push('9' + num + '6');
+    }
+    return res;
+}
 ```
 
 ## Group Shifted Strings
@@ -461,6 +611,35 @@ function depthSumHelper(nestedList, depth) {
 }
 ```
 
+### Top K Frequent Elements
+[347. Top K Frequent Elements (Medium)](https://leetcode.com/problems/top-k-frequent-elements/description/)
+```javascript
+var topKFrequent = function(nums, k) {
+    const freqMap = new Map();
+    let maxFreq = 0;
+    for (const num of nums) {
+        freqMap.set(num, (freqMap.get(num) || 0) + 1);
+        maxFreq = Math.max(maxFreq, freqMap.get(num));
+    }
+
+    const bucket = [...Array(maxFreq + 1)].map(_ => []);
+    for (const [num, freq] of freqMap) {
+        bucket[freq].push(num);
+    }
+
+    const output = [];
+    for (let i = bucket.length - 1; i >= 0; i--) {
+        for (const num of bucket[i]) {
+            output.push(num);
+            if (output.length >= k) {
+                return output;
+            }
+        }
+    }
+    return output;
+};
+```
+
 ## Intersection of Two Arrays
 [349. Intersection of Two Arrays](https://leetcode.com/problems/intersection-of-two-arrays/)
 ```javascript
@@ -480,6 +659,60 @@ var intersection = function(nums1, nums2) {
     }
     return res;
 };
+```
+
+## Nested List Weight Sum II
+[364. Nested List Weight Sum II](https://leetcode.com/problems/nested-list-weight-sum-ii/)
+```javascript
+var depthSumInverse = function(nestedList) {
+    const flattened = [];
+    helper(nestedList, 0, flattened);
+    
+    let weight = flattened.length, sum = 0;
+    for (const item of flattened) {
+        for (let i = 0; i < item.length; i++) {
+            sum += item[i] * weight;
+        }
+        weight--;
+    }
+    return sum;
+};
+function helper(nestedList, depth, flattened) {
+    if (!flattened[depth]) { flattened[depth] = []; }
+    
+    for (const item of nestedList) {
+        if (item.isInteger()) {
+            flattened[depth].push(item.getInteger());
+        } else {
+            helper(item.getList(), depth + 1, flattened);
+        }
+    }
+}
+```
+
+## Find Leaves of Binary Tree
+[366. Find Leaves of Binary Tree](https://leetcode.com/problems/find-leaves-of-binary-tree/)
+```javascript
+var findLeaves = function(root) {
+    const result = [];
+    while (root !== null) {
+        const output = [];
+        root = findLeavesHelper(root, output);
+        result.push(output);
+    }
+    return result;
+};
+function findLeavesHelper(node, output) {
+    if (node === null) { return null; }
+    if (node.left === null && node.right === null) {
+        output.push(node.val);
+        return null;
+    }
+    
+    node.left = findLeavesHelper(node.left, output);
+    node.right = findLeavesHelper(node.right, output);
+    return node;
+}
 ```
 
 ## Random Pick Index

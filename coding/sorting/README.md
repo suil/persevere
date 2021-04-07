@@ -6,7 +6,7 @@
         * [Kth Element](#kth-element)
         * [K Closest Points to Origin](#K-Closest-Points-to-Origin)
     * [Bucket Sort](#Bucket-Sort)
-        * [Top K Frequent Elements](#Top-K-Frequent-Elements)
+        * [Top K Frequent Elements](../leetcode.md#Top-K-Frequent-Elements)
         * [Sort Characters By Frequency](#Sort-Characters-By-Frequency)
     * [Sorting for fixed small number of items](#Sorting-for-fixed-small-number-of-items)
         * [Sort Colors (Medium)](#Sort-Colors)
@@ -127,37 +127,6 @@ function distanceToOrigin(point) {
 ```
 
 ## Bucket Sort
-
-### Top K Frequent Elements
-
-[347\. Top K Frequent Elements (Medium)](https://leetcode.com/problems/top-k-frequent-elements/description/)
-
-```javascript
-var topKFrequent = function(nums, k) {
-    const freqMap = new Map();
-    let maxFreq = 0;
-    for (const num of nums) {
-        freqMap.set(num, (freqMap.get(num) || 0) + 1);
-        maxFreq = Math.max(maxFreq, freqMap.get(num));
-    }
-
-    const bucket = [...Array(maxFreq + 1)].map(_ => []);
-    for (const [num, freq] of freqMap) {
-        bucket[freq].push(num);
-    }
-
-    const output = [];
-    for (let i = bucket.length - 1; i >= 0; i--) {
-        for (const num of bucket[i]) {
-            output.push(num);
-            if (output.length >= k) {
-                return output;
-            }
-        }
-    }
-    return output;
-};
-```
 
 ### Sort Characters By Frequency
 
