@@ -289,6 +289,78 @@ LRUCache.prototype.put = function(key, value) {
 };
 ```
 
+## Evaluate Reverse Polish Notation
+[150. Evaluate Reverse Polish Notation](https://leetcode.com/problems/evaluate-reverse-polish-notation/)
+```html
+Evaluate the value of an arithmetic expression in Reverse Polish Notation.
+
+Valid operators are +, -, *, and /. Each operand may be an integer or another expression.
+
+Note that division between two integers should truncate toward zero.
+
+It is guaranteed that the given RPN expression is always valid. That means the expression would always evaluate to a result, and there will not be any division by zero operation.
+
+Example 1:
+
+Input: tokens = ["2","1","+","3","*"]
+Output: 9
+Explanation: ((2 + 1) * 3) = 9
+Example 2:
+
+Input: tokens = ["4","13","5","/","+"]
+Output: 6
+Explanation: (4 + (13 / 5)) = 6
+Example 3:
+
+Input: tokens = ["10","6","9","3","+","-11","*","/","*","17","+","5","+"]
+Output: 22
+Explanation: ((10 * (6 / ((9 + 3) * -11))) + 17) + 5
+= ((10 * (6 / (12 * -11))) + 17) + 5
+= ((10 * (6 / -132)) + 17) + 5
+= ((10 * 0) + 17) + 5
+= (0 + 17) + 5
+= 17 + 5
+= 22
+```
+```javascript
+var evalRPN = function(tokens) {
+    const stack = [];
+    let num1, num2, newNum;
+    for (const token of tokens) {
+        switch (token) {
+            case '+':
+                num1 = stack.pop();
+                num2 = stack.pop();
+                newNum = Number(num1) + Number(num2);
+                stack.push(newNum);
+                break;
+            case '-':
+                num1 = stack.pop();
+                num2 = stack.pop();
+                newNum = Number(num2) - Number(num1);
+                stack.push(newNum);
+                break;
+            case '*':
+                num1 = stack.pop();
+                num2 = stack.pop();
+                newNum = Number(num1) * Number(num2);
+                stack.push(newNum);
+                break;
+            case '/':
+                num1 = stack.pop();
+                num2 = stack.pop();
+                newNum = Number(num2) / Number(num1);
+                newNum = newNum < 0 ? Math.ceil(newNum) : Math.floor(newNum);
+                stack.push(newNum);
+                break;
+            default:
+                stack.push(token);
+        }
+    }
+    return stack[0];
+};
+```
+
 ## Binary Tree Upside Down
 [156. Binary Tree Upside Down](https://leetcode.com/problems/binary-tree-upside-down/)
 ```javascript
@@ -703,6 +775,55 @@ function depthSumHelper(nestedList, depth) {
     }
     return sum;
 }
+```
+
+## Flatten Nested List Iterator
+[341. Flatten Nested List Iterator](https://leetcode.com/problems/flatten-nested-list-iterator/)
+```html
+You are given a nested list of integers nestedList. Each element is either an integer or a list whose elements may also be integers or other lists. Implement an iterator to flatten it.
+
+Implement the NestedIterator class:
+
+NestedIterator(List<NestedInteger> nestedList) Initializes the iterator with the nested list nestedList.
+int next() Returns the next integer in the nested list.
+boolean hasNext() Returns true if there are still some integers in the nested list and false otherwise.
+
+Example 1:
+
+Input: nestedList = [[1,1],2,[1,1]]
+Output: [1,1,2,1,1]
+Explanation: By calling next repeatedly until hasNext returns false, the order of elements returned by next should be: [1,1,2,1,1].
+Example 2:
+
+Input: nestedList = [1,[4,[6]]]
+Output: [1,4,6]
+Explanation: By calling next repeatedly until hasNext returns false, the order of elements returned by next should be: [1,4,6].
+```
+
+```javascript
+var NestedIterator = function(nestedList) {
+    function flattern(list) {
+        if (!list) {
+            return [];
+        }
+        let flattenedList = [];
+        for (const item of list) {
+            if (item.isInteger()) {
+                flattenedList.push(item.getInteger());
+            } else {
+                flattenedList = [...flattenedList, ...flattern(item.getList())];
+            }
+        }
+        return flattenedList;
+    }
+    this.flattenedList = flattern(nestedList);
+};
+NestedIterator.prototype.hasNext = function() {
+    return this.flattenedList.length > 0;
+};
+NestedIterator.prototype.next = function() {
+    return this.flattenedList.shift();
+};
 ```
 
 ### Top K Frequent Elements

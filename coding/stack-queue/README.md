@@ -11,6 +11,7 @@
     * [Minimum Remove to Make Valid Parentheses](#Minimum-Remove-to-Make-Valid-Parentheses)
     * [Exclusive Time of Functions](#Exclusive-Time-of-Functions)
     * [Simplify Path](#Simplify-Path)
+    * [Evaluate Reverse Polish Notation](../leetcode.md#evaluate-reverse-polish-notation)
 <!-- GFM-TOC -->
 
 

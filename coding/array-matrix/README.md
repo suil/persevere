@@ -21,8 +21,10 @@
         * [Monotonic Array](#Monotonic-Array)
         * [Next Permutation](#Next-Permutation)
         * [Intersection of Two Arrays](../leetcode.md#intersection-of-two-arrays)
-        * [Nested List Weight Sum](../leetcode.md#nested-list-weight-sum)
-        * [Nested List Weight Sum II](../leetcode.md#nested-list-weight-sum-ii)
+        * Nested Array
+            * [Nested List Weight Sum](../leetcode.md#nested-list-weight-sum)
+            * [Nested List Weight Sum II](../leetcode.md#nested-list-weight-sum-ii)
+            * [Flatten Nested List Iterator](../leetcode.md#flatten-nested-list-iterator)
     * [Matrix](#Matrix)
         * [Sparse Matrix Multiplication](#Sparse-Matrix-Multiplication)
         * [Range Sum Query 2D - Immutable](#range-sum-query-2d---immutable)
