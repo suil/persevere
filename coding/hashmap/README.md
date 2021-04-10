@@ -16,6 +16,8 @@
     * [Two Sum III - Data structure design](../leetcode.md#two-sum-iii-data-structure-design)
     * Ordered HashMap
         * [LRU Cache](../leetcode.md#lru-cache)
+    * HashMap and Array
+        * [Insert Delete GetRandom O(1)](../leetcode.md#insert-delete-getrandom-o1)
 <!-- GFM-TOC -->
 
 

@@ -43,6 +43,8 @@
         * [3. 复制粘贴字符](#3-复制粘贴字符)
     * String Matching and Manipulationg
         * [Regular Expression Matching](../leetcode.md#regular-expression-matching)
+    * Array Crossing
+        * [Paint House](../leetcode.md#paint-house)
 <!-- GFM-TOC -->
 
 

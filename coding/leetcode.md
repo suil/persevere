@@ -522,6 +522,100 @@ var groupStrings = function(strings) {
     return [...map.values()];
 };
 ```
+
+## Factor Combinations
+[254. Factor Combinations](https://leetcode.com/problems/factor-combinations/)
+```html
+Numbers can be regarded as the product of their factors.
+
+For example, 8 = 2 x 2 x 2 = 2 x 4.
+Given an integer n, return all possible combinations of its factors. You may return the answer in any order.
+
+Note that the factors should be in the range [2, n - 1].
+
+Example 1:
+
+Input: n = 1
+Output: []
+Example 2:
+
+Input: n = 12
+Output: [[2,6],[3,4],[2,2,3]]
+Example 3:
+
+Input: n = 37
+Output: []
+Example 4:
+
+Input: n = 32
+Output: [[2,16],[4,8],[2,2,8],[2,4,4],[2,2,2,4],[2,2,2,2,2]]
+```
+
+```javascript
+var getFactors = function(n) {
+    const output = [];
+    getFactorsHelper(n, 2, [], output);
+    return output;
+};
+function getFactorsHelper(n, current, factors, output) {
+    if (n === 1) {
+        if (factors.length > 1) {
+            output.push([...factors]);
+            return;
+        }
+    }
+    for (let i = current; i <= n; i++) {
+        if (n % i === 0) {
+            factors.push(i);
+            getFactorsHelper(n / i, i, factors, output);
+            factors.pop();
+        }
+    }
+}
+```
+
+## 256. Paint House
+[256. Paint House](https://leetcode.com/problems/paint-house/)
+Memoization (top down)
+
+```javascript
+function minCostMemoization(costs, currentIndex, lastColorIndex, memo) {
+    if (memo.has(`${currentIndex}:${lastColorIndex}`)) {
+        return memo.get(`${currentIndex}:${lastColorIndex}`);
+    }
+    
+    if (currentIndex >= costs.length) {
+        return 0;
+    }
+    
+    let min = Infinity;
+    for (let i = 0; i < 3; i++) {
+        if (lastColorIndex === i) {
+            continue;
+        }
+        min = Math.min(min, costs[currentIndex][i] + minCostMemoization(costs, currentIndex + 1, i, memo));
+    }
+    memo.set(`${currentIndex}:${lastColorIndex}`, min)
+    return min;
+}
+```
+
+```javascript
+function minCostDP(costs) {
+    if (costs === null || costs.length === 0) {
+        return 0;
+    }
+    
+    let n = costs.length;
+    for (let i = 1; i < n; i++) {
+        costs[i][0] += Math.min(costs[i - 1][1], costs[i - 1][2]);
+        costs[i][1] += Math.min(costs[i - 1][0], costs[i - 1][2]);
+        costs[i][2] += Math.min(costs[i - 1][0], costs[i - 1][1]);
+    }
+    return Math.min(costs[n - 1][0], costs[n - 1][1], costs[n - 1][2]);
+}
+```
+
 ## Shortest Distance from All Buildings
 [317. Shortest Distance from All Buildings](https://leetcode.com/problems/shortest-distance-from-all-buildings/)
 ```javascript
@@ -713,6 +807,64 @@ function findLeavesHelper(node, output) {
     node.right = findLeavesHelper(node.right, output);
     return node;
 }
+```
+## Insert Delete GetRandom O(1)
+[380. Insert Delete GetRandom O(1)](https://leetcode.com/problems/insert-delete-getrandom-o1/)
+```html
+Implement the RandomizedSet class:
+
+RandomizedSet() Initializes the RandomizedSet object.
+bool insert(int val) Inserts an item val into the set if not present. Returns true if the item was not present, false otherwise.
+bool remove(int val) Removes an item val from the set if present. Returns true if the item was present, false otherwise.
+int getRandom() Returns a random element from the current set of elements (it's guaranteed that at least one element exists when this method is called). Each element must have the same probability of being returned.
+ 
+Example 1:
+
+Input
+["RandomizedSet", "insert", "remove", "insert", "getRandom", "remove", "insert", "getRandom"]
+[[], [1], [2], [2], [], [1], [2], []]
+Output
+[null, true, false, true, 2, true, false, 2]
+
+Explanation
+RandomizedSet randomizedSet = new RandomizedSet();
+randomizedSet.insert(1); // Inserts 1 to the set. Returns true as 1 was inserted successfully.
+randomizedSet.remove(2); // Returns false as 2 does not exist in the set.
+randomizedSet.insert(2); // Inserts 2 to the set, returns true. Set now contains [1,2].
+randomizedSet.getRandom(); // getRandom() should return either 1 or 2 randomly.
+randomizedSet.remove(1); // Removes 1 from the set, returns true. Set now contains [2].
+randomizedSet.insert(2); // 2 was already in the set, so return false.
+randomizedSet.getRandom(); // Since 2 is the only number in the set, getRandom() will always return 2.
+```
+```javascript
+var RandomizedSet = function() {
+    this.arr = [];
+    this.map = new Map();
+};
+RandomizedSet.prototype.insert = function(val) {
+    if (!this.map.has(val)) {
+        this.arr.push(val);
+        this.map.set(val, this.arr.length - 1);
+        return true;
+    }
+    return false;
+};
+RandomizedSet.prototype.remove = function(val) {
+    if (this.map.has(val)) {
+        const ind = this.map.get(val);
+        this.map.delete(val);
+        const lastInd = this.arr.length - 1;
+        this.arr[ind] = this.arr[lastInd];
+        this.arr.pop();
+        this.map.set(this.arr[ind], ind)
+        return true;
+    }
+    return false;
+};
+RandomizedSet.prototype.getRandom = function() {
+    const ind = Math.floor(Math.random() * this.arr.length);
+    return this.arr[ind];
+};
 ```
 
 ## Random Pick Index
@@ -932,6 +1084,7 @@ var maxAncestorDiff = function(root) {
 
 ## Missing Element in Sorted Array
 [1060. Missing Element in Sorted Array](https://leetcode.com/problems/missing-element-in-sorted-array/)
+
 ```javascript
 var missingElement = function(nums, k) {
     let left = 0, right = nums.length - 1;
@@ -952,6 +1105,7 @@ function getMissingNumCount(nums, index) {
 ```
 ## Dot Product of Two Sparse Vectors
 [1570. Dot Product of Two Sparse Vectors](https://leetcode.com/problems/dot-product-of-two-sparse-vectors/)
+
 ```javascript
 var SparseVector = function(nums) {
     this.map = new Map();
