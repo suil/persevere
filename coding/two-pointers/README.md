@@ -10,6 +10,8 @@
     * [Longest Word in Dictionary through Deleting](#Longest-Word-in-Dictionary-through-Deleting)
     * [Trapping Rain Water](../leetcode.md#trapping-rain-water)
     * [Shortest Word Distance II](../leetcode.md#shortest-word-distance-ii)
+* Three Pointers
+    * [Valid Triangle Number](../leetcode.md#valid-triangle-number)
 <!-- GFM-TOC -->
 
 Two-pointer is an efficent way to navigate in an array.

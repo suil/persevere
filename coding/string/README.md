@@ -21,6 +21,7 @@
     * [Goat Latin](../leetcode.md#goat-latin)
     * [Strobogrammatic Number](../leetcode.md#strobogrammatic-number)
     * [Strobogrammatic Number II](../leetcode.md#strobogrammatic-number-ii)
+    * [Repeated DNA Sequences](../leetcode.md#repeated-dna-sequences)
 <!-- GFM-TOC -->
 
 

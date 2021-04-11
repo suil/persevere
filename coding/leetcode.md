@@ -429,6 +429,41 @@ BSTIterator.prototype.hasNext = function() {
     return this.cache.length > 0;
 };
 ```
+
+## Repeated DNA Sequences
+[187. Repeated DNA Sequences](https://leetcode.com/problems/repeated-dna-sequences/)
+```html
+The DNA sequence is composed of a series of nucleotides abbreviated as 'A', 'C', 'G', and 'T'.
+
+For example, "ACGAATTCCG" is a DNA sequence.
+When studying DNA, it is useful to identify repeated sequences within the DNA.
+
+Given a string s that represents a DNA sequence, return all the 10-letter-long sequences (substrings) that occur more than once in a DNA molecule. You may return the answer in any order.
+
+Example 1:
+
+Input: s = "AAAAACCCCCAAAAACCCCCCAAAAAGGGTTT"
+Output: ["AAAAACCCCC","CCCCCAAAAA"]
+Example 2:
+
+Input: s = "AAAAAAAAAAAAA"
+Output: ["AAAAAAAAAA"]
+```
+
+```javascript
+var findRepeatedDnaSequences = function(s) {
+    const seen = new Set();
+    const repeated = new Set();
+
+    for (let i = 0; i < s.length - 9; i++) {
+        const seq = s.substr(i, 10);
+        if (seen.has(seq)) { repeated.add(seq); }
+        seen.add(seq);
+    }
+
+    return [...repeated];
+};
+```
 ## Lowest Common Ancestor of a Binary Tree
 [236. Lowest Common Ancestor of a Binary Tree](https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/)
 ```javascript
@@ -446,6 +481,21 @@ var lowestCommonAncestor = function(root, p, q) {
 ```
 ## Shortest Word Distance
 [243. Shortest Word Distance](https://leetcode.com/problems/shortest-word-distance/)
+```html
+Given an array of strings wordsDict and two different strings that already exist in the array word1 and word2, return the shortest distance between these two words in the list.
+
+Example 1:
+
+Input: wordsDict = ["practice", "makes", "perfect", "coding", "makes"], word1 = "coding", word2 = "practice"
+Output: 3
+Example 2:
+
+Input: wordsDict = ["practice", "makes", "perfect", "coding", "makes"], word1 = "makes", word2 = "coding"
+Output: 1
+```
+
+Hashmap Solution:
+
 ```javascript
 var shortestDistance = function(wordsDict, word1, word2) {
     const map = new Map();
@@ -477,6 +527,22 @@ var shortestDistance = function(wordsDict, word1, word2) {
 };
 ```
 
+One pass:
+```javascript
+var shortestDistance = function(wordsDict, word1, word2) {
+    let p1 = null, p2 = null;
+    const same = word1 === word2;
+    let min = Infinity;
+    for (let i = 0; i < wordsDict.length; i++) {
+        if (wordsDict[i] === word1) { p1 = i; }
+        if (wordsDict[i] === word2) { p2 = i; }
+        if (p1 !== null && p2 !== null) {
+            min = Math.min(min, Math.abs(p1 - p2));
+        }
+    }
+    return min;
+}
+```
 ## Shortest Word Distance II
 [244. Shortest Word Distance II](https://leetcode.com/problems/shortest-word-distance-ii/)
 
@@ -528,6 +594,81 @@ WordDistance.prototype.shortest = function(word1, word2) {
     }
     return min;
 };
+```
+
+## Shortest Word Distance III
+[245. Shortest Word Distance III](https://leetcode.com/problems/shortest-word-distance-iii/)
+```html
+Given an array of strings wordsDict and two strings that already exist in the array word1 and word2, return the shortest distance between these two words in the list.
+
+Note that word1 and word2 may be the same. It is guaranteed that they represent two individual words in the list.
+
+Example 1:
+
+Input: wordsDict = ["practice", "makes", "perfect", "coding", "makes"], word1 = "makes", word2 = "coding"
+Output: 1
+Example 2:
+
+Input: wordsDict = ["practice", "makes", "perfect", "coding", "makes"], word1 = "makes", word2 = "makes"
+Output: 3
+```
+HashMap Solution:
+```javascript
+var shortestWordDistance = function(wordsDict, word1, word2) {
+    const map = new Map();
+    for (let i = 0; i < wordsDict.length; i++) {
+        if (!map.has(wordsDict[i])) { map.set(wordsDict[i], []); }
+        map.get(wordsDict[i]).push(i);
+    }
+    
+    let minDistance = Infinity;
+    if (word1 === word2) {
+        const positions = map.get(word1);
+        for (let i = 1; i < positions.length; i++) {
+            minDistance = Math.min(minDistance, Math.abs(positions[i] - positions[i - 1]));
+        }
+        return minDistance;
+    }
+    
+    const positions1 = map.get(word1);
+    const positions2 = map.get(word2);
+    let index1 = 0, index2 = 0;
+
+    while (index1 < positions1.length && index2 < positions2.length) {
+        minDistance = Math.min(minDistance, Math.abs(positions2[index2] - positions1[index1]));
+        if (positions2[index2] > positions1[index1]) {
+            index1++;
+        } else {
+            index2++;
+        }
+    }
+    return minDistance;
+};
+```
+One-pass Solution:
+```javascript
+function shortestWordDistanceOnePass(words, word1, word2) {
+    let p1 = null, p2 = null;
+    const same = word1 === word2;
+    let min = Infinity;
+    for (let i = 0; i < words.length; i++) {
+        if (same && words[i] === word1) {
+            if (p1 === null) {
+                p1 = i;
+                continue;
+            }
+            min = Math.min(min, i - p1);
+            p1 = i;
+        } else {
+            if (words[i] === word1) { p1 = i; }
+            if (words[i] === word2) { p2 = i; }
+            if (p1 !== null && p2 !== null) {
+                min = Math.min(min, Math.abs(p1 - p2));
+            }
+        }
+    }
+    return min;
+}
 ```
 
 ## 246. Strobogrammatic Number
@@ -1028,6 +1169,41 @@ var findBottomLeftValue = function(root) {
 };
 ```
 
+## Valid Triangle Number
+[611. Valid Triangle Number](https://leetcode.com/problems/valid-triangle-number/)
+```
+Given an array consists of non-negative integers, your task is to count the number of triplets chosen from the array that can make triangles if we take them as side lengths of a triangle.
+Example 1:
+Input: [2,2,3,4]
+Output: 3
+Explanation:
+Valid combinations are: 
+2,3,4 (using the first 2)
+2,3,4 (using the second 2)
+2,2,3
+```
+```javascript
+var triangleNumber = function(nums) {
+    if (nums.length < 3) { return 0; }
+    
+    nums.sort((a, b) => a - b);
+
+    let res = 0;
+    for (let i = nums.length - 1; i >= 0; i--) {
+        let left = 0, right = i - 1;
+        while (left < right) {
+            if (nums[left] + nums[right] > nums[i]) {
+                res += right - left;
+                right--;
+            } else {
+                left++;
+            }
+        }
+    }
+    return res;
+};
+```
+
 ## Maximum Swap
 [670. Maximum Swap](https://leetcode.com/problems/maximum-swap/)
 ```javascript
@@ -1051,6 +1227,43 @@ var maximumSwap = function(num) {
     }
     return num;
 };
+```
+
+## Partition to K Equal Sum Subsets
+[698. Partition to K Equal Sum Subsets](https://leetcode.com/problems/partition-to-k-equal-sum-subsets/)
+```html
+Given an array of integers nums and a positive integer k, find whether it's possible to divide this array into k non-empty subsets whose sums are all equal.
+
+Example 1:
+
+Input: nums = [4, 3, 2, 3, 5, 2, 1], k = 4
+Output: True
+Explanation: It's possible to divide it into 4 subsets (5), (1, 4), (2,3), (2,3) with equal sums.
+```
+```javascript
+var canPartitionKSubsets = function(nums, k) {
+    const total = nums.reduce((sum, num) => sum + num, 0);
+    if (total % k !== 0) { return false; }
+    const target = total / k;
+    return canPartitionKSubsetsHelper(nums, target, k, 0, 0, [])
+};
+function canPartitionKSubsetsHelper(nums, target, k, current, currentSum, visited) {
+    if (k === 1) { return true; }
+    
+    if (currentSum === target) {
+        return canPartitionKSubsetsHelper(nums, target, k - 1, 0, 0, visited);
+    }
+    
+    for (let i = current; i < nums.length; i++) {
+        if (visited[i] === true) { continue; }
+        visited[i] = true;
+        if (canPartitionKSubsetsHelper(nums, target, k, i + 1, currentSum + nums[i], visited)) {
+            return true;
+        }
+        visited[i] = false;
+    }
+    return false;
+}
 ```
 
 ## Insert into a Sorted Circular Linked List

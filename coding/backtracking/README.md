@@ -17,6 +17,7 @@
     * [Word Break II](../leetcode.md#word-break-ii)
     * [Regular Expression Matching](../leetcode.md#regular-expression-matching)
     * [Factor Combinations](../leetcode.md#factor-combinations)
+    * [Partition to K Equal Sum Subsets](../leetcode.md#partition-to-k-equal-sum-subsets)
 <!-- GFM-TOC -->
 
 ## Backtracking

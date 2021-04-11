@@ -6,6 +6,7 @@
         * [X of a Kind in a Deck of Cards](#X-of-a-Kind-in-a-Deck-of-Cards)
         * [Shortest Word Distance](../leetcode.md#shortest-word-distance)
         * [Shortest Word Distance II](../leetcode.md#shortest-word-distance-ii)
+        * [Shortest Word Distance III](../leetcode.md#shortest-word-distance-iii)
     * [Logger Rate Limiter](#Logger-Rate-Limiter)
     * [1. 数组中两个数的和为给定值](#1-数组中两个数的和为给定值)
     * [2. 判断数组是否含有重复元素](#2-判断数组是否含有重复元素)
