@@ -30,7 +30,7 @@
         * [4. 找零钱的最少硬币数](#4-找零钱的最少硬币数)
         * [5. 找零钱的硬币数组合](#5-找零钱的硬币数组合)
         * [Word Break](#word-break)
-        * [Word Break II](../leetcode.md#word-break-ii)
+        * [Word Break II](#word-break-ii)
         * [7. 组合总和](#7-组合总和)
     * [股票交易](#股票交易)
         * [1. 需要冷却期的股票交易](#1-需要冷却期的股票交易)
@@ -993,6 +993,94 @@ var wordBreak = function(s, wordDict) {
     return dp[sLen];
 };
 ```
+<!-- @include ../leetcode/0140.word-break-ii.md -->
+### Word Break II
+[140. Word Break II](https://leetcode.com/problems/word-break-ii/)
+```html
+Given a string s and a dictionary of strings wordDict, add spaces in s to construct a sentence where each word is a valid dictionary word. Return all such possible sentences in any order.
+
+Note that the same word in the dictionary may be reused multiple times in the segmentation.
+
+Example 1:
+
+Input: s = "catsanddog", wordDict = ["cat","cats","and","sand","dog"]
+Output: ["cats and dog","cat sand dog"]
+Example 2:
+
+Input: s = "pineapplepenapple", wordDict = ["apple","pen","applepen","pine","pineapple"]
+Output: ["pine apple pen apple","pineapple pen apple","pine applepen apple"]
+Explanation: Note that you are allowed to reuse a dictionary word.
+Example 3:
+
+Input: s = "catsandog", wordDict = ["cats","dog","sand","and","cat"]
+Output: []
+```
+
+Backtracking with no memoization
+
+```javascript
+var wordBreak = function(s, wordDict) {
+    const output = [];
+    wordBreakHelper(s, wordDict, [], output);
+    return output;
+};
+function wordBreakHelper(s, wordDict, words, output) {
+    if (s.length === 0) {
+        output.push(words.join(' '));
+        return;
+    }
+   
+    for (let i = 0; i < s.length; i++) {
+        const substr = s.substring(0, i + 1);
+        if (wordDict.includes(substr)) {
+            const nextS = s.substring(i + 1);
+            const nextWords = [...words, substr];
+            wordBreakHelper(nextS, wordDict, nextWords, output);
+        }
+    }
+    // could loop thru wordDict
+    // for (const word of wordDict) {
+    //     const substr = s.substring(0, word.length);
+    //     if (substr !== word) { continue; }
+    //     const nextS = s.substring(word.length);
+    //     const nextWords = [...words, word];
+    //     wordBreakHelper(nextS, wordDict, nextWords, output, cache);
+    // }
+}
+```
+
+Backtracking with memoization (top-down dynamic programming)
+```javascript
+var wordBreak = function(s, wordDict) {
+    const memo = new Map();
+    const words = wordBreakHelperMemoization(s, 0, wordDict, memo);
+    return words.map(w => w.join(' '));
+};
+function wordBreakHelperMemoization(s, current, wordDict, memo) {
+    if (memo.has(current)) { return memo.get(current); }
+    
+    if (current >= s.length) {
+        return [[]];
+    }
+
+    const words = [];
+    for (let i = current; i < s.length; i++) {
+        const substr = s.substring(current, i + 1);
+        if (wordDict.includes(substr)) {
+            const nextCurrent = i + 1;
+            const nextWords = wordBreakHelperMemoization(s, nextCurrent, wordDict, memo);
+            for (const nextWord of nextWords) {
+                words.push([substr, ...nextWord]);
+            }
+        }
+    }
+
+    memo.set(current, words);
+    return words;
+}
+```
+
+
 
 ### 7. 组合总和
 
@@ -1304,7 +1392,8 @@ public int minSteps(int n) {
 ```
 
 ## Array Crossing
-<!-- @include ../leetcode/0256.paint-house.md -->
+
+<!-- @include ../leetcode/0256.paint-house.md -->
 ### 256. Paint House
 [256. Paint House](https://leetcode.com/problems/paint-house/)
 ```html

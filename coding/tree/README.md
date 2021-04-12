@@ -22,7 +22,7 @@
         * [Convert Binary Search Tree to Sorted Doubly Linked List](#Convert-Binary-Search-Tree-to-Sorted-Doubly-Linked-List)
         * [Lowest Common Ancestor of a Binary Tree](#lowest-common-ancestor-of-a-binary-tree)
         * [Maximum Difference Between Node and Ancestor](#maximum-difference-between-node-and-ancestor)
-        * [Binary Tree Upside Down](../leetcode.md#binary-tree-upside-down)
+        * [Binary Tree Upside Down](#binary-tree-upside-down)
         * [Find Leaves of Binary Tree](#find-leaves-of-binary-tree)
 
     * [Breath First Search](#Breath-First-Search)
@@ -472,7 +472,8 @@ public int findSecondMinimumValue(TreeNode root) {
     return rightVal;
 }
 ```
-<!-- @include ../leetcode/0236.lowest-common-ancestor-of-a-binary-tree.md -->
+
+<!-- @include ../leetcode/0236.lowest-common-ancestor-of-a-binary-tree.md -->
 ### Lowest Common Ancestor of a Binary Tree
 [236. Lowest Common Ancestor of a Binary Tree](https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/)
 ```html
@@ -602,6 +603,47 @@ function rightSideViewBfs(root) {
     return output;
 }
 ```
+
+<!-- @include ../leetcode/0156.binary-tree-upside-down.md -->
+### Binary Tree Upside Down
+[156. Binary Tree Upside Down](https://leetcode.com/problems/binary-tree-upside-down/)
+```html
+Given a binary tree where all the right nodes are either leaf nodes with a sibling (a left node that shares the same parent node) or empty, flip it upside down and turn it into a tree where the original right nodes turned into left leaf nodes. Return the new root.
+
+Example:
+
+Input: [1,2,3,4,5]
+
+    1
+   / \
+  2   3
+ / \
+4   5
+
+Output: return the root of the binary tree [4,5,2,#,#,3,1]
+
+   4
+  / \
+ 5   2
+    / \
+   3   1  
+```
+
+```javascript
+var upsideDownBinaryTree = function(root) {
+    if (root === null) {
+        return null;
+    }
+    if (!root.left) { return root; }
+    var newRoot = upsideDownBinaryTree(root.left);
+    root.left.left = root.right;
+    root.left.right = root;
+    root.left = null;
+    root.right = null;
+    return newRoot;
+};
+```
+
 
 <!-- @include ../leetcode/0366.find-leaves-of-binary-tree.md -->
 ## Find Leaves of Binary Tree
@@ -911,7 +953,8 @@ var closestValue = function(root, target) {
     return output;
 };
 ```
-<!-- @include ../leetcode/0173.binary-search-tree-iterator.md -->
+
+<!-- @include ../leetcode/0173.binary-search-tree-iterator.md -->
 ### Binary Search Tree Iterator
 [173. Binary Search Tree Iterator](https://leetcode.com/problems/binary-search-tree-iterator/)
 ```html

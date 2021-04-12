@@ -14,7 +14,7 @@
     * [Subsets II](#Subsets-II)
     * [Palindrome Partitioning](#Palindrome-Partitioning)
     * [Expression Add Operators](#Expression-Add-Operators)
-    * [Word Break II](../leetcode.md#word-break-ii)
+    * [Word Break II](#word-break-ii)
     * [Regular Expression Matching](#regular-expression-matching)
     * [Factor Combinations](#factor-combinations)
     * [Partition to K Equal Sum Subsets](#partition-to-k-equal-sum-subsets)
@@ -542,7 +542,8 @@ function isMatchDP(s, p) {
     return dp[s.length][p.length];
 }
 ```
-<!-- @include ../leetcode/0254.factor-combinations.md -->
+
+<!-- @include ../leetcode/0254.factor-combinations.md -->
 ### Factor Combinations
 [254. Factor Combinations](https://leetcode.com/problems/factor-combinations/)
 ```html
@@ -594,7 +595,8 @@ function getFactorsHelper(n, current, factors, output) {
 }
 ```
 
-<!-- @include ../leetcode/0698.partition-to-k-equal-sum-subsets.md -->
+
+<!-- @include ../leetcode/0698.partition-to-k-equal-sum-subsets.md -->
 ## Partition to K Equal Sum Subsets
 [698. Partition to K Equal Sum Subsets](https://leetcode.com/problems/partition-to-k-equal-sum-subsets/)
 ```html

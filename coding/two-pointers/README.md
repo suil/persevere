@@ -8,7 +8,7 @@
     * [Merge Sorted Array](#Merge-Sorted-Array)
     * [Linked List Cycle](#Linked-List-Cycle)
     * [Longest Word in Dictionary through Deleting](#Longest-Word-in-Dictionary-through-Deleting)
-    * [Trapping Rain Water](../leetcode.md#trapping-rain-water)
+    * [Trapping Rain Water](#trapping-rain-water)
     * [Shortest Word Distance II](../leetcode.md#shortest-word-distance-ii)
 * Three Pointers
     * [Valid Triangle Number](#valid-triangle-number)
@@ -206,7 +206,84 @@ function hasMatch(s, word) {
     return wp === word.length;
 }
 ```
-<!-- @include ../leetcode/0611.valid-triangle-number.md -->
+<!-- @include ../leetcode/0042.trapping-rain-water.md -->
+### Trapping Rain Water
+[42. Trapping Rain Water](https://leetcode.com/problems/trapping-rain-water/)
+```html
+Given n non-negative integers representing an elevation map where the width of each bar is 1, compute how much water it can trap after raining.
+
+Example 1:
+
+Input: height = [0,1,0,2,1,0,1,3,2,1,2,1]
+Output: 6
+Explanation: The above elevation map (black section) is represented by array [0,1,0,2,1,0,1,3,2,1,2,1]. In this case, 6 units of rain water (blue section) are being trapped.
+Example 2:
+
+Input: height = [4,2,0,3,2,5]
+Output: 9
+```
+
+Dynamic Programming solution:
+```javascript
+var trap = function(height) {
+    if (!height) { return 0; }
+    
+    let len = height.length;
+    let leftMax = [], rightMax = [];
+    
+    leftMax[0] = height[0];
+    rightMax[len - 1] = height[len - 1];
+    
+    for (let i = 1; i < len; i++) {
+        leftMax[i] = Math.max(height[i], leftMax[i - 1])
+    }
+    for (let i = len - 2; i >= 0; i--) {
+        rightMax[i] = Math.max(height[i], rightMax[i + 1]);
+    }
+    
+    let totalWater = 0;
+    for (let i = 0; i < len; i++) {
+        let water = Math.min(leftMax[i], rightMax[i]) - height[i];
+        totalWater += water;
+    }
+    return totalWater;
+};
+```
+
+Two Pointer solution:
+```javascript
+var trap = function(height) {
+    if (!height || height.length === 0 || height.length === 1) {
+        return 0;
+    }
+
+    let i = 0, j = height.length - 1;
+    let maxR = -Infinity, maxL = -Infinity;
+    let totalWater = 0;
+
+    while (i < j) {
+        if (height[i] < height[j]) {
+            if (height[i] >= maxL) {
+                maxL = height[i];
+            } else {
+                totalWater += height[i] - maxL;
+            }
+            i++;
+        } else {
+            if (height[j] >= maxR) {
+                maxR = height[j];
+            } else {
+                totalWater += height[j] - maxR;
+            }
+            j--;
+        }
+    }
+    return Math.abs(totalWater);
+};
+```
+
+
+<!-- @include ../leetcode/0611.valid-triangle-number.md -->
 ## Valid Triangle Number
 [611. Valid Triangle Number](https://leetcode.com/problems/valid-triangle-number/)
 ```

@@ -27,8 +27,8 @@
         * [2. 3 的 n 次方](#2-3-的-n-次方)
         * [4. 找出数组中的乘积最大的三个数](#4-找出数组中的乘积最大的三个数)
         * [Divide Two Integers](#Divide-Two-Integers)
-        * [Pow(x, n)](../leetcode.md#powx-n)
-        * [Multiply Strings](../leetcode.md#multiply-strings)
+        * [Pow(x, n)](#powx-n)
+        * [Multiply Strings](#multiply-strings)
 <!-- GFM-TOC -->
 
 
@@ -446,7 +446,8 @@ public int majorityElement(int[] nums) {
 
 ## Randomness
 Reservoir sampling is a technique which is used to generate numbers randomly when we have a large pool of numbers. As mentioned in the note for this question, the array size can be large, hence it is a reasonable choice to use Reservoir Sampling. Consider an array of size nn from which we need to chose a number randomly. Consider these numbers to be coming in the form of a stream, hence at each step, we have to take the decision of whether or not to choose a given number, such that the overall probability of each number being chosen is same 1/n n1 in this case). If we have a total of nn numbers and we pick the i^{th}i h   number, this implies that we do not pick any number further from index (i + 1)(i+1) to nn.
-<!-- @include ../leetcode/0398.random-pick-index.md -->
+
+<!-- @include ../leetcode/0398.random-pick-index.md -->
 ### Random Pick Index
 [398. Random Pick Index](https://leetcode.com/problems/random-pick-index/)
 ```html
@@ -593,5 +594,79 @@ var divide = function(dividend, divisor) {
         result++;
     }
     return isNegative ? -result : result;
+};
+```
+<!-- @include ../leetcode/0050.powx-n.md -->
+### Pow(x, n)
+[50. Pow(x, n)](https://leetcode.com/problems/powx-n/)
+```html
+Implement pow(x, n), which calculates x raised to the power n (i.e., xn).
+
+Example 1:
+
+Input: x = 2.00000, n = 10
+Output: 1024.00000
+Example 2:
+
+Input: x = 2.10000, n = 3
+Output: 9.26100
+Example 3:
+
+Input: x = 2.00000, n = -2
+Output: 0.25000
+Explanation: 2-2 = 1/22 = 1/4 = 0.25
+```
+
+```javascript
+var myPow = function(x, n) {
+    if (n === 0) { return 1; }
+    if (n === 1) { return x; }
+    if (n < 0) { return myPow(1/x, -n); }
+    
+    let result = myPow(x * x, Math.floor(n / 2));
+    if (n % 2 !== 0) {
+        result *= x;
+    }
+    return result;
+};
+```
+
+<!-- @include ../leetcode/0043.multiply-strings.md -->
+### Multiply Strings
+[43. Multiply Strings](https://leetcode.com/problems/multiply-strings/)
+```html
+Given two non-negative integers num1 and num2 represented as strings, return the product of num1 and num2, also represented as a string.
+
+Note: You must not use any built-in BigInteger library or convert the inputs to integer directly.
+
+Example 1:
+
+Input: num1 = "2", num2 = "3"
+Output: "6"
+Example 2:
+
+Input: num1 = "123", num2 = "456"
+Output: "56088"
+```
+
+```javascript
+var multiply = function(num1, num2) {
+    const chars1 = num1.split('');
+    const chars2 = num2.split('');
+    const output = [...Array(num1.length + num2.length)].fill('0');
+    
+    for (let i = num1.length - 1; i >= 0 ; i--) {
+        for (let j = num2.length - 1; j >= 0; j--) {
+            const product = (chars1[i] - '0') * (chars2[j] - '0');
+            const temp = product + (output[i + j + 1] - '0');
+            output[i + j + 1] = String(temp % 10);
+            output[i + j] = String(output[i + j] - '0' + Math.floor(temp / 10));
+        }
+    }
+
+    while (output[0] === '0' && output.length > 1) {
+        output.shift();
+    }
+    return output.join('');
 };
 ```

@@ -14,10 +14,10 @@
     * [4. 最长连续序列](#4-最长连续序列)
     * [friends-of-appropriate-ages](../leedcode.md#friends-of-appropriate-ages)
     * [Group Shifted Strings](#group-shifted-strings)
-    * [Two Sum III - Data structure design](../leetcode.md#two-sum-iii-data-structure-design)
+    * [Two Sum III - Data structure design](#two-sum-iii-data-structure-design)
     * [Dot Product of Two Sparse Vectors](#dot-product-of-two-sparse-vectors)
-    * Ordered HashMap
-        * [LRU Cache](../leetcode.md#lru-cache)
+    * [Ordered HashMap](#Ordered-HashMap)
+        * [LRU Cache](#lru-cache)
     * HashMap and Array
         * [Insert Delete GetRandom O(1)](#insert-delete-getrandom-o1)
 <!-- GFM-TOC -->
@@ -76,7 +76,8 @@ var hasGroupsSizeX = function(deck) {
 function gcd(x, y) {
     return x === 0 ? y : gcd(y % x, x)
 }
-<!-- @include ../leetcode/0243.shortest-word-distance.md -->
+
+<!-- @include ../leetcode/0243.shortest-word-distance.md -->
 ### Shortest Word Distance
 [243. Shortest Word Distance](https://leetcode.com/problems/shortest-word-distance/)
 ```html
@@ -142,7 +143,8 @@ var shortestDistance = function(wordsDict, word1, word2) {
 }
 ```
 
-<!-- @include ../leetcode/0244.shortest-word-distance-ii.md -->
+
+<!-- @include ../leetcode/0244.shortest-word-distance-ii.md -->
 ### Shortest Word Distance II
 [244. Shortest Word Distance II](https://leetcode.com/problems/shortest-word-distance-ii/)
 
@@ -196,7 +198,8 @@ WordDistance.prototype.shortest = function(word1, word2) {
 };
 ```
 
-<!-- @include ../leetcode/0245.shortest-word-distance-iii.md -->
+
+<!-- @include ../leetcode/0245.shortest-word-distance-iii.md -->
 ### Shortest Word Distance III
 [245. Shortest Word Distance III](https://leetcode.com/problems/shortest-word-distance-iii/)
 
@@ -419,6 +422,49 @@ private int maxCount(Map<Integer, Integer> countForNum) {
     return max;
 }
 ```
+<!-- @include ../leetcode/0170.two-sum-iii-data-structure-design.md -->
+### Two Sum III - Data structure design
+[170. Two Sum III - Data structure design](https://leetcode.com/problems/two-sum-iii-data-structure-design/)
+```html
+Design and implement a TwoSum class. It should support the following operations: add and find.
+
+add - Add the number to an internal data structure.
+find - Find if there exists any pair of numbers which sum is equal to the value.
+
+Example 1:
+
+add(1); add(3); add(5);
+find(4) -> true
+find(7) -> false
+Example 2:
+
+add(3); add(1); add(2);
+find(3) -> true
+find(6) -> false
+```
+
+```javascript
+var TwoSum = function() {
+    this.nums = new Map();
+};
+TwoSum.prototype.add = function(number) {
+    this.nums.set(number, (this.nums.get(number) || 0) + 1);
+};
+TwoSum.prototype.find = function(value) {
+    for (const [num, count] of this.nums) {
+        const diff = value - num;
+        if (!this.nums.has(diff)) { continue; }
+        let count = this.nums.get(diff);
+        if (diff === num) {
+            if (count > 1) { return true; }
+        } else {
+            return this.nums.has(diff);
+        }
+    }
+    return false;
+};
+```
+
 
 <!-- @include ../leetcode/1570.dot-product-of-two-sparse-vectors.md -->
 ### Dot Product of Two Sparse Vectors
@@ -509,6 +555,63 @@ var groupStrings = function(strings) {
         map.get(key).push(string);
     }
     return [...map.values()];
+};
+```
+## Ordered HashMap
+<!-- @include ../leetcode/0146.lru-cache.md -->
+### LRU Cache
+[146. LRU Cache](https://leetcode.com/problems/lru-cache/)
+```html
+Design a data structure that follows the constraints of a Least Recently Used (LRU) cache.
+
+Implement the LRUCache class:
+
+LRUCache(int capacity) Initialize the LRU cache with positive size capacity.
+int get(int key) Return the value of the key if the key exists, otherwise return -1.
+void put(int key, int value) Update the value of the key if the key exists. Otherwise, add the key-value pair to the cache. If the number of keys exceeds the capacity from this operation, evict the least recently used key.
+Follow up:
+Could you do get and put in O(1) time complexity?
+Example 1:
+
+Input
+["LRUCache", "put", "put", "get", "put", "get", "put", "get", "get", "get"]
+[[2], [1, 1], [2, 2], [1], [3, 3], [2], [4, 4], [1], [3], [4]]
+Output
+[null, null, null, 1, null, -1, null, -1, 3, 4]
+
+Explanation
+LRUCache lRUCache = new LRUCache(2);
+lRUCache.put(1, 1); // cache is {1=1}
+lRUCache.put(2, 2); // cache is {1=1, 2=2}
+lRUCache.get(1);    // return 1
+lRUCache.put(3, 3); // LRU key was 2, evicts key 2, cache is {1=1, 3=3}
+lRUCache.get(2);    // returns -1 (not found)
+lRUCache.put(4, 4); // LRU key was 1, evicts key 1, cache is {4=4, 3=3}
+lRUCache.get(1);    // return -1 (not found)
+lRUCache.get(3);    // return 3
+lRUCache.get(4);    // return 4
+```
+
+```javascript
+var LRUCache = function(capacity) {
+    this.orderedMap = new Map();
+    this.capacity = capacity;
+};
+LRUCache.prototype.get = function(key) {
+    if (!this.orderedMap.has(key)) { return -1; }
+    let existingValue = this.orderedMap.get(key);
+    this.put(key, existingValue);
+    return existingValue;
+};
+LRUCache.prototype.put = function(key, value) {
+    if (this.orderedMap.has(key)) {
+        this.orderedMap.delete(key);
+    }
+    this.orderedMap.set(key, value);
+    if (this.orderedMap.size > this.capacity) {
+        let keyLRU = [...this.orderedMap.keys()][0]; // this.orderedMap.keys().next().value;
+        this.orderedMap.delete(keyLRU);
+    }
 };
 ```
 
