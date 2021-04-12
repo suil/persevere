@@ -19,9 +19,9 @@
     * [Long Pressed Name](#Long-Pressed-Name)
     * [Group Shifted Strings](#group-shifted-strings)
     * [Goat Latin](#goat-latin)
-    * [Strobogrammatic Number](../leetcode.md#strobogrammatic-number)
+    * [Strobogrammatic Number](#strobogrammatic-number)
     * [Strobogrammatic Number II](#strobogrammatic-number-ii)
-    * [Repeated DNA Sequences](../leetcode.md#repeated-dna-sequences)
+    * [Repeated DNA Sequences](#repeated-dna-sequences)
 <!-- GFM-TOC -->
 
 
@@ -433,7 +433,8 @@ function compareMap(map1, map2) {
     return true;
 }
 ```
-<!-- @include ../leetcode/0249.group-shifted-strings.md -->
+
+<!-- @include ../leetcode/0249.group-shifted-strings.md -->
 ### Group Shifted Strings
 [249. Group Shifted Strings](https://leetcode.com/problems/group-shifted-strings/)
 ```html
@@ -473,7 +474,8 @@ var groupStrings = function(strings) {
 };
 ```
 
-<!-- @include ../leetcode/0824.goat-latin.md -->
+
+<!-- @include ../leetcode/0824.goat-latin.md -->
 ### Goat Latin
 [824. Goat Latin](https://leetcode.com/problems/goat-latin/)
 ```html
@@ -519,8 +521,37 @@ var toGoatLatin = function(S) {
     return words.join(' ');
 };
 ```
+<!-- @include ../leetcode/0247.strobogrammatic-number.md -->
+### 246. Strobogrammatic Number
+[246. Strobogrammatic Number](https://leetcode.com/problems/strobogrammatic-number/)
+```html
+A strobogrammatic number is a number that looks the same when rotated 180 degrees (looked at upside down).
 
-<!-- @include ../leetcode/0247.strobogrammatic-number-ii.md -->
+Write a function to determine if a number is strobogrammatic. The number is represented as a string.
+
+For example, the numbers "69", "88", and "818" are all strobogrammatic.
+```
+
+```javascript
+var isStrobogrammatic = function(num) {
+    let upsideDowns = {
+        '1' : '1',
+        '6' : '9',
+        '8' : '8',
+        '9' : '6',
+        '0' : '0'
+    }
+    for (let i = 0, j = num.length -1; i < num.length; i++, j--){
+        if (upsideDowns[num[i]] != num[j]) {
+            return false
+        }
+    }
+    return true;
+};
+```
+
+
+<!-- @include ../leetcode/0247.strobogrammatic-number-ii.md -->
 ### Strobogrammatic Number II
 [247. Strobogrammatic Number II](https://leetcode.com/problems/strobogrammatic-number-ii/)
 ```html
@@ -552,4 +583,38 @@ function findStrobogrammaticRecursive(len, n) {
     return res;
 }
 ```
+<!-- @include ../leetcode/0187.repeated-dna-sequences.md -->
+### Repeated DNA Sequences
+[187. Repeated DNA Sequences](https://leetcode.com/problems/repeated-dna-sequences/)
+```html
+The DNA sequence is composed of a series of nucleotides abbreviated as 'A', 'C', 'G', and 'T'.
 
+For example, "ACGAATTCCG" is a DNA sequence.
+When studying DNA, it is useful to identify repeated sequences within the DNA.
+
+Given a string s that represents a DNA sequence, return all the 10-letter-long sequences (substrings) that occur more than once in a DNA molecule. You may return the answer in any order.
+
+Example 1:
+
+Input: s = "AAAAACCCCCAAAAACCCCCCAAAAAGGGTTT"
+Output: ["AAAAACCCCC","CCCCCAAAAA"]
+Example 2:
+
+Input: s = "AAAAAAAAAAAAA"
+Output: ["AAAAAAAAAA"]
+```
+
+```javascript
+var findRepeatedDnaSequences = function(s) {
+    const seen = new Set();
+    const repeated = new Set();
+
+    for (let i = 0; i < s.length - 9; i++) {
+        const seq = s.substr(i, 10);
+        if (seen.has(seq)) { repeated.add(seq); }
+        seen.add(seq);
+    }
+
+    return [...repeated];
+};
+```

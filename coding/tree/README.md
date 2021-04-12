@@ -20,7 +20,7 @@
         * [Binary Tree Maximum Path Sum](#Binary-Tree-Maximum-Path-Sum)
         * [Binary Tree Right Side View](#Binary-Tree-Right-Side-View)
         * [Convert Binary Search Tree to Sorted Doubly Linked List](#Convert-Binary-Search-Tree-to-Sorted-Doubly-Linked-List)
-        * [Lowest Common Ancestor of a Binary Tree](../leetcode.md#lowest-common-ancestor-of-a-binary-tree)
+        * [Lowest Common Ancestor of a Binary Tree](#lowest-common-ancestor-of-a-binary-tree)
         * [Maximum Difference Between Node and Ancestor](#maximum-difference-between-node-and-ancestor)
         * [Binary Tree Upside Down](../leetcode.md#binary-tree-upside-down)
         * [Find Leaves of Binary Tree](#find-leaves-of-binary-tree)
@@ -35,7 +35,7 @@
         * [3. 非递归实现二叉树的中序遍历](#3-非递归实现二叉树的中序遍历)
         * [Closest Binary Search Tree Value](#Closest-Binary-Search-Tree-Value)
         * [Range Sum of BST](#Range-Sum-of-BST)
-        * [Binary Search Tree Iterator](../leetcode.md#binary-search-tree-iterator)
+        * [Binary Search Tree Iterator](#binary-search-tree-iterator)
     * [Vertical order traversal](#vertical-order-traversal)
         * [Vertical Order Traversal of a Binary Tree](#Vertical-Order-Traversal-of-a-Binary-Tree)
     * [Binary Search Tree](#bst)
@@ -472,6 +472,38 @@ public int findSecondMinimumValue(TreeNode root) {
     return rightVal;
 }
 ```
+<!-- @include ../leetcode/0236.lowest-common-ancestor-of-a-binary-tree.md -->
+### Lowest Common Ancestor of a Binary Tree
+[236. Lowest Common Ancestor of a Binary Tree](https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/)
+```html
+Given a binary tree, find the lowest common ancestor (LCA) of two given nodes in the tree.
+
+According to the definition of LCA on Wikipedia: “The lowest common ancestor is defined between two nodes v and w as the lowest node in T that has both v and w as descendants (where we allow a node to be a descendant of itself).”
+
+        _______3______
+       /              \
+    ___5__          ___1__
+   /      \        /      \
+   6      _2       0       8
+         /  \
+         7   4
+For example, the lowest common ancestor (LCA) of nodes5and1is3. Another example is LCA of nodes5and4is5, since a node can be a descendant of itself according to the LCA definition.
+```
+
+```javascript
+var lowestCommonAncestor = function(root, p, q) {
+    if (root === null || root === p || root === q) {
+        return root
+    }
+    const left = lowestCommonAncestor(root.left, p, q)
+    const right = lowestCommonAncestor(root.right, p, q)
+    if (left && right) {
+        return root
+    }
+    return left || right
+};
+```
+
 
 ### Serialize and Deserialize Binary Tree
 [297. Serialize and Deserialize Binary Tree](https://leetcode.com/problems/serialize-and-deserialize-binary-tree/)
@@ -879,6 +911,43 @@ var closestValue = function(root, target) {
     return output;
 };
 ```
+<!-- @include ../leetcode/0173.binary-search-tree-iterator.md -->
+### Binary Search Tree Iterator
+[173. Binary Search Tree Iterator](https://leetcode.com/problems/binary-search-tree-iterator/)
+```html
+Implement an iterator over a binary search tree (BST). Your iterator will be initialized with the root node of a BST.
+
+Callingnext()will return the next smallest number in the BST.
+
+Note:next()andhasNext()should run in average O(1) time and uses O(h) memory, wherehis the height of the tree.
+```
+
+```javascript
+var BSTIterator = function(root) {
+    this.cache = []
+    const traverse = (node) => {
+        if (node === null) { return; }
+        if (node.left) traverse(node.left);
+        this.cache.push(node.val);
+        if (node.right) traverse(node.right);
+    }
+    traverse(root);
+};
+/**
+ * @return {number}
+ */
+BSTIterator.prototype.next = function() {
+    return this.cache.shift();
+};
+
+/**
+ * @return {boolean}
+ */
+BSTIterator.prototype.hasNext = function() {
+    return this.cache.length > 0;
+};
+```
+
 
 ### Range Sum of BST
 [938. Range Sum of BST](https://leetcode.com/problems/range-sum-of-bst/)
@@ -899,7 +968,7 @@ var rangeSumBST = function(root, low, high) {
     return sum;
 };
 ```
-## Vertical order traversal]
+## Vertical order traversal
 
 ### Vertical Order Traversal of a Binary Tree
 [987. Vertical Order Traversal of a Binary Tree](https://leetcode.com/problems/vertical-order-traversal-of-a-binary-tree/)

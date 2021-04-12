@@ -4,9 +4,9 @@
     * [HashMap of occurence](#HashMap-of-occurence)
         * [Bulls and Cows](#Bulls-and-Cows)
         * [X of a Kind in a Deck of Cards](#X-of-a-Kind-in-a-Deck-of-Cards)
-        * [Shortest Word Distance](../leetcode.md#shortest-word-distance)
-        * [Shortest Word Distance II](../leetcode.md#shortest-word-distance-ii)
-        * [Shortest Word Distance III](../leetcode.md#shortest-word-distance-iii)
+        * [Shortest Word Distance](#shortest-word-distance)
+        * [Shortest Word Distance II](#shortest-word-distance-ii)
+        * [Shortest Word Distance III](#shortest-word-distance-iii)
     * [Logger Rate Limiter](#Logger-Rate-Limiter)
     * [1. 数组中两个数的和为给定值](#1-数组中两个数的和为给定值)
     * [2. 判断数组是否含有重复元素](#2-判断数组是否含有重复元素)
@@ -76,6 +76,205 @@ var hasGroupsSizeX = function(deck) {
 function gcd(x, y) {
     return x === 0 ? y : gcd(y % x, x)
 }
+<!-- @include ../leetcode/0243.shortest-word-distance.md -->
+### Shortest Word Distance
+[243. Shortest Word Distance](https://leetcode.com/problems/shortest-word-distance/)
+```html
+Given an array of strings wordsDict and two different strings that already exist in the array word1 and word2, return the shortest distance between these two words in the list.
+
+Example 1:
+
+Input: wordsDict = ["practice", "makes", "perfect", "coding", "makes"], word1 = "coding", word2 = "practice"
+Output: 3
+Example 2:
+
+Input: wordsDict = ["practice", "makes", "perfect", "coding", "makes"], word1 = "makes", word2 = "coding"
+Output: 1
+```
+
+Hashmap Solution:
+
+```javascript
+var shortestDistance = function(wordsDict, word1, word2) {
+    const map = new Map();
+    for (let i = 0; i < wordsDict.length; i++) {
+        const word = wordsDict[i];
+        if (!map.has(word)) { map.set(word, []); }
+        map.get(word).push(i);
+    }
+    
+    const positions1 = map.get(word1);
+    const positions2 = map.get(word2);
+    
+    let index1 = 0;
+    let index2 = 0;
+    
+    let min = Infinity;
+    while (index1 < positions1.length && index2 < positions2.length) {
+        const position1 = positions1[index1];
+        const position2 = positions2[index2];
+        min = Math.min(min, Math.abs(position1 - position2));
+        
+        if (position1 < position2) {
+            index1++;
+        } else {
+            index2++;
+        }
+    }
+    return min;
+};
+```
+
+One pass:
+```javascript
+var shortestDistance = function(wordsDict, word1, word2) {
+    let p1 = null, p2 = null;
+    const same = word1 === word2;
+    let min = Infinity;
+    for (let i = 0; i < wordsDict.length; i++) {
+        if (wordsDict[i] === word1) { p1 = i; }
+        if (wordsDict[i] === word2) { p2 = i; }
+        if (p1 !== null && p2 !== null) {
+            min = Math.min(min, Math.abs(p1 - p2));
+        }
+    }
+    return min;
+}
+```
+
+<!-- @include ../leetcode/0244.shortest-word-distance-ii.md -->
+### Shortest Word Distance II
+[244. Shortest Word Distance II](https://leetcode.com/problems/shortest-word-distance-ii/)
+
+The core algorithm in this problem is to find min difference between values in two sorted arrays.
+Example:
+
+Array1: [1, 3, 10, 38]
+Array2: [4, 9, 80, 100]
+
+min distance = Math.abs(value1 from Array1 - value2 from Array2)
+
+This can be solved by two pointers.
+
+```javascript
+var WordDistance = function(wordsDict) {
+    this.map = new Map();
+    for (let i = 0; i < wordsDict.length; i++) {
+        const word = wordsDict[i];
+        if (!this.map.has(word)) {
+            this.map.set(word, []);
+        }
+        this.map.get(word).push(i);
+    }
+};
+
+/** 
+ * @param {string} word1 
+ * @param {string} word2
+ * @return {number}
+ */
+WordDistance.prototype.shortest = function(word1, word2) {
+    const array1 = this.map.get(word1);
+    const array2 = this.map.get(word2);
+    let min = Infinity;
+
+    let i1 = 0;
+    let i2 = 0;
+
+    while (i1 < array1.length && i2 < array2.length) {
+        const position1 = array1[i1];
+        const position2 = array2[i2];
+        min = Math.min(min, Math.abs(position2 - position1));
+
+        if (position1 < position2) {
+            i1++;
+        } else {
+            i2++;
+        }
+    }
+    return min;
+};
+```
+
+<!-- @include ../leetcode/0245.shortest-word-distance-iii.md -->
+### Shortest Word Distance III
+[245. Shortest Word Distance III](https://leetcode.com/problems/shortest-word-distance-iii/)
+
+```html
+Given an array of strings wordsDict and two strings that already exist in the array word1 and word2, return the shortest distance between these two words in the list.
+
+Note that word1 and word2 may be the same. It is guaranteed that they represent two individual words in the list.
+
+Example 1:
+
+Input: wordsDict = ["practice", "makes", "perfect", "coding", "makes"], word1 = "makes", word2 = "coding"
+Output: 1
+Example 2:
+
+Input: wordsDict = ["practice", "makes", "perfect", "coding", "makes"], word1 = "makes", word2 = "makes"
+Output: 3
+```
+
+HashMap Solution:
+
+```javascript
+var shortestWordDistance = function(wordsDict, word1, word2) {
+    const map = new Map();
+    for (let i = 0; i < wordsDict.length; i++) {
+        if (!map.has(wordsDict[i])) { map.set(wordsDict[i], []); }
+        map.get(wordsDict[i]).push(i);
+    }
+    
+    let minDistance = Infinity;
+    if (word1 === word2) {
+        const positions = map.get(word1);
+        for (let i = 1; i < positions.length; i++) {
+            minDistance = Math.min(minDistance, Math.abs(positions[i] - positions[i - 1]));
+        }
+        return minDistance;
+    }
+    
+    const positions1 = map.get(word1);
+    const positions2 = map.get(word2);
+    let index1 = 0, index2 = 0;
+
+    while (index1 < positions1.length && index2 < positions2.length) {
+        minDistance = Math.min(minDistance, Math.abs(positions2[index2] - positions1[index1]));
+        if (positions2[index2] > positions1[index1]) {
+            index1++;
+        } else {
+            index2++;
+        }
+    }
+    return minDistance;
+};
+```
+One-pass Solution:
+```javascript
+function shortestWordDistanceOnePass(words, word1, word2) {
+    let p1 = null, p2 = null;
+    const same = word1 === word2;
+    let min = Infinity;
+    for (let i = 0; i < words.length; i++) {
+        if (same && words[i] === word1) {
+            if (p1 === null) {
+                p1 = i;
+                continue;
+            }
+            min = Math.min(min, i - p1);
+            p1 = i;
+        } else {
+            if (words[i] === word1) { p1 = i; }
+            if (words[i] === word2) { p2 = i; }
+            if (p1 !== null && p2 !== null) {
+                min = Math.min(min, Math.abs(p1 - p2));
+            }
+        }
+    }
+    return min;
+}
+```
+
 
 ```
 ## Logger Rate Limiter
@@ -272,7 +471,8 @@ SparseVector.prototype.dotProduct = function(vec) {
     return result;
 };
 ```
-<!-- @include ../leetcode/0249.group-shifted-strings.md -->
+
+<!-- @include ../leetcode/0249.group-shifted-strings.md -->
 ### Group Shifted Strings
 [249. Group Shifted Strings](https://leetcode.com/problems/group-shifted-strings/)
 ```html
@@ -312,7 +512,8 @@ var groupStrings = function(strings) {
 };
 ```
 
-<!-- @include ../leetcode/0380.insert-delete-getrandom-o1.md -->
+
+<!-- @include ../leetcode/0380.insert-delete-getrandom-o1.md -->
 ## Insert Delete GetRandom O(1)
 [380. Insert Delete GetRandom O(1)](https://leetcode.com/problems/insert-delete-getrandom-o1/)
 ```html
