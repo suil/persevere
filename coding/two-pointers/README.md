@@ -11,7 +11,7 @@
     * [Trapping Rain Water](../leetcode.md#trapping-rain-water)
     * [Shortest Word Distance II](../leetcode.md#shortest-word-distance-ii)
 * Three Pointers
-    * [Valid Triangle Number](../leetcode.md#valid-triangle-number)
+    * [Valid Triangle Number](#valid-triangle-number)
 <!-- GFM-TOC -->
 
 Two-pointer is an efficent way to navigate in an array.
@@ -205,4 +205,39 @@ function hasMatch(s, word) {
     
     return wp === word.length;
 }
+```
+<!-- @include ../leetcode/0611.valid-triangle-number.md -->
+## Valid Triangle Number
+[611. Valid Triangle Number](https://leetcode.com/problems/valid-triangle-number/)
+```
+Given an array consists of non-negative integers, your task is to count the number of triplets chosen from the array that can make triangles if we take them as side lengths of a triangle.
+Example 1:
+Input: [2,2,3,4]
+Output: 3
+Explanation:
+Valid combinations are: 
+2,3,4 (using the first 2)
+2,3,4 (using the second 2)
+2,2,3
+```
+```javascript
+var triangleNumber = function(nums) {
+    if (nums.length < 3) { return 0; }
+    
+    nums.sort((a, b) => a - b);
+
+    let res = 0;
+    for (let i = nums.length - 1; i >= 0; i--) {
+        let left = 0, right = i - 1;
+        while (left < right) {
+            if (nums[left] + nums[right] > nums[i]) {
+                res += right - left;
+                right--;
+            } else {
+                left++;
+            }
+        }
+    }
+    return res;
+};
 ```

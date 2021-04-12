@@ -16,8 +16,8 @@
     * [Expression Add Operators](#Expression-Add-Operators)
     * [Word Break II](../leetcode.md#word-break-ii)
     * [Regular Expression Matching](#regular-expression-matching)
-    * [Factor Combinations](../leetcode.md#factor-combinations)
-    * [Partition to K Equal Sum Subsets](../leetcode.md#partition-to-k-equal-sum-subsets)
+    * [Factor Combinations](#factor-combinations)
+    * [Partition to K Equal Sum Subsets](#partition-to-k-equal-sum-subsets)
 <!-- GFM-TOC -->
 
 ## Backtracking
@@ -540,5 +540,95 @@ function isMatchDP(s, p) {
     }
     
     return dp[s.length][p.length];
+}
+```
+<!-- @include ../leetcode/0254.factor-combinations.md -->
+### Factor Combinations
+[254. Factor Combinations](https://leetcode.com/problems/factor-combinations/)
+```html
+Numbers can be regarded as the product of their factors.
+
+For example, 8 = 2 x 2 x 2 = 2 x 4.
+Given an integer n, return all possible combinations of its factors. You may return the answer in any order.
+
+Note that the factors should be in the range [2, n - 1].
+
+Example 1:
+
+Input: n = 1
+Output: []
+Example 2:
+
+Input: n = 12
+Output: [[2,6],[3,4],[2,2,3]]
+Example 3:
+
+Input: n = 37
+Output: []
+Example 4:
+
+Input: n = 32
+Output: [[2,16],[4,8],[2,2,8],[2,4,4],[2,2,2,4],[2,2,2,2,2]]
+```
+
+```javascript
+var getFactors = function(n) {
+    const output = [];
+    getFactorsHelper(n, 2, [], output);
+    return output;
+};
+function getFactorsHelper(n, current, factors, output) {
+    if (n === 1) {
+        if (factors.length > 1) {
+            output.push([...factors]);
+            return;
+        }
+    }
+    for (let i = current; i <= n; i++) {
+        if (n % i === 0) {
+            factors.push(i);
+            getFactorsHelper(n / i, i, factors, output);
+            factors.pop();
+        }
+    }
+}
+```
+
+<!-- @include ../leetcode/0698.partition-to-k-equal-sum-subsets.md -->
+## Partition to K Equal Sum Subsets
+[698. Partition to K Equal Sum Subsets](https://leetcode.com/problems/partition-to-k-equal-sum-subsets/)
+```html
+Given an array of integers nums and a positive integer k, find whether it's possible to divide this array into k non-empty subsets whose sums are all equal.
+
+Example 1:
+
+Input: nums = [4, 3, 2, 3, 5, 2, 1], k = 4
+Output: True
+Explanation: It's possible to divide it into 4 subsets (5), (1, 4), (2,3), (2,3) with equal sums.
+```
+
+```javascript
+var canPartitionKSubsets = function(nums, k) {
+    const total = nums.reduce((sum, num) => sum + num, 0);
+    if (total % k !== 0) { return false; }
+    const target = total / k;
+    return canPartitionKSubsetsHelper(nums, target, k, 0, 0, [])
+};
+function canPartitionKSubsetsHelper(nums, target, k, current, currentSum, visited) {
+    if (k === 1) { return true; }
+    
+    if (currentSum === target) {
+        return canPartitionKSubsetsHelper(nums, target, k - 1, 0, 0, visited);
+    }
+    
+    for (let i = current; i < nums.length; i++) {
+        if (visited[i] === true) { continue; }
+        visited[i] = true;
+        if (canPartitionKSubsetsHelper(nums, target, k, i + 1, currentSum + nums[i], visited)) {
+            return true;
+        }
+        visited[i] = false;
+    }
+    return false;
 }
 ```

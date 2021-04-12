@@ -1,7 +1,20 @@
 
 
-## Trapping Rain Water
+### Trapping Rain Water
 [42. Trapping Rain Water](https://leetcode.com/problems/trapping-rain-water/)
+```html
+Given n non-negative integers representing an elevation map where the width of each bar is 1, compute how much water it can trap after raining.
+
+Example 1:
+
+Input: height = [0,1,0,2,1,0,1,3,2,1,2,1]
+Output: 6
+Explanation: The above elevation map (black section) is represented by array [0,1,0,2,1,0,1,3,2,1,2,1]. In this case, 6 units of rain water (blue section) are being trapped.
+Example 2:
+
+Input: height = [4,2,0,3,2,5]
+Output: 9
+```
 
 Dynamic Programming solution:
 ```javascript
@@ -61,8 +74,23 @@ var trap = function(height) {
     return Math.abs(totalWater);
 };
 ```
-## Multiply Strings
+### Multiply Strings
 [43. Multiply Strings](https://leetcode.com/problems/multiply-strings/)
+```html
+Given two non-negative integers num1 and num2 represented as strings, return the product of num1 and num2, also represented as a string.
+
+Note: You must not use any built-in BigInteger library or convert the inputs to integer directly.
+
+Example 1:
+
+Input: num1 = "2", num2 = "3"
+Output: "6"
+Example 2:
+
+Input: num1 = "123", num2 = "456"
+Output: "56088"
+```
+
 ```javascript
 var multiply = function(num1, num2) {
     const chars1 = num1.split('');
@@ -85,8 +113,26 @@ var multiply = function(num1, num2) {
 };
 ```
 
-## Pow(x, n)
+### Pow(x, n)
 [50. Pow(x, n)](https://leetcode.com/problems/powx-n/)
+```html
+Implement pow(x, n), which calculates x raised to the power n (i.e., xn).
+
+Example 1:
+
+Input: x = 2.00000, n = 10
+Output: 1024.00000
+Example 2:
+
+Input: x = 2.10000, n = 3
+Output: 9.26100
+Example 3:
+
+Input: x = 2.00000, n = -2
+Output: 0.25000
+Explanation: 2-2 = 1/22 = 1/4 = 0.25
+```
+
 ```javascript
 var myPow = function(x, n) {
     if (n === 0) { return 1; }
@@ -100,8 +146,39 @@ var myPow = function(x, n) {
     return result;
 };
 ```
-## Copy List with Random Pointer
+### Copy List with Random Pointer
 [138. Copy List with Random Pointer](https://leetcode.com/problems/copy-list-with-random-pointer/)
+```html
+A linked list is given such that each node contains an additional random pointer which could point to any node in the list or null.
+
+Return a deep copy of the list.
+
+The Linked List is represented in the input/output as a list of n nodes. Each node is represented as a pair of [val, random_index] where:
+
+val: an integer representing Node.val
+random_index: the index of the node (range from 0 to n-1) where random pointer points to, or null if it does not point to any node.
+Example 1:
+
+
+Input: head = [[7,null],[13,0],[11,4],[10,2],[1,0]]
+Output: [[7,null],[13,0],[11,4],[10,2],[1,0]]
+Example 2:
+
+
+Input: head = [[1,1],[2,1]]
+Output: [[1,1],[2,1]]
+Example 3:
+
+
+Input: head = [[3,null],[3,0],[3,null]]
+Output: [[3,null],[3,0],[3,null]]
+Example 4:
+
+Input: head = []
+Output: []
+Explanation: Given linked list is empty (null pointer), so return null.
+```
+
 ```javascript
 var copyRandomList = function(head) {
     if (!head) { return null; }
@@ -123,8 +200,29 @@ var copyRandomList = function(head) {
 };
 ```
 
-## Word Break II
+### Word Break II
 [140. Word Break II](https://leetcode.com/problems/word-break-ii/)
+```html
+Given a string s and a dictionary of strings wordDict, add spaces in s to construct a sentence where each word is a valid dictionary word. Return all such possible sentences in any order.
+
+Note that the same word in the dictionary may be reused multiple times in the segmentation.
+
+ 
+
+Example 1:
+
+Input: s = "catsanddog", wordDict = ["cat","cats","and","sand","dog"]
+Output: ["cats and dog","cat sand dog"]
+Example 2:
+
+Input: s = "pineapplepenapple", wordDict = ["apple","pen","applepen","pine","pineapple"]
+Output: ["pine apple pen apple","pineapple pen apple","pine applepen apple"]
+Explanation: Note that you are allowed to reuse a dictionary word.
+Example 3:
+
+Input: s = "catsandog", wordDict = ["cats","dog","sand","and","cat"]
+Output: []
+```
 
 Backtracking with no memoization
 
@@ -190,9 +288,42 @@ function wordBreakHelperMemoization(s, current, wordDict, memo) {
 }
 ```
 
-
-## LRU Cache
+### LRU Cache
 [146. LRU Cache](https://leetcode.com/problems/lru-cache/)
+```html
+Design a data structure that follows the constraints of a Least Recently Used (LRU) cache.
+
+Implement the LRUCache class:
+
+LRUCache(int capacity) Initialize the LRU cache with positive size capacity.
+int get(int key) Return the value of the key if the key exists, otherwise return -1.
+void put(int key, int value) Update the value of the key if the key exists. Otherwise, add the key-value pair to the cache. If the number of keys exceeds the capacity from this operation, evict the least recently used key.
+Follow up:
+Could you do get and put in O(1) time complexity?
+
+ 
+
+Example 1:
+
+Input
+["LRUCache", "put", "put", "get", "put", "get", "put", "get", "get", "get"]
+[[2], [1, 1], [2, 2], [1], [3, 3], [2], [4, 4], [1], [3], [4]]
+Output
+[null, null, null, 1, null, -1, null, -1, 3, 4]
+
+Explanation
+LRUCache lRUCache = new LRUCache(2);
+lRUCache.put(1, 1); // cache is {1=1}
+lRUCache.put(2, 2); // cache is {1=1, 2=2}
+lRUCache.get(1);    // return 1
+lRUCache.put(3, 3); // LRU key was 2, evicts key 2, cache is {1=1, 3=3}
+lRUCache.get(2);    // returns -1 (not found)
+lRUCache.put(4, 4); // LRU key was 1, evicts key 1, cache is {4=4, 3=3}
+lRUCache.get(1);    // return -1 (not found)
+lRUCache.get(3);    // return 3
+lRUCache.get(4);    // return 4
+```
+
 ```javascript
 var LRUCache = function(capacity) {
     this.orderedMap = new Map();
@@ -216,7 +347,7 @@ LRUCache.prototype.put = function(key, value) {
 };
 ```
 
-## Evaluate Reverse Polish Notation
+### Evaluate Reverse Polish Notation
 [150. Evaluate Reverse Polish Notation](https://leetcode.com/problems/evaluate-reverse-polish-notation/)
 ```html
 Evaluate the value of an arithmetic expression in Reverse Polish Notation.
@@ -288,8 +419,30 @@ var evalRPN = function(tokens) {
 };
 ```
 
-## Binary Tree Upside Down
+### Binary Tree Upside Down
 [156. Binary Tree Upside Down](https://leetcode.com/problems/binary-tree-upside-down/)
+```html
+Given a binary tree where all the right nodes are either leaf nodes with a sibling (a left node that shares the same parent node) or empty, flip it upside down and turn it into a tree where the original right nodes turned into left leaf nodes. Return the new root.
+
+Example:
+
+Input: [1,2,3,4,5]
+
+    1
+   / \
+  2   3
+ / \
+4   5
+
+Output: return the root of the binary tree [4,5,2,#,#,3,1]
+
+   4
+  / \
+ 5   2
+    / \
+   3   1  
+```
+
 ```javascript
 var upsideDownBinaryTree = function(root) {
     if (root === null) {
@@ -305,8 +458,26 @@ var upsideDownBinaryTree = function(root) {
 };
 ```
 
-## Two Sum III - Data structure design
+### Two Sum III - Data structure design
 [170. Two Sum III - Data structure design](https://leetcode.com/problems/two-sum-iii-data-structure-design/)
+```html
+Design and implement a TwoSum class. It should support the following operations: add and find.
+
+add - Add the number to an internal data structure.
+find - Find if there exists any pair of numbers which sum is equal to the value.
+
+Example 1:
+
+add(1); add(3); add(5);
+find(4) -> true
+find(7) -> false
+Example 2:
+
+add(3); add(1); add(2);
+find(3) -> true
+find(6) -> false
+```
+
 ```javascript
 var TwoSum = function() {
     this.nums = new Map();
@@ -329,8 +500,16 @@ TwoSum.prototype.find = function(value) {
 };
 ```
 
-## Binary Search Tree Iterator
+### Binary Search Tree Iterator
 [173. Binary Search Tree Iterator](https://leetcode.com/problems/binary-search-tree-iterator/)
+```html
+Implement an iterator over a binary search tree (BST). Your iterator will be initialized with the root node of a BST.
+
+Callingnext()will return the next smallest number in the BST.
+
+Note:next()andhasNext()should run in average O(1) time and uses O(h) memory, wherehis the height of the tree.
+```
+
 ```javascript
 var BSTIterator = function(root) {
     this.cache = []
@@ -357,7 +536,7 @@ BSTIterator.prototype.hasNext = function() {
 };
 ```
 
-## Repeated DNA Sequences
+### Repeated DNA Sequences
 [187. Repeated DNA Sequences](https://leetcode.com/problems/repeated-dna-sequences/)
 ```html
 The DNA sequence is composed of a series of nucleotides abbreviated as 'A', 'C', 'G', and 'T'.
@@ -391,8 +570,23 @@ var findRepeatedDnaSequences = function(s) {
     return [...repeated];
 };
 ```
-## Lowest Common Ancestor of a Binary Tree
+### Lowest Common Ancestor of a Binary Tree
 [236. Lowest Common Ancestor of a Binary Tree](https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/)
+```html
+Given a binary tree, find the lowest common ancestor (LCA) of two given nodes in the tree.
+
+According to the definition of LCA on Wikipedia: “The lowest common ancestor is defined between two nodes v and w as the lowest node in T that has both v and w as descendants (where we allow a node to be a descendant of itself).”
+
+        _______3______
+       /              \
+    ___5__          ___1__
+   /      \        /      \
+   6      _2       0       8
+         /  \
+         7   4
+For example, the lowest common ancestor (LCA) of nodes5and1is3. Another example is LCA of nodes5and4is5, since a node can be a descendant of itself according to the LCA definition.
+```
+
 ```javascript
 var lowestCommonAncestor = function(root, p, q) {
     if (root === null || root === p || root === q) {
@@ -406,7 +600,7 @@ var lowestCommonAncestor = function(root, p, q) {
     return left || right
 };
 ```
-## Shortest Word Distance
+### Shortest Word Distance
 [243. Shortest Word Distance](https://leetcode.com/problems/shortest-word-distance/)
 ```html
 Given an array of strings wordsDict and two different strings that already exist in the array word1 and word2, return the shortest distance between these two words in the list.
@@ -470,7 +664,7 @@ var shortestDistance = function(wordsDict, word1, word2) {
     return min;
 }
 ```
-## Shortest Word Distance II
+### Shortest Word Distance II
 [244. Shortest Word Distance II](https://leetcode.com/problems/shortest-word-distance-ii/)
 
 The core algorithm in this problem is to find min difference between values in two sorted arrays.
@@ -523,7 +717,7 @@ WordDistance.prototype.shortest = function(word1, word2) {
 };
 ```
 
-## Shortest Word Distance III
+### Shortest Word Distance III
 [245. Shortest Word Distance III](https://leetcode.com/problems/shortest-word-distance-iii/)
 ```html
 Given an array of strings wordsDict and two strings that already exist in the array word1 and word2, return the shortest distance between these two words in the list.
@@ -598,8 +792,16 @@ function shortestWordDistanceOnePass(words, word1, word2) {
 }
 ```
 
-## 246. Strobogrammatic Number
+### 246. Strobogrammatic Number
 [246. Strobogrammatic Number](https://leetcode.com/problems/strobogrammatic-number/)
+```html
+A strobogrammatic number is a number that looks the same when rotated 180 degrees (looked at upside down).
+
+Write a function to determine if a number is strobogrammatic. The number is represented as a string.
+
+For example, the numbers "69", "88", and "818" are all strobogrammatic.
+```
+
 ```javascript
 var isStrobogrammatic = function(num) {
     let upsideDowns = {
@@ -615,657 +817,6 @@ var isStrobogrammatic = function(num) {
         }
     }
     return true;
-};
-```
-
-## Strobogrammatic Number II
-[247. Strobogrammatic Number II](https://leetcode.com/problems/strobogrammatic-number-ii/)
-```javascript
-var findStrobogrammatic = function(n) {
-    return findStrobogrammaticRecursive(n);
-};
-function findStrobogrammaticRecursive(len, n) {
-    if (len === 0) { return ['']; }
-    if (len === 1) { return ['0', '1', '8']; }
-    let prevNums = findStrobogrammaticRecursive(len - 2);
-
-    const res = [];
-    for (let num of prevNums) {
-        if (len !== n) { res.push('0' + num + '0'); }
-        res.push('1' + num + '1');
-        res.push('6' + num + '9');
-        res.push('8' + num + '8');
-        res.push('9' + num + '6');
-    }
-    return res;
-}
-```
-
-## Group Shifted Strings
-[249. Group Shifted Strings](https://leetcode.com/problems/group-shifted-strings/)
-```javascript
-var groupStrings = function(strings) {
-    const map = new Map();
-    
-    for (const string of strings) {
-        const chars = string.split('');
-        const normalizedCode = [];
-        for (const char of chars) {
-            let code = char.charCodeAt() - chars[0].charCodeAt();
-            code = code >= 0 ? code : code + 26;
-            normalizedCode.push(code);
-        }
-        const key = normalizedCode.join(',');
-        if (!map.has(key)) { map.set(key, []); }
-        map.get(key).push(string);
-    }
-    return [...map.values()];
-};
-```
-
-## Factor Combinations
-[254. Factor Combinations](https://leetcode.com/problems/factor-combinations/)
-```html
-Numbers can be regarded as the product of their factors.
-
-For example, 8 = 2 x 2 x 2 = 2 x 4.
-Given an integer n, return all possible combinations of its factors. You may return the answer in any order.
-
-Note that the factors should be in the range [2, n - 1].
-
-Example 1:
-
-Input: n = 1
-Output: []
-Example 2:
-
-Input: n = 12
-Output: [[2,6],[3,4],[2,2,3]]
-Example 3:
-
-Input: n = 37
-Output: []
-Example 4:
-
-Input: n = 32
-Output: [[2,16],[4,8],[2,2,8],[2,4,4],[2,2,2,4],[2,2,2,2,2]]
-```
-
-```javascript
-var getFactors = function(n) {
-    const output = [];
-    getFactorsHelper(n, 2, [], output);
-    return output;
-};
-function getFactorsHelper(n, current, factors, output) {
-    if (n === 1) {
-        if (factors.length > 1) {
-            output.push([...factors]);
-            return;
-        }
-    }
-    for (let i = current; i <= n; i++) {
-        if (n % i === 0) {
-            factors.push(i);
-            getFactorsHelper(n / i, i, factors, output);
-            factors.pop();
-        }
-    }
-}
-```
-
-## 256. Paint House
-[256. Paint House](https://leetcode.com/problems/paint-house/)
-Memoization (top down)
-
-```javascript
-function minCostMemoization(costs, currentIndex, lastColorIndex, memo) {
-    if (memo.has(`${currentIndex}:${lastColorIndex}`)) {
-        return memo.get(`${currentIndex}:${lastColorIndex}`);
-    }
-    
-    if (currentIndex >= costs.length) {
-        return 0;
-    }
-    
-    let min = Infinity;
-    for (let i = 0; i < 3; i++) {
-        if (lastColorIndex === i) {
-            continue;
-        }
-        min = Math.min(min, costs[currentIndex][i] + minCostMemoization(costs, currentIndex + 1, i, memo));
-    }
-    memo.set(`${currentIndex}:${lastColorIndex}`, min)
-    return min;
-}
-```
-
-```javascript
-function minCostDP(costs) {
-    if (costs === null || costs.length === 0) {
-        return 0;
-    }
-    
-    let n = costs.length;
-    for (let i = 1; i < n; i++) {
-        costs[i][0] += Math.min(costs[i - 1][1], costs[i - 1][2]);
-        costs[i][1] += Math.min(costs[i - 1][0], costs[i - 1][2]);
-        costs[i][2] += Math.min(costs[i - 1][0], costs[i - 1][1]);
-    }
-    return Math.min(costs[n - 1][0], costs[n - 1][1], costs[n - 1][2]);
-}
-```
-
-## Shortest Distance from All Buildings
-[317. Shortest Distance from All Buildings](https://leetcode.com/problems/shortest-distance-from-all-buildings/)
-```javascript
-const DIRECTIONS = [[0, 1], [1, 0], [0, -1], [-1, 0]];
-
-function distanceFromBuilding(grid, startRow, startCol, distances, reaches) {
-    const rowLen = grid.length;
-    const colLen = grid[0].length;
-    let queue = [[startRow, startCol]];
-    let minDistance = Infinity;
-    let dist = 0;
-    const visited = [...Array(rowLen)].map(() => [...Array(colLen)].fill(false));
-    
-    while (queue.length > 0) {
-        const nextQueue = [];
-        dist++;
-
-        for (const [row, col] of queue) {
-            for (const [rowDelta, colDelta] of DIRECTIONS) {
-                const nextRow = row + rowDelta;
-                const nextCol = col + colDelta;
-                if (grid[nextRow] === undefined
-                    || grid[nextRow][nextCol] === undefined 
-                    || grid[nextRow][nextCol] === 2
-                    || visited[nextRow][nextCol] === true
-                ) {
-                    continue;
-                }
-                
-                if (grid[nextRow][nextCol] === 0) {
-                    distances[nextRow][nextCol] += dist;
-                    reaches[nextRow][nextCol]++;
-                    nextQueue.push([nextRow, nextCol]);
-                }
-                visited[nextRow][nextCol] = true;
-            }
-        }
-        queue = nextQueue;
-    }
-    return minDistance;
-}
-var shortestDistance = function(grid) {
-    const rowLen = grid.length;
-    const colLen = grid[0].length;
-    const distances = [...Array(rowLen)].map(() => [...Array(colLen)].fill(0));
-    const reaches = [...Array(rowLen)].map(() => [...Array(colLen)].fill(0));
-    
-    let totalBuildings = 0;
-    for (let row = 0; row < rowLen; row += 1) {
-        for (let col = 0; col < colLen; col += 1) {
-            if (grid[row][col] === 1) {
-                totalBuildings++;
-                distanceFromBuilding(grid, row, col, distances, reaches);
-            }
-        }
-    }
-
-    let minDistance = Infinity;
-    for (let row = 0; row < rowLen; row++) {
-        for (let col = 0; col < colLen; col++) {
-            if (reaches[row][col] === totalBuildings
-                && distances[row][col] < minDistance
-            ) {
-                minDistance = distances[row][col];
-            }
-        }
-    }    
-    return minDistance === Infinity ? -1 : minDistance;
-};
-```
-## Nested List Weight Sum
-[339. Nested List Weight Sum](https://leetcode.com/problems/nested-list-weight-sum/)
-```javascript
-var depthSum = function(nestedList) {
-    return depthSumHelper(nestedList, 1);
-};
-function depthSumHelper(nestedList, depth) {
-    let sum = 0;
-    for (const item of nestedList) {
-        if (item.isInteger()) {
-            sum += item.getInteger() * depth;
-        } else {
-            sum += depthSumHelper(item.getList(), depth + 1);
-        }
-    }
-    return sum;
-}
-```
-
-## Flatten Nested List Iterator
-[341. Flatten Nested List Iterator](https://leetcode.com/problems/flatten-nested-list-iterator/)
-```html
-You are given a nested list of integers nestedList. Each element is either an integer or a list whose elements may also be integers or other lists. Implement an iterator to flatten it.
-
-Implement the NestedIterator class:
-
-NestedIterator(List<NestedInteger> nestedList) Initializes the iterator with the nested list nestedList.
-int next() Returns the next integer in the nested list.
-boolean hasNext() Returns true if there are still some integers in the nested list and false otherwise.
-
-Example 1:
-
-Input: nestedList = [[1,1],2,[1,1]]
-Output: [1,1,2,1,1]
-Explanation: By calling next repeatedly until hasNext returns false, the order of elements returned by next should be: [1,1,2,1,1].
-Example 2:
-
-Input: nestedList = [1,[4,[6]]]
-Output: [1,4,6]
-Explanation: By calling next repeatedly until hasNext returns false, the order of elements returned by next should be: [1,4,6].
-```
-
-```javascript
-var NestedIterator = function(nestedList) {
-    function flattern(list) {
-        if (!list) {
-            return [];
-        }
-        let flattenedList = [];
-        for (const item of list) {
-            if (item.isInteger()) {
-                flattenedList.push(item.getInteger());
-            } else {
-                flattenedList = [...flattenedList, ...flattern(item.getList())];
-            }
-        }
-        return flattenedList;
-    }
-    this.flattenedList = flattern(nestedList);
-};
-NestedIterator.prototype.hasNext = function() {
-    return this.flattenedList.length > 0;
-};
-NestedIterator.prototype.next = function() {
-    return this.flattenedList.shift();
-};
-```
-
-### Top K Frequent Elements
-[347. Top K Frequent Elements (Medium)](https://leetcode.com/problems/top-k-frequent-elements/description/)
-```javascript
-var topKFrequent = function(nums, k) {
-    const freqMap = new Map();
-    let maxFreq = 0;
-    for (const num of nums) {
-        freqMap.set(num, (freqMap.get(num) || 0) + 1);
-        maxFreq = Math.max(maxFreq, freqMap.get(num));
-    }
-
-    const bucket = [...Array(maxFreq + 1)].map(_ => []);
-    for (const [num, freq] of freqMap) {
-        bucket[freq].push(num);
-    }
-
-    const output = [];
-    for (let i = bucket.length - 1; i >= 0; i--) {
-        for (const num of bucket[i]) {
-            output.push(num);
-            if (output.length >= k) {
-                return output;
-            }
-        }
-    }
-    return output;
-};
-```
-
-## Intersection of Two Arrays
-[349. Intersection of Two Arrays](https://leetcode.com/problems/intersection-of-two-arrays/)
-```javascript
-var intersection = function(nums1, nums2) {
-    let set1 = new Set(nums1);
-    let set2 = new Set(nums2);
-    let map = new Map();
-    let res = [];
-    for (const item of set1) {
-         map.set(item, 1);
-    }
-    for (const item of set2) {
-        if (map.has(item)) {
-            map.set(item, 2);
-            res.push(item);
-        }
-    }
-    return res;
-};
-```
-
-## Nested List Weight Sum II
-[364. Nested List Weight Sum II](https://leetcode.com/problems/nested-list-weight-sum-ii/)
-```javascript
-var depthSumInverse = function(nestedList) {
-    const flattened = [];
-    helper(nestedList, 0, flattened);
-    
-    let weight = flattened.length, sum = 0;
-    for (const item of flattened) {
-        for (let i = 0; i < item.length; i++) {
-            sum += item[i] * weight;
-        }
-        weight--;
-    }
-    return sum;
-};
-function helper(nestedList, depth, flattened) {
-    if (!flattened[depth]) { flattened[depth] = []; }
-    
-    for (const item of nestedList) {
-        if (item.isInteger()) {
-            flattened[depth].push(item.getInteger());
-        } else {
-            helper(item.getList(), depth + 1, flattened);
-        }
-    }
-}
-```
-
-## Find Leaves of Binary Tree
-[366. Find Leaves of Binary Tree](https://leetcode.com/problems/find-leaves-of-binary-tree/)
-```javascript
-var findLeaves = function(root) {
-    const result = [];
-    while (root !== null) {
-        const output = [];
-        root = findLeavesHelper(root, output);
-        result.push(output);
-    }
-    return result;
-};
-function findLeavesHelper(node, output) {
-    if (node === null) { return null; }
-    if (node.left === null && node.right === null) {
-        output.push(node.val);
-        return null;
-    }
-    
-    node.left = findLeavesHelper(node.left, output);
-    node.right = findLeavesHelper(node.right, output);
-    return node;
-}
-```
-## Insert Delete GetRandom O(1)
-[380. Insert Delete GetRandom O(1)](https://leetcode.com/problems/insert-delete-getrandom-o1/)
-```html
-Implement the RandomizedSet class:
-
-RandomizedSet() Initializes the RandomizedSet object.
-bool insert(int val) Inserts an item val into the set if not present. Returns true if the item was not present, false otherwise.
-bool remove(int val) Removes an item val from the set if present. Returns true if the item was present, false otherwise.
-int getRandom() Returns a random element from the current set of elements (it's guaranteed that at least one element exists when this method is called). Each element must have the same probability of being returned.
- 
-Example 1:
-
-Input
-["RandomizedSet", "insert", "remove", "insert", "getRandom", "remove", "insert", "getRandom"]
-[[], [1], [2], [2], [], [1], [2], []]
-Output
-[null, true, false, true, 2, true, false, 2]
-
-Explanation
-RandomizedSet randomizedSet = new RandomizedSet();
-randomizedSet.insert(1); // Inserts 1 to the set. Returns true as 1 was inserted successfully.
-randomizedSet.remove(2); // Returns false as 2 does not exist in the set.
-randomizedSet.insert(2); // Inserts 2 to the set, returns true. Set now contains [1,2].
-randomizedSet.getRandom(); // getRandom() should return either 1 or 2 randomly.
-randomizedSet.remove(1); // Removes 1 from the set, returns true. Set now contains [2].
-randomizedSet.insert(2); // 2 was already in the set, so return false.
-randomizedSet.getRandom(); // Since 2 is the only number in the set, getRandom() will always return 2.
-```
-```javascript
-var RandomizedSet = function() {
-    this.arr = [];
-    this.map = new Map();
-};
-RandomizedSet.prototype.insert = function(val) {
-    if (!this.map.has(val)) {
-        this.arr.push(val);
-        this.map.set(val, this.arr.length - 1);
-        return true;
-    }
-    return false;
-};
-RandomizedSet.prototype.remove = function(val) {
-    if (this.map.has(val)) {
-        const ind = this.map.get(val);
-        this.map.delete(val);
-        const lastInd = this.arr.length - 1;
-        this.arr[ind] = this.arr[lastInd];
-        this.arr.pop();
-        this.map.set(this.arr[ind], ind)
-        return true;
-    }
-    return false;
-};
-RandomizedSet.prototype.getRandom = function() {
-    const ind = Math.floor(Math.random() * this.arr.length);
-    return this.arr[ind];
-};
-```
-
-## Random Pick Index
-[398. Random Pick Index](https://leetcode.com/problems/random-pick-index/)
-```javascript
-var Solution = function(nums) {
-    this.nums = nums;
-};
-Solution.prototype.pick = function(target) {
-    let count = 0;
-    let index = -1;
-    for (let i = 0; i < this.nums.length; i++) {
-        if (this.nums[i] === target) {
-            count++;
-            if (i === 0 || Math.floor(Math.random() * count) === 0) {
-                index = i;
-            }
-        }
-    }
-    return index;
-};
-```
-## Find Bottom Left Tree Value
-[513. Find Bottom Left Tree Value](https://leetcode.com/problems/find-bottom-left-tree-value/description/)
-```javascript
-var findBottomLeftValue = function(root) {
-    let queue = [root];
-    let bottomLeftNode = root.val;
-    
-    while (queue.length > 0) {
-        bottomLeftNode = queue[0];
-        const nextQueue = [];
-        for (const node of queue) {
-            if (node.left) { nextQueue.push(node.left); }
-            if (node.right) { nextQueue.push(node.right); }
-        }
-        queue = nextQueue;
-    }
-    return bottomLeftNode.val
-};
-```
-
-## Valid Triangle Number
-[611. Valid Triangle Number](https://leetcode.com/problems/valid-triangle-number/)
-```
-Given an array consists of non-negative integers, your task is to count the number of triplets chosen from the array that can make triangles if we take them as side lengths of a triangle.
-Example 1:
-Input: [2,2,3,4]
-Output: 3
-Explanation:
-Valid combinations are: 
-2,3,4 (using the first 2)
-2,3,4 (using the second 2)
-2,2,3
-```
-```javascript
-var triangleNumber = function(nums) {
-    if (nums.length < 3) { return 0; }
-    
-    nums.sort((a, b) => a - b);
-
-    let res = 0;
-    for (let i = nums.length - 1; i >= 0; i--) {
-        let left = 0, right = i - 1;
-        while (left < right) {
-            if (nums[left] + nums[right] > nums[i]) {
-                res += right - left;
-                right--;
-            } else {
-                left++;
-            }
-        }
-    }
-    return res;
-};
-```
-
-## Maximum Swap
-[670. Maximum Swap](https://leetcode.com/problems/maximum-swap/)
-```javascript
-var maximumSwap = function(num) {
-    const nums = num.toString().split('');
-    const positionMap = new Map();
-
-    for (let i = 0; i < nums.length; i++) {
-        positionMap.set(Number(nums[i]), i);
-    }
-
-    for (let i = 0; i < nums.length; i++) { 
-        for (let d = 9; d > nums[i]; d--) {
-            if (!positionMap.has(d)) { continue; }
-            const pos = positionMap.get(d);
-            if (pos > i) {
-                [nums[i], nums[pos]] = [nums[pos], nums[i]];
-                return Number(nums.join(''));
-            }
-        }
-    }
-    return num;
-};
-```
-
-## Partition to K Equal Sum Subsets
-[698. Partition to K Equal Sum Subsets](https://leetcode.com/problems/partition-to-k-equal-sum-subsets/)
-```html
-Given an array of integers nums and a positive integer k, find whether it's possible to divide this array into k non-empty subsets whose sums are all equal.
-
-Example 1:
-
-Input: nums = [4, 3, 2, 3, 5, 2, 1], k = 4
-Output: True
-Explanation: It's possible to divide it into 4 subsets (5), (1, 4), (2,3), (2,3) with equal sums.
-```
-```javascript
-var canPartitionKSubsets = function(nums, k) {
-    const total = nums.reduce((sum, num) => sum + num, 0);
-    if (total % k !== 0) { return false; }
-    const target = total / k;
-    return canPartitionKSubsetsHelper(nums, target, k, 0, 0, [])
-};
-function canPartitionKSubsetsHelper(nums, target, k, current, currentSum, visited) {
-    if (k === 1) { return true; }
-    
-    if (currentSum === target) {
-        return canPartitionKSubsetsHelper(nums, target, k - 1, 0, 0, visited);
-    }
-    
-    for (let i = current; i < nums.length; i++) {
-        if (visited[i] === true) { continue; }
-        visited[i] = true;
-        if (canPartitionKSubsetsHelper(nums, target, k, i + 1, currentSum + nums[i], visited)) {
-            return true;
-        }
-        visited[i] = false;
-    }
-    return false;
-}
-```
-
-## Insert into a Sorted Circular Linked List
-[708. Insert into a Sorted Circular Linked List](https://leetcode.com/problems/insert-into-a-sorted-circular-linked-list/)
-```javascript
-var insert = function(head, insertVal) {
-    if (head === null) {
-        head = new Node(insertVal);
-        head.next = head;
-        return head;
-    }
-
-    var currNode = head;
-    var newNode = new Node(insertVal);
-    
-    do {
-        currNode = currNode.next;
-    } while (currNode.val <= currNode.next.val && currNode !== head);
-    
-    const actualTail = currNode;
-    currNode = currNode.next;
-    const actualHead = currNode;
-    
-    if (actualHead.val >= insertVal || actualTail.val <= insertVal) {
-        actualTail.next = newNode;
-        newNode.next = actualHead;
-    } else {
-        while (currNode.next.val <= insertVal && currNode.next !== actualHead) {
-            currNode = currNode.next;
-        }
-        const tmpNext = currNode.next;
-        currNode.next = newNode;
-        newNode.next = tmpNext;
-    }
-    return head;
-};
-```
-
-## Goat Latin
-[824. Goat Latin](https://leetcode.com/problems/goat-latin/)
-```javascript
-var toGoatLatin = function(S) {
-    let words = S.split(' ');
-    let vowels = new Set(['a', 'e', 'i', 'o', 'u']);
-    let ending = 'a';
-    
-    for (let i = 0; i < words.length; i++) {
-        if (vowels.has(words[i].substring(0, 1).toLowerCase())) {
-            words[i] += 'ma' + ending;
-        } else {
-            words[i] = words[i].substring(1, words[i].length) + words[i].substring(0, 1) + 'ma' + ending;
-        }
-        ending += 'a';
-    }
-    return words.join(' ');
-};
-```
-
-## Friends Of Appropriate Ages
-[825. Friends Of Appropriate Ages](https://leetcode.com/problems/friends-of-appropriate-ages/)
-```javascript
-var numFriendRequests = function(ages) {
-    const counts = Array(121).fill(0);
-    const accum = Array(121).fill(0);
-    
-    for (const age of ages) { ++counts[age]; }
-    for (let i = 1; i <= 120; ++i) {
-        accum[i] = accum[i - 1] + counts[i];
-    }
-    let ans = 0;
-    for (let i = 15; i <= 120; ++i) {
-        const base = accum[i - 1] - accum[Math.floor(i / 2 + 7)];
-        ans += base * counts[i] + counts[i] * (counts[i] - 1);
-    }
-    return ans;
 };
 ```
 

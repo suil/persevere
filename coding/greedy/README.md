@@ -21,7 +21,7 @@
     * [Non-decreasing Array](#Non-decreasing-Array)
     * [Partition Labels](#Partition-Labels)
     * [Task Scheduler](#Task-Scheduler)
-    * [Maximum Swap](../leetcode.md#maximum-swap)
+    * [Maximum Swap](#maximum-swap)
 <!-- GFM-TOC -->
 
 
@@ -434,5 +434,43 @@ var leastInterval = function(tasks, n) {
     
     idleTime = Math.max(0, idleTime);
     return idleTime + tasks.length;
+};
+```
+<!-- @include ../leetcode/0670.maximum-swap.md -->
+## Maximum Swap
+[670. Maximum Swap](https://leetcode.com/problems/maximum-swap/)
+```html
+Given a non-negative integer, you could swap two digits at most once to get the maximum valued number. Return the maximum valued number you could get.
+
+Example 1:
+Input: 2736
+Output: 7236
+Explanation: Swap the number 2 and the number 7.
+Example 2:
+Input: 9973
+Output: 9973
+Explanation: No swap.
+```
+
+```javascript
+var maximumSwap = function(num) {
+    const nums = num.toString().split('');
+    const positionMap = new Map();
+
+    for (let i = 0; i < nums.length; i++) {
+        positionMap.set(Number(nums[i]), i);
+    }
+
+    for (let i = 0; i < nums.length; i++) { 
+        for (let d = 9; d > nums[i]; d--) {
+            if (!positionMap.has(d)) { continue; }
+            const pos = positionMap.get(d);
+            if (pos > i) {
+                [nums[i], nums[pos]] = [nums[pos], nums[i]];
+                return Number(nums.join(''));
+            }
+        }
+    }
+    return num;
 };
 ```

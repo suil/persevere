@@ -23,11 +23,11 @@
         * [Lowest Common Ancestor of a Binary Tree](../leetcode.md#lowest-common-ancestor-of-a-binary-tree)
         * [Maximum Difference Between Node and Ancestor](#maximum-difference-between-node-and-ancestor)
         * [Binary Tree Upside Down](../leetcode.md#binary-tree-upside-down)
-        * [Find Leaves of Binary Tree](../leetcode.md#find-leaves-of-binary-tree)
+        * [Find Leaves of Binary Tree](#find-leaves-of-binary-tree)
 
     * [Breath First Search](#Breath-First-Search)
         * [1. 一棵树每层节点的平均数](#1-一棵树每层节点的平均数)
-        * [Find Bottom Left Tree Value](../leetcode.md#find-bottom-left-tree-value)
+        * [Find Bottom Left Tree Value](#find-bottom-left-tree-value)
         * [Check Completeness of a Binary Tree](#check-completeness-of-a-binary-tree)
     * [前中后序遍历](#前中后序遍历)
         * [1. 非递归实现二叉树的前序遍历](#1-非递归实现二叉树的前序遍历)
@@ -570,6 +570,9 @@ function rightSideViewBfs(root) {
     return output;
 }
 ```
+
+@include ../leetcode.com/0366.find-leaves-of-binary-tree.md
+
 ## Breath First Search
 
 BFS can be used to traverse the tree by layers
@@ -601,40 +604,9 @@ public List<Double> averageOfLevels(TreeNode root) {
 }
 ```
 
-### 2. 得到左下角的节点
+@include ../leetcode/0513.find-bottom-left-tree-value.md
 
-513\. Find Bottom Left Tree Value (Easy)
-
-[Leetcode](https://leetcode.com/problems/find-bottom-left-tree-value/description/) / [力扣](https://leetcode-cn.com/problems/find-bottom-left-tree-value/description/)
-
-```html
-Input:
-
-        1
-       / \
-      2   3
-     /   / \
-    4   5   6
-       /
-      7
-
-Output:
-7
-```
-
-```java
-public int findBottomLeftValue(TreeNode root) {
-    Queue<TreeNode> queue = new LinkedList<>();
-    queue.add(root);
-    while (!queue.isEmpty()) {
-        root = queue.poll();
-        if (root.right != null) queue.add(root.right);
-        if (root.left != null) queue.add(root.left);
-    }
-    return root.val;
-}
-```
-<!-- @include ../leetcode/0958.check-completeness-of-a-binary-tree.md -->
+<!-- @include ../leetcode/0958.check-completeness-of-a-binary-tree.md -->
 ### Check Completeness of a Binary Tree
 [958. Check Completeness of a Binary Tree](https://leetcode.com/problems/check-completeness-of-a-binary-tree/)
 ```html
@@ -1483,7 +1455,8 @@ var treeToDoublyList = function(root) {
     return head;
 };
 ```
-<!-- @include ../leetcode/1026.maximum-difference-between-node-and-ancestor.md -->
+
+<!-- @include ../leetcode/1026.maximum-difference-between-node-and-ancestor.md -->
 ### Maximum Difference Between Node and Ancestor
 [1026. Maximum Difference Between Node and Ancestor](https://leetcode.com/problems/maximum-difference-between-node-and-ancestor/)
 ```html

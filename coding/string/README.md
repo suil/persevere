@@ -17,10 +17,10 @@
     * [9. 统计二进制字符串中连续 1 和连续 0 数量相同的子字符串个数](#9-统计二进制字符串中连续-1-和连续-0-数量相同的子字符串个数)
     * [Repeated Substring Pattern](#Repeated-Substring-Pattern)
     * [Long Pressed Name](#Long-Pressed-Name)
-    * [Group Shifted Strings](../leetcode.md#group-shifted-strings)
-    * [Goat Latin](../leetcode.md#goat-latin)
+    * [Group Shifted Strings](#group-shifted-strings)
+    * [Goat Latin](#goat-latin)
     * [Strobogrammatic Number](../leetcode.md#strobogrammatic-number)
-    * [Strobogrammatic Number II](../leetcode.md#strobogrammatic-number-ii)
+    * [Strobogrammatic Number II](#strobogrammatic-number-ii)
     * [Repeated DNA Sequences](../leetcode.md#repeated-dna-sequences)
 <!-- GFM-TOC -->
 
@@ -433,3 +433,123 @@ function compareMap(map1, map2) {
     return true;
 }
 ```
+<!-- @include ../leetcode/0249.group-shifted-strings.md -->
+### Group Shifted Strings
+[249. Group Shifted Strings](https://leetcode.com/problems/group-shifted-strings/)
+```html
+Given a string, we can "shift" each of its letter to its successive letter, for example: "abc" -> "bcd". We can keep "shifting" which forms the sequence:
+
+"abc" -> "bcd" -> ... -> "xyz"
+Given a list of strings which contains only lowercase alphabets, group all strings that belong to the same shifting sequence.
+
+For example, given: ["abc", "bcd", "acef", "xyz", "az", "ba", "a", "z"], Return:
+
+[
+  ["abc","bcd","xyz"],
+  ["az","ba"],
+  ["acef"],
+  ["a","z"]
+]
+Note: For the return value, each inner list's elements must follow the lexicographic order.
+```
+
+```javascript
+var groupStrings = function(strings) {
+    const map = new Map();
+    
+    for (const string of strings) {
+        const chars = string.split('');
+        const normalizedCode = [];
+        for (const char of chars) {
+            let code = char.charCodeAt() - chars[0].charCodeAt();
+            code = code >= 0 ? code : code + 26;
+            normalizedCode.push(code);
+        }
+        const key = normalizedCode.join(',');
+        if (!map.has(key)) { map.set(key, []); }
+        map.get(key).push(string);
+    }
+    return [...map.values()];
+};
+```
+
+<!-- @include ../leetcode/0824.goat-latin.md -->
+### Goat Latin
+[824. Goat Latin](https://leetcode.com/problems/goat-latin/)
+```html
+A sentence S is given, composed of words separated by spaces. Each word consists of lowercase and uppercase letters only.
+
+We would like to convert the sentence to "Goat Latin" (a made-up language similar to Pig Latin.)
+
+The rules of Goat Latin are as follows:
+
+If a word begins with a vowel (a, e, i, o, or u), append "ma" to the end of the word.
+For example, the word 'apple' becomes 'applema'.
+ 
+If a word begins with a consonant (i.e. not a vowel), remove the first letter and append it to the end, then add "ma".
+For example, the word "goat" becomes "oatgma".
+ 
+Add one letter 'a' to the end of each word per its word index in the sentence, starting with 1.
+For example, the first word gets "a" added to the end, the second word gets "aa" added to the end and so on.
+Return the final sentence representing the conversion from S to Goat Latin. 
+Example 1:
+
+Input: "I speak Goat Latin"
+Output: "Imaa peaksmaaa oatGmaaaa atinLmaaaaa"
+Example 2:
+
+Input: "The quick brown fox jumped over the lazy dog"
+Output: "heTmaa uickqmaaa rownbmaaaa oxfmaaaaa umpedjmaaaaaa overmaaaaaaa hetmaaaaaaaa azylmaaaaaaaaa ogdmaaaaaaaaaa"
+```
+
+```javascript
+var toGoatLatin = function(S) {
+    let words = S.split(' ');
+    let vowels = new Set(['a', 'e', 'i', 'o', 'u']);
+    let ending = 'a';
+    
+    for (let i = 0; i < words.length; i++) {
+        if (vowels.has(words[i].substring(0, 1).toLowerCase())) {
+            words[i] += 'ma' + ending;
+        } else {
+            words[i] = words[i].substring(1, words[i].length) + words[i].substring(0, 1) + 'ma' + ending;
+        }
+        ending += 'a';
+    }
+    return words.join(' ');
+};
+```
+
+<!-- @include ../leetcode/0247.strobogrammatic-number-ii.md -->
+### Strobogrammatic Number II
+[247. Strobogrammatic Number II](https://leetcode.com/problems/strobogrammatic-number-ii/)
+```html
+A strobogrammatic number is a number that looks the same when rotated 180 degrees (looked at upside down).
+
+Find all strobogrammatic numbers that are of length = n.
+
+For example,
+Given n = 2, return["11","69","88","96"].
+```
+
+```javascript
+var findStrobogrammatic = function(n) {
+    return findStrobogrammaticRecursive(n);
+};
+function findStrobogrammaticRecursive(len, n) {
+    if (len === 0) { return ['']; }
+    if (len === 1) { return ['0', '1', '8']; }
+    let prevNums = findStrobogrammaticRecursive(len - 2);
+
+    const res = [];
+    for (let num of prevNums) {
+        if (len !== n) { res.push('0' + num + '0'); }
+        res.push('1' + num + '1');
+        res.push('6' + num + '9');
+        res.push('8' + num + '8');
+        res.push('9' + num + '6');
+    }
+    return res;
+}
+```
+
