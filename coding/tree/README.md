@@ -571,7 +571,45 @@ function rightSideViewBfs(root) {
 }
 ```
 
-@include ../leetcode.com/0366.find-leaves-of-binary-tree.md
+<!-- @include ../leetcode/0366.find-leaves-of-binary-tree.md -->
+## Find Leaves of Binary Tree
+[366. Find Leaves of Binary Tree](https://leetcode.com/problems/find-leaves-of-binary-tree/)
+```html
+Given a binary tree, collect a tree's nodes as if you were doing this: Collect and remove all leaves, repeat until the tree is empty.
+
+Example:
+Given binary tree
+          1
+         / \
+        2   3
+       / \     
+      4   5    
+Returns [4, 5, 3], [2], [1].
+```
+
+```javascript
+var findLeaves = function(root) {
+    const result = [];
+    while (root !== null) {
+        const output = [];
+        root = findLeavesHelper(root, output);
+        result.push(output);
+    }
+    return result;
+};
+function findLeavesHelper(node, output) {
+    if (node === null) { return null; }
+    if (node.left === null && node.right === null) {
+        output.push(node.val);
+        return null;
+    }
+    
+    node.left = findLeavesHelper(node.left, output);
+    node.right = findLeavesHelper(node.right, output);
+    return node;
+}
+```
+
 
 ## Breath First Search
 
@@ -604,7 +642,48 @@ public List<Double> averageOfLevels(TreeNode root) {
 }
 ```
 
-@include ../leetcode/0513.find-bottom-left-tree-value.md
+<!-- @include ../leetcode/0513.find-bottom-left-tree-value.md -->
+### Find Bottom Left Tree Value
+[513. Find Bottom Left Tree Value](https://leetcode.com/problems/find-bottom-left-tree-value/)
+```html
+Given the root of a binary tree, return the leftmost value in the last row of the tree.
+
+Example 1:
+        2
+       / \
+      1   3
+Input: root = [2,1,3]
+Output: 1
+
+Example 2:
+             1
+            / \
+           2   3
+          /   / \
+         4   5   6
+            /
+           7
+Input: root = [1,2,3,4,null,5,6,null,null,7]
+Output: 7
+```
+```javascript
+var findBottomLeftValue = function(root) {
+    let queue = [root];
+    let bottomLeftNode = root.val;
+    
+    while (queue.length > 0) {
+        bottomLeftNode = queue[0];
+        const nextQueue = [];
+        for (const node of queue) {
+            if (node.left) { nextQueue.push(node.left); }
+            if (node.right) { nextQueue.push(node.right); }
+        }
+        queue = nextQueue;
+    }
+    return bottomLeftNode.val
+};
+```
+
 
 <!-- @include ../leetcode/0958.check-completeness-of-a-binary-tree.md -->
 ### Check Completeness of a Binary Tree
