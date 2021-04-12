@@ -21,14 +21,14 @@
         * [Binary Tree Right Side View](#Binary-Tree-Right-Side-View)
         * [Convert Binary Search Tree to Sorted Doubly Linked List](#Convert-Binary-Search-Tree-to-Sorted-Doubly-Linked-List)
         * [Lowest Common Ancestor of a Binary Tree](../leetcode.md#lowest-common-ancestor-of-a-binary-tree)
-        * [Maximum Difference Between Node and Ancestor](../leetcode.md#maximum-difference-between-node-and-ancestor)
+        * [Maximum Difference Between Node and Ancestor](#maximum-difference-between-node-and-ancestor)
         * [Binary Tree Upside Down](../leetcode.md#binary-tree-upside-down)
         * [Find Leaves of Binary Tree](../leetcode.md#find-leaves-of-binary-tree)
 
     * [Breath First Search](#Breath-First-Search)
         * [1. 一棵树每层节点的平均数](#1-一棵树每层节点的平均数)
         * [Find Bottom Left Tree Value](../leetcode.md#find-bottom-left-tree-value)
-        * [Check Completeness of a Binary Tree](../leetcode.md#check-completeness-of-a-binary-tree)
+        * [Check Completeness of a Binary Tree](#check-completeness-of-a-binary-tree)
     * [前中后序遍历](#前中后序遍历)
         * [1. 非递归实现二叉树的前序遍历](#1-非递归实现二叉树的前序遍历)
         * [2. 非递归实现二叉树的后序遍历](#2-非递归实现二叉树的后序遍历)
@@ -634,6 +634,56 @@ public int findBottomLeftValue(TreeNode root) {
     return root.val;
 }
 ```
+<!-- @include ../leetcode/0958.check-completeness-of-a-binary-tree.md -->
+### Check Completeness of a Binary Tree
+[958. Check Completeness of a Binary Tree](https://leetcode.com/problems/check-completeness-of-a-binary-tree/)
+```html
+Given the root of a binary tree, determine if it is a complete binary tree.
+
+In a complete binary tree, every level, except possibly the last, is completely filled, and all nodes in the last level are as far left as possible. It can have between 1 and 2h nodes inclusive at the last level h.
+
+Example 1:
+      1___
+     /    \
+    2      3
+   / \    / 
+  4   5  6
+Input: root = [1,2,3,4,5,6]
+Output: true
+Explanation: Every level before the last is full (ie. levels with node-values {1} and {2, 3}), and all nodes in the last level ({4, 5, 6}) are as far left as possible.
+Example 2:
+      1__
+     /   \
+    2     3
+   / \     \
+  4   5     7
+Input: root = [1,2,3,4,5,null,7]
+Output: false
+Explanation: The node with value 7 isn't as far left as possible.
+```
+
+```javascript
+var isCompleteTree = function(root) {
+    let queue = [root];
+    let hasNullNode = false;
+    while (queue.length > 0) {
+        const nextQueue = [];
+        for (const node of queue) {
+            if (node === null) {
+                hasNullNode = true;
+            } else {
+                if (hasNullNode) { return false; }
+                nextQueue.push(node.left);
+                nextQueue.push(node.right);
+            }
+        }
+        queue = nextQueue;
+    }
+    return true;
+};
+```
+
+
 
 ## 前中后序遍历
 
@@ -1433,3 +1483,87 @@ var treeToDoublyList = function(root) {
     return head;
 };
 ```
+<!-- @include ../leetcode/1026.maximum-difference-between-node-and-ancestor.md -->
+### Maximum Difference Between Node and Ancestor
+[1026. Maximum Difference Between Node and Ancestor](https://leetcode.com/problems/maximum-difference-between-node-and-ancestor/)
+```html
+Given the root of a binary tree, find the maximum value V for which there exist different nodes A and B where V = |A.val - B.val| and A is an ancestor of B.
+
+A node A is an ancestor of B if either: any child of A is equal to B, or any child of A is an ancestor of B.
+
+Example 1:
+      8___
+     /    \
+    3     10
+   / \      \
+  1   6     14
+     / \      \
+    4   7     13
+Input: root = [8,3,10,1,6,null,14,null,null,4,7,13]
+Output: 7
+Explanation: We have various ancestor-node differences, some of which are given below :
+|8 - 3| = 5
+|3 - 7| = 4
+|8 - 1| = 7
+|10 - 13| = 3
+Among all possible differences, the maximum value of 7 is obtained by |8 - 1| = 7.
+Example 2:
+   1
+    \
+     2
+      \
+       0
+      /
+     3
+Input: root = [1,null,2,null,0,3]
+Output: 3
+```
+
+With O(n<sup>2</sup>) complexity
+
+```javascript
+var maxAncestorDiff = function(root) {
+    let max = -Infinity;
+    
+    function helper(node, ancesters) {
+        if (node === null) {
+            return;
+        }
+        
+        ancesters.push(node);
+        helper(node.left, ancesters);
+        ancesters.pop();
+        
+        for (const ancester of ancesters) {
+            max = Math.max(max, Math.abs(ancester.val - node.val));
+        }
+        
+        ancesters.push(node);
+        helper(node.right, ancesters);
+        ancesters.pop();
+    }
+
+    helper(root, []);
+    return max;
+}
+```
+
+with O(n) complexity
+```javascript
+var maxAncestorDiff = function(root) {
+    const helper = (node, min, max) => {
+        if (!node) { return 0 };
+
+        const newMin = Math.min(min, node.val);
+        const newMax = Math.max(max, node.val);
+
+        const left = helper(node.left, newMin, newMax);
+        const right = helper(node.right, newMin, newMax);
+
+        return Math.max(newMax - newMin, left, right);
+    };
+
+    return helper(root, Infinity, -Infinity);
+};
+```
+

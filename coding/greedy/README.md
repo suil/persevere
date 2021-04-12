@@ -13,10 +13,12 @@
     * [Best Time to Buy and Sell Stock](#Best-Time-to-Buy-and-Sell-Stock)
         * [Best Time to Buy and Sell Stock I](#Best-Time-to-Buy-and-Sell-Stock-I)
         * [Best Time to Buy and Sell Stock II](#Best-Time-to-Buy-and-Sell-Stock-II)
+    * Max or Min on a contiguous subarray
+        * [Maximum Subarray](#Maximum-Subarray)
+        * [Maximum Product Subarray](#maximum-product-subarray)
     * [Can Place Flowers](#Can-Place-Flowers)
     * [Is Subsequence](#Is-Subsequence)
     * [Non-decreasing Array](#Non-decreasing-Array)
-    * [Maximum Subarray](#Maximum-Subarray)
     * [Partition Labels](#Partition-Labels)
     * [Task Scheduler](#Task-Scheduler)
     * [Maximum Swap](../leetcode.md#maximum-swap)
@@ -292,8 +294,27 @@ var checkPossibility = function(nums) {
 };
 ```
 
+<!-- @include ../leetcode/0053.maximum-subarray.md -->
 ## Maximum Subarray
-[53\. Maximum Subarray (Easy)](https://leetcode.com/problems/maximum-subarray/description/)
+[53. Maximum Subarray (Easy)](https://leetcode.com/problems/maximum-subarray/)
+```html
+Given an integer array nums, find the contiguous subarray (containing at least one number) which has the largest sum and return its sum.
+
+Example 1:
+
+Input: nums = [-2,1,-3,4,-1,2,1,-5,4]
+Output: 6
+Explanation: [4,-1,2,1] has the largest sum = 6.
+Example 2:
+
+Input: nums = [1]
+Output: 1
+Example 3:
+
+Input: nums = [5,4,-1,7,8]
+Output: 23
+```
+
 ```javascript
 var maxSubArray = function(nums) {
     let sum = nums[0];
@@ -302,6 +323,45 @@ var maxSubArray = function(nums) {
         const num = nums[i];
         sum = Math.max(num, num + sum);
         max = Math.max(max, sum)
+    }
+    return max;
+};
+```
+
+<!-- @include ../leetcode/0152.maximum-product-subarray.md -->
+## Maximum Product Subarray
+[152. Maximum Product Subarray](https://leetcode.com/problems/maximum-product-subarray/)
+
+```html
+Given an integer array nums, find a contiguous non-empty subarray within the array that has the largest product, and return the product.
+
+It is guaranteed that the answer will fit in a 32-bit integer.
+
+A subarray is a contiguous subsequence of the array.
+
+Example 1:
+
+Input: nums = [2,3,-2,4]
+Output: 6
+Explanation: [2,3] has the largest product 6.
+Example 2:
+
+Input: nums = [-2,0,-1]
+Output: 0
+Explanation: The result cannot be 2, because [-2,-1] is not a subarray.
+```
+
+```javascript
+var maxProduct = function(nums) {
+    let max = -Infinity;
+    let currentMax = 1;
+    let currentMin = 1;
+    
+    for (let i = 0; i < nums.length; i++) {
+        let prevMax = currentMax;
+        currentMax = Math.max(nums[i], prevMax * nums[i], currentMin * nums[i]);
+        currentMin = Math.min(nums[i], prevMax * nums[i], currentMin * nums[i]);
+        max = Math.max(currentMax, max);               
     }
     return max;
 };
