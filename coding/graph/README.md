@@ -9,6 +9,7 @@
     * [并查集](#并查集)
         * [1. 冗余连接](#1-冗余连接)
     * [Clone Graph](#Clone-Graph)
+    * [Graph Valid Tree](#graph-valid-tree)
 <!-- GFM-TOC -->
 
 
@@ -264,4 +265,102 @@ function cloneGraphHelper(node, map) {
     }
     return newNode;
 }
+```
+
+<!-- @include ../leetcode/0261.graph-valid-tree.md -->
+### Graph Valid Tree
+[261. Graph Valid Tree](https://leetcode.com/problems/graph-valid-tree/)
+```html
+You have a graph of n nodes labeled from 0 to n - 1. You are given an integer n and a list of edges where edges[i] = [ai, bi] indicates that there is an undirected edge between nodes ai and bi in the graph.
+
+Return true if the edges of the given graph make up a valid tree, and false otherwise.
+Example 1:
+        0
+      / | \
+     1  2  3
+     |
+     4
+
+Input: n = 5, edges = [[0,1],[0,2],[0,3],[1,4]]
+Output: true
+Example 2:
+
+0 -- 1 -- 2
+     | \  |
+     |  \ |
+     4    3
+Input: n = 5, edges = [[0,1],[1,2],[2,3],[1,3],[1,4]]
+Output: false
+```
+
+DFS cycle detection
+```javascript
+var validTree = function(n, edges) {
+    const graph = new Map();
+    for (const [u, v] of edges) {
+        if (!graph.has(u)) { graph.set(u, []); }
+        if (!graph.has(v)) { graph.set(v, []); }
+        graph.get(u).push(v);
+        graph.get(v).push(u);
+    }
+    
+    const visited = new Set();
+    if (hasCycle(graph, 0, -1, visited)) { return false; }
+    
+    return visited.size === n;
+};
+function hasCycle(graph, current, last, visited) {
+    visited.add(current);
+    const neighbors = graph.get(current) || [];
+    for (const neighbor of neighbors) {
+        if (visited.has(neighbor)) {
+            if (neighbor !== last) { return true; }
+        } else {
+            if (hasCycle(graph, neighbor, current, visited)) { return true; }
+        }
+    }
+    return false;
+}
+```
+
+Union Find
+```javascript
+class UnionFind {
+    constructor(n) {
+        this.roots = [...Array(n)].map((_, index) => index);
+        this.length = n;
+    }
+    
+    find(id) {
+        if (this.roots[id] === id) {
+            return id;
+        }
+        this.roots[id] = this.find(this.roots[id]);
+        return this.roots[id];
+    }
+    
+    union(x, y) {
+        const rootX = this.find(x);
+        const rootY = this.find(y);
+        
+        if (rootX === rootY) { return false; }
+        this.roots[rootY] = rootX;
+        this.length--;
+        return true;
+    }
+    
+    get size() {
+        return this.length;;
+    }
+}
+
+var validTree = function(n, edges) {
+    const uf = new UnionFind(n);
+    
+    for (const [u, v] of edges) {
+        if (!uf.union(u, v)) { return false; }
+    }
+    
+    return uf.size === 1;
+};
 ```

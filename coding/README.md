@@ -25,7 +25,7 @@
 - [HashMap](hashmap/README.md)
 - [String](string/README.md)
 - [Array and Matrix](array-matrix/README.md)
-- [图](Leetcode%20题解%20-%20图.md)
+- [Graph](graph/README.md)
 - [位运算](Leetcode%20题解%20-%20位运算.md)
 Success is the sum of small efforts, repeated day in and day out.
 
