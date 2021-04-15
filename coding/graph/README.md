@@ -9,7 +9,8 @@
     * [Clone Graph](#clone-graph)
     * [Graph Valid Tree](#graph-valid-tree)
 <!-- GFM-TOC -->
-<!-- @include ../leetcode/0785.is-graph-bipartite.md -->
+
+<!-- @include ../leetcode/0785.is-graph-bipartite.md -->
 ### Is Graph Bipartite
 [785. Is Graph Bipartite?](https://leetcode.com/problems/is-graph-bipartite/description/)
 ```html
@@ -80,7 +81,8 @@ Time Complexity: O(V+E).
 The above algorithm is simply DFS with an extra stack. So time complexity is the same as DFS which is.
 Auxiliary space: O(V). 
 The extra space is needed for the stack.
-<!-- @include ../leetcode/0207.course-schedule.md -->
+
+<!-- @include ../leetcode/0207.course-schedule.md -->
 ### Course Schedule
 [207. Course Schedule](https://leetcode.com/problems/course-schedule/description/)
 
@@ -147,7 +149,8 @@ function hasCircle(graph, current, visited, visiting) {
     return false;
 }
 ```
-<!-- @include ../leetcode/0210.course-schedule-ii.md -->
+
+<!-- @include ../leetcode/0210.course-schedule-ii.md -->
 ### Course Schedule II
 [210. Course Schedule II](https://leetcode.com/problems/course-schedule-ii/description/)
 
@@ -219,7 +222,8 @@ function hasCircle(graph, current, visited, visiting, orders) {
     return false;
 }
 ```
-<!-- @include ../leetcode/0684.redundant-connection.md -->
+
+<!-- @include ../leetcode/0684.redundant-connection.md -->
 ### Redundant Connection
 [684. Redundant Connection](https://leetcode.com/problems/redundant-connection/description/)
 
@@ -281,8 +285,8 @@ class UnionFind {
     }
 }
 ```
-
 <!-- @include ../leetcode/0133.clone-graph.md -->
+### Clone Graph
 [133. Clone Graph](https://leetcode.com/problems/clone-graph/)
 ```html
 Given a reference of a node in a connected undirected graph.
