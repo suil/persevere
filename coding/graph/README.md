@@ -1,22 +1,46 @@
-# Leetcode 题解 - 图
+# Graph
 <!-- GFM-TOC -->
-* [Leetcode 题解 - 图](#leetcode-题解---图)
-    * [Is Graph Bipartite](#Is-Graph-Bipartite)
-        * [1. 判断是否为二分图](#1-判断是否为二分图)
-    * [拓扑排序](#拓扑排序)
-        * [1. 课程安排的合法性](#1-课程安排的合法性)
-        * [2. 课程安排的顺序](#2-课程安排的顺序)
-    * [Clone Graph](#Clone-Graph)
+* [Graph](#graph)
+    * [Is Graph Bipartite](#is-graph-bipartite)
+    * [Topology Sorting](#topology-sorting)
+        * [Course Schedule](#course-schedule)
+        * [Course Schedule II](#course-schedule-ii)
+    * [Redundant Connection](#redundant-connection)
+    * [Clone Graph](#clone-graph)
     * [Graph Valid Tree](#graph-valid-tree)
 <!-- GFM-TOC -->
-
-
-## 二分图
-
-如果可以用两种颜色对图中的节点进行着色，并且保证相邻的节点颜色不同，那么这个图就是二分图。
-
+<!-- @include ../leetcode/0785.is-graph-bipartite.md -->
 ### Is Graph Bipartite
-[785\. Is Graph Bipartite? (Medium)](https://leetcode.com/problems/is-graph-bipartite/description/)
+[785. Is Graph Bipartite?](https://leetcode.com/problems/is-graph-bipartite/description/)
+```html
+Given an undirected graph, return true if and only if it is bipartite.
+
+Recall that a graph is bipartite if we can split it’s set of nodes into two independent subsets A and B such that every edge in the graph has one node in A and another node in B.
+
+The graph is given in the following form: graph[i] is a list of indexes j for which the edge between nodes i and j exists.  Each node is an integer between 0 and graph.length - 1.  There are no self edges or parallel edges: graph[i] does not contain i, and it doesn’t contain any element twice.
+
+Example 1:
+Input: [[1,3], [0,2], [1,3], [0,2]]
+Output: true
+Explanation: 
+The graph looks like this:
+0----1
+|    |
+|    |
+3----2
+We can divide the vertices into two groups: {0, 2} and {1, 3}.
+Example 2:
+Input: [[1,2,3], [0,2], [0,1,3], [0,2]]
+Output: false
+Explanation: 
+The graph looks like this:
+0----1
+| \  |
+|  \ |
+3----2
+We cannot find a way to divide the set of nodes into two independent subsets.
+```
+
 ```javascript
 const RED = 1;
 const BLUE = 2;
@@ -44,202 +68,261 @@ function isBipartiteHelper(graph, current, marker, visited) {
 }
 ```
 
-## 拓扑排序
+## Topology Sorting
 
-常用于在具有先序关系的任务规划中。
+Topological sorting for Directed Acyclic Graph (DAG) is a linear ordering of vertices such that for every directed edge u v, vertex u comes before v in the ordering. Topological Sorting for a graph is not possible if the graph is not a DAG.
 
-### 1. 课程安排的合法性
+Topological Sorting is mainly used for scheduling jobs from the given dependencies among jobs. In computer science, applications of this type arise in instruction scheduling, ordering of formula cell evaluation when recomputing formula values in spreadsheets, logic synthesis, determining the order of compilation tasks to perform in make files, data serialization, and resolving symbol dependencies in linkers [2]. 
 
-207\. Course Schedule (Medium)
+Complexity Analysis: 
 
-[Leetcode](https://leetcode.com/problems/course-schedule/description/) / [力扣](https://leetcode-cn.com/problems/course-schedule/description/)
+Time Complexity: O(V+E). 
+The above algorithm is simply DFS with an extra stack. So time complexity is the same as DFS which is.
+Auxiliary space: O(V). 
+The extra space is needed for the stack.
+<!-- @include ../leetcode/0207.course-schedule.md -->
+### Course Schedule
+[207. Course Schedule](https://leetcode.com/problems/course-schedule/description/)
 
 ```html
-2, [[1,0]]
-return true
+There are a total of numCourses courses you have to take, labeled from 0 to numCourses - 1. You are given an array prerequisites where prerequisites[i] = [ai, bi] indicates that you must take course bi first if you want to take course ai.
+
+For example, the pair [0, 1], indicates that to take course 0 you have to first take course 1.
+Return true if you can finish all courses. Otherwise, return false.
+
+ 
+
+Example 1:
+
+Input: numCourses = 2, prerequisites = [[1,0]]
+Output: true
+Explanation: There are a total of 2 courses to take. 
+To take course 1 you should have finished course 0. So it is possible.
+Example 2:
+
+Input: numCourses = 2, prerequisites = [[1,0],[0,1]]
+Output: false
+Explanation: There are a total of 2 courses to take. 
+To take course 1 you should have finished course 0, and to take course 0 you should also have finished course 1. So it is impossible.
 ```
 
-```html
-2, [[1,0],[0,1]]
-return false
-```
-
-题目描述：一个课程可能会先修课程，判断给定的先修课程规定是否合法。
-
-本题不需要使用拓扑排序，只需要检测有向图是否存在环即可。
-
-```java
-public boolean canFinish(int numCourses, int[][] prerequisites) {
-    List<Integer>[] graphic = new List[numCourses];
-    for (int i = 0; i < numCourses; i++) {
-        graphic[i] = new ArrayList<>();
+```javascript
+var canFinish = function(numCourses, prerequisites) {
+    const graph = [...Array(numCourses)].map(_ => []);
+    for (const [course, dependency] of prerequisites) {
+        if (!graph[course]) {
+            graph[course] = [];
+        }
+        graph[course].push(dependency);
     }
-    for (int[] pre : prerequisites) {
-        graphic[pre[0]].add(pre[1]);
-    }
-    boolean[] globalMarked = new boolean[numCourses];
-    boolean[] localMarked = new boolean[numCourses];
-    for (int i = 0; i < numCourses; i++) {
-        if (hasCycle(globalMarked, localMarked, graphic, i)) {
+
+    const visited = [];
+    const visiting = [];
+    for (let i = 0; i < numCourses; i++) {
+        if (hasCircle(graph, i, visited, visiting)) {
             return false;
         }
     }
     return true;
-}
+};
 
-private boolean hasCycle(boolean[] globalMarked, boolean[] localMarked,
-                         List<Integer>[] graphic, int curNode) {
-
-    if (localMarked[curNode]) {
-        return true;
-    }
-    if (globalMarked[curNode]) {
+function hasCircle(graph, current, visited, visiting) {
+    if (visited[current]) {
         return false;
     }
-    globalMarked[curNode] = true;
-    localMarked[curNode] = true;
-    for (int nextNode : graphic[curNode]) {
-        if (hasCycle(globalMarked, localMarked, graphic, nextNode)) {
+    
+    if (visiting[current]) {
+        return true;
+    }
+    
+    visiting[current] = true;
+    
+    for (const neighbor of graph[current]) {
+        if (hasCircle(graph, neighbor, visited, visiting)) {
             return true;
         }
     }
-    localMarked[curNode] = false;
+    visiting[current] = false;
+    visited[current] = true;
     return false;
 }
 ```
-
-### 2. 课程安排的顺序
-
-210\. Course Schedule II (Medium)
-
-[Leetcode](https://leetcode.com/problems/course-schedule-ii/description/) / [力扣](https://leetcode-cn.com/problems/course-schedule-ii/description/)
+<!-- @include ../leetcode/0210.course-schedule-ii.md -->
+### Course Schedule II
+[210. Course Schedule II](https://leetcode.com/problems/course-schedule-ii/description/)
 
 ```html
-4, [[1,0],[2,0],[3,1],[3,2]]
-There are a total of 4 courses to take. To take course 3 you should have finished both courses 1 and 2. Both courses 1 and 2 should be taken after you finished course 0. So one correct course order is [0,1,2,3]. Another correct ordering is[0,2,1,3].
+There are a total of n courses you have to take labelled from 0 to n - 1.
+Some courses may have prerequisites, for example, if prerequisites[i] = [ai, bi] this means you must take the course bi before the course ai.
+Given the total number of courses numCourses and a list of the prerequisite pairs, return the ordering of courses you should take to finish all courses.
+If there are many valid answers, return any of them. If it is impossible to finish all courses, return an empty array.
+Example 1:
+
+Input: numCourses = 2, prerequisites = [[1,0]]
+Output: [0,1]
+Explanation: There are a total of 2 courses to take. To take course 1 you should have finished course 0. So the correct course order is [0,1].
+Example 2:
+
+Input: numCourses = 4, prerequisites = [[1,0],[2,0],[3,1],[3,2]]
+Output: [0,2,1,3]
+Explanation: There are a total of 4 courses to take. To take course 3 you should have finished both courses 1 and 2. Both courses 1 and 2 should be taken after you finished course 0.
+So one correct course order is [0,1,2,3]. Another correct ordering is [0,2,1,3].
+Example 3:
+
+Input: numCourses = 1, prerequisites = []
+Output: [0]
 ```
 
-使用 DFS 来实现拓扑排序，使用一个栈存储后序遍历结果，这个栈的逆序结果就是拓扑排序结果。
-
-证明：对于任何先序关系：v-\>w，后序遍历结果可以保证 w 先进入栈中，因此栈的逆序结果中 v 会在 w 之前。
-
-```java
-public int[] findOrder(int numCourses, int[][] prerequisites) {
-    List<Integer>[] graphic = new List[numCourses];
-    for (int i = 0; i < numCourses; i++) {
-        graphic[i] = new ArrayList<>();
+```javascript
+var findOrder = function(numCourses, prerequisites) {
+    const graph = [...Array(numCourses)].map(_ => []);
+    for (const [course, dependency] of prerequisites) {
+        if (!graph[course]) {
+            graph[course] = [];
+        }
+        graph[course].push(dependency);
     }
-    for (int[] pre : prerequisites) {
-        graphic[pre[0]].add(pre[1]);
-    }
-    Stack<Integer> postOrder = new Stack<>();
-    boolean[] globalMarked = new boolean[numCourses];
-    boolean[] localMarked = new boolean[numCourses];
-    for (int i = 0; i < numCourses; i++) {
-        if (hasCycle(globalMarked, localMarked, graphic, i, postOrder)) {
-            return new int[0];
+
+    const visited = [];
+    const visiting = [];
+    const orders = [];
+    
+    for (let i = 0; i < numCourses; i++) {
+        if (hasCircle(graph, i, visited, visiting, orders)) {
+            return [];
         }
     }
-    int[] orders = new int[numCourses];
-    for (int i = numCourses - 1; i >= 0; i--) {
-        orders[i] = postOrder.pop();
-    }
+    
     return orders;
-}
+};
 
-private boolean hasCycle(boolean[] globalMarked, boolean[] localMarked, List<Integer>[] graphic,
-                         int curNode, Stack<Integer> postOrder) {
-
-    if (localMarked[curNode]) {
-        return true;
-    }
-    if (globalMarked[curNode]) {
+function hasCircle(graph, current, visited, visiting, orders) {
+    if (visited[current]) {
         return false;
     }
-    globalMarked[curNode] = true;
-    localMarked[curNode] = true;
-    for (int nextNode : graphic[curNode]) {
-        if (hasCycle(globalMarked, localMarked, graphic, nextNode, postOrder)) {
+    
+    if (visiting[current]) {
+        return true;
+    }
+    
+    visiting[current] = true;
+    
+    for (const neighbor of graph[current]) {
+        if (hasCircle(graph, neighbor, visited, visiting, orders)) {
             return true;
         }
     }
-    localMarked[curNode] = false;
-    postOrder.push(curNode);
+    
+    visiting[current] = false;
+    visited[current] = true;
+    orders.push(current);
     return false;
 }
 ```
-
-## 并查集
-
-并查集可以动态地连通两个点，并且可以非常快速地判断两个点是否连通。
-
-### 1. 冗余连接
-
-684\. Redundant Connection (Medium)
-
-[Leetcode](https://leetcode.com/problems/redundant-connection/description/) / [力扣](https://leetcode-cn.com/problems/redundant-connection/description/)
+<!-- @include ../leetcode/0684.redundant-connection.md -->
+### Redundant Connection
+[684. Redundant Connection](https://leetcode.com/problems/redundant-connection/description/)
 
 ```html
+In this problem, a tree is an undirected graph that is connected and has no cycles.
+
+The given input is a graph that started as a tree with N nodes (with distinct values 1, 2, ..., N), with one additional edge added. The added edge has two different vertices chosen from 1 to N, and was not an edge that already existed.
+
+The resulting graph is given as a 2D-array of edges. Each element of edges is a pair [u, v] with u < v, that represents an undirected edge connecting nodes u and v.
+
+Return an edge that can be removed so that the resulting graph is a tree of N nodes. If there are multiple answers, return the answer that occurs last in the given 2D-array. The answer edge [u, v] should be in the same format, with u < v.
+
+Example 1:
 Input: [[1,2], [1,3], [2,3]]
 Output: [2,3]
 Explanation: The given undirected graph will be like this:
   1
  / \
 2 - 3
+Example 2:
+Input: [[1,2], [2,3], [3,4], [1,4], [1,5]]
+Output: [1,4]
+Explanation: The given undirected graph will be like this:
+5 - 1 - 2
+    |   |
+    4 - 3
 ```
 
-题目描述：有一系列的边连成的图，找出一条边，移除它之后该图能够成为一棵树。
-
-```java
-public int[] findRedundantConnection(int[][] edges) {
-    int N = edges.length;
-    UF uf = new UF(N);
-    for (int[] e : edges) {
-        int u = e[0], v = e[1];
-        if (uf.connect(u, v)) {
-            return e;
-        }
-        uf.union(u, v);
+```javascript
+var findRedundantConnection = function(edges) {
+    const unionfind = new UnionFind(edges.length + 1);
+    
+    for(let [u, v] of edges) {
+        unionfind.union(u, v);
     }
-    return new int[]{-1, -1};
-}
-
-private class UF {
-
-    private int[] id;
-
-    UF(int N) {
-        id = new int[N + 1];
-        for (int i = 0; i < id.length; i++) {
-            id[i] = i;
-        }
+    return unionfind.answer;
+};
+class UnionFind {
+    constructor(n) {
+        this.roots = [...Array(n)].map((_, index) => index);
+        this.answer = [];
     }
-
-    void union(int u, int v) {
-        int uID = find(u);
-        int vID = find(v);
-        if (uID == vID) {
-            return;
+    find(id) {
+        if (this.roots[id] === id) {
+            return id;
         }
-        for (int i = 0; i < id.length; i++) {
-            if (id[i] == uID) {
-                id[i] = vID;
-            }
+        this.roots[id] = this.find(this.roots[id]);
+        return this.roots[id];
+    }
+    union(x, y) {
+        const rootX = this.find(x);
+        const rootY = this.find(y);
+        
+        if (rootX !== rootY) {
+            this.roots[rootY] = rootX;
+        } else {
+            this.answer = [x, y];
         }
-    }
-
-    int find(int p) {
-        return id[p];
-    }
-
-    boolean connect(int u, int v) {
-        return find(u) == find(v);
     }
 }
 ```
 
-## Clone Graph
+<!-- @include ../leetcode/0133.clone-graph.md -->
 [133. Clone Graph](https://leetcode.com/problems/clone-graph/)
+```html
+Given a reference of a node in a connected undirected graph.
+Return a deep copy (clone) of the graph.
+Each node in the graph contains a val (int) and a list (List[Node]) of its neighbors.
+
+class Node {
+    public int val;
+    public List<Node> neighbors;
+}
+
+Test case format:
+For simplicity sake, each node's value is the same as the node's index (1-indexed). For example, the first node with val = 1, the second node with val = 2, and so on. The graph is represented in the test case using an adjacency list.
+Adjacency list is a collection of unordered lists used to represent a finite graph. Each list describes the set of neighbors of a node in the graph.
+The given node will always be the first node with val = 1. You must return the copy of the given node as a reference to the cloned graph.
+
+Example 1:
+Input: adjList = [[2,4],[1,3],[2,4],[1,3]]
+Output: [[2,4],[1,3],[2,4],[1,3]]
+Explanation: There are 4 nodes in the graph.
+1st node (val = 1)'s neighbors are 2nd node (val = 2) and 4th node (val = 4).
+2nd node (val = 2)'s neighbors are 1st node (val = 1) and 3rd node (val = 3).
+3rd node (val = 3)'s neighbors are 2nd node (val = 2) and 4th node (val = 4).
+4th node (val = 4)'s neighbors are 1st node (val = 1) and 3rd node (val = 3).
+
+Example 2:
+Input: adjList = [[]]
+Output: [[]]
+Explanation: Note that the input contains one empty list. The graph consists of only one node with val = 1 and it does not have any neighbors.
+Example 3:
+
+Input: adjList = []
+Output: []
+Explanation: This an empty graph, it does not have any nodes.
+
+Example 4:
+Input: adjList = [[2],[1]]
+Output: [[2],[1]]
+```
+
 ```javascript
 var cloneGraph = function(node) {
     const map = new Map();
