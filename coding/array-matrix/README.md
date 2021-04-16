@@ -1,19 +1,16 @@
 # Array and Matrix
 <!-- GFM-TOC -->
 * [Array and Matrix](#leetcode-题解---数组与矩阵)
-    * [1. 把数组中的 0 移到末尾](#1-把数组中的-0-移到末尾)
-    * [2. 改变矩阵维度](#2-改变矩阵维度)
-    * [3. 找出数组中最长的连续 1](#3-找出数组中最长的连续-1)
-    * [4. 有序矩阵查找](#4-有序矩阵查找)
-    * [5. 有序矩阵的 Kth Element](#5-有序矩阵的-kth-element)
-    * [6. 一个数组元素在 [1, n] 之间，其中一个数被替换为另一个数，找出重复的数和丢失的数](#6-一个数组元素在-[1-n]-之间，其中一个数被替换为另一个数，找出重复的数和丢失的数)
-    * [7. 找出数组中重复的数，数组值在 [1, n] 之间](#7-找出数组中重复的数，数组值在-[1-n]-之间)
     * [8. 数组相邻差值的个数](#8-数组相邻差值的个数)
     * [9. 数组的度](#9-数组的度)
     * [10. 对角元素相等的矩阵](#10-对角元素相等的矩阵)
     * [11. 嵌套数组](#11-嵌套数组)
     * [12. 分隔数组](#12-分隔数组)
     * [Array](#Array)
+        * [Set Mismatch](#set-mismatch)
+        * [Kth Smallest Element in a Sorted Matrix](#kth-smallest-element-in-a-sorted-matrix)
+        * [Max Consecutive Ones](#max-consecutive-ones)
+        * [Move Zeroes](#move-zeroes)
         * [Longest Word in Dictionary](#Longest-Word-in-Dictionary)
         * [Subarray Sum Equals K](#Subarray-Sum-Equals-K)
         * [Product of Array Except Self](#Product-of-Array-Except-Self)
@@ -26,25 +23,35 @@
             * [Nested List Weight Sum II](#nested-list-weight-sum-ii)
             * [Flatten Nested List Iterator](#flatten-nested-list-iterator)
     * [Matrix](#Matrix)
+        * [Search a 2D Matrix II](#search-a-2d-matrix-ii)
+        * [Reshape the Matrix](#reshape-the-matrix)
         * [Sparse Matrix Multiplication](#Sparse-Matrix-Multiplication)
         * [Range Sum Query 2D - Immutable](#range-sum-query-2d---immutable)
 <!-- GFM-TOC -->
 
-
-## 1. 把数组中的 0 移到末尾
-
-283\. Move Zeroes (Easy)
-
-[Leetcode](https://leetcode.com/problems/move-zeroes/description/) / [力扣](https://leetcode-cn.com/problems/move-zeroes/description/)
+<!-- @include ../leetcode/0283.move-zeroes.md -->
+### 283. Move Zeroes
+[283. Move Zeroes](https://leetcode.com/problems/move-zeroes/description/)
 
 ```html
-For example, given nums = [0, 1, 0, 3, 12], after calling your function, nums should be [1, 3, 12, 0, 0].
+Given an integer array nums, move all 0's to the end of it while maintaining the relative order of the non-zero elements.
+
+Note that you must do this in-place without making a copy of the array.
+
+Example 1:
+
+Input: nums = [0,1,0,3,12]
+Output: [1,3,12,0,0]
+Example 2:
+
+Input: nums = [0]
+Output: [0]
 ```
 
-```java
-public void moveZeroes(int[] nums) {
-    int idx = 0;
-    for (int num : nums) {
+```javascript
+var moveZeroes = function(nums) {
+    let idx = 0;
+    for (const num of nums) {
         if (num != 0) {
             nums[idx++] = num;
         }
@@ -52,250 +59,242 @@ public void moveZeroes(int[] nums) {
     while (idx < nums.length) {
         nums[idx++] = 0;
     }
-}
+};
 ```
 
-## 2. 改变矩阵维度
-
-566\. Reshape the Matrix (Easy)
-
-[Leetcode](https://leetcode.com/problems/reshape-the-matrix/description/) / [力扣](https://leetcode-cn.com/problems/reshape-the-matrix/description/)
+<!-- @include ../leetcode/0566.reshape-the-matrix.md -->
+### Reshape the Matrix
+[566. Reshape the Matrix](https://leetcode.com/problems/reshape-the-matrix/description/)
 
 ```html
-Input:
-nums =
+In MATLAB, there is a very useful function called 'reshape', which can reshape a matrix into a new one with different size but keep its original data.
+
+You're given a matrix represented by a two-dimensional array, and two positive integers r and c representing the row number and column number of the wanted reshaped matrix, respectively.
+
+The reshaped matrix need to be filled with all the elements of the original matrix in the same row-traversing order as they were.
+
+If the 'reshape' operation with given parameters is possible and legal, output the new reshaped matrix; Otherwise, output the original matrix.
+
+Example 1:
+Input: 
+nums = 
 [[1,2],
  [3,4]]
 r = 1, c = 4
-
-Output:
+Output: 
 [[1,2,3,4]]
-
 Explanation:
 The row-traversing of nums is [1,2,3,4]. The new reshaped matrix is a 1 * 4 matrix, fill it row by row by using the previous list.
+Example 2:
+Input: 
+nums = 
+[[1,2],
+ [3,4]]
+r = 2, c = 4
+Output: 
+[[1,2],
+ [3,4]]
+Explanation:
+There is no way to reshape a 2 * 2 matrix to a 2 * 4 matrix. So output the original matrix.
 ```
 
-```java
-public int[][] matrixReshape(int[][] nums, int r, int c) {
-    int m = nums.length, n = nums[0].length;
+```javascript
+var matrixReshape = function(nums, r, c) {
+    let m = nums.length, n = nums[0].length;
+    
     if (m * n != r * c) {
         return nums;
     }
-    int[][] reshapedNums = new int[r][c];
-    int index = 0;
-    for (int i = 0; i < r; i++) {
-        for (int j = 0; j < c; j++) {
-            reshapedNums[i][j] = nums[index / n][index % n];
+    
+    const reshapedNums = [...Array(r)].map(a => [...Array(c)]);
+
+    let index = 0;
+    for (let i = 0; i < r; i++) {
+        for (let j = 0; j < c; j++) {
+            reshapedNums[i][j] = nums[Math.floor(index / n)][index % n];
             index++;
         }
     }
     return reshapedNums;
-}
+};
 ```
 
-## 3. 找出数组中最长的连续 1
-
-485\. Max Consecutive Ones (Easy)
-
-[Leetcode](https://leetcode.com/problems/max-consecutive-ones/description/) / [力扣](https://leetcode-cn.com/problems/max-consecutive-ones/description/)
-
-```java
-public int findMaxConsecutiveOnes(int[] nums) {
-    int max = 0, cur = 0;
-    for (int x : nums) {
-        cur = x == 0 ? 0 : cur + 1;
-        max = Math.max(max, cur);
-    }
-    return max;
-}
-```
-
-## 4. 有序矩阵查找
-
-240\. Search a 2D Matrix II (Medium)
-
-[Leetcode](https://leetcode.com/problems/search-a-2d-matrix-ii/description/) / [力扣](https://leetcode-cn.com/problems/search-a-2d-matrix-ii/description/)
+<!-- @include ../leetcode/0485.max-consecutive-ones.md -->
+### Max Consecutive Ones
+[485. Max Consecutive Ones](https://leetcode.com/problems/max-consecutive-ones/description/)
 
 ```html
-[
-   [ 1,  5,  9],
-   [10, 11, 13],
-   [12, 13, 15]
-]
+Given a binary array nums, return the maximum number of consecutive 1's in the array.
+
+Example 1:
+
+Input: nums = [1,1,0,1,1,1]
+Output: 3
+Explanation: The first two digits or the last three digits are consecutive 1s. The maximum number of consecutive 1s is 3.
+Example 2:
+
+Input: nums = [1,0,1,1,0,1]
+Output: 2
 ```
 
-```java
-public boolean searchMatrix(int[][] matrix, int target) {
-    if (matrix == null || matrix.length == 0 || matrix[0].length == 0) return false;
-    int m = matrix.length, n = matrix[0].length;
-    int row = 0, col = n - 1;
-    while (row < m && col >= 0) {
-        if (target == matrix[row][col]) return true;
-        else if (target < matrix[row][col]) col--;
-        else row++;
+```javascript
+var findMaxConsecutiveOnes = function(nums) {
+    if (nums.length == 0) {
+        return 0;
     }
-    return false;
-}
+    if (nums.length === 1 && nums[0] === 1) {
+        return 1;
+    }
+    let maxOnes = 0;
+    let countOnes = 0;
+    for (let i = 0; i < nums.length; i++) {
+        if (nums[i] === 1) {
+            countOnes++;
+        } else {
+            maxOnes = Math.max(maxOnes, countOnes);
+            countOnes = 0;
+        }
+    }
+    
+    return Math.max(maxOnes, countOnes);
+};
 ```
 
-## 5. 有序矩阵的 Kth Element
-
-378\. Kth Smallest Element in a Sorted Matrix ((Medium))
-
-[Leetcode](https://leetcode.com/problems/kth-smallest-element-in-a-sorted-matrix/description/) / [力扣](https://leetcode-cn.com/problems/kth-smallest-element-in-a-sorted-matrix/description/)
+<!-- @include ../leetcode/0378.kth-smallest-element-in-a-sorted-matrix.md -->
+### Kth Smallest Element in a Sorted Matrix
+[378. Kth Smallest Element in a Sorted Matrix](https://leetcode.com/problems/kth-smallest-element-in-a-sorted-matrix/description/)
 
 ```html
-matrix = [
-  [ 1,  5,  9],
-  [10, 11, 13],
-  [12, 13, 15]
-],
-k = 8,
+Given an n x n matrix where each of the rows and columns are sorted in ascending order, return the kth smallest element in the matrix.
 
-return 13.
+Note that it is the kth smallest element in the sorted order, not the kth distinct element.
+
+Example 1:
+Input: matrix = [[1,5,9],[10,11,13],[12,13,15]], k = 8
+Output: 13
+Explanation: The elements in the matrix are [1,5,9,10,11,12,13,13,15], and the 8th smallest number is 13
+
+Example 2:
+Input: matrix = [[-5]], k = 1
+Output: -5
 ```
 
-解题参考：[Share my thoughts and Clean Java Code](https://leetcode-cn.com/problems/kth-smallest-element-in-a-sorted-matrix/discuss/85173)
-
-二分查找解法：
-
-```java
-public int kthSmallest(int[][] matrix, int k) {
-    int m = matrix.length, n = matrix[0].length;
-    int lo = matrix[0][0], hi = matrix[m - 1][n - 1];
+```javascript
+var kthSmallest = function(matrix, k) {
+    let m = matrix.length, n = matrix[0].length;
+    let lo = matrix[0][0], hi = matrix[m - 1][n - 1];
     while (lo <= hi) {
-        int mid = lo + (hi - lo) / 2;
-        int cnt = 0;
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n && matrix[i][j] <= mid; j++) {
-                cnt++;
+        let mid = Math.floor(lo + (hi - lo) / 2);
+        let cnt = 0;
+        for (let i = 0; i < m; i++) {
+            for (let j = 0; j < n; j++) {
+                if (matrix[i][j] <= mid) {
+                    cnt++;
+                }
             }
         }
         if (cnt < k) lo = mid + 1;
         else hi = mid - 1;
     }
     return lo;
-}
+};
 ```
 
-堆解法：
-
-```java
-public int kthSmallest(int[][] matrix, int k) {
-    int m = matrix.length, n = matrix[0].length;
-    PriorityQueue<Tuple> pq = new PriorityQueue<Tuple>();
-    for(int j = 0; j < n; j++) pq.offer(new Tuple(0, j, matrix[0][j]));
-    for(int i = 0; i < k - 1; i++) { // 小根堆，去掉 k - 1 个堆顶元素，此时堆顶元素就是第 k 的数
-        Tuple t = pq.poll();
-        if(t.x == m - 1) continue;
-        pq.offer(new Tuple(t.x + 1, t.y, matrix[t.x + 1][t.y]));
-    }
-    return pq.poll().val;
-}
-
-class Tuple implements Comparable<Tuple> {
-    int x, y, val;
-    public Tuple(int x, int y, int val) {
-        this.x = x; this.y = y; this.val = val;
-    }
-
-    @Override
-    public int compareTo(Tuple that) {
-        return this.val - that.val;
-    }
-}
-```
-
-## 6. 一个数组元素在 [1, n] 之间，其中一个数被替换为另一个数，找出重复的数和丢失的数
-
-645\. Set Mismatch (Easy)
-
-[Leetcode](https://leetcode.com/problems/set-mismatch/description/) / [力扣](https://leetcode-cn.com/problems/set-mismatch/description/)
+<!-- @include ../leetcode/0645.set-mismatch.md -->
+### Set Mismatch
+[645. Set Mismatch](https://leetcode.com/problems/set-mismatch/description/)
 
 ```html
+You have a set of integers s, which originally contains all the numbers from 1 to n. Unfortunately, due to some error, one of the numbers in s got duplicated to another number in the set, which results in repetition of one number and loss of another number.
+
+You are given an integer array nums representing the data status of this set after the error.
+
+Find the number that occurs twice and the number that is missing and return them in the form of an array.
+
+Example 1:
 Input: nums = [1,2,2,4]
 Output: [2,3]
+
+Example 2:
+Input: nums = [1,1]
+Output: [1,2]
 ```
+
+```javascript
+var findErrorNums = function(nums) {
+    const map = new Map();
+    let dup = -1, missing = 1;
+    for (const n of nums) {
+        map.set(n, (map.get(n) || 0) + 1);
+    }
+    
+    for (let i = 1; i <= nums.length; i++) {
+        if (map.has(i)) {
+            if (map.get(i) == 2) {
+                dup = i;
+            }
+        }
+        else {
+            missing = i;
+        }
+    }
+    return [dup, missing];
+};
+```
+
+<!-- @include ../leetcode/0287.find-the-duplicate-number.md -->
+### Find the Duplicate Number
+[287. Find the Duplicate Number](https://leetcode.com/problems/find-the-duplicate-number/)
 
 ```html
-Input: nums = [1,2,2,4]
-Output: [2,3]
+Given an array of integers nums containing n + 1 integers where each integer is in the range [1, n] inclusive.
+There is only one repeated number in nums, return this repeated number.
+
+Example 1:
+Input: nums = [1,3,4,2,2]
+Output: 2
+
+Example 2:
+Input: nums = [3,1,3,4,2]
+Output: 3
+
+Example 3:
+Input: nums = [1,1]
+Output: 1
+
+Example 4:
+Input: nums = [1,1,2]
+Output: 1
 ```
 
-最直接的方法是先对数组进行排序，这种方法时间复杂度为 O(NlogN)。本题可以以 O(N) 的时间复杂度、O(1) 空间复杂度来求解。
-
-主要思想是通过交换数组元素，使得数组上的元素在正确的位置上。
-
-```java
-public int[] findErrorNums(int[] nums) {
-    for (int i = 0; i < nums.length; i++) {
-        while (nums[i] != i + 1 && nums[nums[i] - 1] != nums[i]) {
-            swap(nums, i, nums[i] - 1);
+```javascript
+var findDuplicate = function(nums) {
+    let l = 1, h = nums.length - 1;
+    while (l <= h) {
+        let mid = Math.floor(l + (h - l) / 2);
+        let cnt = 0;
+        for (let i = 0; i < nums.length; i++) {
+            if (nums[i] <= mid) {
+                cnt++;
+                console.log({i, 'nums[i]': nums[i], mid, cnt})
+            }
+        }
+        if (cnt > mid) {
+            h = mid - 1;
+        } else {
+            l = mid + 1;
         }
     }
-    for (int i = 0; i < nums.length; i++) {
-        if (nums[i] != i + 1) {
-            return new int[]{nums[i], i + 1};
-        }
-    }
-    return null;
-}
-
-private void swap(int[] nums, int i, int j) {
-    int tmp = nums[i];
-    nums[i] = nums[j];
-    nums[j] = tmp;
-}
+    return l;
+};
 ```
 
-## 7. 找出数组中重复的数，数组值在 [1, n] 之间
 
-287\. Find the Duplicate Number (Medium)
-
-[Leetcode](https://leetcode.com/problems/find-the-duplicate-number/description/) / [力扣](https://leetcode-cn.com/problems/find-the-duplicate-number/description/)
-
-要求不能修改数组，也不能使用额外的空间。
-
-二分查找解法：
-
-```java
-public int findDuplicate(int[] nums) {
-     int l = 1, h = nums.length - 1;
-     while (l <= h) {
-         int mid = l + (h - l) / 2;
-         int cnt = 0;
-         for (int i = 0; i < nums.length; i++) {
-             if (nums[i] <= mid) cnt++;
-         }
-         if (cnt > mid) h = mid - 1;
-         else l = mid + 1;
-     }
-     return l;
-}
-```
-
-双指针解法，类似于有环链表中找出环的入口：
-
-```java
-public int findDuplicate(int[] nums) {
-    int slow = nums[0], fast = nums[nums[0]];
-    while (slow != fast) {
-        slow = nums[slow];
-        fast = nums[nums[fast]];
-    }
-    fast = 0;
-    while (slow != fast) {
-        slow = nums[slow];
-        fast = nums[fast];
-    }
-    return slow;
-}
-```
 
 ## 8. 数组相邻差值的个数
 
 667\. Beautiful Arrangement II (Medium)
-
+0667.beautiful-arrangement-ii.md
 [Leetcode](https://leetcode.com/problems/beautiful-arrangement-ii/description/) / [力扣](https://leetcode-cn.com/problems/beautiful-arrangement-ii/description/)
 
 ```html
@@ -778,6 +777,61 @@ NestedIterator.prototype.next = function() {
 
 
 ## Matrix
+
+<!-- @include ../leetcode/0240.search-a-2d-matrix-ii.md -->
+### Search a 2D Matrix II
+[240. Search a 2D Matrix II](https://leetcode.com/problems/search-a-2d-matrix-ii/description/)
+
+```html
+Write an efficient algorithm that searches for a target value in an m x n integer matrix. The matrix has the following properties:
+
+Integers in each row are sorted in ascending from left to right.
+Integers in each column are sorted in ascending from top to bottom.
+
+Example 1:
+[ 1, 4, 7,11,15]
+[ 2, 5, 8,12,19]
+[ 3, 6, 9,16,22]
+[10,13,14,17,24]
+[18,21,23,26,30]
+Input: matrix = [[1,4,7,11,15],[2,5,8,12,19],[3,6,9,16,22],[10,13,14,17,24],[18,21,23,26,30]], target = 5
+Output: true
+
+Example 2:
+[ 1, 4, 7,11,15]
+[ 2, 5, 8,12,19]
+[ 3, 6, 9,16,22]
+[10,13,14,17,24]
+[18,21,23,26,30]
+Input: matrix = [[1,4,7,11,15],[2,5,8,12,19],[3,6,9,16,22],[10,13,14,17,24],[18,21,23,26,30]], target = 20
+Output: false
+```
+```javascript
+var searchMatrix = function(matrix, target) {
+    const firstRow = matrix[0];
+    const targetColIdex = binarySearch(firstRow, target);
+    
+    const searchColArray = 
+    console.log(targetColIdex)
+};
+function binarySearch(array, target) {
+    let low = 0, high = array.length - 1;
+    while (low <= high) {
+        const mid = Math.floor(low + (high - low) / 2);
+        if (array[mid] === target) {
+            return mid;
+        }
+        if (array[mid] > target) {
+            high = mid - 1;
+        } else {
+            low = mid + 1
+        }
+    }
+    return low - 1;
+}
+```
+
+
 
 ### Sparse Matrix Multiplication
 [311. Sparse Matrix Multiplication](https://leetcode.com/problems/sparse-matrix-multiplication/)
