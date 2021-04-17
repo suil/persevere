@@ -21,7 +21,7 @@
         * [1. 最长递增子序列](#1-最长递增子序列)
         * [2. 一组整数对能够构成的最长链](#2-一组整数对能够构成的最长链)
         * [3. 最长摆动子序列](#3-最长摆动子序列)
-    * [最长公共子序列](#最长公共子序列)
+    * [Longest Subsequence](#longest-subsequence)
         * [Longest Common Subsequence](#longest-common-subsequence)
         * [Longest Palindromic Subsequence](#longest-palindromic-subsequence)
     * [0-1 背包](#0-1-背包)
@@ -609,7 +609,7 @@ public int wiggleMaxLength(int[] nums) {
 }
 ```
 
-## 最长公共子序列
+## Longest Subsequence
 
 <!-- @include ../leetcode/1143.longest-common-subsequence.md -->
 ### Longest Common Subsequence
