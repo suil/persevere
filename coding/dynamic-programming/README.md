@@ -22,7 +22,8 @@
         * [2. 一组整数对能够构成的最长链](#2-一组整数对能够构成的最长链)
         * [3. 最长摆动子序列](#3-最长摆动子序列)
     * [最长公共子序列](#最长公共子序列)
-        * [1. 最长公共子序列](#1-最长公共子序列)
+        * [Longest Common Subsequence](#longest-common-subsequence)
+        * [Longest Palindromic Subsequence](#longest-palindromic-subsequence)
     * [0-1 背包](#0-1-背包)
         * [1. 划分数组为和相等的两部分](#1-划分数组为和相等的两部分)
         * [2. 改变一组数的正负号使得它们的和为一给定数](#2-改变一组数的正负号使得它们的和为一给定数)
@@ -610,49 +611,147 @@ public int wiggleMaxLength(int[] nums) {
 
 ## 最长公共子序列
 
-对于两个子序列 S1 和 S2，找出它们最长的公共子序列。
+<!-- @include ../leetcode/1143.longest-common-subsequence.md -->
+### Longest Common Subsequence
+[1143. Longest Common Subsequence](https://leetcode.com/problems/longest-common-subsequence/)
 
-定义一个二维数组 dp 用来存储最长公共子序列的长度，其中 dp[i][j] 表示 S1 的前 i 个字符与 S2 的前 j 个字符最长公共子序列的长度。考虑 S1<sub>i</sub> 与 S2<sub>j</sub> 值是否相等，分为两种情况：
+```html
+Given two strings text1 and text2, return the length of their longest common subsequence. If there is no common subsequence, return 0.
+A subsequence of a string is a new string generated from the original string with some characters (can be none) deleted without changing the relative order of the remaining characters.
+For example, "ace" is a subsequence of "abcde".
+A common subsequence of two strings is a subsequence that is common to both strings.
 
-- 当 S1<sub>i</sub>==S2<sub>j</sub> 时，那么就能在 S1 的前 i-1 个字符与 S2 的前 j-1 个字符最长公共子序列的基础上再加上 S1<sub>i</sub> 这个值，最长公共子序列长度加 1，即 dp[i][j] = dp[i-1][j-1] + 1。
-- 当 S1<sub>i</sub> != S2<sub>j</sub> 时，此时最长公共子序列为 S1 的前 i-1 个字符和 S2 的前 j 个字符最长公共子序列，或者 S1 的前 i 个字符和 S2 的前 j-1 个字符最长公共子序列，取它们的最大者，即 dp[i][j] = max{ dp[i-1][j], dp[i][j-1] }。
+Example 1:
+Input: text1 = "abcde", text2 = "ace" 
+Output: 3  
+Explanation: The longest common subsequence is "ace" and its length is 3.
 
-综上，最长公共子序列的状态转移方程为：
+Example 2:
+Input: text1 = "abc", text2 = "abc"
+Output: 3
+Explanation: The longest common subsequence is "abc" and its length is 3.
 
-<!--<div align="center"><img src="https://latex.codecogs.com/gif.latex?dp[i][j]=\left\{\begin{array}{rcl}dp[i-1][j-1]&&{S1_i==S2_j}\\max(dp[i-1][j],dp[i][j-1])&&{S1_i<>S2_j}\end{array}\right." class="mathjax-pic"/></div> <br>-->
+Example 3:
+Input: text1 = "abc", text2 = "def"
+Output: 0
+Explanation: There is no such common subsequence, so the result is 0.
+```
 
-<div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/ecd89a22-c075-4716-8423-e0ba89230e9a.jpg" width="450px"> </div><br>
+Memoization
+```javascript
+var longestCommonSubsequence = function(text1, text2) {
+    const memo = [...Array(text1.length)].map(() => [...Array(text2.length)]);
+    return longestCommonSubsequenceBruteforce(text1, 0, text2, 0, memo);
+};
+function longestCommonSubsequenceBruteforce(text1, index1, text2, index2, memo) {
+    if (index1 >= text1.length || index2 >= text2.length) {
+        return 0;
+    }
+    if (memo[index1][index2]) { return memo[index1][index2]; }
+    
+    let res;
+    if (text1[index1] === text2[index2]) {
+        res = 1 + longestCommonSubsequenceBruteforce(text1, index1 + 1, text2, index2 + 1, memo);
+    } else {
+        res = Math.max(
+            longestCommonSubsequenceBruteforce(text1, index1, text2, index2 + 1, memo),
+            longestCommonSubsequenceBruteforce(text1, index1 + 1, text2, index2, memo),
+        );
+    }
+    memo[index1][index2] = res;
+    return res;
+}
+```
 
-对于长度为 N 的序列 S<sub>1</sub> 和长度为 M 的序列 S<sub>2</sub>，dp[N][M] 就是序列 S<sub>1</sub> 和序列 S<sub>2</sub> 的最长公共子序列长度。
-
-与最长递增子序列相比，最长公共子序列有以下不同点：
-
-- 针对的是两个序列，求它们的最长公共子序列。
-- 在最长递增子序列中，dp[i] 表示以 S<sub>i</sub> 为结尾的最长递增子序列长度，子序列必须包含 S<sub>i</sub> ；在最长公共子序列中，dp[i][j] 表示 S1 中前 i 个字符与 S2 中前 j 个字符的最长公共子序列长度，不一定包含 S1<sub>i</sub> 和 S2<sub>j</sub>。
-- 在求最终解时，最长公共子序列中 dp[N][M] 就是最终解，而最长递增子序列中 dp[N] 不是最终解，因为以 S<sub>N</sub> 为结尾的最长递增子序列不一定是整个序列最长递增子序列，需要遍历一遍 dp 数组找到最大者。
-
-### 1. 最长公共子序列
-
-1143\. Longest Common Subsequence
-
-[Leetcode](https://leetcode.com/problems/longest-common-subsequence/) / [力扣](https://leetcode-cn.com/problems/longest-common-subsequence/)
-
-```java
-    public int longestCommonSubsequence(String text1, String text2) {
-        int n1 = text1.length(), n2 = text2.length();
-        int[][] dp = new int[n1 + 1][n2 + 1];
-        for (int i = 1; i <= n1; i++) {
-            for (int j = 1; j <= n2; j++) {
-                if (text1.charAt(i - 1) == text2.charAt(j - 1)) {
-                    dp[i][j] = dp[i - 1][j - 1] + 1;
-                } else {
-                    dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
-                }
+Dynamic Programming
+```javascript
+var longestCommonSubsequence = function(text1, text2) {
+    const n1 = text1.length;
+    const n2 = text2.length;
+    const dp = [...Array(n1 + 1)].map(_ => [...Array(n2 + 1)].fill(0));
+    
+    for (let i = 1; i <= n1; i++) {
+        for (let j = 1; j <= n2; j++) {
+            if (text1[i - 1] === text2[j - 1]) {
+                dp[i][j] = dp[i - 1][j - 1] + 1;
+            } else {
+                dp[i][j] = Math.max(dp[i][j - 1], dp[i - 1][j]);
             }
         }
-        return dp[n1][n2];
     }
+    return dp[n1][n2];
+};
 ```
+
+
+<!-- @include ../leetcode/0516.longest-palindromic-subsequence.md -->
+### Longest Palindromic Subsequence
+[516. Longest Palindromic Subsequence](https://leetcode.com/problems/longest-palindromic-subsequence/)
+
+```html
+516. Longest Palindromic Subsequence
+Given a string s, find the longest palindromic subsequence's length in s.
+A subsequence is a sequence that can be derived from another sequence by deleting some or no elements without changing the order of the remaining elements.
+
+Example 1:
+Input: s = "bbbab"
+Output: 4
+Explanation: One possible longest palindromic subsequence is "bbbb".
+
+Example 2:
+Input: s = "cbbd"
+Output: 2
+Explanation: One possible longest palindromic subsequence is "bb".
+```
+
+Memoization
+```javascript
+var longestPalindromeSubseq = function(s) {
+    const memo = [...Array(s.length)].map(() => [...Array(s.length)].fill(0));
+    return longestPalindromeSubseqMemo(s, 0, s.length - 1, memo);
+};
+function longestPalindromeSubseqMemo(s, left, right, memo) {
+    if (left === right) { return 1; }
+    if (left > right) { return 0; }
+    if (memo[left][right]) { return memo[left][right]; }
+    
+    let res;
+    if (s[left] === s[right]) {
+        res = longestPalindromeSubseqMemo(s, left + 1, right - 1, memo) + 2;
+    } else {
+        res = Math.max(
+            longestPalindromeSubseqMemo(s, left + 1, right, memo),
+            longestPalindromeSubseqMemo(s, left, right - 1, memo)
+        );
+    }
+    memo[left][right] = res;
+    return res;
+}
+```
+
+Dynamic Programming
+```javascript
+var longestPalindromeSubseqDP = function(s) {
+    const dp = [...Array(s.length)].map(() => [...Array(s.length)].fill(0));
+    
+    for (let len = 1; len <= s.length; len++) {
+        for (let left = 0; left <= s.length - len; left++) {
+            let right = left + len - 1;
+            if (left === right) {
+                dp[left][right] = 1;
+                continue;
+            }
+            if (s[left] === s[right]) {
+                dp[left][right] = dp[left + 1][right - 1] + 2;
+            } else {
+                dp[left][right] = Math.max(dp[left + 1][right], dp[left][right - 1]);
+            }
+        }
+    }
+    return dp[0][s.length - 1];
+};
+```
+
 
 ## 0-1 背包
 
@@ -993,7 +1092,8 @@ var wordBreak = function(s, wordDict) {
     return dp[sLen];
 };
 ```
-<!-- @include ../leetcode/0140.word-break-ii.md -->
+
+<!-- @include ../leetcode/0140.word-break-ii.md -->
 ### Word Break II
 [140. Word Break II](https://leetcode.com/problems/word-break-ii/)
 ```html
