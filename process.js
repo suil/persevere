@@ -18,7 +18,7 @@ async function processReadMe(readmeFilePath) {
             `<!-- ${match.trim()} -->\n${includedFileContent}`
         );
     }
-    
+
     await fs.promises.writeFile(readmeFilePath, readmeContent);
     console.log(`replace: ${readmeFilePath}`);
 }
