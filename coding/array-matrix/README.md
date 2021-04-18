@@ -22,6 +22,7 @@
             * [Nested List Weight Sum](#nested-list-weight-sum)
             * [Nested List Weight Sum II](#nested-list-weight-sum-ii)
             * [Flatten Nested List Iterator](#flatten-nested-list-iterator)
+        * [Find K Pairs with Smallest Sums](#find-k-pairs-with-smallest-sums)
     * [Matrix](#Matrix)
         * [Search a 2D Matrix II](#search-a-2d-matrix-ii)
         * [Reshape the Matrix](#reshape-the-matrix)
@@ -774,7 +775,63 @@ NestedIterator.prototype.next = function() {
     return this.flattenedList.shift();
 };
 ```
+<!-- @include ../leetcode/0373.find-k-pairs-with-smallest-sums.md -->
+### Find K Pairs with Smallest Sums
+[373. Find K Pairs with Smallest Sums](https://leetcode.com/problems/find-k-pairs-with-smallest-sums/)
 
+```html
+You are given two integer arrays nums1 and nums2 sorted in ascending order and an integer k.
+Define a pair (u, v) which consists of one element from the first array and one element from the second array.
+Return the k pairs (u1, v1), (u2, v2), ..., (uk, vk) with the smallest sums.
+
+Example 1:
+Input: nums1 = [1,7,11], nums2 = [2,4,6], k = 3
+Output: [[1,2],[1,4],[1,6]]
+Explanation: The first 3 pairs are returned from the sequence: [1,2],[1,4],[1,6],[7,2],[7,4],[11,2],[7,6],[11,4],[11,6]
+
+Example 2:
+Input: nums1 = [1,1,2], nums2 = [1,2,3], k = 2
+Output: [[1,1],[1,1]]
+Explanation: The first 2 pairs are returned from the sequence: [1,1],[1,1],[1,2],[2,1],[1,2],[2,2],[1,3],[1,3],[2,3]
+
+Example 3:
+Input: nums1 = [1,2], nums2 = [3], k = 3
+Output: [[1,3],[2,3]]
+Explanation: All possible pairs are returned from the sequence: [1,3],[2,3]
+```
+
+```javascript
+var kSmallestPairs = function(nums1, nums2, k) {
+    const res = [];
+    if (nums1.length === 0 || nums2.length === 0 || k === 0) { return res; }
+    const queue = new FastPriorityQueue((a, b) => a.sum < b.sum)
+    
+    for (let i = 0; i < Math.min(nums1.length, k); i++) {
+        queue.add({
+            index1: i,
+            index2: 0,
+            sum: nums1[i] + nums2[0]
+        });
+    }
+
+    while (k > 0 && queue.size > 0) {
+        const num = queue.poll();
+        res.push([
+            nums1[num.index1],
+            nums2[num.index2] 
+        ]);
+        if (num.index2 < nums2.length - 1) {
+            queue.add({
+                index1: num.index1,
+                index2: num.index2 + 1,
+                sum: nums1[num.index1] + nums2[num.index2 + 1]
+            });
+        }
+        k--;
+    }
+    return res;
+};
+```
 
 ## Matrix
 
