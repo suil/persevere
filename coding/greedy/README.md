@@ -9,6 +9,8 @@
         * [Interval List Intersections](#Interval-List-Intersections)
         * [Meeting Rooms II](#Meeting-Rooms-II)
         * [Merge Intervals](#Merge-Intervals)
+        * [Insert Interval](#insert-interval)
+
     * [Queue Reconstruction by Height](#Queue-Reconstruction-by-Height)
     * [Best Time to Buy and Sell Stock](#Best-Time-to-Buy-and-Sell-Stock)
         * [Best Time to Buy and Sell Stock I](#Best-Time-to-Buy-and-Sell-Stock-I)
@@ -149,8 +151,24 @@ var minMeetingRooms = function(intervals) {
 };
 ```
 
+<!-- @include ../leetcode/0056.merge-intervals.md -->
 ### Merge Intervals
-[Merge Intervals](https://leetcode.com/problems/merge-intervals/)
+[56. Merge Intervals](https://leetcode.com/problems/merge-intervals/)
+
+```html
+Given an array of intervals where intervals[i] = [starti, endi], merge all overlapping intervals, and return an array of the non-overlapping intervals that cover all the intervals in the input.
+
+Example 1:
+Input: intervals = [[1,3],[2,6],[8,10],[15,18]]
+Output: [[1,6],[8,10],[15,18]]
+Explanation: Since intervals [1,3] and [2,6] overlaps, merge them into [1,6].
+Example 2:
+
+Input: intervals = [[1,4],[4,5]]
+Output: [[1,5]]
+Explanation: Intervals [1,4] and [4,5] are considered overlapping.
+```
+
 ```javascript
 var merge = function(intervals) {
     if (intervals.length === 0) { return []; }
@@ -173,6 +191,63 @@ var merge = function(intervals) {
     return output;
 };
 ```
+
+<!-- @include ../leetcode/0057.insert-interval.md -->
+### Insert Interval
+[57. Insert Interval](https://leetcode.com/problems/insert-interval/)
+
+```html
+Given a set of non-overlapping intervals, insert a new interval into the intervals (merge if necessary).
+You may assume that the intervals were initially sorted according to their start times.
+
+Example 1:
+Input: intervals = [[1,3],[6,9]], newInterval = [2,5]
+Output: [[1,5],[6,9]]
+
+Example 2:
+Input: intervals = [[1,2],[3,5],[6,7],[8,10],[12,16]], newInterval = [4,8]
+Output: [[1,2],[3,10],[12,16]]
+Explanation: Because the new interval [4,8] overlaps with [3,5],[6,7],[8,10].
+
+Example 3:
+Input: intervals = [], newInterval = [5,7]
+Output: [[5,7]]
+
+Example 4:
+Input: intervals = [[1,5]], newInterval = [2,3]
+Output: [[1,5]]
+
+Example 5:
+Input: intervals = [[1,5]], newInterval = [2,7]
+Output: [[1,7]]
+```
+
+```javascript
+var insert = function(intervals, newInterval) {
+    let i = 0;
+    while (i < intervals.length && intervals[i][0] < newInterval[0]) { i++; }
+
+    intervals.splice(i, 0, newInterval);
+
+    const output = [];
+    let previous = intervals[0];
+    for (let i = 1; i < intervals.length; i++) {
+        const current = intervals[i];
+        if (previous[1] >= current[0]) {
+            previous[1] = Math.max(previous[1], current[1]);
+        } else {
+            output.push(previous);
+            previous = current;
+        }
+    }
+    output.push(previous);
+    return output;
+};
+```
+
+
+
+
 ## Queue Reconstruction by Height
 
 [406\. Queue Reconstruction by Height(Medium)](https://leetcode.com/problems/queue-reconstruction-by-height/description/)
@@ -436,7 +511,8 @@ var leastInterval = function(tasks, n) {
     return idleTime + tasks.length;
 };
 ```
-<!-- @include ../leetcode/0670.maximum-swap.md -->
+
+<!-- @include ../leetcode/0670.maximum-swap.md -->
 ## Maximum Swap
 [670. Maximum Swap](https://leetcode.com/problems/maximum-swap/)
 ```html

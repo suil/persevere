@@ -29,6 +29,9 @@
         * [Divide Two Integers](#Divide-Two-Integers)
         * [Pow(x, n)](#powx-n)
         * [Multiply Strings](#multiply-strings)
+        * [Integer to Roman](#integer-to-roman)
+        * [Roman to Integer](#roman-to-integer)
+
 <!-- GFM-TOC -->
 
 
@@ -596,7 +599,8 @@ var divide = function(dividend, divisor) {
     return isNegative ? -result : result;
 };
 ```
-<!-- @include ../leetcode/0050.powx-n.md -->
+
+<!-- @include ../leetcode/0050.powx-n.md -->
 ### Pow(x, n)
 [50. Pow(x, n)](https://leetcode.com/problems/powx-n/)
 ```html
@@ -631,7 +635,8 @@ var myPow = function(x, n) {
 };
 ```
 
-<!-- @include ../leetcode/0043.multiply-strings.md -->
+
+<!-- @include ../leetcode/0043.multiply-strings.md -->
 ### Multiply Strings
 [43. Multiply Strings](https://leetcode.com/problems/multiply-strings/)
 ```html
@@ -670,3 +675,149 @@ var multiply = function(num1, num2) {
     return output.join('');
 };
 ```
+
+<!-- @include ../leetcode/0012.integer-to-roman.md -->
+### Integer to Roman
+[12. Integer to Roman](https://leetcode.com/problems/integer-to-roman/)
+
+```html
+Roman numerals are represented by seven different symbols: I, V, X, L, C, D and M.
+
+Symbol       Value
+I             1
+V             5
+X             10
+L             50
+C             100
+D             500
+M             1000
+For example, 2 is written as II in Roman numeral, just two one's added together. 12 is written as XII, which is simply X + II. The number 27 is written as XXVII, which is XX + V + II.
+
+Roman numerals are usually written largest to smallest from left to right. However, the numeral for four is not IIII. Instead, the number four is written as IV. Because the one is before the five we subtract it making four. The same principle applies to the number nine, which is written as IX. There are six instances where subtraction is used:
+
+I can be placed before V (5) and X (10) to make 4 and 9. 
+X can be placed before L (50) and C (100) to make 40 and 90. 
+C can be placed before D (500) and M (1000) to make 400 and 900.
+Given an integer, convert it to a roman numeral.
+
+Example 1:
+Input: num = 3
+Output: "III"
+
+Example 2:
+Input: num = 4
+Output: "IV"
+
+Example 3:
+Input: num = 9
+Output: "IX"
+
+Example 4:
+Input: num = 58
+Output: "LVIII"
+Explanation: L = 50, V = 5, III = 3.
+
+Example 5:
+Input: num = 1994
+Output: "MCMXCIV"
+Explanation: M = 1000, CM = 900, XC = 90 and IV = 4.
+```
+
+```javascript
+var intToRoman = function(num) {
+    let res = '';
+    if (num < 1 || num > 3999) { return res; }
+    let weight = [1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1];
+    let token = ['M', 'CM', 'D', 'CD', 'C', 'XC', 'L', 'XL', 'X', 'IX', 'V', 'IV', 'I'];
+    let i = 0;
+    while (num > 0) {
+        if (num >= weight[i]) {
+            res += token[i];
+            num -= weight[i];
+        } else {
+            i++;
+        }
+    }
+    return res;
+};
+```
+<!-- @include ../leetcode/0013.roman-to-integer.md -->
+### Roman to Integer
+[13. Roman to Integer](https://leetcode.com/problems/roman-to-integer/)
+```
+Roman numerals are represented by seven different symbols: I, V, X, L, C, D and M.
+
+Symbol       Value
+I             1
+V             5
+X             10
+L             50
+C             100
+D             500
+M             1000
+For example, 2 is written as II in Roman numeral, just two one's added together. 12 is written as XII, which is simply X + II. The number 27 is written as XXVII, which is XX + V + II.
+
+Roman numerals are usually written largest to smallest from left to right. However, the numeral for four is not IIII. Instead, the number four is written as IV. Because the one is before the five we subtract it making four. The same principle applies to the number nine, which is written as IX. There are six instances where subtraction is used:
+
+I can be placed before V (5) and X (10) to make 4 and 9. 
+X can be placed before L (50) and C (100) to make 40 and 90. 
+C can be placed before D (500) and M (1000) to make 400 and 900.
+Given a roman numeral, convert it to an integer.
+
+Example 1:
+Input: s = "III"
+Output: 3
+
+Example 2:
+Input: s = "IV"
+Output: 4
+
+Example 3:
+Input: s = "IX"
+Output: 9
+
+Example 4:
+Input: s = "LVIII"
+Output: 58
+Explanation: L = 50, V= 5, III = 3.
+
+Example 5:
+Input: s = "MCMXCIV"
+Output: 1994
+Explanation: M = 1000, CM = 900, XC = 90 and IV = 4.
+```
+
+```javascript
+var romanToInt = function(s) {
+    const map = new Map([
+        ['M', 1000],
+        ['CM', 900],
+        ['D', 500],
+        ['CD', 400],
+        ['C', 100],
+        ['XC', 90],
+        ['L', 50],
+        ['XL', 40],
+        ['X', 10],
+        ['IX', 9],
+        ['V', 5],
+        ['IV', 4],
+        ['I', 1]
+    ]);
+
+    let res = 0;
+    while (!!s && s.length > 0) {
+        if (map.has(s.substr(0, 2))) {
+            res += map.get(s.substr(0, 2));
+            s = s.substring(2);
+        } else if (map.has(s.substr(0, 1))) {
+            res += map.get(s.substr(0, 1));
+            s = s.substring(1);
+        }
+    }
+    return res;
+};
+```
+
+
+

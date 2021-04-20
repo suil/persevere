@@ -4,23 +4,28 @@ const path = require('path');
 async function processReadMe(readmeFilePath) {
     const readmeFileDir = path.dirname(readmeFilePath);
 
-    let readmeContent = (await fs.promises.readFile(readmeFilePath)).toString();
+    try {
+        let readmeContent = (await fs.promises.readFile(readmeFilePath)).toString();
 
-    const matches = readmeContent.match(/\n@include .+/ig);
-    if (!matches) { return; }
+        const matches = readmeContent.match(/\n@include .+/ig);
+        if (!matches) { return; }
 
-    for (const match of matches) {
-        const split = match.trim().split('@include ');
-        const file = split.filter(s => s.trim())[0];
-        const filePath = path.join(readmeFileDir, file);
-        const includedFileContent = (await fs.promises.readFile(filePath)).toString();
-        readmeContent = readmeContent.replace(match,
-            `<!-- ${match.trim()} -->\n${includedFileContent}`
-        );
+        for (const match of matches) {
+            const split = match.trim().split('@include ');
+            const file = split.filter(s => s.trim())[0];
+            const filePath = path.join(readmeFileDir, file);
+            const includedFileContent = (await fs.promises.readFile(filePath)).toString();
+            readmeContent = readmeContent.replace(match,
+                `<!-- ${match.trim()} -->\n${includedFileContent}`
+            );
+        }
+    
+        await fs.promises.writeFile(readmeFilePath, readmeContent);
+
+        console.log(`replaced: ${readmeFilePath}`);
+    } catch (error) {
+       console.log(`error replacing: ${readmeFilePath}`, error);
     }
-
-    await fs.promises.writeFile(readmeFilePath, readmeContent);
-    console.log(`replace: ${readmeFilePath}`);
 }
 
 (async () => {

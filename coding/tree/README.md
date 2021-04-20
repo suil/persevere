@@ -29,13 +29,20 @@
         * [1. 一棵树每层节点的平均数](#1-一棵树每层节点的平均数)
         * [Find Bottom Left Tree Value](#find-bottom-left-tree-value)
         * [Check Completeness of a Binary Tree](#check-completeness-of-a-binary-tree)
+        * [N-ary Tree Level Order Traversal](#n-ary-tree-level-order-traversal)
+        * [Deepest Leaves Sum](#deepest-leaves-sum)
+
     * [前中后序遍历](#前中后序遍历)
         * [1. 非递归实现二叉树的前序遍历](#1-非递归实现二叉树的前序遍历)
         * [2. 非递归实现二叉树的后序遍历](#2-非递归实现二叉树的后序遍历)
         * [3. 非递归实现二叉树的中序遍历](#3-非递归实现二叉树的中序遍历)
+        * [Binary Tree Inorder Traversal](#binary-tree-inorder-traversal)
         * [Closest Binary Search Tree Value](#Closest-Binary-Search-Tree-Value)
         * [Range Sum of BST](#Range-Sum-of-BST)
         * [Binary Search Tree Iterator](#binary-search-tree-iterator)
+        * [N-ary Tree Preorder Traversal](#n-ary-tree-preorder-traversal)
+        * [N-ary Tree Postorder Traversal](#n-ary-tree-postorder-traversal)
+
     * [Vertical order traversal](#vertical-order-traversal)
         * [Vertical Order Traversal of a Binary Tree](#Vertical-Order-Traversal-of-a-Binary-Tree)
     * [Binary Search Tree](#bst)
@@ -808,6 +815,230 @@ var isCompleteTree = function(root) {
 };
 ```
 
+<!-- @include ../leetcode/0429.n-ary-tree-level-order-traversal.md -->
+### N-ary Tree Level Order Traversal
+[429. N-ary Tree Level Order Traversal](https://leetcode.com/problems/n-ary-tree-level-order-traversal/)
+
+```html
+Given an n-ary tree, return the level order traversal of its nodes' values.
+
+Nary-Tree input serialization is represented in their level order traversal, each group of children is separated by the null value (See examples).
+
+Example 1:
+               1
+          -----|-----
+         /     |     \
+        3      2      4
+       / \
+      5   6
+Input: root = [1,null,3,2,4,null,5,6]
+Output: [[1],[3,2,4],[5,6]]
+
+Example 2:
+                  1
+             /  /   \  \
+            /  |     |   \
+           2   3     4    5
+              / \    |   / \
+             6   7   8  9  10
+                 |   |  |
+                11  12  13
+                 |
+                14
+Input: root = [1,null,2,3,4,5,null,null,6,7,null,8,null,9,10,null,null,11,null,12,null,13,null,null,14]
+Output: [[1],[2,3,4,5],[6,7,8,9,10],[11,12,13],[14]]
+```
+```javascript
+var levelOrder = function(root) {
+    const output = [];
+    if (root === null) { return output; }
+
+    let queue = [root];
+    
+    while (queue.length > 0) {
+        const nextQueue = [];
+        const nodeOfLevel = [];
+        
+        for (const node of queue) {
+            nodeOfLevel.push(node.val);
+            for (const child of node.children) {
+                nextQueue.push(child);
+            }
+        }
+        
+        output.push(nodeOfLevel)
+        queue = nextQueue;
+    }
+    return output;
+};
+```
+<!-- @include ../leetcode/1302.deepest-leaves-sum.md -->
+### Deepest Leaves Sum
+[1302. Deepest Leaves Sum](https://leetcode.com/problems/deepest-leaves-sum/)
+
+```html
+Given the root of a binary tree, return the sum of values of its deepest leaves.
+
+Example 1:
+      1__
+     /   \
+    2     3
+   / \     \
+  4   5     6
+ /           \
+7             8
+Input: root = [1,2,3,4,5,null,6,7,null,null,null,null,8]
+Output: 15
+Example 2:
+
+Input: root = [6,7,8,2,7,1,3,9,null,1,4,null,null,null,5]
+Output: 19
+```
+
+BFS
+```javascript
+var deepestLeavesSum = function(root) {
+    let queue = [root];
+    let lastQueue = [];
+    
+    while (queue.length > 0) {
+        const nextQueue = [];
+        for (const node of queue) {
+            if (node.left) { nextQueue.push(node.left); }
+            if (node.right) { nextQueue.push(node.right); }
+        }
+        lastQueue = [...queue];
+        queue = nextQueue;
+    }
+    return lastQueue.reduce((sum, node) => sum + node.val, 0);
+};
+```
+
+DFS
+```javascript
+var deepestLeavesSum = function(root) {
+    let maxLevel = -1;
+    let sum = 0;
+    root && traverse(root, 0);
+
+    function traverse(node, level) {
+        if (node.left === null && node.right === null) {
+            if (level === maxLevel) {
+                sum += node.val;
+            };
+            if (level > maxLevel) {
+                maxLevel = level;
+                sum = node.val
+            };
+        };
+        node.left && traverse(node.left, level + 1);
+        node.right && traverse(node.right, level + 1);
+    };
+    return sum;
+};
+```
+
+<!-- @include ../leetcode/0589.n-ary-tree-preorder-traversal.md -->
+### N-ary Tree Preorder Traversal
+[589. N-ary Tree Preorder Traversal](https://leetcode.com/problems/0589.n-ary-tree-preorder-traversal/)
+
+```html
+Given the root of an n-ary tree, return the preorder traversal of its nodes' values.
+
+Nary-Tree input serialization is represented in their level order traversal. Each group of children is separated by the null value (See examples)
+
+ 
+
+Example 1:
+               1
+          -----|-----
+         /     |     \
+        3      2      4
+       / \
+      5   6
+Input: root = [1,null,3,2,4,null,5,6]
+Output: [1,3,5,6,2,4]
+Example 2:
+                  1
+             /  /   \  \
+            /  |     |   \
+           2   3     4    5
+              / \    |   / \
+             6   7   8  9  10
+                 |   |  |
+                11  12  13
+                 |
+                14
+Input: root = [1,null,2,3,4,5,null,null,6,7,null,8,null,9,10,null,null,11,null,12,null,13,null,null,14]
+Output: [1,2,3,6,7,11,14,4,8,12,5,9,13,10]
+```
+
+```javascript
+var preorder = function(root) {
+    const output = [];
+    preorderTraverse(root, output);
+    return output;
+};
+function preorderTraverse(node, output) {
+    if (node === null) {
+        return;
+    }
+    output.push(node.val);
+    for (const child of node.children) {
+        preorderTraverse(child, output);
+    }
+}
+```
+
+<!-- @include ../leetcode/0590.n-ary-tree-postorder-traversal.md -->
+### N-ary Tree Postorder Traversal
+[590. N-ary Tree Postorder Traversal](https://leetcode.com/problems/n-ary-tree-postorder-traversal/)
+
+```html
+Given the root of an n-ary tree, return the postorder traversal of its nodes' values.
+
+Nary-Tree input serialization is represented in their level order traversal. Each group of children is separated by the null value (See examples)
+
+Example 1:
+               1
+          -----|-----
+         /     |     \
+        3      2      4
+       / \
+      5   6
+Input: root = [1,null,3,2,4,null,5,6]
+Output: [5,6,3,2,4,1]
+Example 2:
+                  1
+             /  /   \  \
+            /  |     |   \
+           2   3     4    5
+              / \    |   / \
+             6   7   8  9  10
+                 |   |  |
+                11  12  13
+                 |
+                14
+Input: root = [1,null,2,3,4,5,null,null,6,7,null,8,null,9,10,null,null,11,null,12,null,13,null,null,14]
+Output: [2,6,14,11,7,3,12,8,4,13,9,10,5,1]
+```
+
+```javascript
+var postorder = function(root) {
+    const output = [];
+    postorderTraverse(root, output);
+    return output;
+};
+function postorderTraverse(node, output) {
+    if (node === null) {
+        return;
+    }
+    for (const child of node.children) {
+        postorderTraverse(child, output);
+    }
+    output.push(node.val);
+}
+```
 
 
 ## 前中后序遍历
@@ -930,6 +1161,60 @@ public List<Integer> inorderTraversal(TreeNode root) {
     return ret;
 }
 ```
+<!-- @include ../leetcode/0094.binary-tree-inorder-traversal.md -->
+### Binary Tree Inorder Traversal
+[94. Binary Tree Inorder Traversal](https://leetcode.com/problems/binary-tree-inorder-traversal/)
+
+```html
+Given the root of a binary tree, return the inorder traversal of its nodes' values.
+
+Example 1:
+1
+ \
+  2
+ / 
+3
+Input: root = [1,null,2,3]
+Output: [1,3,2]
+
+Example 2:
+Input: root = []
+Output: []
+
+Example 3:
+Input: root = [1]
+Output: [1]
+
+Example 4:
+  1
+ /
+2
+Input: root = [1,2]
+Output: [2,1]
+
+Example 5:
+1
+ \
+  2
+Input: root = [1,null,2]
+Output: [1,2]
+```
+
+```javascript
+var inorderTraversal = function(root) {
+    const values = [];
+    inorderTraverse(root, values);
+    return values;
+};
+function inorderTraverse(node, values) {
+    if (node === null) {
+        return;
+    }
+    inorderTraverse(node.left, values);
+    values.push(node.val);
+    inorderTraverse(node.right, values);
+}
+```
 
 ### Closest Binary Search Tree Value
 [270. Closest Binary Search Tree Value](https://leetcode.com/problems/closest-binary-search-tree-value/)
@@ -1013,30 +1298,73 @@ var rangeSumBST = function(root, low, high) {
 ```
 ## Vertical order traversal
 
+<!-- @include ../leetcode/0987.vertical-order-traversal-of-a-binary-tree.md -->
 ### Vertical Order Traversal of a Binary Tree
 [987. Vertical Order Traversal of a Binary Tree](https://leetcode.com/problems/vertical-order-traversal-of-a-binary-tree/)
+
+
+```html
+Given the root of a binary tree, calculate the vertical order traversal of the binary tree.
+
+For each node at position (row, col), its left and right children will be at positions (row + 1, col - 1) and (row + 1, col + 1) respectively. The root of the tree is at (0, 0).
+
+The vertical order traversal of a binary tree is a list of top-to-bottom orderings for each column index starting from the leftmost column and ending on the rightmost column. There may be multiple nodes in the same row and same column. In such a case, sort these nodes by their values.
+
+Return the vertical order traversal of the binary tree.
+
+Example 1:
+
+Input: root = [3,9,20,null,null,15,7]
+Output: [[9],[3,15],[20],[7]]
+Explanation:
+Column -1: Only node 9 is in this column.
+Column 0: Nodes 3 and 15 are in this column in that order from top to bottom.
+Column 1: Only node 20 is in this column.
+Column 2: Only node 7 is in this column.
+
+Example 2:
+Input: root = [1,2,3,4,5,6,7]
+Output: [[4],[2],[1,5,6],[3],[7]]
+Explanation:
+Column -2: Only node 4 is in this column.
+Column -1: Only node 2 is in this column.
+Column 0: Nodes 1, 5, and 6 are in this column.
+          1 is at the top, so it comes first.
+          5 and 6 are at the same position (2, 0), so we order them by their value, 5 before 6.
+Column 1: Only node 3 is in this column.
+Column 2: Only node 7 is in this column.
+
+Example 3:
+Input: root = [1,2,3,4,6,5,7]
+Output: [[4],[2],[1,5,6],[3],[7]]
+Explanation:
+This case is the exact same as example 2, but with nodes 5 and 6 swapped.
+Note that the solution remains the same since 5 and 6 are in the same location and should be ordered by their values.
+```
+
 ```javascript
 var verticalTraversal = function(root) {
     const orders = [];
-    
     inOrder(root, 0, 0, orders);
-	
-    orders.sort((a, b) => a[1] - b[1] || a[0] - b[0] || a[2] - b[2]);
+    orders.sort((a, b) => a[0] - b[0] || a[1] - b[1] || a[2] - b[2])
 
     const map = new Map();
-    for (const [row, col, val] of orders) {
-        if (!map.has(col)) map.set(col, []);
+    for (const [col, row, val] of orders) {
+        if (!map.has(col)) { map.set(col, []); }
         map.get(col).push(val);
     }
     return [...map.values()];
 };
 function inOrder(node, row, col, orders) {
-    if (node === null) { return; }
-    verticalOrderHelper(node.left, row + 1, col - 1, orders);
-    orders.push([row, col, node.val]);
-    verticalOrderHelper(node.right, row + 1, col + 1, orders);
+    if (node === null) {
+        return;
+    }
+    inOrder(node.left, row + 1, col - 1, orders);
+    orders.push([col, row, node.val]);
+    inOrder(node.right, row + 1, col + 1, orders);
 }
 ```
+
 ## BST
 
 二叉查找树（BST）：根节点大于等于左子树所有节点，小于等于右子树所有节点。
