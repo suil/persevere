@@ -22,6 +22,7 @@
     * [Strobogrammatic Number](#strobogrammatic-number)
     * [Strobogrammatic Number II](#strobogrammatic-number-ii)
     * [Repeated DNA Sequences](#repeated-dna-sequences)
+    * [Reverse Words in a String](#reverse-words-in-a-string)
 <!-- GFM-TOC -->
 
 
@@ -521,7 +522,8 @@ var toGoatLatin = function(S) {
     return words.join(' ');
 };
 ```
-<!-- @include ../leetcode/0247.strobogrammatic-number.md -->
+
+<!-- @include ../leetcode/0247.strobogrammatic-number.md -->
 ### 246. Strobogrammatic Number
 [246. Strobogrammatic Number](https://leetcode.com/problems/strobogrammatic-number/)
 ```html
@@ -583,7 +585,8 @@ function findStrobogrammaticRecursive(len, n) {
     return res;
 }
 ```
-<!-- @include ../leetcode/0187.repeated-dna-sequences.md -->
+
+<!-- @include ../leetcode/0187.repeated-dna-sequences.md -->
 ### Repeated DNA Sequences
 [187. Repeated DNA Sequences](https://leetcode.com/problems/repeated-dna-sequences/)
 ```html
@@ -616,5 +619,55 @@ var findRepeatedDnaSequences = function(s) {
     }
 
     return [...repeated];
+};
+```
+
+<!-- @include ../leetcode/0151.reverse-words-in-a-string.md -->
+### Reverse Words in a String
+[151. Reverse Words in a String](https://leetcode.com/problems/reverse-words-in-a-string/)
+
+```html
+Given an input string s, reverse the order of the words.
+
+A word is defined as a sequence of non-space characters. The words in s will be separated by at least one space.
+
+Return a string of the words in reverse order concatenated by a single space.
+Note that s may contain leading or trailing spaces or multiple spaces between two words. The returned string should only have a single space separating the words. Do not include any extra spaces.
+
+Example 1:
+Input: s = "the sky is blue"
+Output: "blue is sky the"
+
+Example 2:
+Input: s = "  hello world  "
+Output: "world hello"
+Explanation: Your reversed string should not contain leading or trailing spaces.
+
+Example 3:
+Input: s = "a good   example"
+Output: "example good a"
+Explanation: You need to reduce multiple spaces between two words to a single space in the reversed string.
+
+Example 4:
+Input: s = "  Bob    Loves  Alice   "
+Output: "Alice Loves Bob"
+
+Example 5:
+Input: s = "Alice does not even like bob"
+Output: "bob like even not does Alice"
+```
+
+```javascript
+var reverseWords = function(s) {
+    const newS = s.split(' ').filter(c => !!c);
+    let left = 0, right = newS.length - 1;
+    while (left < right) {
+        const t = newS[left];
+        newS[left] = newS[right];
+        newS[right] = t;
+        left++;
+        right--;
+    }
+    return newS.join(' ');
 };
 ```
