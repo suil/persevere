@@ -14,6 +14,7 @@
     * [Copy List with Random Pointer](#copy-list-with-random-pointer)
     * Circular Linked List
         * [Insert into a Sorted Circular Linked List](#insert-into-a-sorted-circular-linked-list)
+    * [Rotate List](#rotate-list)
 <!-- GFM-TOC -->
 
 
@@ -366,7 +367,8 @@ public ListNode oddEvenList(ListNode head) {
     return head;
 }
 ```
-<!-- @include ../leetcode/0138.copy-list-with-random-pointer.md -->
+
+<!-- @include ../leetcode/0138.copy-list-with-random-pointer.md -->
 ### Copy List with Random Pointer
 [138. Copy List with Random Pointer](https://leetcode.com/problems/copy-list-with-random-pointer/)
 ```html
@@ -481,4 +483,51 @@ var insert = function(head, insertVal) {
     }
     return head;
 };
+```
+
+<!-- @include ../leetcode/0061.rotate-list.md -->
+### Rotate List
+[61. Rotate List](https://leetcode.com/problems/rotate-list/)
+
+```html
+Given the head of a linked list, rotate the list to the right by k places.
+
+Example 1:
+          1 -> 2 -> 3 -> 4 -> 5
+rotate 1: 5 -> 1 -> 2 -> 3 -> 4
+rotate 2: 4 -> 5 -> 1 -> 2 -> 3
+
+Input: head = [1,2,3,4,5], k = 2
+Output: [4,5,1,2,3]
+
+Example 2:
+          0 -> 1 -> 2
+rotate 1: 2 -> 0 -> 1
+rotate 2: 1 -> 2 -> 0
+rotate 3: 0 -> 1 -> 2
+rotate 4: 2 -> 0 -> 1
+
+Input: head = [0,1,2], k = 4
+Output: [2,0,1]
+```
+
+```javascript
+var rotateRight = function(head, k) {
+    if (head === null) { return null; }
+    let p = head;
+    let len = 1;
+    while (p.next) {
+        p = p.next;
+        len++;
+    }
+    p.next = head;
+    
+    let newHead;
+    for (let i = 0; i < len - Math.floor(k % len) - 1; i++) {
+        head = head.next;
+    }
+    newHead = head.next;
+    head.next = null;
+    return newHead;
+}
 ```
