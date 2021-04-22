@@ -24,6 +24,7 @@
         * [Maximum Difference Between Node and Ancestor](#maximum-difference-between-node-and-ancestor)
         * [Binary Tree Upside Down](#binary-tree-upside-down)
         * [Find Leaves of Binary Tree](#find-leaves-of-binary-tree)
+        * [Same Tree](#same-tree)
 
     * [Breath First Search](#Breath-First-Search)
         * [1. 一棵树每层节点的平均数](#1-一棵树每层节点的平均数)
@@ -691,6 +692,49 @@ function findLeavesHelper(node, output) {
     return node;
 }
 ```
+<!-- @include ../leetcode/0010.same-tree.md -->
+### Same Tree
+[100. Same Tree](https://leetcode.com/problems/same-tree/)
+
+```html
+Given the roots of two binary trees p and q, write a function to check if they are the same or not.
+
+Two binary trees are considered the same if they are structurally identical, and the nodes have the same value.
+
+Example 1:
+    1           1
+   / \         / \ 
+  2   3       2   3  
+Input: p = [1,2,3], q = [1,2,3]
+Output: true
+
+Example 2:
+  1    1
+ /      \
+2        2
+Input: p = [1,2], q = [1,null,2]
+Output: false
+
+Example 3:
+    1        1
+   / \      / \
+  2   1    1   2
+Input: p = [1,2,1], q = [1,1,2]
+Output: false
+```
+
+```javascript
+var isSameTree = function(p, q) {
+    if (p === null && q === null) {
+        return true;
+    }
+    if (p === null || q === null || p.val !== q.val) {
+        return false;
+    }
+    return isSameTree(p.left, q.left) && isSameTree(p.right, q.right);
+};
+```
+
 
 
 ## Breath First Search
