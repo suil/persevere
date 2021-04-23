@@ -14,7 +14,7 @@
     * [4. 最长连续序列](#4-最长连续序列)
     * [friends-of-appropriate-ages](../leedcode.md#friends-of-appropriate-ages)
     * [Group Shifted Strings](#group-shifted-strings)
-    * [Two Sum III - Data structure design](#two-sum-iii-data-structure-design)
+    * [Two Sum III - Data structure design](#two-sum-iii---data-structure-design)
     * [Dot Product of Two Sparse Vectors](#dot-product-of-two-sparse-vectors)
     * [Ordered HashMap](#Ordered-HashMap)
         * [LRU Cache](#lru-cache)
@@ -678,7 +678,8 @@ RandomizedSet.prototype.getRandom = function() {
     return this.arr[ind];
 };
 ```
-<!-- @include ../leetcode/0706.design-hashmap.md -->
+
+<!-- @include ../leetcode/0706.design-hashmap.md -->
 ### Design HashMap
 [706. Design HashMap](https://leetcode.com/problems/design-hashMap/)
 
