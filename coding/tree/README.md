@@ -21,6 +21,7 @@
         * [Binary Tree Right Side View](#Binary-Tree-Right-Side-View)
         * [Convert Binary Search Tree to Sorted Doubly Linked List](#Convert-Binary-Search-Tree-to-Sorted-Doubly-Linked-List)
         * [Lowest Common Ancestor of a Binary Tree](#lowest-common-ancestor-of-a-binary-tree)
+        * [Lowest Common Ancestor of a Binary Tree III](#lowest-common-ancestor-of-a-binary-tree-iii)
         * [Maximum Difference Between Node and Ancestor](#maximum-difference-between-node-and-ancestor)
         * [Binary Tree Upside Down](#binary-tree-upside-down)
         * [Find Leaves of Binary Tree](#find-leaves-of-binary-tree)
@@ -497,7 +498,7 @@ According to the definition of LCA on Wikipedia: “The lowest common ancestor i
    6      _2       0       8
          /  \
          7   4
-For example, the lowest common ancestor (LCA) of nodes5and1is3. Another example is LCA of nodes5and4is5, since a node can be a descendant of itself according to the LCA definition.
+For example, the lowest common ancestor (LCA) of nodes 5 and 1 is 3. Another example is LCA of nodes 5 and 4 is 5, since a node can be a descendant of itself according to the LCA definition.
 ```
 
 ```javascript
@@ -514,6 +515,82 @@ var lowestCommonAncestor = function(root, p, q) {
 };
 ```
 
+<!-- @include ../leetcode/1650.lowest-common-ancestor-of-a-binary-tree-iii.md -->
+### Lowest Common Ancestor of a Binary Tree III
+[1650. Lowest Common Ancestor of a Binary Tree III](https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree-iii/)
+
+```html
+Given two nodes of a binary tree p and q, return their lowest common ancestor (LCA).
+
+Each node will have a reference to its parent node. The definition for Node is below:
+
+class Node {
+    public int val;
+    public Node left;
+    public Node right;
+    public Node parent;
+}
+According to the definition of LCA on Wikipedia: "The lowest common ancestor of two nodes p and q in a tree T is the lowest node that has both p and q as descendants (where we allow a node to be a descendant of itself)."
+
+Example 1:
+          __3__
+         /     \
+        5       1
+       / \     / \
+      6   2   0   8
+         / \
+        7   4
+Input: root = [3,5,1,6,2,0,8,null,null,7,4], p = 5, q = 1
+Output: 3
+Explanation: The LCA of nodes 5 and 1 is 3.
+
+Example 2:
+          __3__
+         /     \
+        5       1
+       / \     / \
+      6   2   0   8
+         / \
+        7   4
+Input: root = [3,5,1,6,2,0,8,null,null,7,4], p = 5, q = 4
+Output: 5
+Explanation: The LCA of nodes 5 and 4 is 5 since a node can be a descendant of itself according to the LCA definition.
+
+Example 3:
+Input: root = [1,2], p = 1, q = 2
+Output: 1
+```
+
+using two pointers:
+```javascript
+var lowestCommonAncestor = function(p, q) {
+    let nodeA = p;
+    let nodeB = q; 
+    while (nodeA !== nodeB) {
+        nodeA = nodeA === null ? q : nodeA.parent;
+        nodeB = nodeB === null ? p : nodeB.parent;        
+    }
+    return nodeA;
+};
+```
+
+Set:
+```javascript
+var lowestCommonAncestor = function(p, q) {
+    const set = new Set();
+    while (p !== null) {
+        set.add(p);
+        p = p.parent;
+    }
+    while (q !== null) {
+        if (set.has(q)) {
+            return q;
+        }
+        q = q.parent;
+    }
+    return null;
+};
+```
 
 ### Serialize and Deserialize Binary Tree
 [297. Serialize and Deserialize Binary Tree](https://leetcode.com/problems/serialize-and-deserialize-binary-tree/)
@@ -692,7 +769,8 @@ function findLeavesHelper(node, output) {
     return node;
 }
 ```
-<!-- @include ../leetcode/0010.same-tree.md -->
+
+<!-- @include ../leetcode/0010.same-tree.md -->
 ### Same Tree
 [100. Same Tree](https://leetcode.com/problems/same-tree/)
 

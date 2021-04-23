@@ -18,11 +18,13 @@
         * [Monotonic Array](#Monotonic-Array)
         * [Next Permutation](#Next-Permutation)
         * [Intersection of Two Arrays](#intersection-of-two-arrays)
+        * [Intersection of Two Arrays II](#intersection-of-two-arrays-ii)
         * [Nested Array](#nested-array)
             * [Nested List Weight Sum](#nested-list-weight-sum)
             * [Nested List Weight Sum II](#nested-list-weight-sum-ii)
             * [Flatten Nested List Iterator](#flatten-nested-list-iterator)
         * [Find K Pairs with Smallest Sums](#find-k-pairs-with-smallest-sums)
+
     * [Matrix](#Matrix)
         * [Search a 2D Matrix II](#search-a-2d-matrix-ii)
         * [Reshape the Matrix](#reshape-the-matrix)
@@ -646,7 +648,64 @@ var intersection = function(nums1, nums2) {
     return res;
 };
 ```
+<!-- @include ../leetcode/0350.intersection-of-two-arrays-ii.md -->
+### Intersection of Two Arrays II
+[350. Intersection of Two Arrays II](https://leetcode.com/problems/intersection-of-two-arrays-ii/)
 
+```html
+Given two integer arrays nums1 and nums2, return an array of their intersection. Each element in the result must appear as many times as it shows in both arrays and you may return the result in any order.
+
+Example 1:
+Input: nums1 = [1,2,2,1], nums2 = [2,2]
+Output: [2,2]
+
+Example 2:
+Input: nums1 = [4,9,5], nums2 = [9,4,9,8,4]
+Output: [4,9]
+Explanation: [9,4] is also accepted.
+```
+
+Two pointers:
+```javascript
+var intersect = function(nums1, nums2) {
+    nums1.sort((a, b) => a - b);
+    nums2.sort((a, b) => a - b);
+    const results = [];
+    let i = 0;
+    let j = 0;
+    while (i < nums1.length && j < nums2.length) {
+        if (nums1[i] == nums2[j]) {
+            results.push(nums1[i]);
+            i++;
+            j++;
+        } else if (nums1[i] < nums2[j]) {
+            i++;
+        } else {
+            j++;
+        }
+    }
+    return results;
+};
+```
+
+Hash Map:
+```javascript
+var intersect = function(nums1, nums2) {
+    const map = new Map();
+    for (const n of nums1) {
+        map.set(n, (map.get(n) || 0) + 1);
+    }
+    
+    const res = [];
+    for (const n of nums2){
+        if (map.get(n)) {
+            res.push(n);
+            map.set(n, map.get(n) - 1);
+        }
+    }
+    return res;
+};
+```
 
 ## Nested Array
 <!-- @include ../leetcode/0339.nested-list-weight-sum.md -->
@@ -775,7 +834,8 @@ NestedIterator.prototype.next = function() {
     return this.flattenedList.shift();
 };
 ```
-<!-- @include ../leetcode/0373.find-k-pairs-with-smallest-sums.md -->
+
+<!-- @include ../leetcode/0373.find-k-pairs-with-smallest-sums.md -->
 ### Find K Pairs with Smallest Sums
 [373. Find K Pairs with Smallest Sums](https://leetcode.com/problems/find-k-pairs-with-smallest-sums/)
 

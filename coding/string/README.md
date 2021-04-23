@@ -23,6 +23,8 @@
     * [Strobogrammatic Number II](#strobogrammatic-number-ii)
     * [Repeated DNA Sequences](#repeated-dna-sequences)
     * [Reverse Words in a String](#reverse-words-in-a-string)
+    * [Rotate String](#rotate-string)
+
 <!-- GFM-TOC -->
 
 
@@ -669,5 +671,30 @@ var reverseWords = function(s) {
         right--;
     }
     return newS.join(' ');
+};
+```
+
+<!-- @include ../leetcode/0796.rotate-string.md -->
+### Rotate String
+[796. Rotate String](https://leetcode.com/problems/rotate-string/)
+
+```html
+We are given two strings, A and B.
+
+A shift on A consists of taking string A and moving the leftmost character to the rightmost position. For example, if A = 'abcde', then it will be 'bcdea' after one shift on A. Return True if and only if A can become B after some number of shifts on A.
+
+Example 1:
+Input: A = 'abcde', B = 'cdeab'
+Output: true
+
+Example 2:
+Input: A = 'abcde', B = 'abced'
+Output: false
+```
+
+Simple Check:
+```javascript
+var rotateString = function(A, B) {
+    return A.length === B.length && `${A}${A}`.indexOf(B) !== -1;
 };
 ```

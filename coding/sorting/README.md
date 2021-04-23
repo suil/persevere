@@ -10,6 +10,7 @@
         * [Sort Characters By Frequency](#Sort-Characters-By-Frequency)
     * [Sorting for fixed small number of items](#Sorting-for-fixed-small-number-of-items)
         * [Sort Colors (Medium)](#Sort-Colors)
+    * [Sort Transformed Array](#sort-transformed-array)
 <!-- GFM-TOC -->
 
 
@@ -127,7 +128,8 @@ function distanceToOrigin(point) {
 ```
 
 ## Bucket Sort
-<!-- @include ../leetcode/0347.top-k-frequent-elements.md -->
+
+<!-- @include ../leetcode/0347.top-k-frequent-elements.md -->
 ### Top K Frequent Elements
 [347. Top K Frequent Elements (Medium)](https://leetcode.com/problems/top-k-frequent-elements/description/)
 ```html
@@ -231,3 +233,53 @@ function swap(nums, i, j) {
     nums[j] = t;
 }
 ```
+
+<!-- @include ../leetcode/0360.sort-transformed-array.md -->
+### Sort Transformed Array
+[360. Sort Transformed Array](https://leetcode.com/problems/0360.sort-transformed-array/)
+
+```html
+Given a sorted integer array nums and three integers a, b and c, apply a quadratic function of the form f(x) = ax2 + bx + c to each element nums[i] in the array, and return the array in a sorted order.
+
+Example 1:
+
+Input: nums = [-4,-2,2,4], a = 1, b = 3, c = 5
+Output: [3,9,15,33]
+Example 2:
+
+Input: nums = [-4,-2,2,4], a = -1, b = 3, c = 5
+Output: [-23,-5,1,7]
+```
+
+```javascript
+var sortTransformedArray = function(nums, a, b, c) {
+    let l = 0, r = nums.length - 1;
+    const res = [];
+    let idx = a >= 0 ? nums.length - 1 : 0;
+    while (l <= r) {
+        const val1 = quadratic(nums[l], a, b, c), val2 = quadratic(nums[r], a, b, c);
+        if (a >= 0) {
+            if (val1 >= val2) {
+                res[idx--] = val1;
+                ++l;
+            } else {
+                res[idx--] = val2;
+                --r;
+            }
+        } else {
+            if (val1 <= val2) {
+                res[idx++] = val1;
+                ++l;
+            } else {
+                res[idx++] = val2;
+                --r;
+            }
+        }
+    }
+    return res;
+};
+function quadratic(x, a, b, c) {
+    return a * x * x + b * x + c;
+}
+```
+
