@@ -30,6 +30,7 @@
         * [Reshape the Matrix](#reshape-the-matrix)
         * [Sparse Matrix Multiplication](#Sparse-Matrix-Multiplication)
         * [Range Sum Query 2D - Immutable](#range-sum-query-2d---immutable)
+        * [Spiral Matrix](#spiral-matrix)
 <!-- GFM-TOC -->
 
 <!-- @include ../leetcode/0283.move-zeroes.md -->
@@ -648,7 +649,8 @@ var intersection = function(nums1, nums2) {
     return res;
 };
 ```
-<!-- @include ../leetcode/0350.intersection-of-two-arrays-ii.md -->
+
+<!-- @include ../leetcode/0350.intersection-of-two-arrays-ii.md -->
 ### Intersection of Two Arrays II
 [350. Intersection of Two Arrays II](https://leetcode.com/problems/intersection-of-two-arrays-ii/)
 
@@ -1034,4 +1036,60 @@ function helper(nestedList, depth, flattened) {
         }
     }
 }
+```
+
+<!-- @include ../leetcode/0054.spiral-matrix.md -->
+### Spiral Matrix
+[54. Spiral Matrix](https://leetcode.com/problems/spiral-matrix/)
+
+```html
+Given an m x n matrix, return all elements of the matrix in spiral order.
+
+Example 1:
+[1,2,3]
+[4,5,6]
+[7,8,9]
+Input: matrix = [[1,2,3],[4,5,6],[7,8,9]]
+Output: [1,2,3,6,9,8,7,4,5]
+
+Example 2:
+[1, 2, 3, 4]
+[5, 6, 7, 8],
+[9,10,11,12]
+Input: matrix = [[1,2,3,4],[5,6,7,8],[9,10,11,12]]
+Output: [1,2,3,4,8,12,11,10,9,5,6,7]
+```
+
+```javascript
+var spiralOrder = function(matrix) {
+    let top = 0, bottom = matrix.length - 1;
+    let left = 0, right = matrix[0].length - 1;
+    let dir = 0;
+    const ans = [];
+    while (top <= bottom && left <= right) {
+        if (dir === 0) {
+            for (let i = left; i <= right; i++) {
+                ans.push(matrix[top][i]);
+            }
+            top++;
+        } else if (dir === 1) {
+            for (let i = top; i <= bottom; i++) {
+                ans.push(matrix[i][right]);
+            }
+            right--;
+        } else if (dir === 2) {
+            for (let i = right; i >= left; i--) {
+                ans.push(matrix[bottom][i]);
+            }
+            bottom--;
+        } else if (dir === 3) {
+            for (let i = bottom; i >= top; i--) {
+                ans.push(matrix[i][left]);
+            }
+            left++;
+        }
+        dir = (dir + 1) % 4;
+    }
+    return ans;
+};
 ```
