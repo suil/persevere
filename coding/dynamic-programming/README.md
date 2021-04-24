@@ -1496,7 +1496,7 @@ public int minSteps(int n) {
 ## Array Crossing
 
 <!-- @include ../leetcode/0256.paint-house.md -->
-### 256. Paint House
+### Paint House
 [256. Paint House](https://leetcode.com/problems/paint-house/)
 ```html
 There are a row of n houses, each house can be painted with one of the three colors: red, blue or green. The cost of painting each house with a certain color is different. You have to paint all the houses such that no two adjacent houses have the same color.
