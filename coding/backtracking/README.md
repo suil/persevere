@@ -582,8 +582,8 @@ function getFactorsHelper(n, current, factors, output) {
     if (n === 1) {
         if (factors.length > 1) {
             output.push([...factors]);
-            return;
         }
+        return;
     }
     for (let i = current; i <= n; i++) {
         if (n % i === 0) {
