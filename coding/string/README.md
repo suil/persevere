@@ -11,6 +11,7 @@
     * [3. 字符串中单词的翻转](#3-字符串中单词的翻转)
     * [4. 两个字符串包含的字符是否完全相同](#4-两个字符串包含的字符是否完全相同)
     * [5. 计算一组字符集合可以组成的回文字符串的最大长度](#5-计算一组字符集合可以组成的回文字符串的最大长度)
+    * [Isomorphic Strings](#isomorphic-strings)
     * [Valid Anagram](#Valid-Anagram)
     * [7. 回文子字符串个数](#7-回文子字符串个数)
     * [8. 判断一个整数是否是回文数](#8-判断一个整数是否是回文数)
@@ -246,35 +247,47 @@ public int longestPalindrome(String s) {
     return palindrome;
 }
 ```
-
-### 6. 字符串同构
-
-205\. Isomorphic Strings (Easy)
-
-[Leetcode](https://leetcode.com/problems/isomorphic-strings/description/) / [力扣](https://leetcode-cn.com/problems/isomorphic-strings/description/)
+<!-- @include ../leetcode/0205.isomorphic-strings.md -->
+### Isomorphic Strings
+[205. Isomorphic Strings](https://leetcode.com/problems/isomorphic-strings/)
 
 ```html
-Given "egg", "add", return true.
-Given "foo", "bar", return false.
-Given "paper", "title", return true.
+Given two strings s and t, determine if they are isomorphic.
+
+Two strings s and t are isomorphic if the characters in s can be replaced to get t.
+
+All occurrences of a character must be replaced with another character while preserving the order of characters. No two characters may map to the same character, but a character may map to itself.
+
+Example 1:
+Input: s = "egg", t = "add"
+Output: true
+
+Example 2:
+Input: s = "foo", t = "bar"
+Output: false
+
+Example 3:
+Input: s = "paper", t = "title"
+Output: true
 ```
 
-记录一个字符上次出现的位置，如果两个字符串中的字符上次出现的位置一样，那么就属于同构。
-
-```java
-public boolean isIsomorphic(String s, String t) {
-    int[] preIndexOfS = new int[256];
-    int[] preIndexOfT = new int[256];
-    for (int i = 0; i < s.length(); i++) {
-        char sc = s.charAt(i), tc = t.charAt(i);
-        if (preIndexOfS[sc] != preIndexOfT[tc]) {
+```javascript
+var isIsomorphic = function(s, t) {
+    if (!s || !t || s.length != t.length) {
+        return false;
+    }
+    
+    const mapS = new Map();
+    const mapT = new Map();
+    for (let i = 0; i < s.length; i++) {
+        if (mapS.get(s[i]) !== mapT.get(t[i])) {
             return false;
         }
-        preIndexOfS[sc] = i + 1;
-        preIndexOfT[tc] = i + 1;
+        mapS.set(s[i], i);
+        mapT.set(t[i], i);
     }
     return true;
-}
+};
 ```
 
 ### 7. 回文子字符串个数

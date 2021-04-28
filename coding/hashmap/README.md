@@ -23,7 +23,6 @@
     * [Design HashMap](#Design-HashMap)
 <!-- GFM-TOC -->
 
-
 HashMap use O(N) space complexity to store data, and use time complexity O(1) to access data.
 
 JavaScript HashMap implementation could be Map object, regular object, or array. If the range of data is predictable, a simple array could be used to solve this. For example, for all lower cased letters, we could just use an array with length of 26 elements to store it. This lowers the space complexity to O(1).

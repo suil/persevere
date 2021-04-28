@@ -15,12 +15,13 @@
         * [11. 统计左叶子节点的和](#11-统计左叶子节点的和)
         * [12. 相同节点值的最大路径长度](#12-相同节点值的最大路径长度)
         * [13. 间隔遍历](#13-间隔遍历)
-        * [14. 找出二叉树中第二小的节点](#14-找出二叉树中第二小的节点)
+        * [Second Minimum Node In a Binary Tree](#second-minimum-node-in-a-binary-tree)
         * [Serialize and Deserialize Binary Tree](#Serialize-and-Deserialize-Binary-Tree)
         * [Binary Tree Maximum Path Sum](#Binary-Tree-Maximum-Path-Sum)
         * [Binary Tree Right Side View](#Binary-Tree-Right-Side-View)
         * [Convert Binary Search Tree to Sorted Doubly Linked List](#Convert-Binary-Search-Tree-to-Sorted-Doubly-Linked-List)
         * [Lowest Common Ancestor of a Binary Tree](#lowest-common-ancestor-of-a-binary-tree)
+        * [Lowest Common Ancestor of a Binary Search Tree](#lowest-common-ancestor-of-a-binary-search-tree)
         * [Lowest Common Ancestor of a Binary Tree III](#lowest-common-ancestor-of-a-binary-tree-iii)
         * [Maximum Difference Between Node and Ancestor](#maximum-difference-between-node-and-ancestor)
         * [Binary Tree Upside Down](#binary-tree-upside-down)
@@ -450,38 +451,70 @@ public int rob(TreeNode root) {
 }
 ```
 
-### 14. 找出二叉树中第二小的节点
-
-671\. Second Minimum Node In a Binary Tree (Easy)
-
-[Leetcode](https://leetcode.com/problems/second-minimum-node-in-a-binary-tree/description/) / [力扣](https://leetcode-cn.com/problems/second-minimum-node-in-a-binary-tree/description/)
+<!-- @include ../leetcode/0671.second-minimum-node-in-a-binary-tree.md -->
+### Second Minimum Node In a Binary Tree
+[671. Second Minimum Node In a Binary Tree](https://leetcode.com/problems/second-minimum-node-in-a-binary-tree/)
 
 ```html
-Input:
-   2
-  / \
- 2   5
-    / \
-    5  7
+Given a non-empty special binary tree consisting of nodes with the non-negative value, where each node in this tree has exactly two or zero sub-node. If the node has two sub-nodes, then this node's value is the smaller value among its two sub-nodes. More formally, the property root.val = min(root.left.val, root.right.val) always holds.
 
+Given such a binary tree, you need to output the second minimum value in the set made of all the nodes' value in the whole tree.
+
+If no such second minimum value exists, output -1 instead.
+
+Example 1:
+        2
+      /   \
+     2     5
+          / \
+         5   7
+Input: root = [2,2,5,null,null,5,7]
 Output: 5
+Explanation: The smallest value is 2, the second smallest value is 5.
+
+Example 2:
+        2
+      /   \
+     2     2
+Input: root = [2,2,2]
+Output: -1
+Explanation: The smallest value is 2, but there isn't any second smallest value.
 ```
 
-一个节点要么具有 0 个或 2 个子节点，如果有子节点，那么根节点是最小的节点。
+```javascript
+var findSecondMinimumValue = function(root) {
+    if (!root) {
+        return -1;
+    }
+    if (!root.left && !root.right) {
+        return -1;
+    }
+    
+    const leftSecMin = 
+        root.left.val === root.val
+        ? findSecondMinimumValue(root.left)
+        : root.left.val;
 
-```java
-public int findSecondMinimumValue(TreeNode root) {
-    if (root == null) return -1;
-    if (root.left == null && root.right == null) return -1;
-    int leftVal = root.left.val;
-    int rightVal = root.right.val;
-    if (leftVal == root.val) leftVal = findSecondMinimumValue(root.left);
-    if (rightVal == root.val) rightVal = findSecondMinimumValue(root.right);
-    if (leftVal != -1 && rightVal != -1) return Math.min(leftVal, rightVal);
-    if (leftVal != -1) return leftVal;
-    return rightVal;
-}
+    const rightSecMin = 
+        root.right.val === root.val
+        ? findSecondMinimumValue(root.right)
+        : root.right.val;
+
+    if (leftSecMin != -1 && rightSecMin != -1) {
+        return Math.min(leftSecMin, rightSecMin);
+    }
+    
+    if (leftSecMin != -1) {
+        return leftSecMin;
+    }
+    if (rightSecMin != -1) {
+        return rightSecMin;
+    }
+    
+    return -1;
+};
 ```
+
 
 <!-- @include ../leetcode/0236.lowest-common-ancestor-of-a-binary-tree.md -->
 ### Lowest Common Ancestor of a Binary Tree
@@ -512,6 +545,57 @@ var lowestCommonAncestor = function(root, p, q) {
         return root
     }
     return left || right
+};
+```
+
+<!-- @include ../leetcode/0235.lowest-common-ancestor-of-a-binary-search-tree.md -->
+### Lowest Common Ancestor of a Binary Search Tree
+[235. Lowest Common Ancestor of a Binary Search Tree](https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-search-tree/)
+
+```html
+Given a binary search tree (BST), find the lowest common ancestor (LCA) of two given nodes in the BST.
+
+According to the definition of LCA on Wikipedia: “The lowest common ancestor is defined between two nodes p and q as the lowest node in T that has both p and q as descendants (where we allow a node to be a descendant of itself).”
+
+Example 1:
+        ____6____
+       /         \
+     _2_         _8_
+    /   \       /   \
+   0     4     7     9
+        / \
+       3   5
+Input: root = [6,2,8,0,4,7,9,null,null,3,5], p = 2, q = 8
+Output: 6
+Explanation: The LCA of nodes 2 and 8 is 6.
+
+Example 2:
+        ____6____
+       /         \
+     _2_         _8_
+    /   \       /   \
+   0     4     7     9
+        / \
+       3   5
+Input: root = [6,2,8,0,4,7,9,null,null,3,5], p = 2, q = 4
+Output: 2
+Explanation: The LCA of nodes 2 and 4 is 2, since a node can be a descendant of itself according to the LCA definition.
+
+Example 3:
+Input: root = [2,1], p = 2, q = 1
+Output: 2
+```
+
+```javascript
+var lowestCommonAncestor = function(root, p, q) {
+    if (root === null) { return null; }
+    if (p.val > root.val && q.val > root.val) {
+        return lowestCommonAncestor(root.right, p, q);
+    }
+    if (p.val < root.val && q.val < root.val) {
+        return lowestCommonAncestor(root.left, p, q);
+    }
+    return root;
 };
 ```
 

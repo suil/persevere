@@ -8,7 +8,7 @@
         * [Shortest Distance from All Buildings](#shortest-distance-from-all-buildings)
     * [DFS](#dfs)
         * [Max Area of Island](#Max-Area-of-Island)
-        * [2. 矩阵中的连通分量数目](#2-矩阵中的连通分量数目)
+        * [Number of Islands](#number-of-islands)
         * [3. 好友关系的连通分量数目](#3-好友关系的连通分量数目)
         * [4. 填充封闭区域](#4-填充封闭区域)
         * [5. 能到达的太平洋和大西洋的区域](#5-能到达的太平洋和大西洋的区域)
@@ -258,7 +258,8 @@ private int getShortestPath(List<Integer>[] graphic, int start, int end) {
     return 0;
 }
 ```
-<!-- @include ../leetcode/0317.shortest-distance-from-all-buildings.md -->
+
+<!-- @include ../leetcode/0317.shortest-distance-from-all-buildings.md -->
 ### Shortest Distance from All Buildings
 [317. Shortest Distance from All Buildings](https://leetcode.com/problems/shortest-distance-from-all-buildings/)
 ```html
@@ -410,54 +411,61 @@ function maxAreaOfIslandHelper(grid, row, col) {
 }
 ```
 
-### 2. 矩阵中的连通分量数目
-
-200\. Number of Islands (Medium)
-
-[Leetcode](https://leetcode.com/problems/number-of-islands/description/) / [力扣](https://leetcode-cn.com/problems/number-of-islands/description/)
+<!-- @include ../leetcode/0200.number-of-islands.md -->
+### Number of Islands
+[200. Number of Islands](https://leetcode.com/problems/number-of-islands/)
 
 ```html
-Input:
-11000
-11000
-00100
-00011
+Given an m x n 2D binary grid grid which represents a map of '1's (land) and '0's (water), return the number of islands.
 
+An island is surrounded by water and is formed by connecting adjacent lands horizontally or vertically. You may assume all four edges of the grid are all surrounded by water.
+
+Example 1:
+Input: grid = [
+  ["1","1","1","1","0"],
+  ["1","1","0","1","0"],
+  ["1","1","0","0","0"],
+  ["0","0","0","0","0"]
+]
+Output: 1
+
+Example 2:
+Input: grid = [
+  ["1","1","0","0","0"],
+  ["1","1","0","0","0"],
+  ["0","0","1","0","0"],
+  ["0","0","0","1","1"]
+]
 Output: 3
 ```
 
-可以将矩阵表示看成一张有向图。
-
-```java
-private int m, n;
-private int[][] direction = {{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
-
-public int numIslands(char[][] grid) {
-    if (grid == null || grid.length == 0) {
-        return 0;
-    }
-    m = grid.length;
-    n = grid[0].length;
-    int islandsNum = 0;
-    for (int i = 0; i < m; i++) {
-        for (int j = 0; j < n; j++) {
-            if (grid[i][j] != '0') {
-                dfs(grid, i, j);
-                islandsNum++;
+```javascript
+var numIslands = function(grid) {
+    let count = 0;
+    for (let row = 0; row < grid.length; row++) {
+        for (let col = 0; col < grid[0].length; col++) {
+            if (grid[row][col] === '1') {
+                count++;
             }
+            numIslandsHelper(grid, row, col);
         }
     }
-    return islandsNum;
-}
-
-private void dfs(char[][] grid, int i, int j) {
-    if (i < 0 || i >= m || j < 0 || j >= n || grid[i][j] == '0') {
+    return count;
+};
+function numIslandsHelper(grid, startRow, startCol) {
+    if (grid[startRow] === undefined
+        || grid[startRow][startCol] === undefined
+        || grid[startRow][startCol] === '0'
+    ) {
         return;
     }
-    grid[i][j] = '0';
-    for (int[] d : direction) {
-        dfs(grid, i + d[0], j + d[1]);
-    }
+    
+    grid[startRow][startCol] = '0';
+    
+    numIslandsHelper(grid, startRow + 1, startCol);
+    numIslandsHelper(grid, startRow - 1, startCol);
+    numIslandsHelper(grid, startRow, startCol + 1);
+    numIslandsHelper(grid, startRow, startCol - 1);
 }
 ```
 
