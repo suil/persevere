@@ -10,7 +10,7 @@
         * [6. 判断路径和是否等于一个数](#6-判断路径和是否等于一个数)
         * [7. 统计路径和等于一个数的路径数量](#7-统计路径和等于一个数的路径数量)
         * [8. 子树](#8-子树)
-        * [9. 树的对称](#9-树的对称)
+        * [Symmetric Tree](#symmetric-tree)
         * [10. 最小路径](#10-最小路径)
         * [11. 统计左叶子节点的和](#11-统计左叶子节点的和)
         * [12. 相同节点值的最大路径长度](#12-相同节点值的最大路径长度)
@@ -316,32 +316,38 @@ private boolean isSubtreeWithRoot(TreeNode s, TreeNode t) {
     return isSubtreeWithRoot(s.left, t.left) && isSubtreeWithRoot(s.right, t.right);
 }
 ```
-
-### 9. 树的对称
-
-101\. Symmetric Tree (Easy)
-
-[Leetcode](https://leetcode.com/problems/symmetric-tree/description/) / [力扣](https://leetcode-cn.com/problems/symmetric-tree/description/)
+<!-- @include ../leetcode/0101.symmetric-tree.md -->
+### Symmetric Tree
+[101. Symmetric Tree](https://leetcode.com/problems/symmetric-tree/)
 
 ```html
-    1
-   / \
-  2   2
- / \ / \
-3  4 4  3
+Given the root of a binary tree, check whether it is a mirror of itself (i.e., symmetric around its center).
+
+Example 1:
+        1
+      /   \
+     2     2
+    / \   / \
+   3   4 3   4 
+Input: root = [1,2,2,3,4,4,3]
+Output: true
+
+Example 2:
+Input: root = [1,2,2,null,3,null,3]
+Output: false
 ```
 
-```java
-public boolean isSymmetric(TreeNode root) {
-    if (root == null) return true;
-    return isSymmetric(root.left, root.right);
+```javascript
+var isSymmetric = function(root) {
+    if (root === null) { return true; }
+    return isMirror(root, root);
 }
-
-private boolean isSymmetric(TreeNode t1, TreeNode t2) {
-    if (t1 == null && t2 == null) return true;
-    if (t1 == null || t2 == null) return false;
-    if (t1.val != t2.val) return false;
-    return isSymmetric(t1.left, t2.right) && isSymmetric(t1.right, t2.left);
+function isMirror(node1, node2) {
+    if (node1 === null && node2 === null) { return true; }
+    if (node1 === null || node2 === null) { return false; }
+    return node1.val === node2.val
+        && isMirror(node1.left, node2.right)
+        && isMirror(node1.right, node2.left);
 }
 ```
 
