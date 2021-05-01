@@ -43,52 +43,50 @@ When partition() funciton in quick sorting is used, the array needs to be scramb
 
 It also can be used to solve **TopK Elements** problem.
 
+<!-- @include ../leetcode/0215.kth-largest-element-in-an-array.md -->
 ### Kth Largest Element in an Array
+[215. Kth Largest Element in an Array](https://leetcode.com/problems/kth-largest-element-in-an-array/)
 
-[215\. Kth Largest Element in an Array (Medium)](https://leetcode.com/problems/kth-largest-element-in-an-array/description/)
+```html
+Given an integer array nums and an integer k, return the kth largest element in the array.
 
-**minHeap**  ：Time O(NlogK)，Space O(K)。
+Note that it is the kth largest element in the sorted order, not the kth distinct element.
 
-```java
-public int findKthLargest(int[] nums, int k) {
-    PriorityQueue<Integer> pq = new PriorityQueue<>(); // 小顶堆
-    for (int val : nums) {
-        pq.add(val);
-        if (pq.size() > k)
-            pq.poll();
-    }
-    return pq.peek();
-}
+Example 1:
+
+Input: nums = [3,2,1,5,6,4], k = 2
+Output: 5
+Example 2:
+
+Input: nums = [3,2,3,1,2,4,5,5,6], k = 4
+Output: 4
 ```
-
-**Quick Sort**: Time O(N)，Space O(1)
 
 ```javascript
 var findKthLargest = function(nums, k) {
     return quickSelect(nums, 0, nums.length - 1, k);
-};
-function partition(arr, start, end) {
+}
+function partition(nums, start, end) {
     let lo = start - 1, hi = end + 1;
-    const pivot = arr[Math.floor(start + (end - start) / 2)];
+    const pivot = nums[Math.floor(start + (end - start) / 2)];
     while (true) {
-        while (arr[++lo] > pivot); // ascending '<'
-        while (arr[--hi] < pivot); // ascending '>'
-
+        while (nums[++lo] > pivot);
+        while (nums[--hi] < pivot);
         if (lo >= hi) { return hi; }
-        [arr[lo], arr[hi]] = [arr[hi], arr[lo]];
+        [nums[lo], nums[hi]] = [nums[hi], nums[lo]];
     }
 }
-function quickSelect(arr, start, end, k) {
-    if (start === end) {
-        return arr[start];
+function quickSelect(nums, start, end, k) {
+    if (start === end) { return nums[start]; }
+    const pivotIndex = partition(nums, start, end);
+    if (pivotIndex < k - 1) {
+        return quickSelect(nums, pivotIndex + 1, end, k);
     }
-    const pivot = partition(arr, start, end);
-    if (pivot < k - 1) {
-        return quickSelect(arr, pivot + 1, end, k);
-    }
-    return quickSelect(arr, start, pivot, k);
+    return quickSelect(nums, start, pivotIndex, k);
 }
 ```
+
+
 ## K Closest Points to Origin
 This is to take all K top elements. Use variant of quick sorting algorithm. Only sort the first k elments
 

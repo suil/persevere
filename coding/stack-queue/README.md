@@ -4,7 +4,7 @@
     * [1. 用栈实现队列](#1-用栈实现队列)
     * [2. 用队列实现栈](#2-用队列实现栈)
     * [3. 最小值栈](#3-最小值栈)
-    * [4. 用栈实现括号匹配](#4-用栈实现括号匹配)
+    * [Valid Parentheses](#valid-parentheses)
     * [5. 数组中元素与下一个比它大的元素之间的距离](#5-数组中元素与下一个比它大的元素之间的距离)
     * [6. 循环数组中比当前元素大的下一个元素](#6-循环数组中比当前元素大的下一个元素)
     * [Backspace String Compare](#Backspace-String-Compare)
@@ -139,39 +139,63 @@ class MinStack {
 
 对于实现最小值队列问题，可以先将队列使用栈来实现，然后就将问题转换为最小值栈，这个问题出现在 编程之美：3.7。
 
-## 4. 用栈实现括号匹配
-
-20\. Valid Parentheses (Easy)
-
-[Leetcode](https://leetcode.com/problems/valid-parentheses/description/) / [力扣](https://leetcode-cn.com/problems/valid-parentheses/description/)
+<!-- @include ../leetcode/0020.valid-parentheses.md -->
+### Valid Parentheses
+[20. Valid Parentheses](https://leetcode.com/problems/valid-parentheses/)
 
 ```html
-"()[]{}"
+Given a string s containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid.
 
-Output : true
+An input string is valid if:
+
+Open brackets must be closed by the same type of brackets.
+Open brackets must be closed in the correct order.
+ 
+
+Example 1:
+
+Input: s = "()"
+Output: true
+Example 2:
+
+Input: s = "()[]{}"
+Output: true
+Example 3:
+
+Input: s = "(]"
+Output: false
+Example 4:
+
+Input: s = "([)]"
+Output: false
+Example 5:
+
+Input: s = "{[]}"
+Output: true
 ```
 
-```java
-public boolean isValid(String s) {
-    Stack<Character> stack = new Stack<>();
-    for (char c : s.toCharArray()) {
-        if (c == '(' || c == '{' || c == '[') {
-            stack.push(c);
+```javascript
+var isValid = function(s) {
+    const parenthesesMap = {
+        ')': '(',
+        '}': '{',
+        ']': '['
+    };
+    const stack = [];
+    
+    for (let i = 0; i < s.length; i++) {
+        if (parenthesesMap[s[i]]) {
+            const charInStack = stack.pop();
+            if (parenthesesMap[s[i]] !== charInStack) {
+                return false;
+            }
         } else {
-            if (stack.isEmpty()) {
-                return false;
-            }
-            char cStack = stack.pop();
-            boolean b1 = c == ')' && cStack != '(';
-            boolean b2 = c == ']' && cStack != '[';
-            boolean b3 = c == '}' && cStack != '{';
-            if (b1 || b2 || b3) {
-                return false;
-            }
+            stack.push(s[i]);
         }
     }
-    return stack.isEmpty();
-}
+    
+    return stack.length === 0;
+};
 ```
 
 ## 5. 数组中元素与下一个比它大的元素之间的距离
@@ -280,24 +304,84 @@ var minRemoveToMakeValid = function(s) {
 };
 ```
 
-## Exclusive Time of Functions
-[636. Exclusive Time of Functions](https://leetcode.com/problems/exclusive-time-of-functions/)
+<!-- @include ../leetcode/0636.exclusive-time-of-functions.md -->
+### Exclusive Time of Functions
+[636. Exclusive Time of Functions](https://leetcode.com/problems/0636.exclusive-time-of-functions/)
+
+```html
+On a single-threaded CPU, we execute a program containing n functions. Each function has a unique ID between 0 and n-1.
+
+Function calls are stored in a call stack: when a function call starts, its ID is pushed onto the stack, and when a function call ends, its ID is popped off the stack. The function whose ID is at the top of the stack is the current function being executed. Each time a function starts or ends, we write a log with the ID, whether it started or ended, and the timestamp.
+
+You are given a list logs, where logs[i] represents the ith log message formatted as a string "{function_id}:{"start" | "end"}:{timestamp}". For example, "0:start:3" means a function call with function ID 0 started at the beginning of timestamp 3, and "1:end:2" means a function call with function ID 1 ended at the end of timestamp 2. Note that a function can be called multiple times, possibly recursively.
+
+A function's exclusive time is the sum of execution times for all function calls in the program. For example, if a function is called twice, one call executing for 2 time units and another call executing for 1 time unit, the exclusive time is 2 + 1 = 3.
+
+Return the exclusive time of each function in an array, where the value at the ith index represents the exclusive time for the function with ID i.
+
+Example 1:
+Input: n = 2, logs = ["0:start:0","1:start:2","1:end:5","0:end:6"]
+Output: [3,4]
+Explanation:
+Function 0 starts at the beginning of time 0, then it executes 2 for units of time and reaches the end of time 1.
+Function 1 starts at the beginning of time 2, executes for 4 units of time, and ends at the end of time 5.
+Function 0 resumes execution at the beginning of time 6 and executes for 1 unit of time.
+So function 0 spends 2 + 1 = 3 units of total time executing, and function 1 spends 4 units of total time executing.
+
+Example 2:
+Input: n = 1, logs = ["0:start:0","0:start:2","0:end:5","0:start:6","0:end:6","0:end:7"]
+Output: [8]
+Explanation:
+Function 0 starts at the beginning of time 0, executes for 2 units of time, and recursively calls itself.
+Function 0 (recursive call) starts at the beginning of time 2 and executes for 4 units of time.
+Function 0 (initial call) resumes execution then immediately calls itself again.
+Function 0 (2nd recursive call) starts at the beginning of time 6 and executes for 1 unit of time.
+Function 0 (initial call) resumes execution at the beginning of time 7 and executes for 1 unit of time.
+So function 0 spends 2 + 4 + 1 + 1 = 8 units of total time executing.
+
+Example 3:
+Input: n = 2, logs = ["0:start:0","0:start:2","0:end:5","1:start:6","1:end:6","0:end:7"]
+Output: [7,1]
+Explanation:
+Function 0 starts at the beginning of time 0, executes for 2 units of time, and recursively calls itself.
+Function 0 (recursive call) starts at the beginning of time 2 and executes for 4 units of time.
+Function 0 (initial call) resumes execution then immediately calls function 1.
+Function 1 starts at the beginning of time 6, executes 1 units of time, and ends at the end of time 6.
+Function 0 resumes execution at the beginning of time 6 and executes for 2 units of time.
+So function 0 spends 2 + 4 + 1 = 7 units of total time executing, and function 1 spends 1 unit of total time executing.
+
+Example 4:
+Input: n = 2, logs = ["0:start:0","0:start:2","0:end:5","1:start:7","1:end:7","0:end:8"]
+Output: [8,1]
+Example 5:
+
+Input: n = 1, logs = ["0:start:0","0:end:0"]
+Output: [1]
+```
+
 ```javascript
 var exclusiveTime = function(n, logs) {
-    let output = [...Array(n)].fill(0);
-    const stack = [];
+    let output = new Array(n).fill(0);
+    let prevStartTime = 0;
+    let stack = [];
     
-    for (let i = 0; i < logs.length; i++) {
-        let [id, action, time] = logs[i].split(':');
-        if (action == 'start') {
-            stack.push([time, 0]);
-        } else {
-            const start = stack.pop();
-            let timespan = time - start[0] + 1;
-            output[id] += timespan - start[1];
+    for (let log of logs) {
+        const [logId, logAction, logTime] = log.split(':');
+        
+        if (logAction === 'start') {
             if (stack.length > 0) {
-                stack[stack.length - 1][1] += timespan;
+                const prevIdx = Number(stack[stack.length - 1]);
+                output[prevIdx] += Number(logTime) - prevStartTime;
             }
+            stack.push(logId);
+            prevStartTime = Number(logTime);
+        } else {
+            stack.pop(); 
+            let currIdx = Number(logId);
+            let currEndTime = Number(logTime);
+            
+            output[currIdx] += currEndTime - prevStartTime + 1;
+            prevStartTime = currEndTime + 1;
         }
     }
     return output;
@@ -322,7 +406,8 @@ var simplifyPath = function(path) {
     return '/' + stack.join('/');
 };
 ```
-<!-- @include ../leetcode/0150.evaluate-reverse-polish-notation.md -->
+
+<!-- @include ../leetcode/0150.evaluate-reverse-polish-notation.md -->
 ### Evaluate Reverse Polish Notation
 [150. Evaluate Reverse Polish Notation](https://leetcode.com/problems/evaluate-reverse-polish-notation/)
 ```html

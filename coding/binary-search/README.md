@@ -6,13 +6,14 @@
     * [Single Element in a Sorted Array](#Single-Element-in-a-Sorted-Array-Medium)
     * [Locate Special Element in a Sorted Array](#Locate-Special-Element-in-a-Sorted-Array)
         * [First Bad Version](#First-Bad-Version)
-        * [Search in Rotated Sorted Array](../leet.md#search-in-rotated-sorted-array)
         * [Find First and Last Position of Element in Sorted Array](#Find-First-and-Last-Position-of-Element-in-Sorted-Array)
         * [Random Pick with Weight](#random-pick-with-weight)
         * [Missing Element in Sorted Array](#missing-element-in-sorted-array)
+    * [Rotated Sorted Array](#rotated-sorted-array)
+        * [Search in Rotated Sorted Array](#search-in-rotated-sorted-array)
+        * [Find Minimum in Rotated Sorted Array](#find-minimum-in-rotated-sorted-array)
 
 <!-- GFM-TOC -->
-
 
 **Typical Binary Search Algorithm**  
 
@@ -80,18 +81,32 @@ This is the difference:
 - while loop conditions is **l \< h**
 - return l instead of -1
 
-## Sqrt(x)
+<!-- @include ../leetcode/0069.sqrtx.md -->
+### Sqrt(x)
+[69. Sqrt(x)](https://leetcode.com/problems/sqrtx/)
 
-[69\. Sqrt(x) (Easy)](https://leetcode.com/problems/sqrtx/description/)
+```html
+Given a non-negative integer x, compute and return the square root of x.
+
+Since the return type is an integer, the decimal digits are truncated, and only the integer part of the result is returned.
+
+Example 1:
+Input: x = 4
+Output: 2
+
+Example 2:
+Input: x = 8
+Output: 2
+Explanation: The square root of 8 is 2.82842..., and since the decimal part is truncated, 2 is returned.
+```
 
 ```javascript
 var mySqrt = function(x) {
     if (x <= 1) {
         return x;
     }
-    
+
     let low = 1, high = Math.floor(x / 2);
-    
     while (low <= high) {
         const mid = Math.floor(low + (high - low) / 2);
         const square = mid * mid;
@@ -102,29 +117,64 @@ var mySqrt = function(x) {
             low = mid + 1;
         }
     }
-    
     return high;
 };
 ```
 
-## Find Smallest Letter Greater Than Target
+<!-- @include ../leetcode/0744.find-smallest-letter-greater-than-target.md -->
+### Find Smallest Letter Greater Than Target
+[744. Find Smallest Letter Greater Than Target](https://leetcode.com/problems/find-smallest-letter-greater-than-target/)
 
-[744\. Find Smallest Letter Greater Than Target (Easy)](https://leetcode.com/problems/find-smallest-letter-greater-than-target/description/)
+```html
+Given a list of sorted characters letters containing only lowercase letters, and given a target letter target, find the smallest element in the list that is larger than the given target.
+
+Letters also wrap around. For example, if the target is target = 'z' and letters = ['a', 'b'], the answer is 'a'.
+
+Examples:
+Input:
+letters = ["c", "f", "j"]
+target = "a"
+Output: "c"
+
+Input:
+letters = ["c", "f", "j"]
+target = "c"
+Output: "f"
+
+Input:
+letters = ["c", "f", "j"]
+target = "d"
+Output: "f"
+
+Input:
+letters = ["c", "f", "j"]
+target = "g"
+Output: "j"
+
+Input:
+letters = ["c", "f", "j"]
+target = "j"
+Output: "c"
+
+Input:
+letters = ["c", "f", "j"]
+target = "k"
+Output: "c"
+```
 
 ```javascript
 var nextGreatestLetter = function(letters, target) {
-    let l = 0, h = letters.length - 1;
+    let left = 0, right = letters.length - 1;
     
-    while (l <= h) {
-        const m = l + Math.floor((h - l) / 2);
-        if (letters[m] > target) {
-            h = m - 1;
+    while (left <= right) {
+        const mid = left + Math.floor((right - left) / 2);
+        if (letters[mid] > target) {
+            right = mid - 1;
         } else {
-            l = m + 1;
+            left = mid + 1;
         }
     }
-    
-    return letters[l] || letters[0];
+    return letters[left] || letters[0];
 };
 ```
 
@@ -180,43 +230,56 @@ var solution = function(isBadVersion) {
     };
 };
 ```
-### Find Minimum in Rotated Sorted Array
-[153. Find Minimum in Rotated Sorted Array (Medium)](https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/description/)
 
-```javascript
-var findMin = function(nums) {
-    let l = 0, h = nums.length - 1;
-    while (l < h) {
-        let m = Math.floor(l + (h - l) / 2);
-        if (nums[m] <= nums[h]) {
-            h = m;
-        } else {
-            l = m + 1;
-        }
-    }
-    return nums[l];
-};
+<!-- @include ../leetcode/0034.find-first-and-last-position-of-element-in-sorted-array.md -->
+### Find First and Last Position of Element in Sorted Array
+[34. Find First and Last Position of Element in Sorted Array](https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/)
+
+```html
+Given an array of integers nums sorted in ascending order, find the starting and ending position of a given target value.
+
+If target is not found in the array, return [-1, -1].
+
+Follow up: Could you write an algorithm with O(log n) runtime complexity?
+
+Example 1:
+Input: nums = [5,7,7,8,8,10], target = 8
+Output: [3,4]
+
+Example 2:
+Input: nums = [5,7,7,8,8,10], target = 6
+Output: [-1,-1]
+
+Example 3:
+Input: nums = [], target = 0
+Output: [-1,-1]
 ```
 
-### Find First and Last Position of Element in Sorted Array
-[34\. Find First and Last Position of Element in Sorted Array (Medium)](https://leetcode.com/problems/find-first-and-last-position-of-element-in-sorted-array/)
 ```javascript
 var searchRange = function(nums, target) {
-    let l = 0, h = nums.length - 1;
-    while (l < h) {
-        const m = l + Math.floor((h - l) / 2);
-        if (nums[m] >= target) {
-            h = m;
+    let left = 0, right = nums.length - 1;
+    
+    while (left < right) {
+        const mid = Math.floor(left + (right - left) / 2);
+        if (nums[mid] >= target) {
+            right = mid;
         } else {
-            l = m + 1;
+            left = mid + 1;
         }
     }
-    if (l < 0 || l >= nums.length || nums[l] != target) { return [-1, -1]; }
-    let end = l;
-    while (end < nums.length && nums[end] === nums[l]) { end++; }
-    return [l, end - 1]
+
+    if (left < 0 || left >= nums.length || nums[left] !== target) {
+        return [-1, -1];
+    }
+    
+    let end = left;
+    while (end < nums.length && nums[end] === nums[left]) {
+        end++
+    }
+    return [left, end - 1]
 };
 ```
+
 
 ### Random Pick with Weight
 [528. Random Pick with Weight](https://leetcode.com/problems/random-pick-with-weight/)
@@ -253,7 +316,36 @@ Solution.prototype.pickIndex = function() {
     return low;
 };
 ```
-<!-- @include ../leetcode/0033.search-in-rotated-sorted-array.md -->
+
+<!-- @include ../leetcode/1060.missing-element-in-sorted-array.md -->
+### Missing Element in Sorted Array
+[1060. Missing Element in Sorted Array](https://leetcode.com/problems/missing-element-in-sorted-array/)
+```html
+Given an integer array nums which is sorted in ascending order and all of its elements are unique and given also an integer k, return the kth missing number starting from the leftmost number of the array.
+```
+
+```javascript
+var missingElement = function(nums, k) {
+    let left = 0, right = nums.length - 1;
+    
+    while (left < right) {
+        const mid = Math.floor(left + (right - left) / 2);
+        if (getMissingNumCount(nums, mid) >= k) {
+            right = mid;
+        } else {
+            left = mid + 1;
+        }
+    }
+    return nums[left - 1] + k - getMissingNumCount(nums, left - 1);
+};
+function getMissingNumCount(nums, index) {
+    return nums[index] - nums[0] - index;
+}
+```
+
+## Rotated Sorted Array
+
+<!-- @include ../leetcode/0033.search-in-rotated-sorted-array.md -->
 ### Search in Rotated Sorted Array
 [33. Search in Rotated Sorted Array](https://leetcode.com/problems/search-in-rotated-sorted-array/)
 ```html
@@ -288,30 +380,31 @@ var search = function(nums, target) {
 };
 ```
 
-<!-- @include ../leetcode/1060.missing-element-in-sorted-array.md -->
-### Missing Element in Sorted Array
-[1060. Missing Element in Sorted Array](https://leetcode.com/problems/missing-element-in-sorted-array/)
+<!-- @include ../leetcode/0153.find-minimum-in-rotated-sorted-array.md -->
+### Find Minimum in Rotated Sorted Array
+[153. Find Minimum in Rotated Sorted Array](https://leetcode.com/problems/find-minimum-in-rotated-sorted-array/)
+
 ```html
-Given an integer array nums which is sorted in ascending order and all of its elements are unique and given also an integer k, return the kth missing number starting from the leftmost number of the array.
+Suppose an array of length n sorted in ascending order is rotated between 1 and n times. For example, the array nums = [0,1,2,4,5,6,7] might become:
+
+[4,5,6,7,0,1,2] if it was rotated 4 times.
+[0,1,2,4,5,6,7] if it was rotated 7 times.
+Notice that rotating an array [a[0], a[1], a[2], ..., a[n-1]] 1 time results in the array [a[n-1], a[0], a[1], a[2], ..., a[n-2]].
+
+Given the sorted rotated array nums of unique elements, return the minimum element of this array.
 ```
 
 ```javascript
-var missingElement = function(nums, k) {
-    let left = 0, right = nums.length - 1;
-    
-    while (left < right) {
-        const mid = Math.floor(left + (right - left) / 2);
-        if (getMissingNumCount(nums, mid) >= k) {
-            right = mid;
+var findMin = function(nums) {
+    let l = 0, h = nums.length - 1;
+    while (l < h) {
+        let m = Math.floor(l + (h - l) / 2);
+        if (nums[m] <= nums[h]) {
+            h = m;
         } else {
-            left = mid + 1;
+            l = m + 1;
         }
     }
-    return nums[left - 1] + k - getMissingNumCount(nums, left - 1);
+    return nums[l];
 };
-function getMissingNumCount(nums, index) {
-    return nums[index] - nums[0] - index;
-}
 ```
-
-

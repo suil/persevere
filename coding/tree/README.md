@@ -17,6 +17,7 @@
         * [13. 间隔遍历](#13-间隔遍历)
         * [Second Minimum Node In a Binary Tree](#second-minimum-node-in-a-binary-tree)
         * [Serialize and Deserialize Binary Tree](#Serialize-and-Deserialize-Binary-Tree)
+        * [Serialize and Deserialize BST](#serialize-and-deserialize-bst)
         * [Binary Tree Maximum Path Sum](#Binary-Tree-Maximum-Path-Sum)
         * [Binary Tree Right Side View](#Binary-Tree-Right-Side-View)
         * [Convert Binary Search Tree to Sorted Doubly Linked List](#Convert-Binary-Search-Tree-to-Sorted-Doubly-Linked-List)
@@ -34,6 +35,8 @@
         * [Check Completeness of a Binary Tree](#check-completeness-of-a-binary-tree)
         * [N-ary Tree Level Order Traversal](#n-ary-tree-level-order-traversal)
         * [Deepest Leaves Sum](#deepest-leaves-sum)
+        * [Binary Tree Level Order Traversal](#binary-tree-level-order-traversal)
+
 
     * [前中后序遍历](#前中后序遍历)
         * [1. 非递归实现二叉树的前序遍历](#1-非递归实现二叉树的前序遍历)
@@ -58,7 +61,6 @@
         * [8. 在二叉查找树中寻找两个节点，使它们的和为一个给定值](#8-在二叉查找树中寻找两个节点，使它们的和为一个给定值)
         * [9. 在二叉查找树中查找两个节点之差的最小绝对值](#9-在二叉查找树中查找两个节点之差的最小绝对值)
         * [10. 寻找二叉查找树中出现次数最多的值](#10-寻找二叉查找树中出现次数最多的值)
-        * [Serialize and Deserialize BST](#serialize-and-deserialize-bst)
     * [Trie](#trie)
         * [1. 实现一个 Trie](#1-实现一个-trie)
         * [2. 实现一个 Trie，用来求前缀和](#2-实现一个-trie，用来求前缀和)
@@ -676,22 +678,52 @@ var lowestCommonAncestor = function(p, q) {
 };
 ```
 
+<!-- @include ../leetcode/0297.serialize-and-deserialize-binary-tree.md -->
 ### Serialize and Deserialize Binary Tree
 [297. Serialize and Deserialize Binary Tree](https://leetcode.com/problems/serialize-and-deserialize-binary-tree/)
+
+```html
+Serialization is the process of converting a data structure or object into a sequence of bits so that it can be stored in a file or memory buffer, or transmitted across a network connection link to be reconstructed later in the same or another computer environment.
+
+Design an algorithm to serialize and deserialize a binary tree. There is no restriction on how your serialization/deserialization algorithm should work. You just need to ensure that a binary tree can be serialized to a string and this string can be deserialized to the original tree structure.
+
+Clarification: The input/output format is the same as how LeetCode serializes a binary tree. You do not necessarily need to follow this format, so please be creative and come up with different approaches yourself.
+
+Example 1:
+    1
+   / \
+  2   3
+     / \
+    4   5
+Input: root = [1,2,3,null,null,4,5]
+Output: [1,2,3,null,null,4,5]
+
+Example 2:
+Input: root = []
+Output: []
+
+Example 3:
+Input: root = [1]
+Output: [1]
+
+Example 4:
+Input: root = [1,2]
+Output: [1,2]
+```
+
 ```javascript
 var serialize = function(root) {
-	const output = [];
-	serializeHelper(root, output);
-	return output.toString();
+	return serializeHelper(root).toString();
 };
 var serializeHelper = function (root, lst) {
 	if (!root) {
-		lst.push('null');
-        return;
-	} 
-    lst.push(root.val);
-    serializeHelper(root.left, lst);
-    serializeHelper(root.right, lst);
+        return ['null'];
+	}
+    return [
+        root.val,
+        ...serializeHelper(root.left),
+        ...serializeHelper(root.right),
+    ];
 };
 var deserialize = function(data) {
 	if (!data || data.length === 0) {
@@ -700,19 +732,20 @@ var deserialize = function(data) {
 	return deserializeHelper(data.split(','));
 };
 var deserializeHelper = function (lst) {
-	if (lst.length < 1) {
-		return null;
-	}
-	let val = lst.shift();
+    if (lst.length < 1) {
+        return null;
+    }
+    let val = lst.shift();
 	if (val === 'null') {
-		return null;
-	}
-	var root = new TreeNode(val);
-	root.left = deserializeHelper(lst);
-	root.right = deserializeHelper(lst);
-	return root;
+        return null;
+    }
+    var root = new TreeNode(val);
+    root.left = deserializeHelper(lst);
+    root.right = deserializeHelper(lst);
+    return root;
 };
 ```
+
 ### Binary Tree Maximum Path Sum
 [124. Binary Tree Maximum Path Sum](https://leetcode.com/problems/binary-tree-maximum-path-sum/)
 ```javascript
@@ -1143,6 +1176,52 @@ var deepestLeavesSum = function(root) {
         node.right && traverse(node.right, level + 1);
     };
     return sum;
+};
+```
+
+<!-- @include ../leetcode/0102.binary-tree-level-order-traversal.md -->
+### Binary Tree Level Order Traversal
+[102. Binary Tree Level Order Traversal](https://leetcode.com/problems/binary-tree-level-order-traversal/)
+
+```html
+Given the root of a binary tree, return the level order traversal of its nodes' values. (i.e., from left to right, level by level).
+
+Example 1:
+        3
+       / \
+      9   20
+         /  \
+        15   7
+Input: root = [3,9,20,null,null,15,7]
+Output: [[3],[9,20],[15,7]]
+Example 2:
+
+Input: root = [1]
+Output: [[1]]
+Example 3:
+
+Input: root = []
+Output: []
+```
+
+```javascript
+var levelOrder = function(root) {
+    let queue = [root];
+    const output = [];
+    
+    while (queue.length > 0) {
+        const nextQueue = [];
+        const nodesLevel = [];
+        for (const node of queue) {
+            if (node === null) { continue; }
+            nodesLevel.push(node.val);
+            nextQueue.push(node.left);
+            nextQueue.push(node.right);
+        }
+        if (nodesLevel.length > 0) { output.push(nodesLevel); }
+        queue = nextQueue;
+    }
+    return output;
 };
 ```
 
