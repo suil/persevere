@@ -5,13 +5,17 @@
     * [2. 用队列实现栈](#2-用队列实现栈)
     * [3. 最小值栈](#3-最小值栈)
     * [Valid Parentheses](#valid-parentheses)
-    * [5. 数组中元素与下一个比它大的元素之间的距离](#5-数组中元素与下一个比它大的元素之间的距离)
     * [6. 循环数组中比当前元素大的下一个元素](#6-循环数组中比当前元素大的下一个元素)
     * [Backspace String Compare](#Backspace-String-Compare)
     * [Minimum Remove to Make Valid Parentheses](#Minimum-Remove-to-Make-Valid-Parentheses)
     * [Exclusive Time of Functions](#Exclusive-Time-of-Functions)
     * [Simplify Path](#Simplify-Path)
     * [Evaluate Reverse Polish Notation](#evaluate-reverse-polish-notation)
+    * [Monotonic Stack](#monotonic-stack)
+        * [Daily Temperatures](#daily-temperatures)
+        * [Next Greater Element I](#next-greater-element-i)
+        * [Online Stock Span](#online-stock-span)
+
 <!-- GFM-TOC -->
 
 
@@ -479,4 +483,124 @@ var evalRPN = function(tokens) {
     return stack[0];
 };
 ```
+
+## Monotonic Stack]
+
+<!-- @include ../leetcode/0739.daily-temperatures.md -->
+### Daily Temperatures
+[739. Daily Temperatures](https://leetcode.com/problems/daily-temperatures/)
+
+```html
+Given a list of daily temperatures T, return a list such that, for each day in the input, tells you how many days you would have to wait until a warmer temperature. If there is no future day for which this is possible, put 0 instead.
+
+For example, given the list of temperatures T = [73, 74, 75, 71, 69, 72, 76, 73], your output should be [1, 1, 4, 2, 1, 1, 0, 0].
+
+Note: The length of temperatures will be in the range [1, 30000]. Each temperature will be an integer in the range [30, 100].
+```
+
+```javascript
+var dailyTemperatures = function(T) {
+    const stack = [];
+    const res = [...Array(T.length)].fill(0);
+    
+    for (let i = 0; i < T.length; i++) {
+        while (stack.length > 0 && T[i] > T[stack[stack.length - 1]]) {
+            const index = stack.pop();
+            res[index] = i - index;
+        }
+        stack.push(i);
+    }
+    return res;
+};
+```
+
+<!-- @include ../leetcode/0496.next-greater-element-i.md -->
+### Next Greater Element I
+[496. Next Greater Element I](https://leetcode.com/problems/next-greater-element-i/)
+
+```html
+You are given two integer arrays nums1 and nums2 both of unique elements, where nums1 is a subset of nums2.
+
+Find all the next greater numbers for nums1's elements in the corresponding places of nums2.
+
+The Next Greater Number of a number x in nums1 is the first greater number to its right in nums2. If it does not exist, return -1 for this number.
+
+ 
+
+Example 1:
+
+Input: nums1 = [4,1,2], nums2 = [1,3,4,2]
+Output: [-1,3,-1]
+Explanation:
+For number 4 in the first array, you cannot find the next greater number for it in the second array, so output -1.
+For number 1 in the first array, the next greater number for it in the second array is 3.
+For number 2 in the first array, there is no next greater number for it in the second array, so output -1.
+Example 2:
+
+Input: nums1 = [2,4], nums2 = [1,2,3,4]
+Output: [3,-1]
+Explanation:
+For number 2 in the first array, the next greater number for it in the second array is 3.
+For number 4 in the first array, there is no next greater number for it in the second array, so output -1.
+```
+
+```javascript
+var nextGreaterElement = function(nums1, nums2) {
+    const stack = [];
+    const map = new Map();
+    for (let i = 0; i < nums2.length; i++) {
+        while (stack.length > 0 && nums2[i] > stack[stack.length - 1]) {
+            const lastNum = stack.pop();
+            map.set(lastNum, nums2[i]);
+        }
+        stack.push(nums2[i]);
+    }
+    return nums1.map(num => map.has(num) ? map.get(num) : -1);
+};
+```
+
+<!-- @include ../leetcode/0901.online-stock-span.md -->
+### Online Stock Span
+[901. Online Stock Span](https://leetcode.com/problems/online-stock-span/)
+
+```html
+Write a class StockSpanner which collects daily price quotes for some stock, and returns the span of that stock's price for the current day.
+
+The span of the stock's price today is defined as the maximum number of consecutive days (starting from today and going backwards) for which the price of the stock was less than or equal to today's price.
+
+For example, if the price of a stock over the next 7 days were [100, 80, 60, 70, 60, 75, 85], then the stock spans would be [1, 1, 1, 2, 1, 4, 6].
+
+Example 1:
+
+Input: ["StockSpanner","next","next","next","next","next","next","next"], [[],[100],[80],[60],[70],[60],[75],[85]]
+Output: [null,1,1,1,2,1,4,6]
+Explanation: 
+First, S = StockSpanner() is initialized.  Then:
+S.next(100) is called and returns 1,
+S.next(80) is called and returns 1,
+S.next(60) is called and returns 1,
+S.next(70) is called and returns 2,
+S.next(60) is called and returns 1,
+S.next(75) is called and returns 4,
+S.next(85) is called and returns 6.
+
+Note that (for example) S.next(75) returned 4, because the last 4 prices
+(including today's price of 75) were less than or equal to today's price.
+```
+
+```javascript
+var StockSpanner = function() {
+    this.stack = [];
+};
+StockSpanner.prototype.next = function(price) {
+    let span = 1;
+    while (this.stack.length > 0 && price >= this.stack[this.stack.length - 1][0]) {
+        const [prevPrice, prevDay] = this.stack.pop();
+        span += prevDay;
+    }
+    this.stack.push([price, span]);
+    return span;
+};
+```
+
 

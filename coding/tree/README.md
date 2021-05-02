@@ -316,7 +316,8 @@ private boolean isSubtreeWithRoot(TreeNode s, TreeNode t) {
     return isSubtreeWithRoot(s.left, t.left) && isSubtreeWithRoot(s.right, t.right);
 }
 ```
-<!-- @include ../leetcode/0101.symmetric-tree.md -->
+
+<!-- @include ../leetcode/0101.symmetric-tree.md -->
 ### Symmetric Tree
 [101. Symmetric Tree](https://leetcode.com/problems/symmetric-tree/)
 
@@ -893,7 +894,7 @@ function findLeavesHelper(node, output) {
 }
 ```
 
-<!-- @include ../leetcode/0010.same-tree.md -->
+<!-- @include ../leetcode/0100.same-tree.md -->
 ### Same Tree
 [100. Same Tree](https://leetcode.com/problems/same-tree/)
 
