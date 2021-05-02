@@ -950,26 +950,47 @@ function binarySearch(array, target) {
 }
 ```
 
-
-
+<!-- @include ../leetcode/0311.sparse-matrix-multiplication.md -->
 ### Sparse Matrix Multiplication
 [311. Sparse Matrix Multiplication](https://leetcode.com/problems/sparse-matrix-multiplication/)
+
+```html
+Given two sparse matrices mat1 of size m x k and mat2 of size k x n, return the result of mat1 x mat2. You may assume that multiplication is always possible.
+
+Example 1:
+
+[1, 0, 0]
+[-1,0, 3]
+
+[7,0,0],
+[0,0,0],
+[0,0,1]
+
+Input: mat1 = [[1,0,0],[-1,0,3]], mat2 = [[7,0,0],[0,0,0],[0,0,1]]
+Output: [[7,0,0],[-7,0,3]]
+
+Example 2:
+Input: mat1 = [[0]], mat2 = [[0]]
+Output: [[0]]
+```
+
 ```javascript
 var multiply = function(mat1, mat2) {
-    const ans = [];
+    const res = [];
     for (let row = 0; row < mat1.length; row++) {
-        ans.push([]);
+        res.push([]);
         for (let col = 0; col < mat2[0].length; col++) {
-            const mat1Row = mat1[row];
-            ans[row][col] = 0;
-            for (let k = 0; k < mat1Row.length; k++) {
-                ans[row][col] += mat1Row[k] * mat2[k][col];
+            let sum = 0;
+            for (let i = 0; i < mat2.length; i++) {
+                sum += mat1[row][i] * mat2[i][col];
             }
+            res[row][col] = sum
         }
     }
-    return ans;
+    return res;
 };
 ```
+
 
 ### Range Sum Query 2D - Immutable
 [304. Range Sum Query 2D - Immutable](https://leetcode.com/problems/range-sum-query-2d-immutable/)
