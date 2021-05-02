@@ -2,6 +2,7 @@
 <!-- GFM-TOC -->
 * [Binary Search](#Binary-Search)
     * [Sqrt(x)](#Sqrtx)
+    * [Valid Perfect Square](#valid-perfect-square)
     * [Find Smallest Letter Greater Than Target](#Find-Smallest-Letter-Greater-Than-Target)
     * [Single Element in a Sorted Array](#Single-Element-in-a-Sorted-Array-Medium)
     * [Locate Special Element in a Sorted Array](#Locate-Special-Element-in-a-Sorted-Array)
@@ -118,6 +119,58 @@ var mySqrt = function(x) {
         }
     }
     return high;
+};
+```
+<!-- @include ../leetcode/0367.valid-perfect-square.md -->
+### Valid Perfect Square
+[367. Valid Perfect Square](https://leetcode.com/problems/valid-perfect-square/)
+
+```html
+Given a positive integer num, write a function which returns True if num is a perfect square else False.
+
+Follow up: Do not use any built-in library function such as sqrt.
+
+Example 1:
+Input: num = 16
+Output: true
+
+Example 2:
+Input: num = 14
+Output: false
+```
+
+Binary Search:
+```javascript
+var isPerfectSquare = function(num) {
+    if (num < 2) { return true; }
+    let lo = 0, hi = num;
+    while (lo <= hi) {
+        const mid = Math.floor(lo + (hi - lo) / 2);
+        const squre = mid * mid;
+        if (squre === num) { return true; }
+        if (squre > num) {
+            hi = mid - 1;
+        } else {
+            lo = mid + 1;
+        }
+    }
+    return false;
+};
+```
+
+Math:
+The series of square num：1,4,9,16,..
+
+The gap between square numbers is ：3,5,7,...
+
+```javascript
+var isPerfectSquare = function(num) {
+    let subNum = 1;
+    while (num > 0) {
+        num -= subNum;
+        subNum += 2;
+    }
+    return num === 0;
 };
 ```
 

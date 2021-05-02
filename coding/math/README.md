@@ -497,33 +497,57 @@ Solution.prototype.pick = function(target) {
 
 
 ## 其它
-
-### 1. 平方数
-
-367\. Valid Perfect Square (Easy)
-
-[Leetcode](https://leetcode.com/problems/valid-perfect-square/description/) / [力扣](https://leetcode-cn.com/problems/valid-perfect-square/description/)
+<!-- @include ../leetcode/0367.valid-perfect-square.md -->
+### Valid Perfect Square
+[367. Valid Perfect Square](https://leetcode.com/problems/valid-perfect-square/)
 
 ```html
-Input: 16
-Returns: True
+Given a positive integer num, write a function which returns True if num is a perfect square else False.
+
+Follow up: Do not use any built-in library function such as sqrt.
+
+Example 1:
+Input: num = 16
+Output: true
+
+Example 2:
+Input: num = 14
+Output: false
 ```
 
-平方序列：1,4,9,16,..
+Binary Search:
+```javascript
+var isPerfectSquare = function(num) {
+    if (num < 2) { return true; }
+    let lo = 0, hi = num;
+    while (lo <= hi) {
+        const mid = Math.floor(lo + (hi - lo) / 2);
+        const squre = mid * mid;
+        if (squre === num) { return true; }
+        if (squre > num) {
+            hi = mid - 1;
+        } else {
+            lo = mid + 1;
+        }
+    }
+    return false;
+};
+```
 
-间隔：3,5,7,...
+Math:
+The series of square num：1,4,9,16,..
 
-间隔为等差数列，使用这个特性可以得到从 1 开始的平方序列。
+The gap between square numbers is ：3,5,7,...
 
-```java
-public boolean isPerfectSquare(int num) {
-    int subNum = 1;
+```javascript
+var isPerfectSquare = function(num) {
+    let subNum = 1;
     while (num > 0) {
         num -= subNum;
         subNum += 2;
     }
-    return num == 0;
-}
+    return num === 0;
+};
 ```
 
 ### 2. 3 的 n 次方
