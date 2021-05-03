@@ -613,8 +613,7 @@ var reverse = function (arr, start, end) {
     }
 };
 ```
-
-<!-- @include ../leetcode/0349.intersection-of-two-arrays.md -->
+<!-- @include ../leetcode/0349.intersection-of-two-arrays.md -->
 ### Intersection of Two Arrays
 [349. Intersection of Two Arrays](https://leetcode.com/problems/intersection-of-two-arrays/)
 ```html
@@ -633,22 +632,15 @@ Explanation: [4,9] is also accepted.
 
 ```javascript
 var intersection = function(nums1, nums2) {
-    let set1 = new Set(nums1);
-    let set2 = new Set(nums2);
-    let map = new Map();
-    let res = [];
-    for (const item of set1) {
-         map.set(item, 1);
+    const set1 = new Set(nums1);
+    const set2 = new Set();
+    for (const num2 of nums2) {
+        if (set1.has(num2)) { set2.add(num2); }
     }
-    for (const item of set2) {
-        if (map.has(item)) {
-            map.set(item, 2);
-            res.push(item);
-        }
-    }
-    return res;
+    return [...set2];
 };
 ```
+
 
 <!-- @include ../leetcode/0350.intersection-of-two-arrays-ii.md -->
 ### Intersection of Two Arrays II
