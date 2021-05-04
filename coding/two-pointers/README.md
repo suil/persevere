@@ -121,32 +121,46 @@ function isPalindrome(s, i, j) {
 }
 ```
 
-## Merge Sorted Array
+<!-- @include ../leetcode/0088.merge-sorted-array.md -->
+### Merge Sorted Array
+[88. Merge Sorted Array](https://leetcode.com/problems/merge-sorted-array/description/)
 
-[88\. Merge Sorted Array (Easy)](https://leetcode.com/problems/merge-sorted-array/description/)
+```html
+Given two sorted integer arrays nums1 and nums2, merge nums2 into nums1 as one sorted array.
+
+The number of elements initialized in nums1 and nums2 are m and n respectively. You may assume that nums1 has a size equal to m + n such that it has enough space to hold additional elements from nums2.
+
+Example 1:
+Input: nums1 = [1,2,3,0,0,0], m = 3, nums2 = [2,5,6], n = 3
+Output: [1,2,2,3,5,6]
+
+Example 2:
+Input: nums1 = [1], m = 1, nums2 = [], n = 0
+Output: [1]
+```
 
 ```javascript
 var merge = function(nums1, m, nums2, n) {
-    let index1 = m - 1;
-    let index2 = n - 1;
+    if (nums1.length === 0) {
+        return nums1;
+    }
+    let index1 = m - 1, index2 = n - 1;
     let index = nums1.length - 1;
     
     while (index1 >= 0 || index2 >= 0) {
-        if (index1 < 0) {
-            nums1[index--] = nums2[index2--];
-            continue;
-        }
-        if (index2 < 0) {
+        if (index1 >= 0 && index2 >= 0) {
+            if (nums1[index1] > nums2[index2]) {
+                nums1[index--] = nums1[index1--];
+            } else {
+                nums1[index--] = nums2[index2--];
+            }
+        } else if (index1 >= 0) {
             nums1[index--] = nums1[index1--];
-            continue;
-        }
-        
-        if (nums1[index1] >= nums2[index2]) {
-            nums1[index--] = nums1[index1--];
-        } else {
+        } else if (index2 >= 0) {
             nums1[index--] = nums2[index2--];
         }
     }
+    return nums1;
 };
 ```
 
@@ -206,7 +220,8 @@ function hasMatch(s, word) {
     return wp === word.length;
 }
 ```
-<!-- @include ../leetcode/0042.trapping-rain-water.md -->
+
+<!-- @include ../leetcode/0042.trapping-rain-water.md -->
 ### Trapping Rain Water
 [42. Trapping Rain Water](https://leetcode.com/problems/trapping-rain-water/)
 ```html
