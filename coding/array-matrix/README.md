@@ -536,21 +536,37 @@ var checkSubarraySum = function(nums, k) {
 };
 ```
 
+<!-- @include ../leetcode/0238.product-of-array-except-self.md -->
 ### Product of Array Except Self
-[238. Product of Array Except Self](https://leetcode.com/problems/product-of-array-except-self/description/)
+[238. Product of Array Except Self](https://leetcode.com/problems/product-of-array-except-self/)
+
+```html
+Given an integer array nums, return an array answer such that answer[i] is equal to the product of all the elements of nums except nums[i].
+
+The product of any prefix or suffix of nums is guaranteed to fit in a 32-bit integer.
+
+Example 1:
+Input: nums = [1,2,3,4]
+Output: [24,12,8,6]
+
+Example 2:
+Input: nums = [-1,1,0,-3,3]
+Output: [0,0,9,0,0]
+```
+
 ```javascript
 var productExceptSelf = function(nums) {
-    const numLen = nums.length;
-    const output = [1];
-    
-    for (let i = 1; i < numLen; i++) {
-        output[i] = output[i - 1] * nums[i - 1];
-    }
-    
     let product = 1;
-    for (let i = numLen - 1; i >= 0; i--) {
-        output[i] = output[i] * product;
-        product = product * nums[i];
+    let output = [1];
+    for (let i = 1; i < nums.length; i++) {
+        product *= nums[i - 1];
+        output[i] = product;
+    }
+
+    product = 1;
+    for (let i = nums.length - 2; i >= 0; i--) {
+        product *= nums[i + 1];
+        output[i] = product * output[i];
     }
     return output;
 };
@@ -613,7 +629,8 @@ var reverse = function (arr, start, end) {
     }
 };
 ```
-<!-- @include ../leetcode/0349.intersection-of-two-arrays.md -->
+
+<!-- @include ../leetcode/0349.intersection-of-two-arrays.md -->
 ### Intersection of Two Arrays
 [349. Intersection of Two Arrays](https://leetcode.com/problems/intersection-of-two-arrays/)
 ```html
@@ -692,7 +709,7 @@ var intersect = function(nums1, nums2) {
     
     const res = [];
     for (const n of nums2){
-        if (map.get(n)) {
+        if (map.get(n) > 0) {
             res.push(n);
             map.set(n, map.get(n) - 1);
         }

@@ -3,7 +3,7 @@
 * [Leetcode 题解 - 链表](#leetcode-题解---链表)
     * [1. 找出两个链表的交点](#1-找出两个链表的交点)
     * [2. 链表反转](#2-链表反转)
-    * [3. 归并两个有序的链表](#3-归并两个有序的链表)
+    * [Merge Two Sorted Lists](#merge-two-sorted-lists)
     * [4. 从有序链表中删除重复节点](#4-从有序链表中删除重复节点)
     * [5. 删除链表的倒数第 n 个节点](#5-删除链表的倒数第-n-个节点)
     * [6. 交换链表中的相邻结点](#6-交换链表中的相邻结点)
@@ -109,24 +109,46 @@ public ListNode reverseList(ListNode head) {
 }
 ```
 
-##  3. 归并两个有序的链表
+<!-- @include ../leetcode/0021.merge-two-sorted-lists.md -->
+### Merge Two Sorted Lists
+[21. Merge Two Sorted Lists](https://leetcode.com/problems/0021.merge-two-sorted-lists.md)
 
-21\. Merge Two Sorted Lists (Easy)
+```html
+Merge two sorted linked lists and return it as a sorted list. The list should be made by splicing together the nodes of the first two lists.
 
-[Leetcode](https://leetcode.com/problems/merge-two-sorted-lists/description/) / [力扣](https://leetcode-cn.com/problems/merge-two-sorted-lists/description/)
+Example 1:
 
-```java
-public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
-    if (l1 == null) return l2;
-    if (l2 == null) return l1;
+1 -> 2 -> 4
+1 -> 3 -> 4
+1 -> 1 -> 2 -> 3 -> 4 -> 4
+
+Input: l1 = [1,2,4], l2 = [1,3,4]
+Output: [1,1,2,3,4,4]
+Example 2:
+
+Input: l1 = [], l2 = []
+Output: []
+Example 3:
+
+Input: l1 = [], l2 = [0]
+Output: [0]
+```
+
+```javascript
+var mergeTwoLists = function(l1, l2) {
+    if (l1 === null) { return l2; }
+    if (l2 === null) { return l1; }
+    
+    const newList = new ListNode();
     if (l1.val < l2.val) {
-        l1.next = mergeTwoLists(l1.next, l2);
-        return l1;
+        newList.val = l1.val;
+        newList.next = mergeTwoLists(l1.next, l2);
     } else {
-        l2.next = mergeTwoLists(l1, l2.next);
-        return l2;
+        newList.val = l2.val;
+        newList.next = mergeTwoLists(l1, l2.next);
     }
-}
+    return newList;
+};
 ```
 
 ##  4. 从有序链表中删除重复节点
