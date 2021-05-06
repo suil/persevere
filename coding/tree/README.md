@@ -1707,11 +1707,44 @@ public TreeNode trimBST(TreeNode root, int L, int R) {
 }
 ```
 
-### 2. 寻找二叉查找树的第 k 个元素
+<!-- @include ../leetcode/0230.kth-smallest-element-in-a-bst.md -->
+### Kth Smallest Element in a BST
+[230. Kth Smallest Element in a BST](https://leetcode.com/problems/kth-smallest-element-in-a-bst/)
 
-230\. Kth Smallest Element in a BST (Medium)
+```html
+Given the root of a binary search tree, and an integer k, return the kth (1-indexed) smallest element in the tree.
 
-[Leetcode](https://leetcode.com/problems/kth-smallest-element-in-a-bst/description/) / [力扣](https://leetcode-cn.com/problems/kth-smallest-element-in-a-bst/description/)
+Example 1:
+
+Input: root = [3,1,4,null,2], k = 1
+Output: 1
+Example 2:
+
+
+Input: root = [5,3,6,2,4,null,null,1], k = 3
+Output: 3
+```
+
+```javascript
+var kthSmallest = function(root, k) {
+    let res = [];
+    let kth = 0;
+    function kthSmallestHelper(node) {
+        if (node === null) {
+            return; 
+        }
+        kthSmallestHelper(node.left);
+        res.push(node.val);
+        if (res.length === k) {
+            kth = node.val;
+            return;
+        }
+        kthSmallestHelper(node.right);
+    }
+    kthSmallestHelper(root);
+    return kth;
+};
+```
 
 
 中序遍历解法：
