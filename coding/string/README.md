@@ -140,8 +140,25 @@ for (let i = 0; i < s.length; i++) {
 }
 ```
 
+<!-- @include ../leetcode/0340.longest-substring-with-at-most-k-distinct-characters.md -->
 ### Longest Substring with At Most K Distinct Characters
 [340. Longest Substring with At Most K Distinct Characters](https://leetcode.com/problems/longest-substring-with-at-most-k-distinct-characters/)
+
+```html
+Given a string s and an integer k, return the length of the longest substring of s that contains at most k distinct characters.
+
+Example 1:
+Input: s = "eceba", k = 2
+Output: 3
+Explanation: The substring is "ece" with length 3.
+
+Example 2:
+
+Input: s = "aa", k = 1
+Output: 2
+Explanation: The substring is "aa" with length 2.
+```
+
 ```javascript
 var lengthOfLongestSubstringKDistinct = function(s, k) {
     const map = new Map();
@@ -163,8 +180,24 @@ var lengthOfLongestSubstringKDistinct = function(s, k) {
 };
 ```
 
+<!-- @include ../leetcode/0076.minimum-window-substring.md -->
 ### Minimum Window Substring
 [76. Minimum Window Substring](https://leetcode.com/problems/minimum-window-substring/)
+
+```html
+Given two strings s and t, return the minimum window in s which will contain all the characters in t. If there is no such window in s that covers all characters in t, return the empty string "".
+
+Note that If there is such a window, it is guaranteed that there will always be only one unique minimum window in s.
+
+Example 1:
+Input: s = "ADOBECODEBANC", t = "ABC"
+Output: "BANC"
+
+Example 2:
+Input: s = "a", t = "a"
+Output: "a"
+```
+
 ```javascript
 var minWindow = function(s, t) {
     let map = new Map();
@@ -198,6 +231,7 @@ var minWindow = function(s, t) {
     return output;
 };
 ```
+
 ### Valid Anagram
 [242. Valid Anagram](https://leetcode.com/problems/valid-anagram/description/)
 ```javascript
@@ -247,7 +281,8 @@ public int longestPalindrome(String s) {
     return palindrome;
 }
 ```
-<!-- @include ../leetcode/0205.isomorphic-strings.md -->
+
+<!-- @include ../leetcode/0205.isomorphic-strings.md -->
 ### Isomorphic Strings
 [205. Isomorphic Strings](https://leetcode.com/problems/isomorphic-strings/)
 
@@ -290,37 +325,47 @@ var isIsomorphic = function(s, t) {
 };
 ```
 
-### 7. 回文子字符串个数
-
-647\. Palindromic Substrings (Medium)
-
-[Leetcode](https://leetcode.com/problems/palindromic-substrings/description/) / [力扣](https://leetcode-cn.com/problems/palindromic-substrings/description/)
+<!-- @include ../leetcode/0647.palindromic-substrings.md -->
+### Palindromic Substrings
+[647. Palindromic Substrings](https://leetcode.com/problems/palindromic-substrings/)
 
 ```html
-Input: "aaa"
+Given a string s, return the number of palindromic substrings in it.
+
+A string is a palindrome when it reads the same backward as forward.
+
+A substring is a contiguous sequence of characters within the string.
+
+Example 1:
+Input: s = "abc"
+Output: 3
+Explanation: Three palindromic strings: "a", "b", "c".
+
+Example 2:
+Input: s = "aaa"
 Output: 6
 Explanation: Six palindromic strings: "a", "a", "a", "aa", "aa", "aaa".
 ```
 
-从字符串的某一位开始，尝试着去扩展子字符串。
-
-```java
-private int cnt = 0;
-
-public int countSubstrings(String s) {
-    for (int i = 0; i < s.length(); i++) {
-        extendSubstrings(s, i, i);     // 奇数长度
-        extendSubstrings(s, i, i + 1); // 偶数长度
+```javascript
+var countSubstrings = function(s) {
+    let count = 0;
+    for (let i = 0; i < s.length; i++) {
+        count += countSubstringsHelper(s, i, i);
+        count += countSubstringsHelper(s, i, i + 1);
     }
-    return cnt;
-}
-
-private void extendSubstrings(String s, int start, int end) {
-    while (start >= 0 && end < s.length() && s.charAt(start) == s.charAt(end)) {
-        start--;
-        end++;
-        cnt++;
+    return count;
+    
+};
+function countSubstringsHelper(s, low, high) {
+    let count = 0;
+    while (low >= 0 && high <= s.length - 1) {
+        if (s[low] !== s[high]) { break; }
+        count++;
+        low--;
+        high++;
     }
+    return count;
 }
 ```
 

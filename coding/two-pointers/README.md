@@ -40,15 +40,18 @@ var twoSum = function(numbers, target) {
 };
 ```
 
-## Sum of Square Numbers
+<!-- @include ../leetcode/0633.sum-of-square-numbers.md -->
+### Sum of Square Numbers
+[633. Sum of Square Numbers](https://leetcode.com/problems/sum-of-square-numbers/)
 
-[633\. Sum of Square Numbers (Easy)](https://leetcode.com/problems/sum-of-square-numbers/description/)
+```html
+Given a non-negative integer c, decide whether there're two integers a and b such that a2 + b2 = c.
+```
 
 ```javascript
 var judgeSquareSum = function(c) {
     let i = 0;
     let j = Math.ceil(Math.sqrt(c));
- 
     while (i <= j) {
         const target = i * i + j * j;
         if (target === c) {
@@ -60,7 +63,6 @@ var judgeSquareSum = function(c) {
             i++;
         }
     }
-    
     return false;
 }
 ```

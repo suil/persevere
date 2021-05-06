@@ -1746,7 +1746,6 @@ var kthSmallest = function(root, k) {
 };
 ```
 
-
 中序遍历解法：
 
 ```java
