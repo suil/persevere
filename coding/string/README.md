@@ -13,7 +13,7 @@
     * [5. 计算一组字符集合可以组成的回文字符串的最大长度](#5-计算一组字符集合可以组成的回文字符串的最大长度)
     * [Isomorphic Strings](#isomorphic-strings)
     * [Valid Anagram](#Valid-Anagram)
-    * [7. 回文子字符串个数](#7-回文子字符串个数)
+    * [Palindromic Substrings](#palindromic-substrings)
     * [8. 判断一个整数是否是回文数](#8-判断一个整数是否是回文数)
     * [9. 统计二进制字符串中连续 1 和连续 0 数量相同的子字符串个数](#9-统计二进制字符串中连续-1-和连续-0-数量相同的子字符串个数)
     * [Repeated Substring Pattern](#Repeated-Substring-Pattern)
