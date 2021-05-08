@@ -758,6 +758,54 @@ var deserializeHelper = function (lst) {
 };
 ```
 
+<!-- @include ../leetcode/0449.serialize-and-deserialize-bst.md -->
+### Serialize and Deserialize BST
+[449. Serialize and Deserialize BST](https://leetcode.com/problems/serialize-and-deserialize-bst)
+
+```html
+Serialization is converting a data structure or object into a sequence of bits so that it can be stored in a file or memory buffer, or transmitted across a network connection link to be reconstructed later in the same or another computer environment.
+
+Design an algorithm to serialize and deserialize a binary search tree. There is no restriction on how your serialization/deserialization algorithm should work. You need to ensure that a binary search tree can be serialized to a string, and this string can be deserialized to the original tree structure.
+
+The encoded string should be as compact as possible.
+
+Example 1:
+Input: root = [2,1,3]
+Output: [2,1,3]
+
+Example 2:
+Input: root = []
+Output: []
+```
+
+```javascript
+var serialize = function(root) {
+    return JSON.stringify(serializeHelper(root));
+};
+function serializeHelper(node) {
+    if (node === null) {
+        return [];
+    }
+    return [
+        node.val,
+        ...serializeHelper(node.left),
+        ...serializeHelper(node.right)
+    ];
+}
+var deserialize = function(data) {
+    return deserializeHelper(JSON.parse(data));
+};
+function deserializeHelper(array) {
+    if (!array || array.length === 0) {
+        return null;
+    }
+    const node = new TreeNode(array[0]);
+    node.left = deserializeHelper(array.filter(n => n < array[0]));
+    node.right = deserializeHelper(array.filter(n => n > array[0]));
+    return node;
+}
+```
+
 <!-- @include ../leetcode/0124.binary-tree-maximum-path-sum.md -->
 ### Binary Tree Maximum Path Sum
 [124. Binary Tree Maximum Path Sum](https://leetcode.com/problems/binary-tree-maximum-path-sum/)
@@ -965,8 +1013,6 @@ var isSameTree = function(p, q) {
     return isSameTree(p.left, q.left) && isSameTree(p.right, q.right);
 };
 ```
-
-
 
 ## Breath First Search
 
@@ -2106,54 +2152,6 @@ private void inOrder(TreeNode node, List<Integer> nums) {
     }
     preNode = node;
     inOrder(node.right, nums);
-}
-```
-
-<!-- @include ../leetcode/0449.serialize-and-deserialize-bst.md -->
-### Serialize and Deserialize BST
-[449. Serialize and Deserialize BST](https://leetcode.com/problems/serialize-and-deserialize-bst)
-
-```html
-Serialization is converting a data structure or object into a sequence of bits so that it can be stored in a file or memory buffer, or transmitted across a network connection link to be reconstructed later in the same or another computer environment.
-
-Design an algorithm to serialize and deserialize a binary search tree. There is no restriction on how your serialization/deserialization algorithm should work. You need to ensure that a binary search tree can be serialized to a string, and this string can be deserialized to the original tree structure.
-
-The encoded string should be as compact as possible.
-
-Example 1:
-Input: root = [2,1,3]
-Output: [2,1,3]
-
-Example 2:
-Input: root = []
-Output: []
-```
-
-```javascript
-var serialize = function(root) {
-    return JSON.stringify(serializeHelper(root));
-};
-function serializeHelper(node) {
-    if (node === null) {
-        return [];
-    }
-    return [
-        node.val,
-        ...serializeHelper(node.left),
-        ...serializeHelper(node.right)
-    ];
-}
-var deserialize = function(data) {
-    return deserializeHelper(JSON.parse(data));
-};
-function deserializeHelper(array) {
-    if (!array || array.length === 0) {
-        return null;
-    }
-    const node = new TreeNode(array[0]);
-    node.left = deserializeHelper(array.filter(n => n < array[0]));
-    node.right = deserializeHelper(array.filter(n => n > array[0]));
-    return node;
 }
 ```
 
