@@ -16,8 +16,9 @@
         * [12. 相同节点值的最大路径长度](#12-相同节点值的最大路径长度)
         * [13. 间隔遍历](#13-间隔遍历)
         * [Second Minimum Node In a Binary Tree](#second-minimum-node-in-a-binary-tree)
-        * [Serialize and Deserialize Binary Tree](#Serialize-and-Deserialize-Binary-Tree)
-        * [Serialize and Deserialize BST](#serialize-and-deserialize-bst)
+        * [Serialize and Deserialize](#Serialize-and-Deserialize)
+            * [Serialize and Deserialize Binary Tree](#Serialize-and-Deserialize-Binary-Tree)
+            * [Serialize and Deserialize BST](#serialize-and-deserialize-bst)
         * [Binary Tree Maximum Path Sum](#Binary-Tree-Maximum-Path-Sum)
         * [Binary Tree Right Side View](#Binary-Tree-Right-Side-View)
         * [Convert Binary Search Tree to Sorted Doubly Linked List](#Convert-Binary-Search-Tree-to-Sorted-Doubly-Linked-List)
@@ -686,6 +687,8 @@ var lowestCommonAncestor = function(p, q) {
     return null;
 };
 ```
+
+## Serialize and Deserialize
 
 <!-- @include ../leetcode/0297.serialize-and-deserialize-binary-tree.md -->
 ### Serialize and Deserialize Binary Tree
