@@ -4,6 +4,8 @@
     * [Accounts Merge](#Accounts-Merge)
     * [Redundant Connection](#redundant-connection)
     * [Graph Valid Tree](#graph-valid-tree)
+    * [Number of Connected Components in an Undirected Graph](#number-of-connected-components-in-an-undirected-graph)
+
 <!-- GFM-TOC -->
 
 ## Union Find
@@ -56,7 +58,8 @@ for (const item of arr) {
     union(item, arr[0]);
 }
 ```
-<!-- @include ../leetcode/0721.accounts-merge.md -->
+
+<!-- @include ../leetcode/0721.accounts-merge.md -->
 ### Accounts Merge
 [721. Accounts Merge](https://leetcode.com/problems/accounts-merge/)
 
@@ -296,4 +299,97 @@ var validTree = function(n, edges) {
     
     return uf.size === 1;
 };
+```
+<!-- @include ../leetcode/0323.number-of-connected-components-in-an-undirected-graph.md -->
+### Number of Connected Components in an Undirected Graph
+[323. Number of Connected Components in an Undirected Graph](https://leetcode.com/problems/number-of-connected-components-in-an-undirected-graph/)
+
+```html
+You have a graph of n nodes. You are given an integer n and an array edges where edges[i] = [ai, bi] indicates that there is an edge between ai and bi in the graph.
+
+Return the number of connected components in the graph.
+
+Example 1:
+
+0 ---- 1      3
+       |      |
+       2      4
+Input: n = 5, edges = [[0,1],[1,2],[3,4]]
+Output: 2
+
+Example 2:
+0 ---- 1   3
+       | / |
+        2  4
+Input: n = 5, edges = [[0,1],[1,2],[2,3],[3,4]]
+Output: 1
+```
+
+DFS
+```javascript
+var countComponents = function(n, edges) {
+    const graph = [...Array(n)].map(() => []);
+    for (const [u, v] of edges) {
+        graph[u].push(v);
+        graph[v].push(u);
+    }
+    
+    const visited = new Set();
+    let count = 0;
+    for (let i = 0; i < n; i++) {
+        if (!visited.has(i)) {
+            dfs(graph, i, visited);
+            count++;
+        }
+    }
+    return count;
+};
+
+function dfs(graph, current, visited) {
+    visited.add(current);
+    const neighbors = graph[current] || [];
+    for (const neighbor of neighbors) {
+        if (!visited.has(neighbor)) {
+            dfs(graph, neighbor, visited);
+        }
+    }
+}
+```
+
+Union Find
+```javascript
+var countComponents = function(n, edges) {
+    const uf = new UnionFind(n);
+    for (const [u, v] of edges) {
+        uf.union(u, v);
+    }
+    return uf.size;
+};
+class UnionFind {
+    constructor(n) {
+        this.roots = [...Array(n)].map((_, i) => i);
+        this.length = n;
+    }
+    
+    find(id) {
+        if (this.roots[id] === id) {
+            return id;
+        }
+        this.roots[id] = this.find(this.roots[id]);
+        return this.roots[id];
+    }
+    
+    union(a, b) {
+        const rootA = this.find(a);
+        const rootB = this.find(b);
+        if (rootA !== rootB) {
+            this.roots[rootB] = rootA;
+            this.length--;
+        }
+    }
+    
+    get size() {
+        return this.length;
+    }
+}
 ```
