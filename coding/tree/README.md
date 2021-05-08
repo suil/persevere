@@ -724,7 +724,7 @@ Output: [1,2]
 var serialize = function(root) {
     return serializeHelper(root).toString();
 };
-var serializeHelper = function (root, lst) {
+var serializeHelper = function (root) {
     if (!root) {
         return ['null'];
     }
