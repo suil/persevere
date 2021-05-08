@@ -735,10 +735,10 @@ var serializeHelper = function (root) {
     ];
 };
 var deserialize = function(data) {
-	if (!data || data.length === 0) {
-		return null;
-	}
-	return deserializeHelper(data.split(','));
+    if (!data || data.length === 0) {
+        return null;
+    }
+    return deserializeHelper(data.split(','));
 };
 var deserializeHelper = function (lst) {
     if (lst.length < 1) {
