@@ -722,7 +722,7 @@ Output: [1,2]
 
 ```javascript
 var serialize = function(root) {
-	return serializeHelper(root).toString();
+    return serializeHelper(root).toString();
 };
 var serializeHelper = function (root, lst) {
     if (!root) {
