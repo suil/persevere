@@ -525,6 +525,7 @@ var findSecondMinimumValue = function(root) {
 };
 ```
 
+## Lowest Common Ancestor
 
 <!-- @include ../leetcode/0236.lowest-common-ancestor-of-a-binary-tree.md -->
 ### Lowest Common Ancestor of a Binary Tree
