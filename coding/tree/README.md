@@ -725,9 +725,9 @@ var serialize = function(root) {
 	return serializeHelper(root).toString();
 };
 var serializeHelper = function (root, lst) {
-	if (!root) {
+    if (!root) {
         return ['null'];
-	}
+    }
     return [
         root.val,
         ...serializeHelper(root.left),
