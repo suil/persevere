@@ -10,6 +10,7 @@
         * [Find First and Last Position of Element in Sorted Array](#Find-First-and-Last-Position-of-Element-in-Sorted-Array)
         * [Random Pick with Weight](#random-pick-with-weight)
         * [Missing Element in Sorted Array](#missing-element-in-sorted-array)
+        * [Search Insert Position](#search-insert-position)
     * [Rotated Sorted Array](#rotated-sorted-array)
         * [Search in Rotated Sorted Array](#search-in-rotated-sorted-array)
         * [Find Minimum in Rotated Sorted Array](#find-minimum-in-rotated-sorted-array)
@@ -333,7 +334,8 @@ var searchRange = function(nums, target) {
     return [left, end - 1]
 };
 ```
-<!-- @include ../leetcode/0528.random-pick-with-weight.md -->
+
+<!-- @include ../leetcode/0528.random-pick-with-weight.md -->
 ### Random Pick with Weight
 [528. Random Pick with Weight](https://leetcode.com/problems/random-pick-with-weight/)
 
@@ -440,6 +442,56 @@ var missingElement = function(nums, k) {
 function getMissingNumCount(nums, index) {
     return nums[index] - nums[0] - index;
 }
+```
+
+<!-- @include ../leetcode/0035.search-insert-position.md -->
+## Search Insert Position
+[35. Search Insert Position](https://leetcode.com/problems/search-insert-position/)
+
+```html
+Given a sorted array of distinct integers and a target value, return the index if the target is found. If not, return the index where it would be if it were inserted in order.
+
+You must write an algorithm with O(log n) runtime complexity.
+
+Example 1:
+Input: nums = [1,3,5,6], target = 5
+Output: 2
+
+Example 2:
+Input: nums = [1,3,5,6], target = 2
+Output: 1
+
+Example 3:
+Input: nums = [1,3,5,6], target = 7
+Output: 4
+
+Example 4:
+Input: nums = [1,3,5,6], target = 0
+Output: 0
+
+Example 5:
+Input: nums = [1], target = 0
+Output: 0
+```
+
+```javascript
+var searchInsert = function(nums, target) {
+    let low = 0;
+    let high = nums.length - 1;
+    
+    while (low <= high) {
+        const mid = Math.floor(low + (high - low) / 2);
+        if (nums[mid] == target) {
+            return mid;
+        }
+        if (nums[mid] > target) {
+            high = mid - 1;
+        } else {
+            low = mid + 1;
+        }
+    }
+    return low;
+};
 ```
 
 ## Rotated Sorted Array

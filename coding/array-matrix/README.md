@@ -26,6 +26,7 @@
         * [Continous Subarray](#continous-subarray)
             * [Subarray Sum Equals K](#Subarray-Sum-Equals-K)
             * [Continuous Subarray Sum](#continuous-subarray-sum)
+            * [Maximum Product Subarray](#maximum-product-subarray)
 
     * [Matrix](#Matrix)
         * [Search a 2D Matrix II](#search-a-2d-matrix-ii)
@@ -577,6 +578,45 @@ var checkSubarraySum = function(nums, k) {
         }
     }
     return false;
+};
+```
+
+<!-- @include ../leetcode/0152.maximum-product-subarray.md -->
+### Maximum Product Subarray
+[152. Maximum Product Subarray](https://leetcode.com/problems/maximum-product-subarray/)
+
+```html
+Given an integer array nums, find a contiguous non-empty subarray within the array that has the largest product, and return the product.
+
+It is guaranteed that the answer will fit in a 32-bit integer.
+
+A subarray is a contiguous subsequence of the array.
+
+Example 1:
+
+Input: nums = [2,3,-2,4]
+Output: 6
+Explanation: [2,3] has the largest product 6.
+Example 2:
+
+Input: nums = [-2,0,-1]
+Output: 0
+Explanation: The result cannot be 2, because [-2,-1] is not a subarray.
+```
+
+```javascript
+var maxProduct = function(nums) {
+    let max = -Infinity;
+    let currentMax = 1;
+    let currentMin = 1;
+    
+    for (let i = 0; i < nums.length; i++) {
+        const prevMax = currentMax;
+        currentMax = Math.max(nums[i], prevMax * nums[i], currentMin * nums[i]);
+        currentMin = Math.min(nums[i], prevMax * nums[i], currentMin * nums[i]);
+        max = Math.max(currentMax, max);               
+    }
+    return max;
 };
 ```
 
