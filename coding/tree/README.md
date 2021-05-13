@@ -2,8 +2,8 @@
 <!-- GFM-TOC -->
 * [Leetcode 题解 - 树](#leetcode-题解---树)
     * [Recursive](#Recursive)
-        * [1. 树的高度](#1-树的高度)
-        * [2. 平衡树](#2-平衡树)
+        * [Maximum Depth of Binary Tree](#maximum-depth-of-binary-tree)
+        * [Balanced Binary Tree](#balanced-binary-tree)
         * [3. 两节点的最长路径](#3-两节点的最长路径)
         * [4. 翻转树](#4-翻转树)
         * [5. 归并两棵树](#5-归并两棵树)
@@ -34,7 +34,6 @@
         * [Same Tree](#same-tree)
         * [Flip Equivalent Binary Trees](#flip-equivalent-binary-trees)
 
-
     * [Breath First Search](#Breath-First-Search)
         * [1. 一棵树每层节点的平均数](#1-一棵树每层节点的平均数)
         * [Find Bottom Left Tree Value](#find-bottom-left-tree-value)
@@ -45,8 +44,8 @@
 
 
     * [前中后序遍历](#前中后序遍历)
-        * [1. 非递归实现二叉树的前序遍历](#1-非递归实现二叉树的前序遍历)
-        * [2. 非递归实现二叉树的后序遍历](#2-非递归实现二叉树的后序遍历)
+        * [Binary Tree Preorder Traversal](#binary-tree-preorder-traversal)
+        * [Binary Tree Postorder Traversal](#binary-tree-postorder-traversal)
         * [3. 非递归实现二叉树的中序遍历](#3-非递归实现二叉树的中序遍历)
         * [Binary Tree Inorder Traversal](#binary-tree-inorder-traversal)
         * [Closest Binary Search Tree Value](#Closest-Binary-Search-Tree-Value)
@@ -78,49 +77,107 @@
 
 Due to the recursive nature of binary trees, many problems can be solve by recursions.
 
-### 1. 树的高度
-
-104\. Maximum Depth of Binary Tree (Easy)
-
-[Leetcode](https://leetcode.com/problems/maximum-depth-of-binary-tree/description/) / [力扣](https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/description/)
-
-```java
-public int maxDepth(TreeNode root) {
-    if (root == null) return 0;
-    return Math.max(maxDepth(root.left), maxDepth(root.right)) + 1;
-}
-```
-
-### 2. 平衡树
-
-110\. Balanced Binary Tree (Easy)
-
-[Leetcode](https://leetcode.com/problems/balanced-binary-tree/description/) / [力扣](https://leetcode-cn.com/problems/balanced-binary-tree/description/)
+<!-- @include ../leetcode/0104.maximum-depth-of-binary-tree.md -->
+### Maximum Depth of Binary Tree
+[104. Maximum Depth of Binary Tree](https://leetcode.com/problems/maximum-depth-of-binary-tree/)
 
 ```html
+Given the root of a binary tree, return its maximum depth.
+
+A binary tree's maximum depth is the number of nodes along the longest path from the root node down to the farthest leaf node.
+
+Example 1:
+    3
+   / \
+  9   20
+     /  \
+   15    7
+Input: root = [3,9,20,null,null,15,7]
+Output: 3
+Example 2:
+
+Input: root = [1,null,2]
+Output: 2
+Example 3:
+
+Input: root = []
+Output: 0
+Example 4:
+
+Input: root = [0]
+Output: 1
+```
+
+```javascript
+var maxDepth = function(root) {
+    if (!root) {
+        return 0;
+    }
+    return Math.max(maxDepth(root.left), maxDepth(root.right)) + 1;
+};
+```
+
+<!-- @include ../leetcode/0110.balanced-binary-tree.md -->
+### Balanced Binary Tree
+[110. Balanced Binary Tree](https://leetcode.com/problems/balanced-binary-tree/)
+
+```html
+Given a binary tree, determine if it is height-balanced.
+
+For this problem, a height-balanced binary tree is defined as:
+
+a binary tree in which the left and right subtrees of every node differ in height by no more than 1.
+
+Example 1:
+
     3
    / \
   9  20
     /  \
    15   7
+
+Input: root = [3,9,20,null,null,15,7]
+Output: true
+
+Example 2:
+
+       _ 1 _
+      /     \
+     2       2
+    / \
+   3   3
+  / \
+ 4   4
+
+Input: root = [1,2,2,3,3,null,null,4,4]
+Output: false
+
+Example 3:
+
+Input: root = []
+Output: true
 ```
 
-平衡树左右子树高度差都小于等于 1
-
-```java
-private boolean result = true;
-
-public boolean isBalanced(TreeNode root) {
-    maxDepth(root);
-    return result;
-}
-
-public int maxDepth(TreeNode root) {
-    if (root == null) return 0;
-    int l = maxDepth(root.left);
-    int r = maxDepth(root.right);
-    if (Math.abs(l - r) > 1) result = false;
-    return 1 + Math.max(l, r);
+```javascript
+var isBalanced = function(root) {
+    if (!root || !root.left && !root.right) {
+        return true;
+    }
+    
+    if (!isBalanced(root.left) || !isBalanced(root.right)) {
+        return false;
+    }
+    
+    const leftDepth = depthOfTree(root.left);
+    const rightDepth = depthOfTree(root.right);
+    
+    return Math.abs(leftDepth - rightDepth) <= 1;
+};
+function depthOfTree(node) {
+    if (!node) {
+        return -1;
+    }
+    return Math.max(depthOfTree(node.left), depthOfTree(node.right)) + 1;
 }
 ```
 
@@ -1558,77 +1615,129 @@ void dfs(TreeNode root) {
 }
 ```
 
-### 1. 非递归实现二叉树的前序遍历
+<!-- @include ../leetcode/0144.binary-tree-preorder-traversal.md -->
+### Binary Tree Preorder Traversal
+[144. Binary Tree Preorder Traversal](https://leetcode.com/problems/binary-tree-preorder-traversal/)
 
-144\. Binary Tree Preorder Traversal (Medium)
+```html
+Given the root of a binary tree, return the preorder traversal of its nodes' values.
 
-[Leetcode](https://leetcode.com/problems/binary-tree-preorder-traversal/description/) / [力扣](https://leetcode-cn.com/problems/binary-tree-preorder-traversal/description/)
+Example 1:
+Input: root = [1,null,2,3]
+Output: [1,2,3]
 
-```java
-public List<Integer> preorderTraversal(TreeNode root) {
-    List<Integer> ret = new ArrayList<>();
-    Stack<TreeNode> stack = new Stack<>();
-    stack.push(root);
-    while (!stack.isEmpty()) {
-        TreeNode node = stack.pop();
-        if (node == null) continue;
-        ret.add(node.val);
-        stack.push(node.right);  // 先右后左，保证左子树先遍历
+Example 2:
+Input: root = []
+Output: []
+
+Example 3:
+Input: root = [1]
+Output: [1]
+
+Example 4:
+Input: root = [1,2]
+Output: [1,2]
+
+Example 5:
+Input: root = [1,null,2]
+Output: [1,2]
+```
+
+Recursive
+
+```javascript
+var preorderTraversal = function(root) {
+    return preorderTraversalHelper(root);
+};
+function preorderTraversalHelper(root) {
+    if (root === null) {
+        return [];
+    }
+    return [
+        root.val,
+        ...preorderTraversalHelper(root.left),
+        ...preorderTraversalHelper(root.right)
+    ]
+}
+```
+Non-recursive
+
+```javascript
+var preorderTraversal = function(root) {
+    const res = [];
+    const stack = [root];
+    while (stack.length > 0) {
+        const node = stack.pop();
+        if (node === null) { continue; }
+        res.push(node.val);
+        stack.push(node.right);
         stack.push(node.left);
     }
-    return ret;
+    return res;
+};
+```
+
+<!-- @include ../leetcode/0145.binary-tree-postorder-traversal.md -->
+### Binary Tree Postorder Traversal
+[145. Binary Tree Postorder Traversal](https://leetcode.com/problems/binary-tree-postorder-traversal/)
+
+```html
+Given the root of a binary tree, return the postorder traversal of its nodes' values.
+
+Example 1:
+Input: root = [1,null,2,3]
+Output: [3,2,1]
+
+Example 2:
+Input: root = []
+Output: []
+
+Example 3:
+Input: root = [1]
+Output: [1]
+
+Example 4:
+Input: root = [1,2]
+Output: [2,1]
+
+Example 5:
+Input: root = [1,null,2]
+Output: [2,1]
+```
+
+Recursive
+```javascript
+var postorderTraversal = function(root) {
+    return postorderTraversalHelper(root)
+};
+function postorderTraversalHelper(node) {
+    if (node === null) {
+        return [];
+    }
+    return [
+        ...postorderTraversalHelper(node.left),
+        ...postorderTraversalHelper(node.right),
+        node.val
+    ]
 }
 ```
 
-### 2. 非递归实现二叉树的后序遍历
-
-145\. Binary Tree Postorder Traversal (Medium)
-
-[Leetcode](https://leetcode.com/problems/binary-tree-postorder-traversal/description/) / [力扣](https://leetcode-cn.com/problems/binary-tree-postorder-traversal/description/)
-
-前序遍历为 root -\> left -\> right，后序遍历为 left -\> right -\> root。可以修改前序遍历成为 root -\> right -\> left，那么这个顺序就和后序遍历正好相反。
-
-```java
-public List<Integer> postorderTraversal(TreeNode root) {
-    List<Integer> ret = new ArrayList<>();
-    Stack<TreeNode> stack = new Stack<>();
-    stack.push(root);
-    while (!stack.isEmpty()) {
-        TreeNode node = stack.pop();
-        if (node == null) continue;
-        ret.add(node.val);
+Non-recursive
+```javascript
+var postorderTraversal = function(root) {
+    const res = [];
+    const stack = [root];
+    while (stack.length > 0) {
+        const node = stack.pop();
+        if (node === null) { continue; }
+        res.unshift(node.val);
         stack.push(node.left);
         stack.push(node.right);
     }
-    Collections.reverse(ret);
-    return ret;
-}
+    return res;
+};
 ```
 
-### 3. 非递归实现二叉树的中序遍历
-
-94\. Binary Tree Inorder Traversal (Medium)
-
-[Leetcode](https://leetcode.com/problems/binary-tree-inorder-traversal/description/) / [力扣](https://leetcode-cn.com/problems/binary-tree-inorder-traversal/description/)
-
-```java
-public List<Integer> inorderTraversal(TreeNode root) {
-    List<Integer> ret = new ArrayList<>();
-    if (root == null) return ret;
-    Stack<TreeNode> stack = new Stack<>();
-    TreeNode cur = root;
-    while (cur != null || !stack.isEmpty()) {
-        while (cur != null) {
-            stack.push(cur);
-            cur = cur.left;
-        }
-        TreeNode node = stack.pop();
-        ret.add(node.val);
-        cur = node.right;
-    }
-    return ret;
-}
-```
 <!-- @include ../leetcode/0094.binary-tree-inorder-traversal.md -->
 ### Binary Tree Inorder Traversal
 [94. Binary Tree Inorder Traversal](https://leetcode.com/problems/binary-tree-inorder-traversal/)
@@ -1668,20 +1777,42 @@ Input: root = [1,null,2]
 Output: [1,2]
 ```
 
+Recursive
+
 ```javascript
 var inorderTraversal = function(root) {
-    const values = [];
-    inorderTraverse(root, values);
-    return values;
+    return inorderTraverse(root);
 };
-function inorderTraverse(node, values) {
+function inorderTraverse(node) {
     if (node === null) {
-        return;
+        return [];
     }
-    inorderTraverse(node.left, values);
-    values.push(node.val);
-    inorderTraverse(node.right, values);
+    return [
+        ...inorderTraverse(node.left),
+        node.val,
+        ...inorderTraverse(node.right)
+    ];
 }
+```
+Non-recursive
+
+```javascript
+var inorderTraversal = function(root) {
+    const res = [];
+    const stack = [];
+    let pointer = root;
+    while (stack.length > 0 || pointer !== null) {
+        if (pointer !== null) {
+            stack.push(pointer);
+            pointer = pointer.left;
+        } else {
+            pointer = stack.pop();
+            res.push(pointer.val);
+            pointer = pointer.right;
+        }
+    }
+    return res;
+};
 ```
 
 ### Closest Binary Search Tree Value
