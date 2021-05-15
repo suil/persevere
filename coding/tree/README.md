@@ -16,13 +16,15 @@
         * [Symmetric Tree](#symmetric-tree)
         * [Minimum Depth of Binary Tree](#minimum-depth-of-binary-tree)
         * [11. 统计左叶子节点的和](#11-统计左叶子节点的和)
-        * [12. 相同节点值的最大路径长度](#12-相同节点值的最大路径长度)
         * [13. 间隔遍历](#13-间隔遍历)
         * [Second Minimum Node In a Binary Tree](#second-minimum-node-in-a-binary-tree)
         * [Serialize and Deserialize](#Serialize-and-Deserialize)
             * [Serialize and Deserialize Binary Tree](#Serialize-and-Deserialize-Binary-Tree)
             * [Serialize and Deserialize BST](#serialize-and-deserialize-bst)
-        * [Binary Tree Maximum Path Sum](#Binary-Tree-Maximum-Path-Sum)
+        * [Tree Path Depth](#Tree-Path-depth)
+            * [Binary Tree Maximum Path Sum](#Binary-Tree-Maximum-Path-Sum)
+            * [Diameter of Binary Tree](#diameter-of-binary-tree)
+            * [Longest Univalue Path](#longest-univalue-path)
         * [Binary Tree Right Side View](#Binary-Tree-Right-Side-View)
         * [Convert Binary Search Tree to Sorted Doubly Linked List](#Convert-Binary-Search-Tree-to-Sorted-Doubly-Linked-List)
         * [Lowest Common Ancestor](#lowest-common-ancestor)
@@ -192,10 +194,32 @@ function depthOfTree(node) {
 }
 ```
 
-### Diameter of Binary Tree
-Diameter of the binary tree = left depth + right depth
+<!-- @include ../leetcode/0543.diameter-of-binary-tree.md -->
+## Diameter of Binary Tree
+[543. Diameter of Binary Tree](https://leetcode.com/problems/diameter-of-binary-tree/)
 
-[543\. Diameter of Binary Tree (Easy)](https://leetcode.com/problems/diameter-of-binary-tree/description/)
+```html
+Given the root of a binary tree, return the length of the diameter of the tree.
+
+The diameter of a binary tree is the length of the longest path between any two nodes in a tree. This path may or may not pass through the root.
+
+The length of a path between two nodes is represented by the number of edges between them.
+
+Example 1:
+        1
+       / \
+      2   3
+     / \
+    4   5
+Input: root = [1,2,3,4,5]
+Output: 3
+Explanation: 3is the length of the path [4,2,1,3] or [5,2,1,3].
+
+Example 2:
+Input: root = [1,2]
+Output: 1
+```
+
 ```javascript
 var diameterOfBinaryTree = function(root) {
     let diameter = 0;
@@ -214,6 +238,9 @@ var diameterOfBinaryTree = function(root) {
     return diameter
 };
 ```
+
+### Diameter of Binary Tree
+Diameter of the binary tree = left depth + right depth
 
 ### 4. 翻转树
 
@@ -615,40 +642,58 @@ private boolean isLeaf(TreeNode node){
     return node.left == null && node.right == null;
 }
 ```
-
-### 12. 相同节点值的最大路径长度
-
-687\. Longest Univalue Path (Easy)
-
-[Leetcode](https://leetcode.com/problems/longest-univalue-path/) / [力扣](https://leetcode-cn.com/problems/longest-univalue-path/)
+<!-- @include ../leetcode/0687.longest-univalue-path.md -->
+### Longest Univalue Path
+[687.Longest Univalue Path](https://leetcode.com/problems/longest-univalue-path/)
 
 ```html
-             1
-            / \
-           4   5
-          / \   \
-         4   4   5
+Given the root of a binary tree, return the length of the longest path, where each node in the path has the same value. This path may or may not pass through the root.
 
-Output : 2
+The length of the path between two nodes is represented by the number of edges between them.
+
+Example 1:
+        5
+       / \
+      4   5
+     / \   \
+    1   1   5
+Input: root = [5,4,5,1,1,5]
+Output: 2
+
+Example 2:
+Input: root = [1,4,5,4,4,5]
+Output: 2
 ```
 
-```java
-private int path = 0;
+```javascript
+var longestUnivaluePath = function(root) {
+    let count = 0;
+    
+    function longestUnivaluePathHelper(node) {
+        if (!node) { return 0; }
 
-public int longestUnivaluePath(TreeNode root) {
-    dfs(root);
-    return path;
-}
-
-private int dfs(TreeNode root){
-    if (root == null) return 0;
-    int left = dfs(root.left);
-    int right = dfs(root.right);
-    int leftPath = root.left != null && root.left.val == root.val ? left + 1 : 0;
-    int rightPath = root.right != null && root.right.val == root.val ? right + 1 : 0;
-    path = Math.max(path, leftPath + rightPath);
-    return Math.max(leftPath, rightPath);
-}
+        let leftCount = longestUnivaluePathHelper(node.left);
+        let rightCount = longestUnivaluePathHelper(node.right);
+        
+        if (node.left && node.left.val === node.val) {
+            leftCount++;
+        } else {
+            leftCount = 0;
+        }
+        
+        if (node.right && node.right.val === node.val) {
+            rightCount++;
+        } else {
+            rightCount = 0;
+        }
+        
+        count = Math.max(count, leftCount + rightCount);
+        return Math.max(leftCount, rightCount);
+    }
+    
+    longestUnivaluePathHelper(root);
+    return count;
+};
 ```
 
 ### 13. 间隔遍历
@@ -1021,6 +1066,8 @@ function deserializeHelper(array) {
 }
 ```
 
+## Tree Path Depth
+
 <!-- @include ../leetcode/0124.binary-tree-maximum-path-sum.md -->
 ### Binary Tree Maximum Path Sum
 [124. Binary Tree Maximum Path Sum](https://leetcode.com/problems/binary-tree-maximum-path-sum/)
@@ -1064,6 +1111,51 @@ var maxPathSum = function(root) {
     maxPathSumHelper(root);
     
     return max;
+};
+```
+
+<!-- @include ../leetcode/0543.diameter-of-binary-tree.md -->
+## Diameter of Binary Tree
+[543. Diameter of Binary Tree](https://leetcode.com/problems/diameter-of-binary-tree/)
+
+```html
+Given the root of a binary tree, return the length of the diameter of the tree.
+
+The diameter of a binary tree is the length of the longest path between any two nodes in a tree. This path may or may not pass through the root.
+
+The length of a path between two nodes is represented by the number of edges between them.
+
+Example 1:
+        1
+       / \
+      2   3
+     / \
+    4   5
+Input: root = [1,2,3,4,5]
+Output: 3
+Explanation: 3is the length of the path [4,2,1,3] or [5,2,1,3].
+
+Example 2:
+Input: root = [1,2]
+Output: 1
+```
+
+```javascript
+var diameterOfBinaryTree = function(root) {
+    let diameter = 0;
+    
+    function depthOfTree(node) {
+        if (!node) { return 0; }
+        const leftDepth = depthOfTree(node.left);
+        const rightDepth = depthOfTree(node.right);
+        
+        diameter = Math.max(diameter, leftDepth + rightDepth);
+        
+        return 1 + Math.max(leftDepth, rightDepth);
+    }
+    
+    depthOfTree(root);
+    return diameter
 };
 ```
 
