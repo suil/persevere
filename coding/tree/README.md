@@ -34,6 +34,8 @@
         * [Same Tree](#same-tree)
         * [Flip Equivalent Binary Trees](#flip-equivalent-binary-trees)
         * [Univalued Binary Tree](#univalued-binary-tree)
+        * [Binary Tree Pruning](#binary-tree-pruning)
+
     * [Breath First Search](#Breath-First-Search)
         * [1. 一棵树每层节点的平均数](#1-一棵树每层节点的平均数)
         * [Find Bottom Left Tree Value](#find-bottom-left-tree-value)
@@ -43,6 +45,7 @@
         * [Level Order Traversal](#level-order-traversal)
             * [Binary Tree Level Order Traversal](#binary-tree-level-order-traversal)
             * [Binary Tree Level Order Traversal II](#binary-tree-level-order-traversal-ii)
+        * [Leaf-Similar Trees](#leaf-similar-trees)
 
     * [前中后序遍历](#前中后序遍历)
         * [Binary Tree Preorder Traversal](#binary-tree-preorder-traversal)
@@ -1220,6 +1223,69 @@ var isUnivalTreeHelper = function(node, val) {
     return node.val == val && 
         isUnivalTreeHelper(node.left, val) &&
         isUnivalTreeHelper(node.right, val);    
+}
+```
+
+<!-- @include ../leetcode/0814.binary-tree-pruning.md -->
+### Binary Tree Pruning
+[814. Binary Tree Pruning](https://leetcode.com/problems/binary-tree-pruning/)
+
+```html
+We are given the head node root of a binary tree, where additionally every node's value is either a 0 or a 1.
+
+Return the same tree where every subtree (of the given tree) not containing a 1 has been removed.
+
+(Recall that the subtree of a node X is X, plus every node that is a descendant of X.)
+
+Example 1:
+Input: [1,null,0,0,1]
+Output: [1,null,0,null,1]
+ 
+Explanation: 
+Only the red nodes satisfy the property "every subtree not containing a 1".
+The diagram on the right represents the answer.
+    1              1
+     \              \
+      0      =>      0
+     / \              \
+   (0)  1              1
+
+Example 2:
+Input: [1,0,1,0,0,0,1]
+Output: [1,null,1,null,1]
+      __1__              1
+     /     \              \  
+   (0)      1       =>     1
+   / \     / \              \
+ (0) (0) (0)  1              1
+
+Example 3:
+Input: [1,1,0,1,1,0,1,0]
+Output: [1,1,0,1,1,null,1]
+
+      __1__              1
+     /     \           /   \  
+    1       0     =>  1     0
+   / \     / \       / \     \
+  1   1  (0)  1     1   1     1
+ /
+(0)
+
+Note:
+
+The binary tree will have at most 200 nodes.
+The value of each node will only be 0 or 1.
+```
+
+```javascript
+var pruneTree = function(root) {
+    if (root === null) { return null; }
+    if (root.left === null && root.right === null && root.val === 0) {
+        return null;
+    }
+    root.left = pruneTree(root.left);
+    root.right = pruneTree(root.right);
+    return (root.val === 1 || root.left || root.right) ? root : null;
 }
 ```
 
