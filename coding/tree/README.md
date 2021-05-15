@@ -41,6 +41,7 @@
         * [Roof to Leaf Path](#roof-to-leaf-path)
             * [Sum Root to Leaf Numbers](#sum-root-to-leaf-numbers)
             * [Binary Tree Paths](#binary-tree-paths)
+        * [Most Frequent Subtree Sum](#most-frequent-subtree-sum)
 
     * [Breath First Search](#Breath-First-Search)
         * [1. 一棵树每层节点的平均数](#1-一棵树每层节点的平均数)
@@ -1473,7 +1474,8 @@ function sumNumbersHelper(node, number, output) {
     sumNumbersHelper(node.right, nextNumber, output);
 }
 ```
-<!-- @include ../leetcode/0257.binary-tree-paths.md -->
+
+<!-- @include ../leetcode/0257.binary-tree-paths.md -->
 ### Binary Tree Paths
 [257. Binary Tree Paths](https://leetcode.com/problems/binary-tree-paths/)
 
@@ -1511,6 +1513,54 @@ function binaryTreePathsHelper(node, paths, output) {
     }
     binaryTreePathsHelper(node.left, nextPaths, output);
     binaryTreePathsHelper(node.right, nextPaths, output);
+}
+```
+
+<!-- @include ../leetcode/0508.most-frequent-subtree-sum.md -->
+### Most Frequent Subtree Sum
+[508. Most Frequent Subtree Sum](https://leetcode.com/problems/most-frequent-subtree-sum/)
+
+```html
+Given the root of a binary tree, return the most frequent subtree sum. If there is a tie, return all the values with the highest frequency in any order.
+
+The subtree sum of a node is defined as the sum of all the node values formed by the subtree rooted at that node (including the node itself).
+
+Example 1:
+    5
+   / \
+  2   -3
+
+Input: root = [5,2,-3]
+Output: [2,-3,4]
+
+Example 2:
+    5
+   / \
+  2   -5
+Input: root = [5,2,-5]
+Output: [2]
+```
+
+```javascript
+var findFrequentTreeSum = function(root) {
+    const sumFreq = new Map();
+    findFrequentTreeSumHelper(root, sumFreq);
+    
+    const maxFreq = Math.max(...sumFreq.values());
+    const res = [];
+    for (const [num, freq] of sumFreq) {
+        if (freq === maxFreq) { res.push(num); }
+    }
+    return res;
+};
+function findFrequentTreeSumHelper(node, sumFreq) {
+    if (node === null) { return 0; }
+
+    const left = findFrequentTreeSumHelper(node.left, sumFreq);
+    const right = findFrequentTreeSumHelper(node.right, sumFreq);
+    const sum = left + right + node.val;
+    sumFreq.set(sum, (sumFreq.get(sum) || 0) + 1);
+    return sum;
 }
 ```
 
@@ -2621,33 +2671,6 @@ public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
     if (root.val > p.val && root.val > q.val) return lowestCommonAncestor(root.left, p, q);
     if (root.val < p.val && root.val < q.val) return lowestCommonAncestor(root.right, p, q);
     return root;
-}
-```
-
-### 5. 二叉树的最近公共祖先
-
-236\. Lowest Common Ancestor of a Binary Tree (Medium) 
-
-[Leetcode](https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/description/) / [力扣](https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-tree/description/)
-
-```html
-       _______3______
-      /              \
-  ___5__           ___1__
- /      \         /      \
-6        2       0        8
-        /  \
-       7    4
-
-For example, the lowest common ancestor (LCA) of nodes 5 and 1 is 3. Another example is LCA of nodes 5 and 4 is 5, since a node can be a descendant of itself according to the LCA definition.
-```
-
-```java
-public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-    if (root == null || root == p || root == q) return root;
-    TreeNode left = lowestCommonAncestor(root.left, p, q);
-    TreeNode right = lowestCommonAncestor(root.right, p, q);
-    return left == null ? right : right == null ? left : root;
 }
 ```
 
