@@ -11,9 +11,9 @@
         * [Path Sum](#path-sum)
             * [Path Sum II](#path-sum-ii)
         * [7. 统计路径和等于一个数的路径数量](#7-统计路径和等于一个数的路径数量)
-        * [8. 子树](#8-子树)
+        * [Subtree of Another Tree](#Subtree-of-Another-Tree)
         * [Symmetric Tree](#symmetric-tree)
-        * [10. 最小路径](#10-最小路径)
+        * [Minimum Depth of Binary Tree](#minimum-depth-of-binary-tree)
         * [11. 统计左叶子节点的和](#11-统计左叶子节点的和)
         * [12. 相同节点值的最大路径长度](#12-相同节点值的最大路径长度)
         * [13. 间隔遍历](#13-间隔遍历)
@@ -33,7 +33,7 @@
         * [Find Leaves of Binary Tree](#find-leaves-of-binary-tree)
         * [Same Tree](#same-tree)
         * [Flip Equivalent Binary Trees](#flip-equivalent-binary-trees)
-
+        * [Univalued Binary Tree](#univalued-binary-tree)
     * [Breath First Search](#Breath-First-Search)
         * [1. 一棵树每层节点的平均数](#1-一棵树每层节点的平均数)
         * [Find Bottom Left Tree Value](#find-bottom-left-tree-value)
@@ -41,7 +41,6 @@
         * [N-ary Tree Level Order Traversal](#n-ary-tree-level-order-traversal)
         * [Deepest Leaves Sum](#deepest-leaves-sum)
         * [Binary Tree Level Order Traversal](#binary-tree-level-order-traversal)
-
 
     * [前中后序遍历](#前中后序遍历)
         * [Binary Tree Preorder Traversal](#binary-tree-preorder-traversal)
@@ -371,28 +370,30 @@ private int pathSumStartWithRoot(TreeNode root, int sum) {
 }
 ```
 
-### 8. 子树
-
-572\. Subtree of Another Tree (Easy)
-
-[Leetcode](https://leetcode.com/problems/subtree-of-another-tree/description/) / [力扣](https://leetcode-cn.com/problems/subtree-of-another-tree/description/)
+<!-- @include ../leetcode/0572.subtree-of-another-tree.md -->
+### Subtree of Another Tree
+[572. Subtree of Another Tree](https://leetcode.com/problems/subtree-of-another-tree/)
 
 ```html
-Given tree s:
-     3
+Given the roots of two binary trees root and subRoot, return true if there is a subtree of root with the same structure and node values of subRoot and false otherwise.
+
+A subtree of a binary tree tree is a tree that consists of a node in tree and all of this node's descendants. The tree tree could also be considered as a subtree of itself.
+
+Example 1:
+     3        
     / \
    4   5
   / \
  1   2
 
-Given tree t:
    4
   / \
  1   2
 
-Return true, because t has the same structure and node values with a subtree of s.
+Input: root = [3,4,5,1,2], subRoot = [4,1,2]
+Output: true
 
-Given tree s:
+Example 2:
 
      3
     / \
@@ -407,20 +408,35 @@ Given tree t:
   / \
  1   2
 
-Return false.
+Input: root = [3,4,5,1,2,null,null,0], subRoot = [4,1,2]
+Output: false
 ```
 
-```java
-public boolean isSubtree(TreeNode s, TreeNode t) {
-    if (s == null) return false;
-    return isSubtreeWithRoot(s, t) || isSubtree(s.left, t) || isSubtree(s.right, t);
-}
+```javascript
+var isSubtree = function(s, t) {
+    if (s === null && t === null) {
+        return true;
+    }
+    if (s === null || t === null) {
+        return false;
+    }
 
-private boolean isSubtreeWithRoot(TreeNode s, TreeNode t) {
-    if (t == null && s == null) return true;
-    if (t == null || s == null) return false;
-    if (t.val != s.val) return false;
-    return isSubtreeWithRoot(s.left, t.left) && isSubtreeWithRoot(s.right, t.right);
+    const isSubtreeOnLeft = isSubtree(s.left, t);
+    const isSubtreeOnRight = isSubtree(s.right, t);
+    
+    return isSame(s, t) || isSubtreeOnLeft || isSubtreeOnRight;
+};
+function isSame(tree1, tree2) {
+    if (!tree1 && !tree2) {
+        return true;
+    }
+    if (tree1 === null || tree2 === null) {
+        return false;
+    }
+    
+    return tree1.val === tree2.val
+        && isSame(tree1.left, tree2.left)
+        && isSame(tree1.right, tree2.right)
 }
 ```
 
@@ -459,11 +475,46 @@ function isMirror(node1, node2) {
 }
 ```
 
-### 10. 最小路径
+<!-- @include ../leetcode/0111.minimum-depth-of-binary-tree.md -->
+### Minimum Depth of Binary Tree
+[111. Minimum Depth of Binary Tree](https://leetcode.com/problems/minimum-depth-of-binary-tree/)
 
-111\. Minimum Depth of Binary Tree (Easy)
+```html
+Given a binary tree, find its minimum depth.
 
-[Leetcode](https://leetcode.com/problems/minimum-depth-of-binary-tree/description/) / [力扣](https://leetcode-cn.com/problems/minimum-depth-of-binary-tree/description/)
+The minimum depth is the number of nodes along the shortest path from the root node down to the nearest leaf node.
+
+Note: A leaf is a node with no children.
+
+Example 1:
+    3
+   / \
+  9   20
+     /  \
+    15   7
+Input: root = [3,9,20,null,null,15,7]
+Output: 2
+Example 2:
+
+Input: root = [2,null,3,null,4,null,5,null,6]
+Output: 5
+```
+
+```javascript
+var minDepth = function(root) {
+    if (root == null) return 0;
+    if (!root.left && !root.right) {
+        return 1;
+    }
+    
+    let left = minDepth(root.left);
+    let right = minDepth(root.right);
+    if (left === 0 || right === 0) {
+        return left + right + 1;
+    }
+    return Math.min(left, right) + 1;
+};
+```
 
 树的根节点到叶子节点的最小路径长度
 
@@ -1125,6 +1176,49 @@ var flipEquiv = function(root1, root2) {
         || flipEquiv(root1.left, root2.left) && flipEquiv(root1.right, root2.right)
     );
 };
+```
+
+<!-- @include ../leetcode/0965.univalued-binary-tree.md -->
+### Univalued Binary Tree
+[965. Univalued Binary Tree](https://leetcode.com/problems/univalued-binary-tree/)
+
+```html
+A binary tree is univalued if every node in the tree has the same value.
+
+Return true if and only if the given tree is univalued.
+
+Example 1:
+        1
+      /   \
+     1     1
+    / \     \
+   1   1     1
+Input: [1,1,1,1,1,null,1]
+Output: true
+
+Example 2:
+        2
+      /   \
+     2     2
+    / \
+   5   2
+Input: [2,2,2,5,2]
+Output: false
+```
+
+```javascript
+var isUnivalTree = function(root) {
+    if (root === null) { return true; }
+    return isUnivalTreeHelper(root, root.val);
+};
+var isUnivalTreeHelper = function(node, val) {
+    if (!node) {
+        return true;
+    }
+    return node.val == val && 
+        isUnivalTreeHelper(node.left, val) &&
+        isUnivalTreeHelper(node.right, val);    
+}
 ```
 
 <!-- @include ../leetcode/0100.same-tree.md -->
