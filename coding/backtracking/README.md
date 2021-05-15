@@ -102,10 +102,29 @@ function restoreIpAddressesHelper(s, segments, output) {
     }
 }
 ```
-
+<!-- @include ../leetcode/0257.binary-tree-paths.md -->
 ### Binary Tree Paths
+[257. Binary Tree Paths](https://leetcode.com/problems/binary-tree-paths/)
 
-[257\. Binary Tree Paths (Easy)](https://leetcode.com/problems/binary-tree-paths/description/)
+```html
+Given the root of a binary tree, return all root-to-leaf paths in any order.
+
+A leaf is a node with no children.
+
+Example 1:
+        1
+      /   \
+     2     3
+    /
+   5
+
+Input: root = [1,2,3,null,5]
+Output: ["1->2->5","1->3"]
+Example 2:
+
+Input: root = [1]
+Output: ["1"]
+```
 
 ```javascript
 var binaryTreePaths = function(root) {
@@ -113,20 +132,14 @@ var binaryTreePaths = function(root) {
     binaryTreePathsHelper(root, [], output);
     return output;
 };
-
-function binaryTreePathsHelper(root, paths, output) {
-    if (!root.left && !root.right) {
-        output.push([...paths, root.val].join('->'));
-        return;
+function binaryTreePathsHelper(node, paths, output) {
+    if (node === null) { return; }
+    const nextPaths = [...paths, node.val];
+    if (node.left === null && node.right === null) {
+        output.push([...paths, node.val].join('->'));
     }
-    
-    if (root.left) {
-        binaryTreePathsHelper(root.left, [...paths, root.val], output);
-    }
-    
-    if (root.right) {
-        binaryTreePathsHelper(root.right, [...paths, root.val], output);
-    }
+    binaryTreePathsHelper(node.left, nextPaths, output);
+    binaryTreePathsHelper(node.right, nextPaths, output);
 }
 ```
 

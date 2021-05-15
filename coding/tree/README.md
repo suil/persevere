@@ -7,9 +7,10 @@
         * [3. 两节点的最长路径](#3-两节点的最长路径)
         * [4. 翻转树](#4-翻转树)
         * [5. 归并两棵树](#5-归并两棵树)
-        * [6. 判断路径和是否等于一个数](#6-判断路径和是否等于一个数)
         * [Path Sum](#path-sum)
+            * [Path Sum](#path-sum)
             * [Path Sum II](#path-sum-ii)
+            * [Path Sum III](#path-sum-iii)
         * [7. 统计路径和等于一个数的路径数量](#7-统计路径和等于一个数的路径数量)
         * [Subtree of Another Tree](#Subtree-of-Another-Tree)
         * [Symmetric Tree](#symmetric-tree)
@@ -34,7 +35,12 @@
         * [Same Tree](#same-tree)
         * [Flip Equivalent Binary Trees](#flip-equivalent-binary-trees)
         * [Univalued Binary Tree](#univalued-binary-tree)
-        * [Binary Tree Pruning](#binary-tree-pruning)
+        * [Tree Pruning](#tree-pruning)
+            * [Binary Tree Pruning](#binary-tree-pruning)
+            * [Delete Leaves With a Given Value](#delete-leaves-with-a-given-value)
+        * [Roof to Leaf Path](#roof-to-leaf-path)
+            * [Sum Root to Leaf Numbers](#sum-root-to-leaf-numbers)
+            * [Binary Tree Paths](#binary-tree-paths)
 
     * [Breath First Search](#Breath-First-Search)
         * [1. 一棵树每层节点的平均数](#1-一棵树每层节点的平均数)
@@ -258,15 +264,18 @@ public TreeNode mergeTrees(TreeNode t1, TreeNode t2) {
     return root;
 }
 ```
+## Path Sum
 
-### 6. 判断路径和是否等于一个数
-
-Leetcdoe : 112. Path Sum (Easy)
-
-[Leetcode](https://leetcode.com/problems/path-sum/description/) / [力扣](https://leetcode-cn.com/problems/path-sum/description/)
+<!-- @include ../leetcode/0112.path-sum.md -->
+### Path Sum
+[112. Path Sum](https://leetcode.com/problems/path-sum/)
 
 ```html
-Given the below binary tree and sum = 22,
+Given the root of a binary tree and an integer targetSum, return true if the tree has a root-to-leaf path such that adding up all the values along the path equals targetSum.
+
+A leaf is a node with no children.
+
+Example 1:
 
               5
              / \
@@ -276,17 +285,29 @@ Given the below binary tree and sum = 22,
          /  \      \
         7    2      1
 
-return true, as there exist a root-to-leaf path 5->4->11->2 which sum is 22.
+Input: root = [5,4,8,11,null,13,4,7,2,null,null,null,1], targetSum = 22
+Output: true
+
+Example 2:
+    1
+   / \
+  2   3
+Input: root = [1,2,3], targetSum = 5
+Output: false
+
+Example 3:
+Input: root = [1,2], targetSum = 0
+Output: false
 ```
 
-路径和定义为从 root 到 leaf 的所有节点的和。
-
-```java
-public boolean hasPathSum(TreeNode root, int sum) {
-    if (root == null) return false;
-    if (root.left == null && root.right == null && root.val == sum) return true;
-    return hasPathSum(root.left, sum - root.val) || hasPathSum(root.right, sum - root.val);
-}
+```javascript
+var hasPathSum = function(root, targetSum) {
+    if (!root) { return false; }
+    if (!root.left && !root.right && targetSum === root.val) {
+        return true;
+    }
+    return hasPathSum(root.left, targetSum - root.val) || hasPathSum(root.right, targetSum - root.val);
+};
 ```
 
 <!-- @include ../leetcode/0113.path-sum-ii.md -->
@@ -332,6 +353,38 @@ function helperFunction(node, targetSum, pathes, output) {
 }
 ```
 
+<!-- @include ../leetcode/0437.path-sum-iii.md -->
+### Path Sum III
+[437. Path Sum III](https://leetcode.com/problems/path-sum-iii/)
+
+```html
+Given the root of a binary tree and an integer targetSum, return the number of paths where the sum of the values along the path equals targetSum.
+
+The path does not need to start or end at the root or a leaf, but it must go downwards (i.e., traveling only from parent nodes to child nodes).
+
+Example 1:
+Input: root = [10,5,-3,3,2,null,11,3,-2,null,1], targetSum = 8
+Output: 3
+Explanation: The paths that sum to 8 are shown.
+
+Example 2:
+Input: root = [5,4,8,11,null,13,4,7,2,null,null,5,1], targetSum = 22
+Output: 3
+```
+
+```javascript
+var pathSum = function(root, sum) {
+    if (!root) { return 0; }
+    return pathSumStartWithRoot(root, sum) + pathSum(root.left, sum) + pathSum(root.right, sum);
+};
+function pathSumStartWithRoot(root, sum) {
+    if (!root) { return 0; }
+    let pathSum = 0;
+    if (root.val === sum) { pathSum++ }
+    pathSum += pathSumStartWithRoot(root.left, sum - root.val) + pathSumStartWithRoot(root.right, sum - root.val);
+    return pathSum;
+}
+```
 
 ### 7. 统计路径和等于一个数的路径数量
 
@@ -1225,6 +1278,16 @@ var isUnivalTreeHelper = function(node, val) {
         isUnivalTreeHelper(node.right, val);    
 }
 ```
+## Tree Pruning
+Removal happens in next resursion. For example:
+```javascript
+function prune(node) {
+    if (condition is true) { return null; }
+    root.left = prune(root.left);
+    root.right = prune(root.right);
+    if (some condition) { return node or null; }
+}
+```
 
 <!-- @include ../leetcode/0814.binary-tree-pruning.md -->
 ### Binary Tree Pruning
@@ -1286,6 +1349,168 @@ var pruneTree = function(root) {
     root.left = pruneTree(root.left);
     root.right = pruneTree(root.right);
     return (root.val === 1 || root.left || root.right) ? root : null;
+}
+```
+
+<!-- @include ../leetcode/1325.delete-leaves-with-a-given-value.md -->
+### Delete Leaves With a Given Value
+[1325. Delete Leaves With a Given Value](https://leetcode.com/problems/delete-leaves-with-a-given-value/)
+
+```html
+Given a binary tree root and an integer target, delete all the leaf nodes with value target.
+
+Note that once you delete a leaf node with value target, if it's parent node becomes a leaf node and has the value target, it should also be deleted (you need to continue doing that until you can't).
+
+Example 1:
+        1             1          1
+      /   \          / \          \
+     2     3    =>  2   3    =>    3
+    /     / \            \          \
+   2     2   4            4          4
+Input: root = [1,2,3,2,null,2,4], target = 2
+Output: [1,null,3,null,4]
+Explanation: Leaf nodes in green with value (target = 2) are removed (Picture in left). 
+After removing, new nodes become leaf nodes with value (target = 2) (Picture in center).
+
+Example 2:
+        1             1
+      /   \          /
+     3     3   =>   3
+    / \              \
+   3   2              2
+Input: root = [1,3,3,3,2], target = 3
+Output: [1,3,null,null,2]
+
+Example 3:
+        1          1        1      1
+       /          /        /
+      2    =>    2   =>   2   =>
+     /          /
+    2          2
+   /
+  2
+Input: root = [1,2,null,2,null,2], target = 2
+Output: [1]
+Explanation: Leaf nodes in green with value (target = 2) are removed at each step.
+
+Example 4:
+Input: root = [1,1,1], target = 1
+Output: []
+
+Example 5:
+Input: root = [1,2,3], target = 1
+Output: [1,2,3]
+```
+
+```javascript
+var removeLeafNodes = function(root, target) {
+    if (root === null) { return null; }
+    if (root.left === null && root.right === null && root.val === target) {
+        return null;
+    }
+    root.left = removeLeafNodes(root.left, target);
+    root.right = removeLeafNodes(root.right, target);
+    return (root.val === target && root.left === null && root.right === null)
+        ? null
+        : root; 
+};
+```
+
+<!-- @include ../leetcode/0129.sum-root-to-leaf-numbers.md -->
+### Sum Root to Leaf Numbers
+[129. Sum Root to Leaf Numbers](https://leetcode.com/problems/sum-root-to-leaf-numbers/)
+
+```html
+You are given the root of a binary tree containing digits from 0 to 9 only.
+
+Each root-to-leaf path in the tree represents a number.
+
+For example, the root-to-leaf path 1 -> 2 -> 3 represents the number 123.
+Return the total sum of all root-to-leaf numbers. Test cases are generated so that the answer will fit in a 32-bit integer.
+
+A leaf node is a node with no children.
+
+Example 1:
+    1
+   / \
+  2   3
+Input: root = [1,2,3]
+Output: 25
+Explanation:
+The root-to-leaf path 1->2 represents the number 12.
+The root-to-leaf path 1->3 represents the number 13.
+Therefore, sum = 12 + 13 = 25.
+
+Example 2:
+      4
+    /   \
+   9     0
+  / \
+ 5   1
+
+Input: root = [4,9,0,5,1]
+Output: 1026
+Explanation:
+The root-to-leaf path 4->9->5 represents the number 495.
+The root-to-leaf path 4->9->1 represents the number 491.
+The root-to-leaf path 4->0 represents the number 40.
+Therefore, sum = 495 + 491 + 40 = 1026.
+```
+
+```javascript
+var sumNumbers = function(root) {
+    const output = [];
+    sumNumbersHelper(root, [], output);
+    return output.reduce((memo, number) => memo + Number(number), 0);
+};
+function sumNumbersHelper(node, number, output) {
+    const nextNumber = `${number}${node.val}`;
+    if (node.left === null || node.right === null) {
+        output.push(nextNumber);
+        return;
+    }
+    sumNumbersHelper(node.left, nextNumber, output);
+    sumNumbersHelper(node.right, nextNumber, output);
+}
+```
+<!-- @include ../leetcode/0257.binary-tree-paths.md -->
+### Binary Tree Paths
+[257. Binary Tree Paths](https://leetcode.com/problems/binary-tree-paths/)
+
+```html
+Given the root of a binary tree, return all root-to-leaf paths in any order.
+
+A leaf is a node with no children.
+
+Example 1:
+        1
+      /   \
+     2     3
+    /
+   5
+
+Input: root = [1,2,3,null,5]
+Output: ["1->2->5","1->3"]
+Example 2:
+
+Input: root = [1]
+Output: ["1"]
+```
+
+```javascript
+var binaryTreePaths = function(root) {
+    const output = [];
+    binaryTreePathsHelper(root, [], output);
+    return output;
+};
+function binaryTreePathsHelper(node, paths, output) {
+    if (node === null) { return; }
+    const nextPaths = [...paths, node.val];
+    if (node.left === null && node.right === null) {
+        output.push([...paths, node.val].join('->'));
+    }
+    binaryTreePathsHelper(node.left, nextPaths, output);
+    binaryTreePathsHelper(node.right, nextPaths, output);
 }
 ```
 
@@ -2198,46 +2423,62 @@ function inOrder(node, row, col, orders) {
 
 二叉查找树中序遍历有序。
 
-### 1. 修剪二叉查找树
-
-669\. Trim a Binary Search Tree (Easy)
-
-[Leetcode](https://leetcode.com/problems/trim-a-binary-search-tree/description/) / [力扣](https://leetcode-cn.com/problems/trim-a-binary-search-tree/description/)
+<!-- @include ../leetcode/0669.trim-a-binary-search-tree.md -->
+### Trim a Binary Search Tree
+[669. Trim a Binary Search Tree](https://leetcode.com/problems/trim-a-binary-search-tree/)
 
 ```html
-Input:
+Given the root of a binary search tree and the lowest and highest boundaries as low and high, trim the tree so that all its elements lies in [low, high]. Trimming the tree should not change the relative structure of the elements that will remain in the tree (i.e., any node's descendant should remain a descendant). It can be proven that there is a unique answer.
 
-    3
-   / \
-  0   4
-   \
-    2
+Return the root of the trimmed binary search tree. Note that the root may change depending on the given bounds.
+
+Example 1:
+    3            3
+   / \          /
+  0   4    =>  2 
+   \          /
+    2        1
    /
   1
 
-  L = 1
-  R = 3
+Input: root = [1,0,2], low = 1, high = 2
+Output: [1,null,2]
 
-Output:
+Example 2:
+Input: root = [3,0,4,null,2,null,null,1], low = 1, high = 3
+Output: [3,2,null,1]
 
-      3
-     /
-   2
-  /
- 1
+Example 3:
+Input: root = [1], low = 1, high = 2
+Output: [1]
+
+Example 4:
+Input: root = [1,null,2], low = 1, high = 3
+Output: [1,null,2]
+
+Example 5:
+Input: root = [1,null,2], low = 2, high = 4
+Output: [2]
 ```
 
-题目描述：只保留值在 L \~ R 之间的节点
+```javascript
+var trimBST = function(root, low, high) {
+    if (!root) {
+        return null;
+    }
 
-```java
-public TreeNode trimBST(TreeNode root, int L, int R) {
-    if (root == null) return null;
-    if (root.val > R) return trimBST(root.left, L, R);
-    if (root.val < L) return trimBST(root.right, L, R);
-    root.left = trimBST(root.left, L, R);
-    root.right = trimBST(root.right, L, R);
+    if (root.val > high) {
+        return trimBST(root.left, low, high);
+    }
+    
+    if (root.val < low) {
+        return trimBST(root.right, low, high);
+    }
+    
+    root.left = trimBST(root.left, low, high);
+    root.right = trimBST(root.right, low, high);
     return root;
-}
+};
 ```
 
 <!-- @include ../leetcode/0230.kth-smallest-element-in-a-bst.md -->
