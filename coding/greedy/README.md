@@ -10,6 +10,7 @@
         * [Meeting Rooms II](#Meeting-Rooms-II)
         * [Merge Intervals](#Merge-Intervals)
         * [Insert Interval](#insert-interval)
+        * [Total Length Covered by Intervals](#total-length-covered-by-intervals)
 
     * [Queue Reconstruction by Height](#Queue-Reconstruction-by-Height)
     * [Stock Buy and Sell](#stock-buy-and-sell)
@@ -247,8 +248,63 @@ var insert = function(intervals, newInterval) {
 };
 ```
 
+<!-- @include ../leetcode/X001.total-length-covered-by-intervals.md -->
+### Total Length Covered by Intervals
 
+```html
+Returns a total length covered by intervals.
+If several intervals intersect, intersection should be counted only once.
+Example:
 
+addInterval(3, 6)
+addInterval(8, 9)
+addInterval(1, 5)
+
+getTotalCoveredLength() -> 6
+i.e. [1,5] and [3,6] intersect and give a total covered interval [1,6]
+[1,6] and [8,9] don't intersect so total covered length is a sum for both intervals, that is 6.
+
+                   _________
+                                               ___
+     ____________
+
+0   1    2    3    4    5   6   7    8    9    10
+```
+
+Greedy
+
+```javascript
+const intervals = [
+    [3, 4], [8, 9], [1, 5]
+];
+
+function addIntervals(begin, end) {
+     intervals.push([begin, end]);
+}
+
+function getTotalCoveredLength() {
+    if (intervals.length === 0) { return 0; }
+    
+    intervals.sort((a, b) => a[0] - b[0]); // nlog
+    
+    let prev = intervals[0];
+    let length = 0;
+
+    for (let i = 1; i < intervals.length; i++) {
+          const current = intervals[i];
+
+          if (prev[1] > current[0]) {
+              length += Math.max(prev[1], current[1]) - prev[0]; // if completely overlapped, Math.max(prev[1], current[1]) will always take the furthest end.
+              prev[1] = Math.max(prev[1], current[1]);
+          } else {
+              length += current[1] - current[0];
+              prev = current;
+          }
+    }
+
+    return length;
+}
+```
 
 ## Queue Reconstruction by Height
 

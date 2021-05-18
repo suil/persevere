@@ -16,7 +16,7 @@
         * [Symmetric Tree](#symmetric-tree)
         * [Minimum Depth of Binary Tree](#minimum-depth-of-binary-tree)
         * [11. 统计左叶子节点的和](#11-统计左叶子节点的和)
-        * [13. 间隔遍历](#13-间隔遍历)
+        * [House Robber III](#house-robber-iii)
         * [Second Minimum Node In a Binary Tree](#second-minimum-node-in-a-binary-tree)
         * [Serialize and Deserialize](#Serialize-and-Deserialize)
             * [Serialize and Deserialize Binary Tree](#Serialize-and-Deserialize-Binary-Tree)
@@ -44,6 +44,8 @@
             * [Sum Root to Leaf Numbers](#sum-root-to-leaf-numbers)
             * [Binary Tree Paths](#binary-tree-paths)
         * [Most Frequent Subtree Sum](#most-frequent-subtree-sum)
+        * [Binary Tree Cameras](#binary-tree-cameras)
+        * [Distribute Coins in Binary Tree](#distribute-coins-in-binary-tree)
 
     * [Breath First Search](#Breath-First-Search)
         * [1. 一棵树每层节点的平均数](#1-一棵树每层节点的平均数)
@@ -642,7 +644,8 @@ private boolean isLeaf(TreeNode node){
     return node.left == null && node.right == null;
 }
 ```
-<!-- @include ../leetcode/0687.longest-univalue-path.md -->
+
+<!-- @include ../leetcode/0687.longest-univalue-path.md -->
 ### Longest Univalue Path
 [687.Longest Univalue Path](https://leetcode.com/problems/longest-univalue-path/)
 
@@ -696,31 +699,63 @@ var longestUnivaluePath = function(root) {
 };
 ```
 
-### 13. 间隔遍历
-
-337\. House Robber III (Medium)
-
-[Leetcode](https://leetcode.com/problems/house-robber-iii/description/) / [力扣](https://leetcode-cn.com/problems/house-robber-iii/description/)
+<!-- @include ../leetcode/0337.house-robber-iii.md -->
+### House Robber III
+[337. House Robber III](https://leetcode.com/problems/house-robber-iii/)
 
 ```html
+The thief has found himself a new place for his thievery again. There is only one entrance to this area, called root.
+
+Besides the root, each house has one and only one parent house. After a tour, the smart thief realized that all houses in this place form a binary tree. It will automatically contact the police if two directly-linked houses were broken into on the same night.
+
+Given the root of the binary tree, return the maximum amount of money the thief can rob without alerting the police.
+
+Example 1:
+
      3
     / \
    2   3
     \   \
      3   1
-Maximum amount of money the thief can rob = 3 + 3 + 1 = 7.
+
+Input: root = [3,2,3,null,3,null,1]
+Output: 7
+Explanation: Maximum amount of money the thief can rob = 3 + 3 + 1 = 7.
+
+Example 2:
+
+        3
+      /   \
+     4     5
+    / \     \
+   1   3     1
+
+Input: root = [3,4,5,1,3,null,1]
+Output: 9
+Explanation: Maximum amount of money the thief can rob = 4 + 5 = 9.
 ```
 
-```java
-public int rob(TreeNode root) {
-    if (root == null) return 0;
-    int val1 = root.val;
-    if (root.left != null) val1 += rob(root.left.left) + rob(root.left.right);
-    if (root.right != null) val1 += rob(root.right.left) + rob(root.right.right);
-    int val2 = rob(root.left) + rob(root.right);
-    return Math.max(val1, val2);
+```javascript
+var rob = function(root) {
+    if (!root) { return 0; }
+    const { robbed, notRobbed } = robHelper(root);
+    return Math.max(robbed, notRobbed);
+};
+
+function robHelper(node) {
+    if (!node) {
+        return { robbed: 0, notRobbed: 0 };
+    }
+
+    const leftRob = robHelper(node.left);
+    const rightRob = robHelper(node.right);
+    
+    const robbed = node.val + leftRob.notRobbed + rightRob.notRobbed;
+    const notRobbed = Math.max(leftRob.robbed, leftRob.notRobbed) + Math.max(rightRob.robbed, rightRob.notRobbed);
+    return { robbed, notRobbed };
 }
 ```
+
 
 <!-- @include ../leetcode/0671.second-minimum-node-in-a-binary-tree.md -->
 ### Second Minimum Node In a Binary Tree
@@ -1654,6 +1689,123 @@ function findFrequentTreeSumHelper(node, sumFreq) {
     sumFreq.set(sum, (sumFreq.get(sum) || 0) + 1);
     return sum;
 }
+```
+
+<!-- @include ../leetcode/0968.binary-tree-cameras.md -->
+### Binary Tree Cameras
+[968. Binary Tree Cameras](https://leetcode.com/problems/binary-tree-cameras/)
+
+```html
+Given a binary tree, we install cameras on the nodes of the tree. 
+
+Each camera at a node can monitor its parent, itself, and its immediate children.
+
+Calculate the minimum number of cameras needed to monitor all nodes of the tree.
+
+Example 1:
+
+
+Input: [0,0,null,0,0]
+Output: 1
+Explanation: One camera is enough to monitor all nodes if placed as shown.
+Example 2:
+
+
+Input: [0,0,null,0,null,0,null,null,0]
+Output: 2
+Explanation: At least two cameras are needed to monitor all nodes of the tree. The above image shows one of the valid configurations of camera placement.
+```
+
+```javascript
+// 0: not monitored yet
+// 1: put a camera here
+// 2: no camera, but can be monitored (a null)
+var minCameraCover = function(root) {
+    let total = 0;
+
+    function helper(node) {
+        if (node == null) { return 2; }
+        const left = helper(node.left);
+        const right = helper(node.right);
+
+        if (left === 0 || right === 0) {
+            total += 1;
+            return 1;
+        }
+
+        if (left === 2 && right === 2) {
+            return 0;
+        }
+        return 2;
+    }
+    
+    if (helper(root) === 0) {
+        total += 1;
+    }
+    return total;
+};
+```
+
+<!-- @include ../leetcode/0979.distribute-coins-in-binary-tree.md -->
+### Distribute Coins in Binary Tree
+[979. Distribute Coins in Binary Tree](https://leetcode.com/problems/distribute-coins-in-binary-tree/)
+
+```html
+You are given the root of a binary tree with n nodes where each node in the tree has node.val coins and there are n coins total.
+
+In one move, we may choose two adjacent nodes and move one coin from one node to another. (A move may be from parent to child, or from child to parent.)
+
+Return the number of moves required to make every node have exactly one coin.
+
+Example 1:
+    3
+  /   \
+ 0     0
+Input: root = [3,0,0]
+Output: 2
+Explanation: From the root of the tree, we move one coin to its left child, and one coin to its right child.
+
+Example 2:
+    0
+  /   \
+ 3     0
+Input: root = [0,3,0]
+Output: 3
+Explanation: From the left child of the root, we move two coins to the root [taking two moves].  Then, we move one coin from the root of the tree to the right child.
+
+Example 3:
+    1
+  /   \
+ 0     2
+
+Input: root = [1,0,2]
+Output: 2
+
+Example 4:
+    1
+  /   \
+ 0     0
+  \
+   3
+Input: root = [1,0,0,null,3]
+Output: 4
+```
+
+```javascript
+var distributeCoins = function(root) {
+    let res = 0;
+
+    function distributeCoinsHelper(node) {
+        if (node === null) { return 0; }
+        const left = distributeCoinsHelper(node.left);
+        const right = distributeCoinsHelper(node.right);
+        res += Math.abs(left) + Math.abs(right);
+        return node.val + left + right - 1;
+    }
+
+    distributeCoinsHelper(root);
+    return res;
+};
 ```
 
 <!-- @include ../leetcode/0100.same-tree.md -->

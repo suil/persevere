@@ -18,8 +18,7 @@
         * [Add Strings](#Add-Strings)
     * [相遇问题](#相遇问题)
         * [1. 改变数组元素使所有的数组元素都相等](#1-改变数组元素使所有的数组元素都相等)
-    * [多数投票问题](#多数投票问题)
-        * [1. 数组中出现次数多于 n / 2 的元素](#1-数组中出现次数多于-n--2-的元素)
+    * [Majority Element](#Majority-Element)
     * [Randomness](#randomness)
         * [Random Pick Index](#random-pick-index)
     * [其它](#其它)
@@ -416,30 +415,73 @@ private void swap(int[] nums, int i, int j) {
     nums[j] = tmp;
 }
 ```
+<!-- @include ../leetcode/0169.majority-element.md -->
+### Majority Element
+[169. Majority Element](https://leetcode.com/problems/majority-element/)
 
-## 多数投票问题
+```html
+Given an array nums of size n, return the majority element.
 
-### 1. 数组中出现次数多于 n / 2 的元素
+The majority element is the element that appears more than ⌊n / 2⌋ times. You may assume that the majority element always exists in the array.
 
-169\. Majority Element (Easy)
+Example 1:
 
-[Leetcode](https://leetcode.com/problems/majority-element/description/) / [力扣](https://leetcode-cn.com/problems/majority-element/description/)
+Input: nums = [3,2,3]
+Output: 3
+Example 2:
 
-先对数组排序，最中间那个数出现次数一定多于 n / 2。
+Input: nums = [2,2,1,1,1,2,2]
+Output: 2
+```
+Sorting:
+```javascript
+var majorityElement = function(nums) {
+    nums.sort();
+    return nums[Math.floor(nums.length / 2)];
+};
+```
 
-```java
-public int majorityElement(int[] nums) {
-    Arrays.sort(nums);
-    return nums[nums.length / 2];
+Divide and Conquer:
+
+```javascript
+var majorityElement = function(nums) {
+    return majorityElementDivideAndConquer(nums, 0, nums.length - 1);
+};
+function majorityElementDivideAndConquer(nums, lo, hi) {
+    // base case; the only element in an array of size 1 is the majority
+    // element.
+    if (lo === hi) { return nums[lo]; }
+
+    // recurse on left and right halves of this slice.
+    const mid = Math.floor(lo + (hi - lo) / 2);
+    const left = majorityElementDivideAndConquer(nums, lo, mid);
+    const right = majorityElementDivideAndConquer(nums, mid + 1, hi);
+
+    // if the two halves agree on the majority element, return it.
+    if (left === right) { return left; }
+
+    // otherwise, count each element and return the "winner".
+    const leftCount = countInRange(nums, left, lo, hi);
+    const rightCount = countInRange(nums, right, lo, hi);
+
+    return leftCount > rightCount ? left : right;
+}
+function countInRange(nums, num, lo, hi) {
+    let count = 0;
+    for (let i = lo; i <= hi; i++) {
+        if (nums[i] == num) {
+            count++;
+        }
+    }
+    return count;
 }
 ```
 
-可以利用 Boyer-Moore Majority Vote Algorithm 来解决这个问题，使得时间复杂度为 O(N)。可以这么理解该算法：使用 cnt 来统计一个元素出现的次数，当遍历到的元素和统计元素不相等时，令 cnt--。如果前面查找了 i 个元素，且 cnt == 0，说明前 i 个元素没有 majority，或者有 majority，但是出现的次数少于 i / 2，因为如果多于 i / 2 的话 cnt 就一定不会为 0。此时剩下的 n - i 个元素中，majority 的数目依然多于 (n - i) / 2，因此继续查找就能找出 majority。
-
-```java
-public int majorityElement(int[] nums) {
+Boyer-Moore Voting Algorithm:
+```javascript
+var majorityElement = function(nums) {
     int cnt = 0, majority = nums[0];
-    for (int num : nums) {
+    for (num of nums) {
         majority = (cnt == 0) ? num : majority;
         cnt = (majority == num) ? cnt + 1 : cnt - 1;
     }
@@ -497,7 +539,8 @@ Solution.prototype.pick = function(target) {
 
 
 ## 其它
-<!-- @include ../leetcode/0367.valid-perfect-square.md -->
+
+<!-- @include ../leetcode/0367.valid-perfect-square.md -->
 ### Valid Perfect Square
 [367. Valid Perfect Square](https://leetcode.com/problems/valid-perfect-square/)
 
