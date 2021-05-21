@@ -6,6 +6,7 @@
     * [Majority Element](#majority-element)
     * [Sort an Array](#sort-an-array)
     * [Count of Smaller Numbers After Self](#count-of-smaller-numbers-after-self)
+    * [Merge k Sorted Lists](#merge-k-sorted-lists)
 
 <!-- GFM-TOC -->
 
@@ -260,4 +261,71 @@ var countSmaller = function(nums) {
     merge(map);
     return inversion;
 };
+```
+
+<!-- @include ../leetcode/0023.merge-k-sorted-lists.md -->
+### Merge k Sorted Lists
+[23. Merge k Sorted Lists](https://leetcode.com/problems/merge-k-sorted-lists/)
+
+```html
+You are given an array of k linked-lists lists, each linked-list is sorted in ascending order.
+
+Merge all the linked-lists into one sorted linked-list and return it.
+
+Example 1:
+
+Input: lists = [[1,4,5],[1,3,4],[2,6]]
+Output: [1,1,2,3,4,4,5,6]
+Explanation: The linked-lists are:
+[
+  1->4->5,
+  1->3->4,
+  2->6
+]
+merging them into one sorted list:
+1->1->2->3->4->4->5->6
+
+Example 2:
+
+Input: lists = []
+Output: []
+
+Example 3:
+
+Input: lists = [[]]
+Output: []
+```
+
+```javascript
+var mergeKLists = function(lists) {
+    if (lists.length === 0) { return null; }
+    if (lists.length === 1) { return lists[0]; }
+    if (lists.length === 2) {
+        return mergeTwo(lists[0], lists[1]);
+    }
+    const mid = Math.floor(lists.length / 2);
+    return mergeTwo(mergeKLists(lists.slice(0, mid)), mergeKLists(lists.slice(mid)));
+};
+const mergeTwo = (list1, list2) => {
+    if (list1 === null && list2 === null) { return null; }
+    if (list1 === null) { return list2; }
+    if (list2 === null) { return list1; }
+    const sortedHead = new ListNode();
+    let p = sortedHead;
+
+    while (list1 && list2) {
+        if (list1.val < list2.val) {
+            p.next = new ListNode(list1.val);
+            list1 = list1.next;
+        } else {
+            p.next = new ListNode(list2.val);
+            list2 = list2.next;
+        }
+        p = p.next;
+    }
+
+    if (list1) { p.next = list1; }
+    if (list2) { p.next = list2; }
+    return sortedHead.next;
+}
 ```

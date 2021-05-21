@@ -165,12 +165,35 @@ var merge = function(nums1, m, nums2, n) {
     return nums1;
 };
 ```
+<!-- @include ../leetcode/0141.linked-list-cycle.md -->
+### Linked List Cycle
+[141. Linked List Cycle](https://leetcode.com/problems/linked-list-cycle/)
 
-## Linked List Cycle
+```html
+Given head, the head of a linked list, determine if the linked list has a cycle in it.
 
-[141\. Linked List Cycle (Easy)](https://leetcode.com/problems/linked-list-cycle/description/)
+There is a cycle in a linked list if there is some node in the list that can be reached again by continuously following the next pointer. Internally, pos is used to denote the index of the node that tail's next pointer is connected to. Note that pos is not passed as a parameter.
 
-```java
+Return true if there is a cycle in the linked list. Otherwise, return false.
+
+Example 1:
+
+Input: head = [3,2,0,-4], pos = 1
+Output: true
+Explanation: There is a cycle in the linked list, where the tail connects to the 1st node (0-indexed).
+
+Example 2:
+Input: head = [1,2], pos = 0
+Output: true
+Explanation: There is a cycle in the linked list, where the tail connects to the 0th node.
+
+Example 3:
+Input: head = [1], pos = -1
+Output: false
+Explanation: There is no cycle in the linked list.
+```
+
+```javascript
 var hasCycle = function(head) {
     if (!head) return false;
     
@@ -188,6 +211,8 @@ var hasCycle = function(head) {
     return true;
 };
 ```
+
+
 
 ## Longest Word in Dictionary through Deleting
 

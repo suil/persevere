@@ -1,9 +1,8 @@
-# Leetcode 题解 - 链表
+# Link List
 <!-- GFM-TOC -->
 * [Leetcode 题解 - 链表](#leetcode-题解---链表)
     * [1. 找出两个链表的交点](#1-找出两个链表的交点)
-    * [2. 链表反转](#2-链表反转)
-    * [Merge Two Sorted Lists](#merge-two-sorted-lists)
+    * [Reverse Linked List](#reverse-linked-list)
     * [4. 从有序链表中删除重复节点](#4-从有序链表中删除重复节点)
     * [5. 删除链表的倒数第 n 个节点](#5-删除链表的倒数第-n-个节点)
     * [6. 交换链表中的相邻结点](#6-交换链表中的相邻结点)
@@ -17,11 +16,16 @@
     * [Rotate List](#rotate-list)
     * [Intersection of Two Linked Lists](#intersection-of-two-linked-lists)
     * [Add Two Numbers](#add-two-numbers)
+    * [Add Two Numbers II](#add-two-numbers-ii)
+    * [Swap Nodes in Pairs](#swap-nodes-in-pairs)
+    * [Linked List Cycle](#linked-list-cycle)
+    * [Merge Sorted List](#merge-sorted-list)
+        * [Merge Two Sorted Lists](#merge-two-sorted-lists)
+        * [Merge k Sorted Lists](#merge-k-sorted-lists)
+    * [Insertion Sort List](#insertion-sort-list)
+    * [Sort List](#sort-list)
 
 <!-- GFM-TOC -->
-
-
-链表是空节点，或者有一个值和一个指向下一个链表的指针，因此很多链表问题可以用递归来处理。
 
 ##  1. 找出两个链表的交点
 
@@ -70,86 +74,37 @@ public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
 }
 ```
 
-如果只是判断是否存在交点，那么就是另一个问题，即 [编程之美 3.6]() 的问题。有两种解法：
-
-- 把第一个链表的结尾连接到第二个链表的开头，看第二个链表是否存在环；
-- 或者直接比较两个链表的最后一个节点是否相同。
-
-##  2. 链表反转
-
-206\. Reverse Linked List (Easy)
-
-[Leetcode](https://leetcode.com/problems/reverse-linked-list/description/) / [力扣](https://leetcode-cn.com/problems/reverse-linked-list/description/)
-
-递归
-
-```java
-public ListNode reverseList(ListNode head) {
-    if (head == null || head.next == null) {
-        return head;
-    }
-    ListNode next = head.next;
-    ListNode newHead = reverseList(next);
-    next.next = head;
-    head.next = null;
-    return newHead;
-}
-```
-
-头插法
-
-```java
-public ListNode reverseList(ListNode head) {
-    ListNode newHead = new ListNode(-1);
-    while (head != null) {
-        ListNode next = head.next;
-        head.next = newHead.next;
-        newHead.next = head;
-        head = next;
-    }
-    return newHead.next;
-}
-```
-
-<!-- @include ../leetcode/0021.merge-two-sorted-lists.md -->
-### Merge Two Sorted Lists
-[21. Merge Two Sorted Lists](https://leetcode.com/problems/0021.merge-two-sorted-lists.md)
+<!-- @include ../leetcode/0206.reverse-linked-list.md -->
+### Reverse Linked List
+[206. Reverse Linked List](https://leetcode.com/problems/reverse-linked-list/)
 
 ```html
-Merge two sorted linked lists and return it as a sorted list. The list should be made by splicing together the nodes of the first two lists.
+Given the head of a singly linked list, reverse the list, and return the reversed list.
 
 Example 1:
-
-1 -> 2 -> 4
-1 -> 3 -> 4
-1 -> 1 -> 2 -> 3 -> 4 -> 4
-
-Input: l1 = [1,2,4], l2 = [1,3,4]
-Output: [1,1,2,3,4,4]
+Input: head = [1,2,3,4,5]
+Output: [5,4,3,2,1]
 Example 2:
 
-Input: l1 = [], l2 = []
-Output: []
+Input: head = [1,2]
+Output: [2,1]
 Example 3:
 
-Input: l1 = [], l2 = [0]
-Output: [0]
+Input: head = []
+Output: []
 ```
 
 ```javascript
-var mergeTwoLists = function(l1, l2) {
-    if (l1 === null) { return l2; }
-    if (l2 === null) { return l1; }
+var reverseList = function(head) {
+    if (!head) { return null; }
     
-    const newList = new ListNode();
-    if (l1.val < l2.val) {
-        newList.val = l1.val;
-        newList.next = mergeTwoLists(l1.next, l2);
-    } else {
-        newList.val = l2.val;
-        newList.next = mergeTwoLists(l1, l2.next);
-    }
-    return newList;
+    if (!head.next) { return head; }
+    
+    const newEnd = head.next;
+    head.next = null;
+    const reversedList = reverseList(newEnd);
+    newEnd.next = head;
+    return reversedList;
 };
 ```
 
@@ -200,34 +155,98 @@ public ListNode removeNthFromEnd(ListNode head, int n) {
 }
 ```
 
-##  6. 交换链表中的相邻结点
-
-24\. Swap Nodes in Pairs (Medium)
-
-[Leetcode](https://leetcode.com/problems/swap-nodes-in-pairs/description/) / [力扣](https://leetcode-cn.com/problems/swap-nodes-in-pairs/description/)
+<!-- @include ../leetcode/0024.swap-nodes-in-pairs.md -->
+### Swap Nodes in Pairs
+[24. Swap Nodes in Pairs](https://leetcode.com/problems/swap-nodes-in-pairs/)
 
 ```html
-Given 1->2->3->4, you should return the list as 2->1->4->3.
+Given a linked list, swap every two adjacent nodes and return its head. You must solve the problem without modifying the values in the list's nodes (i.e., only nodes themselves may be changed.)
+
+Example 1:
+
+1,2,3,4
+   |
+2,1,4,3
+
+Input: head = [1,2,3,4]
+Output: [2,1,4,3]
+
+Example 2:
+
+Input: head = []
+Output: []
+
+Example 3:
+
+Input: head = [1]
+Output: [1]
 ```
 
-题目要求：不能修改结点的 val 值，O(1) 空间复杂度。
-
-```java
-public ListNode swapPairs(ListNode head) {
-    ListNode node = new ListNode(-1);
-    node.next = head;
-    ListNode pre = node;
-    while (pre.next != null && pre.next.next != null) {
-        ListNode l1 = pre.next, l2 = pre.next.next;
-        ListNode next = l2.next;
-        l1.next = next;
-        l2.next = l1;
-        pre.next = l2;
-
-        pre = l1;
+```javascript
+var swapPairs = function(head) {
+    if (!head) {
+        return null;
     }
-    return node.next;
-}
+    if (!head.next) {
+        return head;
+    }
+    let headNext = head.next;
+    let newHead = headNext.next;
+    
+    newHead = swapPairs(newHead);
+    
+    headNext.next = head;
+    head.next = newHead;
+    
+    return headNext;
+};
+```
+
+<!-- @include ../leetcode/0141.linked-list-cycle.md -->
+### Linked List Cycle
+[141. Linked List Cycle](https://leetcode.com/problems/linked-list-cycle/)
+
+```html
+Given head, the head of a linked list, determine if the linked list has a cycle in it.
+
+There is a cycle in a linked list if there is some node in the list that can be reached again by continuously following the next pointer. Internally, pos is used to denote the index of the node that tail's next pointer is connected to. Note that pos is not passed as a parameter.
+
+Return true if there is a cycle in the linked list. Otherwise, return false.
+
+Example 1:
+
+Input: head = [3,2,0,-4], pos = 1
+Output: true
+Explanation: There is a cycle in the linked list, where the tail connects to the 1st node (0-indexed).
+
+Example 2:
+Input: head = [1,2], pos = 0
+Output: true
+Explanation: There is a cycle in the linked list, where the tail connects to the 0th node.
+
+Example 3:
+Input: head = [1], pos = -1
+Output: false
+Explanation: There is no cycle in the linked list.
+```
+
+```javascript
+var hasCycle = function(head) {
+    if (!head) return false;
+    
+    let slowPointer = head;
+    let fastPointer = head.next;
+    
+    while (slowPointer !== fastPointer) {
+        if (!fastPointer || !fastPointer.next) {
+            return false;
+        }
+        slowPointer = slowPointer.next;
+        fastPointer = fastPointer.next.next;
+    }
+    
+    return true;
+};
 ```
 
 ##  7. 链表求和
@@ -666,4 +685,236 @@ var addTwoNumbers = function(l1, l2) {
     }
     return head.next;
 };
+```
+
+<!-- @include ../leetcode/0445.add-two-numbers-ii.md -->
+### Add Two Numbers II
+[445. Add Two Numbers II](https://leetcode.com/problems/add-two-numbers-ii/)
+
+```html
+You are given two non-empty linked lists representing two non-negative integers. The most significant digit comes first and each of their nodes contains a single digit. Add the two numbers and return the sum as a linked list.
+
+You may assume the two numbers do not contain any leading zero, except the number 0 itself.
+
+Example 1:
+
+7 -> 2 -> 4 -> 3
+     5 -> 6 -> 4
+----------------
+7 -> 8 -> 0 -> 7
+
+Input: l1 = [7,2,4,3], l2 = [5,6,4]
+Output: [7,8,0,7]
+Example 2:
+
+Input: l1 = [2,4,3], l2 = [5,6,4]
+Output: [8,0,7]
+Example 3:
+
+Input: l1 = [0], l2 = [0]
+Output: [0]
+```
+
+```javascript
+var addTwoNumbers = function(l1, l2) {
+    const stack1 = convertToArray(l1);
+    const stack2 = convertToArray(l2);
+    let carry = 0;
+
+    const fakeHead = new ListNode(Infinity);
+
+    while (stack1.length > 0 || stack2.length > 0 || carry > 0) {
+        const num1 = stack1.length > 0 ? stack1.pop() : 0;
+        const num2 = stack2.length > 0 ? stack2.pop() : 0;
+
+        const sum = num1 + num2 + carry;
+        carry = Math.floor(sum / 10);
+        const digit = sum % 10;
+
+        const node = new ListNode(digit);
+        node.next = fakeHead.next;
+        fakeHead.next = node;
+    }
+    
+    return fakeHead.next;
+};
+
+function convertToArray(head) {
+    const stack = [];
+    while (head) {
+        stack.push(head.val);
+        head = head.next;
+    }
+    return stack;
+}
+```
+## Merge Sorted List
+
+<!-- @include ../leetcode/0021.merge-two-sorted-lists.md -->
+### Merge Two Sorted Lists
+[21. Merge Two Sorted Lists](https://leetcode.com/problems/0021.merge-two-sorted-lists.md)
+
+```html
+Merge two sorted linked lists and return it as a sorted list. The list should be made by splicing together the nodes of the first two lists.
+
+Example 1:
+
+1 -> 2 -> 4
+1 -> 3 -> 4
+1 -> 1 -> 2 -> 3 -> 4 -> 4
+
+Input: l1 = [1,2,4], l2 = [1,3,4]
+Output: [1,1,2,3,4,4]
+Example 2:
+
+Input: l1 = [], l2 = []
+Output: []
+Example 3:
+
+Input: l1 = [], l2 = [0]
+Output: [0]
+```
+
+```javascript
+var mergeTwoLists = function(l1, l2) {
+    if (l1 === null) { return l2; }
+    if (l2 === null) { return l1; }
+    
+    const newList = new ListNode();
+    if (l1.val < l2.val) {
+        newList.val = l1.val;
+        newList.next = mergeTwoLists(l1.next, l2);
+    } else {
+        newList.val = l2.val;
+        newList.next = mergeTwoLists(l1, l2.next);
+    }
+    return newList;
+};
+```
+
+<!-- @include ../leetcode/0023.merge-k-sorted-lists.md -->
+### Merge k Sorted Lists
+[23. Merge k Sorted Lists](https://leetcode.com/problems/merge-k-sorted-lists/)
+
+```html
+You are given an array of k linked-lists lists, each linked-list is sorted in ascending order.
+
+Merge all the linked-lists into one sorted linked-list and return it.
+
+Example 1:
+
+Input: lists = [[1,4,5],[1,3,4],[2,6]]
+Output: [1,1,2,3,4,4,5,6]
+Explanation: The linked-lists are:
+[
+  1->4->5,
+  1->3->4,
+  2->6
+]
+merging them into one sorted list:
+1->1->2->3->4->4->5->6
+
+Example 2:
+
+Input: lists = []
+Output: []
+
+Example 3:
+
+Input: lists = [[]]
+Output: []
+```
+
+```javascript
+var mergeKLists = function(lists) {
+    if (lists.length === 0) { return null; }
+    if (lists.length === 1) { return lists[0]; }
+    if (lists.length === 2) {
+        return mergeTwo(lists[0], lists[1]);
+    }
+    const mid = Math.floor(lists.length / 2);
+    return mergeTwo(mergeKLists(lists.slice(0, mid)), mergeKLists(lists.slice(mid)));
+};
+const mergeTwo = (list1, list2) => {
+    if (list1 === null && list2 === null) { return null; }
+    if (list1 === null) { return list2; }
+    if (list2 === null) { return list1; }
+    const sortedHead = new ListNode();
+    let p = sortedHead;
+
+    while (list1 && list2) {
+        if (list1.val < list2.val) {
+            p.next = new ListNode(list1.val);
+            list1 = list1.next;
+        } else {
+            p.next = new ListNode(list2.val);
+            list2 = list2.next;
+        }
+        p = p.next;
+    }
+
+    if (list1) { p.next = list1; }
+    if (list2) { p.next = list2; }
+    return sortedHead.next;
+}
+```
+<!-- @include ../leetcode/0148.sort-list.md -->
+### Sort List
+[148. Sort List](https://leetcode.com/problems/sort-list/)
+
+```html
+Given the head of a linked list, return the list after sorting it in ascending order.
+
+Follow up: Can you sort the linked list in O(n logn) time and O(1) memory (i.e. constant space)?
+
+Example 1:
+Input: head = [4,2,1,3]
+Output: [1,2,3,4]
+
+Example 2:
+Input: head = [-1,5,3,4,0]
+Output: [-1,0,3,4,5]
+
+Example 3:
+Input: head = []
+Output: []
+```
+
+```javascript
+var sortList = function(head) {
+    if (head === null || head.next === null) {
+        return head;
+    }
+
+    let slow = head, fast = head, prev = head;
+    while (fast !== null && fast.next !== null) {
+        prev = slow;
+        slow = slow.next;
+        fast = fast.next.next;
+    }
+    prev.next = null;
+    return mergeTwo(sortList(head), sortList(slow));
+};
+function mergeTwo(list1, list2) {
+    if (list1 === null && list2 === null) { return null; }
+    if (list1 === null) { return list2; }
+    if (list2 === null) { return list1; }
+    
+    const sortedHead = new ListNode();
+    let p = sortedHead;
+    
+    while (list1 && list2) {
+        if (list1.val < list2.val) {
+            p.next = new ListNode(list1.val);
+            list1 = list1.next;
+        } else {
+            p.next = new ListNode(list2.val);
+            list2 = list2.next;
+        }
+        p = p.next;
+    }
+    if (list1) { p.next = list1; }
+    if (list2) { p.next = list2; }
+    return sortedHead.next;
+}
 ```
