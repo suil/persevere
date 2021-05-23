@@ -46,6 +46,7 @@
         * [Most Frequent Subtree Sum](#most-frequent-subtree-sum)
         * [Binary Tree Cameras](#binary-tree-cameras)
         * [Distribute Coins in Binary Tree](#distribute-coins-in-binary-tree)
+        * [Validate Binary Search Tree](#validate-binary-search-tree)
 
     * [Breath First Search](#Breath-First-Search)
         * [1. 一棵树每层节点的平均数](#1-一棵树每层节点的平均数)
@@ -3424,5 +3425,60 @@ var maxAncestorDiff = function(root) {
 
     return helper(root, Infinity, -Infinity);
 };
+```
+<!-- @include ../leetcode/0098.validate-binary-search-tree.md -->
+### Validate Binary Search Tree
+[98. Validate Binary Search Tree](https://leetcode.com/problems/validate-binary-search-tree/)
+
+```html
+Given the root of a binary tree, determine if it is a valid binary search tree (BST).
+
+A valid BST is defined as follows:
+
+The left subtree of a node contains only nodes with keys less than the node's key.
+The right subtree of a node contains only nodes with keys greater than the node's key.
+Both the left and right subtrees must also be binary search trees.
+ 
+
+Example 1:
+
+
+Input: root = [2,1,3]
+Output: true
+Example 2:
+
+
+Input: root = [5,1,4,null,null,3,6]
+Output: false
+Explanation: The root node's value is 5 but its right child's value is 4.
+```
+
+In-order traversal:
+```javascript
+var isValidBST = function(root) {
+    let prev = null
+    function inOrder(node) {
+        if (node === null) {
+            return true;
+        }
+        if (!inOrder(node.left)) { return false; }
+        if (prev !== null && prev.val >= node.val) { return false; }
+        prev = node;
+        return inOrder(node.right);
+    }
+    return inOrder(root, null);
+};
+```
+
+DFS:
+```javascript
+var isValidBST = function(root) {
+    return isValidBSTHelper(root, -Infinity, Infinity);
+};
+function isValidBSTHelper(node, min, max) {
+    if (node === null) { return true; }
+    if (node.val <= min || node.val >= max) { return false; }
+    return isValidBSTHelper(node.left, min, node.val) && isValidBSTHelper(node.right, node.val, max)
+}
 ```
 
