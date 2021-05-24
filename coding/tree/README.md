@@ -77,11 +77,18 @@
         * [2. 寻找二叉查找树的第 k 个元素](#2-寻找二叉查找树的第-k-个元素)
         * [3. 把二叉查找树每个节点的值都加上比它大的节点的值](#3-把二叉查找树每个节点的值都加上比它大的节点的值)
         * [4. 二叉查找树的最近公共祖先](#4-二叉查找树的最近公共祖先)
-        * [6. 从有序数组中构造二叉查找树](#6-从有序数组中构造二叉查找树)
+        * [Convert Sorted Array to Binary Search Tree](#Convert-Sorted-Array-to-Binary-Search-Tree)
         * [7. 根据有序链表构造平衡的二叉查找树](#7-根据有序链表构造平衡的二叉查找树)
         * [8. 在二叉查找树中寻找两个节点，使它们的和为一个给定值](#8-在二叉查找树中寻找两个节点，使它们的和为一个给定值)
         * [9. 在二叉查找树中查找两个节点之差的最小绝对值](#9-在二叉查找树中查找两个节点之差的最小绝对值)
-        * [10. 寻找二叉查找树中出现次数最多的值](#10-寻找二叉查找树中出现次数最多的值)
+        * [Find Mode in Binary Search Tree](#Find-Mode-in-Binary-Search-Tree)
+        * [Kth Smallest Element in a BST](#kth-smallest-element-in-a-bst)
+        * [Minimum Absolute Difference in BST](#minimum-absolute-Difference-in-bst)
+        * [Search in a Binary Search Tree](#search-in-a-binary-search-tree)
+        * [Insert into a Binary Search Tree](#Insert-into-a-Binary-Search-Tree)
+        * [Recover Binary Search Tree](#recover-binary-search-tree)
+        * [Delete Node in a BST](#delete-node-in-a-bst)
+
     * [Trie](#trie)
         * [1. 实现一个 Trie](#1-实现一个-trie)
         * [2. 实现一个 Trie，用来求前缀和](#2-实现一个-trie，用来求前缀和)
@@ -2919,25 +2926,38 @@ public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
 }
 ```
 
-### 6. 从有序数组中构造二叉查找树
+<!-- @include ../leetcode/0108.convert-sorted-array-to-binary-search-tree.md -->
+### Convert Sorted Array to Binary Search Tree
+[108. Convert Sorted Array to Binary Search Tree](https://leetcode.com/problems/convert-sorted-array-to-binary-search-tree/)
 
-108\. Convert Sorted Array to Binary Search Tree (Easy)
+```html
+Given an integer array nums where the elements are sorted in ascending order, convert it to a height-balanced binary search tree.
 
-[Leetcode](https://leetcode.com/problems/convert-sorted-array-to-binary-search-tree/description/) / [力扣](https://leetcode-cn.com/problems/convert-sorted-array-to-binary-search-tree/description/)
+A height-balanced binary tree is a binary tree in which the depth of the two subtrees of every node never differs by more than one.
 
-```java
-public TreeNode sortedArrayToBST(int[] nums) {
-    return toBST(nums, 0, nums.length - 1);
-}
+Example 1:
 
-private TreeNode toBST(int[] nums, int sIdx, int eIdx){
-    if (sIdx > eIdx) return null;
-    int mIdx = (sIdx + eIdx) / 2;
-    TreeNode root = new TreeNode(nums[mIdx]);
-    root.left =  toBST(nums, sIdx, mIdx - 1);
-    root.right = toBST(nums, mIdx + 1, eIdx);
-    return root;
-}
+Input: nums = [-10,-3,0,5,9]
+Output: [0,-3,9,-10,null,5]
+Explanation: [0,-10,5,null,-3,null,9] is also accepted:
+
+Example 2:
+
+Input: nums = [1,3]
+Output: [3,1]
+Explanation: [1,3] and [3,1] are both a height-balanced BSTs.
+```
+
+```javascript
+var sortedArrayToBST = function(nums) {
+    if (nums.length === 0) {
+        return null
+    }
+    const midIndex = Math.floor(nums.length / 2);
+    const leftTree = sortedArrayToBST(nums.slice(0, midIndex));
+    const rightTree = sortedArrayToBST(nums.slice(midIndex + 1));
+    return new TreeNode(nums[midIndex], leftTree, rightTree);
+};
 ```
 
 ### 7. 根据有序链表构造平衡的二叉查找树
@@ -3029,98 +3049,365 @@ private void inOrder(TreeNode root, List<Integer> nums) {
 }
 ```
 
-### 9. 在二叉查找树中查找两个节点之差的最小绝对值
-
-530\. Minimum Absolute Difference in BST (Easy)
-
-[Leetcode](https://leetcode.com/problems/minimum-absolute-difference-in-bst/description/) / [力扣](https://leetcode-cn.com/problems/minimum-absolute-difference-in-bst/description/)
+<!-- @include ../leetcode/0530.minimum-absolute-difference-in-bst.md -->
+### Minimum Absolute Difference in BST
+[530. Minimum Absolute Difference in BST](https://leetcode.com/problems/minimum-absolute-difference-in-bst/)
 
 ```html
-Input:
+Given the root of a Binary Search Tree (BST), return the minimum absolute difference between the values of any two different nodes in the tree.
 
-   1
-    \
-     3
-    /
-   2
+Example 1:
+        4
+     /     \
+    2       6
+   / \
+  1   3
 
-Output:
+Input: root = [4,2,6,1,3]
+Output: 1
 
-1
+Example 2:
+
+        1
+     /     \
+    0       48
+   / \
+ 12   49
+
+Input: root = [1,0,48,null,null,12,49]
+Output: 1
 ```
 
-利用二叉查找树的中序遍历为有序的性质，计算中序遍历中临近的两个节点之差的绝对值，取最小值。
-
-```java
-private int minDiff = Integer.MAX_VALUE;
-private TreeNode preNode = null;
-
-public int getMinimumDifference(TreeNode root) {
-    inOrder(root);
+```javascript
+var getMinimumDifference = function(root) {
+    let minDiff = Infinity;
+    let prevVal;
+    
+    function inorder(node) {
+        if (!node) {
+            return;
+        }
+        
+        inorder(node.left);
+        
+        if (prevVal !== undefined) {
+            minDiff = Math.min(minDiff, Math.abs(node.val - prevVal));
+        }
+        prevVal = node.val;
+        
+        inorder(node.right);
+    }
+    
+    inorder(root);
     return minDiff;
-}
-
-private void inOrder(TreeNode node) {
-    if (node == null) return;
-    inOrder(node.left);
-    if (preNode != null) minDiff = Math.min(minDiff, node.val - preNode.val);
-    preNode = node;
-    inOrder(node.right);
-}
+};
 ```
 
-### 10. 寻找二叉查找树中出现次数最多的值
-
-501\. Find Mode in Binary Search Tree (Easy)
-
-[Leetcode](https://leetcode.com/problems/find-mode-in-binary-search-tree/description/) / [力扣](https://leetcode-cn.com/problems/find-mode-in-binary-search-tree/description/)
+<!-- @include ../leetcode/0700.search-in-a-binary-search-tree.md -->
+### Search in a Binary Search Tree
+[700. Search in a Binary Search Tree](https://leetcode.com/problems/search-in-a-binary-search-tree/)
 
 ```html
-   1
-    \
-     2
-    /
-   2
+You are given the root of a binary search tree (BST) and an integer val.
 
-return [2].
+Find the node in the BST that the node's value equals val and return the subtree rooted with that node. If such a node does not exist, return null.
+
+Example 1:
+
+        4
+      /   \
+     2     7
+    / \
+   1   3
+
+Input: root = [4,2,7,1,3], val = 2
+Output: [2,1,3]
+
+Example 2:
+
+        4
+      /   \
+     2     7
+    / \
+   1   3
+
+Input: root = [4,2,7,1,3], val = 5
+Output: []
 ```
 
-答案可能不止一个，也就是有多个值出现的次数一样多。
-
-```java
-private int curCnt = 1;
-private int maxCnt = 1;
-private TreeNode preNode = null;
-
-public int[] findMode(TreeNode root) {
-    List<Integer> maxCntNums = new ArrayList<>();
-    inOrder(root, maxCntNums);
-    int[] ret = new int[maxCntNums.size()];
-    int idx = 0;
-    for (int num : maxCntNums) {
-        ret[idx++] = num;
+```javascript
+var searchBST = function(root, val) {
+    if (root === null) { return null; }
+    if (root.val === val) { return root; }
+    if (root.val > val) {
+        return searchBST(root.left, val);
     }
-    return ret;
-}
-
-private void inOrder(TreeNode node, List<Integer> nums) {
-    if (node == null) return;
-    inOrder(node.left, nums);
-    if (preNode != null) {
-        if (preNode.val == node.val) curCnt++;
-        else curCnt = 1;
-    }
-    if (curCnt > maxCnt) {
-        maxCnt = curCnt;
-        nums.clear();
-        nums.add(node.val);
-    } else if (curCnt == maxCnt) {
-        nums.add(node.val);
-    }
-    preNode = node;
-    inOrder(node.right, nums);
-}
+    return searchBST(root.right, val)
+};
 ```
+
+<!-- @include ../leetcode/0701.insert-into-a-binary-search-tree.md -->
+### Insert into a Binary Search Tree
+[701. Insert into a Binary Search Tree](https://leetcode.com/problems/insert-into-a-binary-search-tree/)
+
+```html
+You are given the root node of a binary search tree (BST) and a value to insert into the tree. Return the root node of the BST after the insertion. It is guaranteed that the new value does not exist in the original BST.
+
+Notice that there may exist multiple valid ways for the insertion, as long as the tree remains a BST after insertion. You can return any of them.
+
+Example 1:
+
+        4                       4
+      /   \                   /   \
+     2     7    ====>        2     7
+    / \                     / \   /
+   1   3                   1   3 5
+
+Or:
+        5
+      /   \
+     2     7
+    / \
+   1   3
+        \
+         4
+Input: root = [4,2,7,1,3], val = 5
+Output: [4,2,7,1,3,5]
+Explanation: Another accepted tree is:
+
+Example 2:
+
+Input: root = [40,20,60,10,30,50,70], val = 25
+Output: [40,20,60,10,30,50,70,null,null,25]
+Example 3:
+
+Input: root = [4,2,7,1,3,null,null,null,null,null,null], val = 5
+Output: [4,2,7,1,3,5]
+```
+
+```javascript
+var insertIntoBST = function(root, val) {
+    if (!root) { return new TreeNode(val); }
+    if (val > root.val) {
+        root.right = insertIntoBST(root.right, val);
+    } else {
+        root.left = insertIntoBST(root.left, val);
+    }
+    return root;
+};
+```
+
+<!-- @include ../leetcode/0099.recover-binary-search-tree.md -->
+### Recover Binary Search Tree
+[99. Recover Binary Search Tree](https://leetcode.com/problems/recover-binary-search-tree/)
+
+```html
+You are given the root of a binary search tree (BST), where exactly two nodes of the tree were swapped by mistake. Recover the tree without changing its structure.
+
+Follow up: A solution using O(n) space is pretty straight forward. Could you devise a constant space solution?
+
+Example 1:
+
+Input: root = [1,3,null,null,2]
+Output: [3,1,null,null,2]
+Explanation: 3 cannot be a left child of 1 because 3 > 1. Swapping 1 and 3 makes the BST valid.
+Example 2:
+
+Input: root = [3,1,4,null,null,2]
+Output: [2,1,4,null,null,3]
+Explanation: 2 cannot be in the right subtree of 3 because 2 < 3. Swapping 2 and 3 makes the BST valid.
+```
+
+```javascript
+var recoverTree = function(root) {
+    var node1, node2;
+    var prev = new TreeNode(-Infinity);
+
+    function inOrder(node) {
+        if (!node) { return; }
+        inOrder(node.left);
+        if (node.val < prev.val) {
+            node2 = node;
+            if (!node1) { node1 = prev; }
+        }
+        prev = node;
+        inOrder(node.right);
+    }
+
+    inOrder(root);
+    [node1.val, node2.val] = [node2.val, node1.val];
+};
+```
+
+<!-- @include ../leetcode/0450.delete-node-in-a-bst.md -->
+### Delete Node in a BST
+[450. Delete Node in a BST](https://leetcode.com/problems/delete-node-in-a-bst/)
+
+```html
+Given a root node reference of a BST and a key, delete the node with the given key in the BST. Return the root node reference (possibly updated) of the BST.
+
+Basically, the deletion can be divided into two stages:
+
+Search for a node to remove.
+If the node is found, delete the node.
+Follow up: Can you solve it with time complexity O(height of tree)?
+
+Example 1:
+        5                       5   
+      /   \                   /   \   
+     3     6       =>        4     6   
+    / \     \               /       \  
+   2   4     7             2         7
+Input: root = [5,3,6,2,4,null,7], key = 3
+Output: [5,4,6,2,null,null,7]
+Explanation: Given key to delete is 3. So we find the node with value 3 and delete it.
+One valid answer is [5,4,6,2,null,null,7], shown in the above BST.
+Please notice that another valid answer is [5,2,6,null,4,null,7] and it's also accepted.
+
+Example 2:
+Input: root = [5,3,6,2,4,null,7], key = 0
+Output: [5,3,6,2,4,null,7]
+Explanation: The tree does not contain a node with value = 0.
+Example 3:
+
+Input: root = [], key = 0
+Output: []
+```
+
+```javascript
+var deleteNode = function(root, key) {
+    if (root === null) { return null; }
+    
+    if (key < root.val) {
+        root.left = deleteNode(root.left, key);
+    } else if (key > root.val) {
+        root.right = deleteNode(root.right, key);
+    } else { // equal
+        if (root.left === null || root.right === null) {
+            return root.left || root.right;
+        }
+        // has two children
+        let next = root.right;
+        while (next.left) {
+            next = next.left;
+        }
+        const node = new TreeNode(next.val);
+        node.left = root.left;
+        node.right = deleteNode(root.right, next.val);
+        return node;
+    }
+    return root;
+};
+```
+
+<!-- @include ../leetcode/0501.find-mode-in-binary-search-tree.md -->
+### Find Mode in Binary Search Tree
+[501. Find Mode in Binary Search Tree](https://leetcode.com/problems/find-mode-in-binary-search-tree/)
+
+```html
+Given the root of a binary search tree (BST) with duplicates, return all the mode(s) (i.e., the most frequently occurred element) in it.
+
+If the tree has more than one mode, return them in any order.
+
+Assume a BST is defined as follows:
+
+The left subtree of a node contains only nodes with keys less than or equal to the node's key.
+The right subtree of a node contains only nodes with keys greater than or equal to the node's key.
+Both the left and right subtrees must also be binary search trees.
+ 
+Example 1:
+
+Input: root = [1,null,2,2]
+Output: [2]
+
+Example 2:
+
+Input: root = [0]
+Output: [0]
+```
+
+```javascript
+var findMode = function(root) {
+    let freqMap = new Map();
+    let maxFreq = -Infinity;
+    
+    function inOrderTraverse(node) {
+        if (!node) { return; }
+        
+        inOrderTraverse(node.left);
+        freqMap.set(node.val, (freqMap.get(node.val) || 0) + 1);
+        if (freqMap.get(node.val) > maxFreq) {
+            maxFreq = freqMap.get(node.val);
+        }
+        inOrderTraverse(node.right);
+    }
+
+    inOrderTraverse(root);
+
+    const res = [];
+    for (const [val, freq] of freqMap) {
+        if (freq === maxFreq) {
+            res.push(val);
+        }
+    }
+    return res;
+};
+```
+
+<!-- @include ../leetcode/0530.minimum-absolute-difference-in-bst.md -->
+### Minimum Absolute Difference in BST
+[530. Minimum Absolute Difference in BST](https://leetcode.com/problems/minimum-absolute-difference-in-bst/)
+
+```html
+Given the root of a Binary Search Tree (BST), return the minimum absolute difference between the values of any two different nodes in the tree.
+
+Example 1:
+        4
+     /     \
+    2       6
+   / \
+  1   3
+
+Input: root = [4,2,6,1,3]
+Output: 1
+
+Example 2:
+
+        1
+     /     \
+    0       48
+   / \
+ 12   49
+
+Input: root = [1,0,48,null,null,12,49]
+Output: 1
+```
+
+```javascript
+var getMinimumDifference = function(root) {
+    let minDiff = Infinity;
+    let prevVal;
+    
+    function inorder(node) {
+        if (!node) {
+            return;
+        }
+        
+        inorder(node.left);
+        
+        if (prevVal !== undefined) {
+            minDiff = Math.min(minDiff, Math.abs(node.val - prevVal));
+        }
+        prevVal = node.val;
+        
+        inorder(node.right);
+    }
+    
+    inorder(root);
+    return minDiff;
+};
+```
+
 
 ## Trie
 
@@ -3426,7 +3713,8 @@ var maxAncestorDiff = function(root) {
     return helper(root, Infinity, -Infinity);
 };
 ```
-<!-- @include ../leetcode/0098.validate-binary-search-tree.md -->
+
+<!-- @include ../leetcode/0098.validate-binary-search-tree.md -->
 ### Validate Binary Search Tree
 [98. Validate Binary Search Tree](https://leetcode.com/problems/validate-binary-search-tree/)
 
