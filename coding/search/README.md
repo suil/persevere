@@ -9,7 +9,7 @@
     * [DFS](#dfs)
         * [Max Area of Island](#Max-Area-of-Island)
         * [Number of Islands](#number-of-islands)
-        * [3. 好友关系的连通分量数目](#3-好友关系的连通分量数目)
+        * [Number of Provinces](#number-of-provinces)
         * [4. 填充封闭区域](#4-填充封闭区域)
         * [5. 能到达的太平洋和大西洋的区域](#5-能到达的太平洋和大西洋的区域)
         * [Word Search](#Word-Search)
@@ -375,7 +375,8 @@ var shortestDistance = function(grid) {
 
 - 栈：用栈来保存当前节点信息，当遍历新节点返回时能够继续遍历当前节点。可以使用递归栈。
 - 标记：和 BFS 一样同样需要对已经遍历过的节点进行标记。
-<!-- @include ../leetcode/0695.max-area-of-island.md -->
+
+<!-- @include ../leetcode/0695.max-area-of-island.md -->
 ### Max Area of Island
 [695. Max Area of Island](https://leetcode.com/problems/max-area-of-island/)
 
@@ -520,48 +521,52 @@ function numIslandsHelper(grid, startRow, startCol) {
     numIslandsHelper(grid, startRow, startCol - 1);
 }
 ```
-
-### 3. 好友关系的连通分量数目
-
-547\. Friend Circles (Medium)
-
-[Leetcode](https://leetcode.com/problems/friend-circles/description/) / [力扣](https://leetcode-cn.com/problems/friend-circles/description/)
+<!-- @include ../leetcode/0547.friend-circles.md -->
+### Number of Provinces
+[547. Number of Provinces](https://leetcode.com/problems/number-of-provinces/)
 
 ```html
-Input:
-[[1,1,0],
- [1,1,0],
- [0,0,1]]
+There are n cities. Some of them are connected, while some are not. If city a is connected directly with city b, and city b is connected directly with city c, then city a is connected indirectly with city c.
 
+A province is a group of directly or indirectly connected cities and no other cities outside of the group.
+
+You are given an n x n matrix isConnected where isConnected[i][j] = 1 if the ith city and the jth city are directly connected, and isConnected[i][j] = 0 otherwise.
+
+Return the total number of provinces.
+
+Example 1:
+
+Input: isConnected = [[1,1,0],[1,1,0],[0,0,1]]
 Output: 2
 
-Explanation:The 0th and 1st students are direct friends, so they are in a friend circle.
-The 2nd student himself is in a friend circle. So return 2.
+Example 2:
+Input: isConnected = [[1,0,0],[0,1,0],[0,0,1]]
+Output: 3
 ```
 
-题目描述：好友关系可以看成是一个无向图，例如第 0 个人与第 1 个人是好友，那么 M[0][1] 和 M[1][0] 的值都为 1。
-
-```java
-private int n;
-
-public int findCircleNum(int[][] M) {
-    n = M.length;
-    int circleNum = 0;
-    boolean[] hasVisited = new boolean[n];
-    for (int i = 0; i < n; i++) {
-        if (!hasVisited[i]) {
-            dfs(M, i, hasVisited);
-            circleNum++;
+```javascript
+var findCircleNum = function(isConnected) {
+    let count = 0;
+    const visited = Array(isConnected.length).fill(false);
+    for (let i = 0; i < isConnected.length; i++) {
+        if (!visited[i]) {
+            findCircleNumHelper(isConnected, i, visited);
+            count++;
         }
     }
-    return circleNum;
-}
+    return count;
+};
 
-private void dfs(int[][] M, int i, boolean[] hasVisited) {
-    hasVisited[i] = true;
-    for (int k = 0; k < n; k++) {
-        if (M[i][k] == 1 && !hasVisited[k]) {
-            dfs(M, k, hasVisited);
+function findCircleNumHelper(isConnected, start, visited) {
+    if (isConnected[start] === undefined || visited[start]) {
+        return 0;
+    }
+
+    visited[start] = true;
+    
+    for (let i = 0; i < isConnected.length; i++) {
+        if (isConnected[start][i] === 1 && !visited[i]) {
+            findCircleNumHelper(isConnected, i, visited);
         }
     }
 }

@@ -11,6 +11,7 @@
         * [Number of Connected Components in an Undirected Graph](#number-of-connected-components-in-an-undirected-graph)
         * [Graph Valid Tree](#graph-valid-tree)
     * [Find the Celebrity](#find-the-celebrity)
+    * [Flood Fill](#flood-fill)
 <!-- GFM-TOC -->
 
 <!-- @include ../leetcode/0785.is-graph-bipartite.md -->
@@ -592,4 +593,54 @@ var solution = function(knows) {
         return candidate;
     };
 };
+```
+
+<!-- @include ../leetcode/0733.flood-fill.md -->
+### Flood Fill
+[733. Flood Fill](https://leetcode.com/problems/flood-fill/)
+
+```html
+An image is represented by a 2-D array of integers, each integer representing the pixel value of the image (from 0 to 65535).
+
+Given a coordinate (sr, sc) representing the starting pixel (row and column) of the flood fill, and a pixel value newColor, "flood fill" the image.
+
+To perform a "flood fill", consider the starting pixel, plus any pixels connected 4-directionally to the starting pixel of the same color as the starting pixel, plus any pixels connected 4-directionally to those pixels (also with the same color as the starting pixel), and so on. Replace the color of all of the aforementioned pixels with the newColor.
+
+At the end, return the modified image.
+
+Example 1:
+Input: 
+image = [[1,1,1],[1,1,0],[1,0,1]]
+sr = 1, sc = 1, newColor = 2
+Output: [[2,2,2],[2,2,0],[2,0,1]]
+Explanation: 
+From the center of the image (with position (sr, sc) = (1, 1)), all pixels connected 
+by a path of the same color as the starting pixel are colored with the new color.
+Note the bottom corner is not colored 2, because it is not 4-directionally connected
+to the starting pixel.
+```
+
+```javascript
+var floodFill = function(image, sr, sc, newColor) {
+    const visited = [...Array(image.length)].map(() => [...Array(image[0].length)].fill(0));
+    floodFillHelper(image, sr, sc, image[sr][sc], newColor, visited);
+    return image;
+};
+function floodFillHelper(image, currentRow, currentCol, oldColor, newColor, visited) {
+    if (image[currentRow] === undefined
+        || image[currentRow][currentCol] === undefined
+        || image[currentRow][currentCol] !== oldColor
+        || visited[currentRow][currentCol] === true) {
+        return;
+    }
+    
+    image[currentRow][currentCol] = newColor;
+
+    visited[currentRow][currentCol] = true;
+    
+    floodFillHelper(image, currentRow + 1, currentCol, oldColor, newColor, visited);
+    floodFillHelper(image, currentRow - 1, currentCol, oldColor, newColor, visited);
+    floodFillHelper(image, currentRow, currentCol + 1, oldColor, newColor, visited);
+    floodFillHelper(image, currentRow, currentCol - 1, oldColor, newColor, visited);
+}
 ```
