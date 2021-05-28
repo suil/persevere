@@ -12,6 +12,7 @@
         * [Graph Valid Tree](#graph-valid-tree)
     * [Find the Celebrity](#find-the-celebrity)
     * [Flood Fill](#flood-fill)
+    * [Making A Large Island](#making-a-large-island)
 <!-- GFM-TOC -->
 
 <!-- @include ../leetcode/0785.is-graph-bipartite.md -->
@@ -642,5 +643,94 @@ function floodFillHelper(image, currentRow, currentCol, oldColor, newColor, visi
     floodFillHelper(image, currentRow - 1, currentCol, oldColor, newColor, visited);
     floodFillHelper(image, currentRow, currentCol + 1, oldColor, newColor, visited);
     floodFillHelper(image, currentRow, currentCol - 1, oldColor, newColor, visited);
+}
+```
+<!-- @include ../leetcode/0827.making-a-large-island.md -->
+### Making A Large Island
+[827. Making A Large Island](https://leetcode.com/problems/making-a-large-island/)
+
+```html
+You are given an n x n binary matrix grid. You are allowed to change at most one 0 to be 1.
+
+Return the size of the largest island in grid after applying this operation.
+
+An island is a 4-directionally connected group of 1s.
+
+ 
+
+Example 1:
+
+Input: grid = [[1,0],[0,1]]
+Output: 3
+Explanation: Change one 0 to 1 and connect two 1s, then we get an island with area = 3.
+Example 2:
+
+Input: grid = [[1,1],[1,0]]
+Output: 4
+Explanation: Change the 0 to 1 and make the island bigger, only one island with area = 4.
+Example 3:
+
+Input: grid = [[1,1],[1,1]]
+Output: 4
+Explanation: Can't change any 0 to 1, only one island with area = 4.
+```
+
+```javascript
+const DIRECTIONS = [[1,0], [-1,0], [0,1], [0,-1]];
+
+var largestIsland = function(grid) {
+    if (!grid || !grid.length) return 0;
+
+    const m = grid.length;
+    const n = grid[0].length;
+    let max = -Infinity;
+    let color = 2;
+    let map = {};
+
+    for (let row = 0; row < m; row++) {
+        for (let col = 0; col < n; col++) {
+            if (grid[row][col] === 1) {
+                // mark the island
+                const area = dfs(grid, row, col, color);
+                max = Math.max(max, area);
+                map[color] = area;
+                color++;
+            }
+        }
+    }
+
+    for (let row = 0; row < m; row++) {
+        for (let col = 0; col < n; col++) {
+            if (grid[row][col] !== 0) { continue; }
+            let set = new Set();
+            let cur = 1;
+
+            for (const [deltaRow, deltaCol] of DIRECTIONS) {
+                const nextRow = deltaRow + row;
+                const nextCol = deltaCol + col;
+
+                if (grid[nextRow] === undefined || grid[nextRow][nextCol] === undefined) { continue; }
+
+                const islandColor = grid[nextRow][nextCol];
+                if (islandColor > 1 && !set.has(islandColor)) {
+                    set.add(islandColor);
+                    cur += map[islandColor];
+                }
+            }
+            max = Math.max(max, cur);
+        }
+    }
+    return max;
+}
+
+function dfs(grid, row, col, color) {
+    if (grid[row] === undefined || grid[row][col] === undefined) { return 0; }
+    if (grid[row][col] === 0 || grid[row][col] === color) { return 0; }
+    grid[row][col] = color;
+    return 1 
+        + dfs(grid, row + 1, col, color) 
+        + dfs(grid, row - 1, col, color)
+        + dfs(grid, row, col + 1, color)
+        + dfs(grid, row, col - 1, color);
 }
 ```
