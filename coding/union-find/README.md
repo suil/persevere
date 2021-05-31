@@ -5,7 +5,7 @@
     * [Redundant Connection](#redundant-connection)
     * [Graph Valid Tree](#graph-valid-tree)
     * [Number of Connected Components in an Undirected Graph](#number-of-connected-components-in-an-undirected-graph)
-
+    * [Smallest String With Swaps](#smallest-string-with-swaps)
 <!-- GFM-TOC -->
 
 ## Union Find
@@ -300,7 +300,8 @@ var validTree = function(n, edges) {
     return uf.size === 1;
 };
 ```
-<!-- @include ../leetcode/0323.number-of-connected-components-in-an-undirected-graph.md -->
+
+<!-- @include ../leetcode/0323.number-of-connected-components-in-an-undirected-graph.md -->
 ### Number of Connected Components in an Undirected Graph
 [323. Number of Connected Components in an Undirected Graph](https://leetcode.com/problems/number-of-connected-components-in-an-undirected-graph/)
 
@@ -393,3 +394,5 @@ class UnionFind {
     }
 }
 ```
+
+ @include ../leetcode/1202.smallest-string-with-swaps.md

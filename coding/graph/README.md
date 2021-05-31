@@ -13,6 +13,9 @@
     * [Find the Celebrity](#find-the-celebrity)
     * [Flood Fill](#flood-fill)
     * [Making A Large Island](#making-a-large-island)
+    * [As Far from Land as Possible](#as-far-from-land-as-possible)
+    * [Keys and Rooms](#keys-and-rooms)
+    * [Smallest String With Swaps](#smallest-string-with-swaps)
 <!-- GFM-TOC -->
 
 <!-- @include ../leetcode/0785.is-graph-bipartite.md -->
@@ -645,7 +648,8 @@ function floodFillHelper(image, currentRow, currentCol, oldColor, newColor, visi
     floodFillHelper(image, currentRow, currentCol - 1, oldColor, newColor, visited);
 }
 ```
-<!-- @include ../leetcode/0827.making-a-large-island.md -->
+
+<!-- @include ../leetcode/0827.making-a-large-island.md -->
 ### Making A Large Island
 [827. Making A Large Island](https://leetcode.com/problems/making-a-large-island/)
 
@@ -732,5 +736,226 @@ function dfs(grid, row, col, color) {
         + dfs(grid, row - 1, col, color)
         + dfs(grid, row, col + 1, color)
         + dfs(grid, row, col - 1, color);
+}
+```
+
+<!-- @include ../leetcode/1162.as-far-from-land-as-possible.md -->
+### As Far from Land as Possible
+[1162. As Far from Land as Possible](https://leetcode.com/problems/as-far-from-land-as-possible/)
+
+```html
+Given an n x n grid containing only values 0 and 1, where 0 represents water and 1 represents land, find a water cell such that its distance to the nearest land cell is maximized, and return the distance. If no land or water exists in the grid, return -1.
+
+The distance used in this problem is the Manhattan distance: the distance between two cells (x0, y0) and (x1, y1) is |x0 - x1| + |y0 - y1|.
+
+Example 1:
+
+
+Input: grid = [[1,0,1],[0,0,0],[1,0,1]]
+Output: 2
+Explanation: The cell (1, 1) is as far as possible from all the land with distance 2.
+Example 2:
+
+
+Input: grid = [[1,0,0],[0,0,0],[0,0,0]]
+Output: 4
+Explanation: The cell (2, 2) is as far as possible from all the land with distance 4.
+```
+
+```javascript
+const dir = [[-1, 0], [1, 0], [0,-1], [0, 1]];
+var maxDistance = function(grid) {
+    let ret = 0;
+    let queue = [];
+    for (let i = 0; i < grid.length; i++) {
+        for(let j = 0; j < grid.length; j++){
+            if (grid[i][j] === 1) {
+                queue.push([i, j]);
+            }
+        }
+    }
+
+    let step = 0;
+    while (queue.length > 0) {
+        ret = Math.max(ret, (step++));
+        const nextQueue = [];
+
+        for (const [row, col] of queue) {
+            for(const [deltaRow, deltaCol] of dir) {
+                const nextRow = row + deltaRow, nextCol = col + deltaCol;
+                if (grid[nextRow] !== undefined && grid[nextRow][nextCol] === 0) {
+                    grid[nextRow][nextCol] = -1;
+                    nextQueue.push([nextRow, nextCol]);
+                }
+            }
+        }
+        queue = nextQueue;
+    }
+    return ret === 0 ? -1 : ret;
+};
+```
+
+<!-- @include ../leetcode/0841.keys-and-rooms.md -->
+### Keys and Rooms
+[841. Keys and Rooms](https://leetcode.com/problems/keys-and-rooms/)
+
+```html
+There are N rooms and you start in room 0.  Each room has a distinct number in 0, 1, 2, ..., N-1, and each room may have some keys to access the next room. 
+
+Formally, each room i has a list of keys rooms[i], and each key rooms[i][j] is an integer in [0, 1, ..., N-1] where N = rooms.length.  A key rooms[i][j] = v opens the room with number v.
+
+Initially, all the rooms start locked (except for room 0). 
+
+You can walk back and forth between rooms freely.
+
+Return true if and only if you can enter every room.
+
+Example 1:
+
+Input: [[1],[2],[3],[]]
+Output: true
+Explanation:  
+We start in room 0, and pick up key 1.
+We then go to room 1, and pick up key 2.
+We then go to room 2, and pick up key 3.
+We then go to room 3.  Since we were able to go to every room, we return true.
+Example 2:
+
+Input: [[1,3],[3,0,1],[2],[0]]
+Output: false
+Explanation: We can't enter the room with number 2.
+```
+
+```javascript
+var canVisitAllRooms = function(rooms) {
+    const visited = new Map();
+    dfs(rooms, 0, visited);
+    return rooms.length === visited.size;
+};
+function dfs(rooms, currentRoom, visited) {
+    if (visited.get(currentRoom)) { return; }
+    visited.set(currentRoom, true);
+    for (const key of rooms[currentRoom]){
+        dfs(rooms, key, visited);
+    }
+}
+```
+
+<!-- @include ../leetcode/1202.smallest-string-with-swaps.md -->
+### Smallest String With Swaps
+[1202. Smallest String With Swaps](https://leetcode.com/problems/smallest-string-with-swaps/)
+
+```html
+You are given a string s, and an array of pairs of indices in the string pairs where pairs[i] = [a, b] indicates 2 indices(0-indexed) of the string.
+
+You can swap the characters at any pair of indices in the given pairs any number of times.
+
+Return the lexicographically smallest string that s can be changed to after using the swaps.
+
+Example 1:
+Input: s = "dcab", pairs = [[0,3],[1,2]]
+Output: "bacd"
+Explaination: 
+Swap s[0] and s[3], s = "bcad"
+Swap s[1] and s[2], s = "bacd"
+
+Example 2:
+Input: s = "dcab", pairs = [[0,3],[1,2],[0,2]]
+Output: "abcd"
+Explaination: 
+Swap s[0] and s[3], s = "bcad"
+Swap s[0] and s[2], s = "acbd"
+Swap s[1] and s[2], s = "abcd"
+
+Example 3:
+Input: s = "cba", pairs = [[0,1],[1,2]]
+Output: "abc"
+Explaination: 
+Swap s[0] and s[1], s = "bca"
+Swap s[1] and s[2], s = "bac"
+Swap s[0] and s[1], s = "abc"
+```
+
+Union Find:
+```javascript
+var smallestStringWithSwaps = function(s, pairs) {
+    const n = s.length;
+
+    const uf = new UnionFind(s.length);
+    for (let [a, b] of pairs) {
+        uf.union(a, b);
+    }
+
+    const groups = {}
+    for (let i = 0; i < n; i++) {
+        const root = uf.find(i);
+        if (!groups[root]) { groups[root] = []; }
+        groups[root].push(i)
+    }
+
+    let res = s.split('');
+    for (const key in groups) {
+        let group = groups[key];
+        let sorted = [...group].sort((i1, i2) => s[i1].localeCompare(s[i2]))
+        for (let i = 0; i < group.length; i++) {
+            res[group[i]] = s[sorted[i]]
+        }
+    }
+    return res.join('')
+};
+class UnionFind {
+    constructor(n) {
+        this.roots = [...Array(n)].map((_, index) => index);
+    }
+    
+    find(key) {
+        if (this.roots[key] === key) { return key; }
+        
+        this.roots[key] = this.find(this.roots[key]);
+        return this.roots[key];
+    }
+    
+    union(x, y) {
+        const rootX = this.find(x);
+        const rootY = this.find(y);
+        
+        if (rootX === rootY) { return false; }
+        this.roots[rootX] = rootY;
+        return true;
+    }
+}
+```
+
+DFS:
+```javascript
+var smallestStringWithSwaps = function(s, pairs) {
+    if (!pairs.length) { return s; }
+    const graph = [...Array(s.length)].map(() => []);
+    for (const [u, v] of pairs) {
+        graph[u].push(v);
+        graph[v].push(u);
+    }
+
+    let result = s.split('');
+    let visited = new Array(s.length).fill(false);
+
+    for (let i = 0; i < s.length; i++) {
+        const indexes = [];
+        dfs(s, graph, i, indexes, visited);
+        indexes.sort((a, b) => a - b);
+        const sorted = [...indexes].sort((a, b) => s[a].localeCompare(s[b]));
+        for (let j = 0; j < indexes.length; j++) {
+            result[indexes[j]] = s[sorted[j]];
+        }
+    }
+    return result.join('');
+};
+function dfs(s, graph, current, indexes, visited) {
+    if (visited[current]) { return; }
+    visited[current] = true;
+    indexes.push(current);
+    for (const neighbor of graph[current]){
+        dfs(s, graph, neighbor, indexes, visited);
+    }
 }
 ```
