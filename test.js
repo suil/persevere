@@ -1,67 +1,50 @@
-/**
- * @param {number[]} nums
- * @return {number[]}
- */
- var countSmaller = function(nums) {
-    nums = nums.map((val, index) => ({ val, index }));
-    const inversions = Array(nums.length).fill(0);
-    console.log(mergeSort(nums, inversions));
-    console.log(inversions)
-    return inversions;
+var calcEquation = function(equations, values, queries) {
+    let roots = {}
     
-    if (nums.length == 0 || !nums) return nums;
+    function find(key) {
+        if (!roots[key]) { roots[key] = [key, 1]; }
 
-    const map = nums.map((val, index) => ({ val, index }));
-    
-    var merge = function(arr) {
-        if (arr.length === 1) { return arr; }
-        let mid = Math.floor(arr.length / 2);
-        let leftMerged = merge(arr.slice(0, mid));
-        let rightMerged = merge(arr.slice(mid));
+        const [rootKey, rootValue] = roots[key];
+        if (rootKey === key) {
+            return roots[key];
+        }
+        
+        const [parentKey, parentValue] = find(rootKey);
+        roots[key] = [parentKey, parentValue * rootValue];
+        return roots[key];
+    }
 
-        let leftIndex = 0, rightIndex = 0, inversionCount = 0, sorted = [];
-        // compare numbers from left part to right part
-        while (leftIndex < leftMerged.length && rightIndex < rightMerged.length) {
-            if (leftMerged[leftIndex].val > rightMerged[rightIndex].val) {
-                // inversion found
-                inversionCount++;
-                sorted.push(rightMerged[rightIndex++]);
+    function union(x, y, value) {
+        const [xRoot, xValue] = find(x);
+        const [yRoot, yValue] = find(y);
+        if (xRoot !== yRoot) {
+            roots[xRoot] = [yRoot, (yValue / xValue) * value];
+        }
+    }
+
+    for (let i = 0; i < equations.length; i++) {
+        const [v1, v2] = equations[i];
+        union(v1, v2, values[i]);
+    }  
+
+    const result = [];
+    for (let i = 0; i < queries.length; i++) {
+        const [from, to] = queries[i];
+
+        if (!roots[from] || !roots[to]) {
+            result[i] = -1;
+        } else {
+            const [fromRoot, fromValue] = find(from);
+            const [toRoot, toValue] = find(to);
+            if (fromRoot != toRoot) {
+                result[i] = -1;
             } else {
-                // no inversions for this number (or right is exhausted)
-                // update its inversion count up to the current stack
-                inversion[leftMerged[leftIndex].index] += inversionCount;
-                sorted.push(leftMerged[leftIndex++]);
+                result[i] = fromValue / toValue;
             }
         }
-
-        // deal with left over right values and return
-        return [...sorted, ...rightMerged.slice(rightIndex)];        
     }
-
-    merge(map);
-    return inversion;
+    return result;
 };
 
-var mergeSort = function(arr, inversions) {
-    if (arr.length === 1) { return arr; }
-    let mid = Math.floor(arr.length / 2);
-    let leftSorted = mergeSort(arr.slice(0, mid));
-    let rightSorted = mergeSort(arr.slice(mid));
+calcEquation([["a","b"],["b","c"]], [2.0,3.0], [["a","c"],["b","a"],["a","e"],["a","a"],["x","x"]]);
 
-    let leftIndex = 0, rightIndex = 0, sorted = [], inversionCount = 0;
-    // compare numbers from left part to right part
-    while (leftIndex < leftSorted.length && rightIndex < rightSorted.length) {
-        if (leftSorted[leftIndex].val > rightSorted[rightIndex].val) {
-            inversionCount++;
-            sorted.push(rightSorted[rightIndex++]);
-        } else {
-            inversions[arr[leftIndex].index] += inversionCount;
-            sorted.push(leftSorted[leftIndex++]);
-        }
-    }
-
-    // deal with left over right values and return
-    return [...sorted, ...leftSorted.slice(leftIndex), ...rightSorted.slice(rightIndex)];        
-}
-
-countSmaller([5,2,6,1])
