@@ -9,6 +9,8 @@
     * [Evaluate Division](#evaluate-division.md)
     * [Find Eventual Safe States](#find-eventual-safe-states)
     * [Largest Component Size by Common Factor](#largest-component-size-by-common-factor)
+    * [Satisfiability of Equality Equations](#satisfiability-of-equality-equations)
+    * [Sentence Similarity II](#sentence-similarity-ii)
 <!-- GFM-TOC -->
 
 ## Union Find
@@ -818,5 +820,150 @@ function getFactors(number) {
         }
     }
     return [...res.values()];
+}
+```
+
+<!-- @include ../leetcode/0990.satisfiability-of-equality-equations.md -->
+### Satisfiability of Equality Equations
+[990. Satisfiability of Equality Equations](https://leetcode.com/problems/satisfiability-of-equality-equations/)
+
+```html
+Given an array equations of strings that represent relationships between variables, each string equations[i] has length 4 and takes one of two different forms: "a==b" or "a!=b".  Here, a and b are lowercase letters (not necessarily different) that represent one-letter variable names.
+
+Return true if and only if it is possible to assign integers to variable names so as to satisfy all the given equations.
+
+Example 1:
+
+Input: ["a==b","b!=a"]
+Output: false
+Explanation: If we assign say, a = 1 and b = 1, then the first equation is satisfied, but not the second.  There is no way to assign the variables to satisfy both equations.
+
+Example 2:
+Input: ["b==a","a==b"]
+Output: true
+Explanation: We could assign a = 1 and b = 1 to satisfy both equations.
+
+Example 3:
+Input: ["a==b","b==c","a==c"]
+Output: true
+
+Example 4:
+Input: ["a==b","b!=c","c==a"]
+Output: false
+
+Example 5:
+Input: ["c==c","b==d","x!=z"]
+Output: true
+```
+
+```javascript
+var equationsPossible = function(equations) {
+    const uf = new UnionFind();
+    for (const equation of equations) {
+        const [v1, op1, , v2] = equation;
+        if (op1 === '=') {
+            uf.union(v1, v2);
+        }
+    }
+    
+    for (const equation of equations) {
+        const [v1, op1, , v2] = equation;
+        if (op1 === '!') {
+            if (uf.find(v1) === uf.find(v2)) { return false; }
+        }
+    }
+    return true;
+};
+class UnionFind {
+    constructor() {
+        this.roots = {};
+    }
+    
+    find(key) {
+        if (!this.roots[key]) { this.roots[key] = key; }
+        if (this.roots[key] === key) { return key; }
+        
+        this.roots[key] = this.find(this.roots[key]);
+        return this.roots[key];
+    }
+    
+    union(x, y) {
+        const rootX = this.find(x);
+        const rootY = this.find(y);
+        if (rootX !== rootY) {
+            this.roots[rootY] = rootX;
+        }
+    }
+}
+```
+
+<!-- @include ../leetcode/0737.sentence-similarity-ii.md -->
+### Sentence Similarity II
+[737. Sentence Similarity II](https://leetcode.com/problems/sentence-similarity-ii/)
+
+```html
+We can represent a sentence as an array of words, for example, the sentence "I am happy with leetcode" can be represented as arr = ["I","am",happy","with","leetcode"].
+
+Given two sentences sentence1 and sentence2 each represented as a string array and given an array of string pairs similarPairs where similarPairs[i] = [xi, yi] indicates that the two words xi and yi are similar.
+
+Return true if sentence1 and sentence2 are similar, or false if they are not similar.
+
+Two sentences are similar if:
+
+They have the same length (i.e., the same number of words)
+sentence1[i] and sentence2[i] are similar.
+Notice that a word is always similar to itself, also notice that the similarity relation is transitive. For example, if the words a and b are similar, and the words b and c are similar, then a and c are similar.
+
+Example 1:
+
+Input: sentence1 = ["great","acting","skills"], sentence2 = ["fine","drama","talent"], similarPairs = [["great","good"],["fine","good"],["drama","acting"],["skills","talent"]]
+Output: true
+Explanation: The two sentences have the same length and each word i of sentence1 is also similar to the corresponding word in sentence2.
+
+Example 2:
+
+Input: sentence1 = ["I","love","leetcode"], sentence2 = ["I","love","onepiece"], similarPairs = [["manga","onepiece"],["platform","anime"],["leetcode","platform"],["anime","manga"]]
+Output: true
+Explanation: "leetcode" --> "platform" --> "anime" --> "manga" --> "onepiece".
+Since "leetcode is similar to "onepiece" and the first two words are the same, the two sentences are similar.
+
+Example 3:
+
+Input: sentence1 = ["I","love","leetcode"], sentence2 = ["I","love","onepiece"], similarPairs = [["manga","hunterXhunter"],["platform","anime"],["leetcode","platform"],["anime","manga"]]
+Output: false
+Explanation: "leetcode" is not similar to "onepiece".
+```
+
+```javascript
+var areSentencesSimilarTwo = function(sentence1, sentence2, similarPairs) {
+    if (sentence1.length !== sentence2.length) { return false; }
+    
+    const uf = new UnionFind();
+    for (const [word1, word2] of similarPairs) {
+        uf.union(word1, word2);
+    }
+
+    for (let i = 0; i < sentence1.length; i++) {
+        if (uf.find(sentence1[i]) !== uf.find(sentence2[i])) { return false; }
+    }
+    return true;
+};
+class UnionFind {
+    constructor() {
+        this.roots = {};
+    }
+    find(key) {
+        if (!this.roots[key]) { this.roots[key] = key; }
+        if (this.roots[key] === key) { return key; }
+        this.roots[key] = this.find(this.roots[key]);
+        return this.roots[key];
+    }
+    union(x, y) {
+        const rootX = this.find(x);
+        const rootY = this.find(y);
+        if (rootX !== rootY) {
+            this.roots[rootY] = rootX;
+        }
+    }
 }
 ```
