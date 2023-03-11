@@ -45,8 +45,9 @@ var twoSum = function(numbers, target) {
 [1099. Two Sum Less Than K](https://leetcode.com/problems/two-sum-less-than-k/)
 
 ```html
+<pre>
 Given an array nums of integers and integer k, return the maximum sum such that
-there exists i \< j with nums[i] + nums[j] = sum and sum &#60; k. If no i, j exist
+there exists i &lt; j with nums[i] + nums[j] = sum and sum &gt; k. If no i, j exist
 satisfying this equation, return -1. 
 
 Example 1:
@@ -60,6 +61,7 @@ Example 2:
 Input: nums = [10,20,30], k = 15
 Output: -1 Explanation: In this case it is not possible to get a pair sum less
 that 15.
+</pre>
 ```
 
 ```javascript
