@@ -2,6 +2,7 @@
 <!-- GFM-TOC -->
 * Two Pointers
     * [Two Sum II](#two-sum-ii)
+    * [Two Sum Less Than K](#two-sum-less-than-k)
     * [Sum of Square Numbers](#Sum-of-Square-Numbers)
     * [Reverse Vowels of a String](#Reverse-Vowels-of-a-String)
     * [Valid Palindrome II](#Valid-Palindrome-II)
