@@ -39,6 +39,49 @@ var twoSum = function(numbers, target) {
     return [-1, -1]
 };
 ```
+<!-- @include ../leetcode/0633.sum-of-square-numbers.md -->
+### Two Sum Less Than K
+
+[1099. Two Sum Less Than K](https://leetcode.com/problems/two-sum-less-than-k/)
+
+```html
+Given an array nums of integers and integer k, return the maximum sum such that
+there exists i < j with nums[i] + nums[j] = sum and sum < k. If no i, j exist
+satisfying this equation, return -1. 
+
+Example 1:
+
+Input: nums = [34,23,1,24,75,33,54,8], k = 60 
+
+Output: 58 Explanation: We can use 34 and 24 to
+sum 58 which is less than 60. 
+
+Example 2:
+Input: nums = [10,20,30], k = 15
+Output: -1 Explanation: In this case it is not possible to get a pair sum less
+that 15.
+```
+
+```javascript
+var twoSumLessThanK = function (nums, k) {
+  let i = 0;
+  let j = nums.length - 1;
+  let finalSum = -1;
+  nums.sort((a, b) => a - b);
+
+  while (i < j) {
+    const sum = nums[i] + nums[j];
+    if (sum >= k) {
+      j--;
+    } else {
+      finalSum = Math.max(finalSum, sum);
+      i++;
+    }
+  }
+
+  return finalSum;
+};
+```
 
 <!-- @include ../leetcode/0633.sum-of-square-numbers.md -->
 ### Sum of Square Numbers
@@ -165,7 +208,8 @@ var merge = function(nums1, m, nums2, n) {
     return nums1;
 };
 ```
-<!-- @include ../leetcode/0141.linked-list-cycle.md -->
+
+<!-- @include ../leetcode/0141.linked-list-cycle.md -->
 ### Linked List Cycle
 [141. Linked List Cycle](https://leetcode.com/problems/linked-list-cycle/)
 
