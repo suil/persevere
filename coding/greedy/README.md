@@ -29,7 +29,7 @@
 
 <!-- GFM-TOC -->
 
-Ensure every operation is local optimum, and final result is global optimum.
+Ensure every operation is local optimum, and final result will be global optimum.
 
 ## Assignment
 
