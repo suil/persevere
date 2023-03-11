@@ -46,7 +46,7 @@ var twoSum = function(numbers, target) {
 
 ```html
 Given an array nums of integers and integer k, return the maximum sum such that
-there exists i &#60; j with nums[i] + nums[j] = sum and sum &#60; k. If no i, j exist
+there exists i `<` j with nums[i] + nums[j] = sum and sum &#60; k. If no i, j exist
 satisfying this equation, return -1. 
 
 Example 1:
