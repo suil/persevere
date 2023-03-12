@@ -7,16 +7,16 @@ async function processReadMe(readmeFilePath) {
     try {
         let readmeContent = (await fs.promises.readFile(readmeFilePath)).toString();
 
-        const matches = readmeContent.match(/@include .+/ig);
+        const matches = readmeContent.match(/\n@include .+/ig);
         if (!matches) { return; }
 
         for (const match of matches) {
-            const split = match.replace(/\w*-->$/, '').trim().split('@include ');
+            const split = match.trim().split('@include ');
             const file = split.filter(s => s.trim())[0];
             const filePath = path.join(readmeFileDir, file);
             const includedFileContent = (await fs.promises.readFile(filePath)).toString();
             readmeContent = readmeContent.replace(match,
-                `${match.trim()}\n${includedFileContent}`
+                `<!-- ${match.trim()} -->\n${includedFileContent}`
             );
         }
 

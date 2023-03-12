@@ -7,6 +7,7 @@
         * [Non-overlapping Intervals](#Non-overlapping-Intervals)
         * [Minimum Number of Arrows to Burst Balloons](#Minimum-Number-of-Arrows-to-Burst-Balloons)
         * [Interval List Intersections](#Interval-List-Intersections)
+        * [Meeting Rooms](#meeting-rooms)
         * [Meeting Rooms II](#Meeting-Rooms-II)
         * [Merge Intervals](#Merge-Intervals)
         * [Insert Interval](#insert-interval)
