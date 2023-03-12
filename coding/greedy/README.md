@@ -83,20 +83,21 @@ var eraseOverlapIntervals = function(intervals) {
 
 ```javascript
 var findMinArrowShots = function(points) {
-    if (points.length === 0) {
-        return 0;
+  points.sort((a, b) => a[1] - b[1]);
+  
+  let prevEnd = points[0][1];
+  let count = 1;
+  for (let i = 1; i < points.length; i++) {
+    const [currentStart, currentEnd] = points[i];
+    if (currentStart > prevEnd) { // not overlapping
+      count++;
+      prevEnd = currentEnd;
+    } else { // overlapping
+      prevEnd = Math.min(prevEnd, currentEnd);
     }
-    points.sort((a, b) => a[1] - b[1]);
-    
-    let end = points[0][1];
-    let arrow = 1;
-    for (let i = 1; i < points.length; i++) {
-        if (points[i][0] > end) {
-            arrow++;
-            end = points[i][1];
-        }
-    }
-    return arrow;
+  }
+
+  return count;
 };
 ```
 
