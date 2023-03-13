@@ -4,7 +4,7 @@
     * [Assignment](#Assignment)
         * [Assign Cookies](#Assign-Cookies)
     * [Intervals](#Intervals)
-        * [Non-overlapping Intervals](#Non-overlapping-Intervals)
+        * [Non-overlapping Intervals](#non--overlapping-Intervals)
         * [Minimum Number of Arrows to Burst Balloons](#Minimum-Number-of-Arrows-to-Burst-Balloons)
         * [Interval List Intersections](#Interval-List-Intersections)
         * [Meeting Rooms](#meeting-rooms)
@@ -129,6 +129,7 @@ var intervalIntersection = function(firstList, secondList) {
 }
 ```
 
+<!-- @include ../leetcode/0253.meeting-rooms-ii.md -->
 ### Meeting Rooms
 [253. Meeting Rooms](https://leetcode.com/problems/meeting-rooms/)
 ```javascript
@@ -152,32 +153,66 @@ var canAttendMeetings = function(intervals) {
 };
 ```
 
+<!-- @include ../leetcode/0253.meeting-rooms-ii.md -->
 ### Meeting Rooms II
-[253. Meeting Rooms II](https://leetcode.com/problems/meeting-rooms-ii/)
+[253. Meeting Rooms](https://leetcode.com/problems/meeting-rooms-ii)
+
+```html
+Given an array of meeting time intervals intervals where intervals[i] = [starti, endi], return the minimum number of conference rooms required.
+```
+
 ```javascript
 var minMeetingRooms = function(intervals) {
-    if (intervals.length < 1) { return 0; }
-    
-    // sort intervals by start time
-    intervals.sort((a, b) => a[0] - b[0]);
-    
-    //save the end time of all rooms
-    let roomEndTime = [intervals[0][1]];
-    for (let i = 1; i < intervals.length; i++){
-        const [start, end] = intervals[i];
-        
-        // the earliest available time 
-        const earliestRoomEndTime = Math.min(...roomEndTime)
-        
-        if (start < earliestRoomEndTime) {
-            roomEndTime.push(end);
-        } else {
-            roomEndTime[roomEndTime.indexOf(earliestRoomEndTime)] = end;
-        }
+  // edge cases
+
+  // initial states
+  intervals.sort((a, b) => a[0] - b[0]);
+
+  const meetingEndTimes = [intervals[0][1]];  
+
+  for (let i = 1; i < intervals.length; i++) {
+    const [currentStart, currentEnd] = intervals[i];
+    const earliestMeetingEndTimes = Math.min(...meetingEndTimes);
+    if (currentStart >= earliestMeetingEndTimes) { // no overlapping
+      // not open a new room, but update the current end time
+      meetingEndTimes[meetingEndTimes.indexOf(earliestMeetingEndTimes)] = currentEnd;
+    } else { // overlapping
+      meetingEndTimes.push(currentEnd);
     }
-    return roomEndTime.length;
+  }
+
+  return meetingEndTimes.length
 };
 ```
+<!-- @include end -->
+
+```java
+class Solution {
+  public int minMeetingRooms(int[][] intervals) {
+    // edge case
+
+    // initial state
+    Arrays.sort(intervals, (int[] a, int[] b) -> (a[0] - b[0]));
+    PriorityQueue<Integer> minHeap = new PriorityQueue<>((a, b) -> a - b);
+    minHeap.add(intervals[0][1]);
+
+    for (int i = 1; i < intervals.length; i++) {
+      int currentStart = intervals[i][0];
+      int currentEnd = intervals[i][1];
+
+      if (currentStart >= minHeap.peek()) { // not overlapping
+        minHeap.poll();
+        minHeap.add(intervals[i][1]);
+      } else { // overlapping
+        minHeap.add(intervals[i][1]);
+      }
+    }
+
+    return minHeap.size();        
+  }
+}
+```
+<!-- @include end -->
 
 <!-- @include ../leetcode/0056.merge-intervals.md -->
 ### Merge Intervals
