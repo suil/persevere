@@ -234,24 +234,32 @@ Explanation: Intervals [1,4] and [4,5] are considered overlapping.
 
 ```javascript
 var merge = function(intervals) {
-    if (intervals.length === 0) { return []; }
-    
-    intervals.sort((a, b) => a[0] - b[0]);
-    
-    const output = [];
-    let previous = intervals[0];
-    
-    for (let i = 1; i < intervals.length; i++) {
-        const current = intervals[i];
-        if (previous[1] >= current[0]) {
-            previous[1] = Math.max(previous[1], current[1]);
-        } else {
-            output.push(previous);
-            previous = current;
-        }
+  // edge case
+  if (intervals.length === 0) {
+    return [];
+  }
+
+  // intial state
+  intervals.sort((a, b) => a[0] - b[0]);
+
+  const output = [intervals[0]];
+  let previous = intervals[0];
+
+  for (let i = 1; i < intervals.length; i++) {
+    const current = intervals[i];
+    const [currentStart, currentEnd] = current;
+
+    if (currentStart > previous[1]) { // no overlapping
+      previous = current;
+      output.push(current);
+    } else { // overlapping
+      const extendedEnd = Math.max(previous[1], currentEnd);
+      previous[1] = extendedEnd;
+      output[output.length - 1][1] = extendedEnd;
     }
-    output.push(previous);
-    return output;
+  }
+  
+  return output;
 };
 ```
 
