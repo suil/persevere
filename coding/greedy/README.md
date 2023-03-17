@@ -35,7 +35,6 @@ Ensure every operation is local optimum, and final result will be global optimum
 ## Assignment
 
 ### Assign Cookies
-
 [455\. Assign Cookies (Easy)](https://leetcode.com/problems/assign-cookies/description/)
 
 ```javascript
@@ -56,7 +55,6 @@ var findContentChildren = function(g, s) {
 ## Intervals
 
 ### Non-overlapping Intervals
-
 [435\. Non-overlapping Intervals (Medium)](https://leetcode.com/problems/non-overlapping-intervals/description/)
 
 ```javascript
@@ -294,33 +292,31 @@ Output: [[1,7]]
 ```
 
 ```javascript
-var insert = function(intervals, newInterval) {
+var merge = function(intervals) {
   // edge case
   if (intervals.length === 0) {
-    return [newInterval];
+    return [];
   }
 
-  let i = 0;
-  while (i < intervals.length && intervals[i][0] < newInterval[0]) { i++; }
-
-  intervals.splice(i, 0, newInterval);
+  // intial state
+  intervals.sort((a, b) => a[0] - b[0]);
 
   const output = [intervals[0]];
-
   let prevEnd = intervals[0][1];
 
   for (let i = 1; i < intervals.length; i++) {
     const current = intervals[i];
     const [currentStart, currentEnd] = current;
-    if (currentStart > prevEnd) { // no overlap
-      output.push(current);
+
+    if (currentStart > prevEnd) { // no overlapping
       prevEnd = currentEnd;
-    } else { // overlap
+      output.push(current);
+    } else { // overlapping
       prevEnd = Math.max(prevEnd, currentEnd);
       output[output.length - 1][1] = prevEnd;
     }
   }
-
+  
   return output;
 };
 ```
