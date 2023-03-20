@@ -1,6 +1,8 @@
 # Sliding Window
 <!-- GFM-TOC -->
 * [Sliding Window](#sliding-window)
+    * [Simple Sliding Window](#Simple-Sliding-Window)
+        * [Find the Index of the First Occurrence in a String](#Find-the-Index-of-the-First-Occurrence-in-a-String)
     * [Sliding Window + HashMap](#Sliding-window--Hashmap)
         * [Longest Substring with At Most K Distinct Characters](#Longest-Substring-with-At-Most-K-Distinct-Characters)
         * [Minimum Window Substring](Minimum-Window-Substring)
@@ -16,7 +18,7 @@ for (let right = 0; right < length; right++) {
 }
 ```
 
-### Slinding Window + HashMap
+## Slinding Window + HashMap
 ```javascript
 const map = new Map();
 let start = 0;
@@ -24,6 +26,57 @@ for (let i = 0; i < s.length; i++) {
     map.set(s[i], (map.get(s[i]) || 0) + 1);
     ... // logic there to decide how to move windows and calculate values in Map
     start++; // move window
+}
+```
+## Simple Sliding Window
+
+<!-- @include ../leetcode/0028.find-the-index-of-the-first-occurrence-in-a-string.md -->
+### Find the Index of the First Occurrence in a String
+[28. Find the Index of the First Occurrence in a String](https://leetcode.com/problems/find-the-index-of-the-first-occurrence-in-a-string)
+
+```html
+Given two strings needle and haystack, return the index of the first occurrence of needle in haystack, or -1 if needle is not part of haystack.
+
+Example 1:
+
+Input: haystack = "sadbutsad", needle = "sad"
+Output: 0
+Explanation: "sad" occurs at index 0 and 6.
+The first occurrence is at index 0, so we return 0.
+Example 2:
+
+Input: haystack = "leetcode", needle = "leeto"
+Output: -1
+Explanation: "leeto" did not occur in "leetcode", so we return -1.
+```
+
+```java
+class Solution {
+    public int strStr(String haystack, String needle) {
+        int haystackLen = haystack.length();
+        int needleLen = needle.length();
+
+        if (needleLen == 0) {
+            return 0;
+        }
+
+        if (haystackLen < needleLen) {
+            return -1;
+        }
+
+        for (int windowStart = 0; windowStart <= haystackLen - needleLen; windowStart++) {
+            for (int j = 0; j < needleLen; j++) {
+                if (haystack.charAt(windowStart + j) != needle.charAt(j)) {
+                    break;
+                }
+                if (j == needleLen - 1) {
+                    return windowStart;
+                }
+            }
+        }
+
+        return -1;
+    }
 }
 ```
 
@@ -118,7 +171,8 @@ var minWindow = function(s, t) {
     return output;
 };
 ```
-<!-- @include ../leetcode/0713.subarray-product-less-than-k.md -->
+
+<!-- @include ../leetcode/0713.subarray-product-less-than-k.md -->
 ### Subarray Product Less Than K
 [713. Subarray Product Less Than K](https://leetcode.com/problems/subarray-product-less-than-k/)
 
@@ -149,3 +203,4 @@ var numSubarrayProductLessThanK = function(nums, k) {
     return res;
 };
 ```
+
