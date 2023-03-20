@@ -649,8 +649,10 @@ var licenseKeyFormatting = function(S, K) {
 };
 ```
 
+<!-- @include ../leetcode/0621.task-scheduler.md -->
 ## Task Scheduler
 [621. Task Scheduler](https://leetcode.com/problems/task-scheduler/)
+
 ```javascript
 var leastInterval = function(tasks, n) {
     const frequencies = [...Array(26)].fill(0);
@@ -671,6 +673,41 @@ var leastInterval = function(tasks, n) {
     idleTime = Math.max(0, idleTime);
     return idleTime + tasks.length;
 };
+```
+
+```java
+class Solution {
+    public int leastInterval(char[] tasks, int n) {
+        HashMap<Character, Integer> map = new HashMap<>();
+        for (char c: tasks) {
+          map.put(c, map.getOrDefault(c, 0) + 1);
+        }
+
+        PriorityQueue<Integer> maxHeap = new PriorityQueue<>((a, b) -> b - a);
+        maxHeap.addAll(map.values());
+
+        int cycles = 0;
+        while (maxHeap.size() > 0) {
+          ArrayList<Integer> runningTasks = new ArrayList<Integer>();
+          for (int i = 0; i < n + 1; i++) {
+            if (maxHeap.size() > 0) {
+              runningTasks.add(maxHeap.remove());
+            }
+          }
+
+          for (int taskFreq: runningTasks) {
+            taskFreq--;
+            if (taskFreq > 0) {
+              maxHeap.add(taskFreq);
+            }
+          }
+
+          cycles += maxHeap.isEmpty() ? runningTasks.size() : n + 1;
+        }
+        
+        return cycles;
+    }
+}
 ```
 
 <!-- @include ../leetcode/0670.maximum-swap.md -->
