@@ -765,6 +765,54 @@ MyHashMap.prototype.find = function(key) {
 ```
 
 <!-- @include ../leetcode/0409.longest-palindrome.md -->
+### Longest Palindrome
+[409. Longest Palindrome](https://leetcode.com/problems/longest-palindrome)
 
+```html
+Given a string s which consists of lowercase or uppercase letters, return the length of the longest palindrome that can be built with those letters.
+
+Letters are case sensitive, for example, "Aa" is not considered a palindrome here.
+```
+
+```javascript
+var longestPalindrome = function(s) {
+    const freqMap = new Map();
+    for (let i = 0; i < s.length; i++) {
+        freqMap.set(s[i], (freqMap.get(s[i]) || 0) + 1);
+    }
+
+    let count = 0;
+    for (const [key, freq] of freqMap) {
+        count += Math.floor(freq / 2) * 2;
+    }
+    
+    if (count < s.length) {
+        count++; // leave it in the middle
+    }
+    return count;
+}
+```
+
+```javascript
+var longestPalindrome = function(s) {
+    let set = new Set();
+
+    let count = 0;
+    for (let i = 0; i < s.length; i++) {
+        if (set.has(s[i])) {
+            set.delete(s[i]);
+            count += 2;
+        } else {
+            set.add(s[i]);
+        }
+    }
+
+    if (set.size > 0) {
+        count++;
+    }
+
+    return count;
+};
+```
 <!-- @include-end ../leetcode/0409.longest-palindrome.md -->
 
