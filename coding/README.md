@@ -27,7 +27,7 @@
 - [String](string/README.md)
 - [Array and Matrix](array-matrix/README.md)
 - [Graph](graph/README.md)
-- [位运算](Leetcode%20题解%20-%20位运算.md)
+- [Bit Map](Leetcode%20题解%20-%20位运算.md)
 
 ## Unsorted
 [Everything](leetcode)

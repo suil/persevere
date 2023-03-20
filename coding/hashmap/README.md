@@ -763,3 +763,8 @@ MyHashMap.prototype.find = function(key) {
     return [idx, -1];
 }
 ```
+
+<!-- @include ../leetcode/0409.longest-palindrome.md -->
+
+<!-- @include-end ../leetcode/0409.longest-palindrome.md -->
+
