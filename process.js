@@ -15,13 +15,13 @@ async function processReadMe(readmeFilePath) {
             const file = split[1];
             const filePath = path.join(readmeFileDir, file);
             const includedFileContent = (await fs.promises.readFile(filePath)).toString();
-            if (file === '../leetcode/0409.longest-palindrome.md') {
-                debugger;
-            }
             readmeContent = readmeContent.replace(
-                new RegExp(`${match}\n\r{0,1}.*\n\r{0,1}<!-- @include-end ${file} -->`, 'gm'),
+                new RegExp(`${match}\r{0,1}\n\r{0,1}.*\r{0,1}\n\r{0,1}<!-- @include-end ${file} -->`, 'gm'),
                 `${match.trim()}\n${includedFileContent}\n<!-- @include-end ${file} -->`
             );
+            if (file === '../leetcode/0005.longest-palindromic-substring.md') {
+                debugger;
+            }
             console.log(`replaced: ${filePath}`);
         }
 
