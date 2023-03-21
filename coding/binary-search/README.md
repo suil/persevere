@@ -548,18 +548,26 @@ Given the sorted rotated array nums of unique elements, return the minimum eleme
 
 ```javascript
 var findMin = function(nums) {
-    let l = 0, h = nums.length - 1;
-    while (l < h) {
-        let m = Math.floor(l + (h - l) / 2);
-        if (nums[m] <= nums[h]) {
-            h = m;
+    let left = 0;
+    let right = nums.length - 1;
+    let min = Infinity;
+
+    while (left <= right) {
+        const mid = left + Math.floor((right - left) / 2);
+
+        if (nums[mid] >= nums[left]) {
+            min = Math.min(min, nums[left]);
+            left = mid + 1;
         } else {
-            l = m + 1;
+            min = Math.min(min, nums[mid]);
+            right = mid - 1;
         }
     }
-    return nums[l];
+
+    return min
 };
 ```
+<!-- @include-end ../leetcode/0153.find-minimum-in-rotated-sorted-array.md -->
 
 <!-- @include ../leetcode/0154.find-minimum-in-rotated-sorted-array-ii.md -->
 ### Find Minimum in Rotated Sorted Array II
