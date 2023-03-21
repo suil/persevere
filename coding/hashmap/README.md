@@ -76,6 +76,7 @@ var hasGroupsSizeX = function(deck) {
 function gcd(x, y) {
     return x === 0 ? y : gcd(y % x, x)
 }
+```
 
 <!-- @include ../leetcode/0243.shortest-word-distance.md -->
 ### Shortest Word Distance
@@ -142,7 +143,7 @@ var shortestDistance = function(wordsDict, word1, word2) {
     return min;
 }
 ```
-
+<!-- @include-end ../leetcode/0243.shortest-word-distance.md -->
 
 <!-- @include ../leetcode/0244.shortest-word-distance-ii.md -->
 ### Shortest Word Distance II
@@ -197,7 +198,7 @@ WordDistance.prototype.shortest = function(word1, word2) {
     return min;
 };
 ```
-
+<!-- @include-end ../leetcode/0244.shortest-word-distance-ii.md -->
 
 <!-- @include ../leetcode/0245.shortest-word-distance-iii.md -->
 ### Shortest Word Distance III
@@ -277,9 +278,8 @@ function shortestWordDistanceOnePass(words, word1, word2) {
     return min;
 }
 ```
+<!-- @include-end ../leetcode/0245.shortest-word-distance-iii.md -->
 
-
-```
 ## Logger Rate Limiter
 
 [359. Logger Rate Limiter (Easy)](https://leetcode.com/problems/logger-rate-limiter/)

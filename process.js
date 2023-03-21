@@ -19,9 +19,6 @@ async function processReadMe(readmeFilePath) {
                 new RegExp(`${match}\r{0,1}\n\r{0,1}.*\r{0,1}\n\r{0,1}<!-- @include-end ${file} -->`, 'gm'),
                 `${match.trim()}\n${includedFileContent}\n<!-- @include-end ${file} -->`
             );
-            if (file === '../leetcode/0005.longest-palindromic-substring.md') {
-                debugger;
-            }
             console.log(`replaced: ${filePath}`);
         }
 
