@@ -2,7 +2,7 @@
 <!-- GFM-TOC -->
 * [Leetcode 题解 - 搜索](#leetcode-题解---搜索)
     * [BFS](#bfs)
-        * [1. 计算在网格中从原点到特定点的最短路径长度](#1-计算在网格中从原点到特定点的最短路径长度)
+        * [1. Shortest Path in Binary Matrix](#1091-Shortest-Path-in-Binary-Matrix)
         * [2. 组成整数的最小平方数数量](#2-组成整数的最小平方数数量)
         * [3. 最短单词路径](#3-最短单词路径)
         * [Shortest Distance from All Buildings](#shortest-distance-from-all-buildings)
@@ -16,40 +16,37 @@
 <!-- GFM-TOC -->
 
 
-深度优先搜索和广度优先搜索广泛运用于树和图中，但是它们的应用远远不止如此。
+DFS and BFS are widely used in graphs and trees
 
 ## BFS
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/95903878-725b-4ed9-bded-bc4aae0792a9.jpg"/> </div><br>
 
-广度优先搜索一层一层地进行遍历，每层遍历都是以上一层遍历的结果作为起点，遍历一个距离能访问到的所有节点。需要注意的是，遍历过的节点不能再次被遍历。
-
-第一层：
+layer 1:
 
 - 0 -\> {6,2,1,5}
 
-第二层：
+layer 2:
 
 - 6 -\> {4}
 - 2 -\> {}
 - 1 -\> {}
 - 5 -\> {3}
 
-第三层：
+layer 3:
 
 - 4 -\> {}
 - 3 -\> {}
 
 每一层遍历的节点都与根节点距离相同。设 d<sub>i</sub> 表示第 i 个节点与根节点的距离，推导出一个结论：对于先遍历的节点 i 与后遍历的节点 j，有 d<sub>i</sub> <= d<sub>j</sub>。利用这个结论，可以求解最短路径等   **最优解**   问题：第一次遍历到目的节点，其所经过的路径为最短路径。应该注意的是，使用 BFS 只能求解无权图的最短路径，无权图是指从一个节点到另一个节点的代价都记为 1。
 
-在程序实现 BFS 时需要考虑以下问题：
+Implementation of BFS
 
-- 队列：用来存储每一轮遍历得到的节点；
-- 标记：对于遍历过的节点，应该将它标记，防止重复遍历。
+- queue：store nodes in every round
+- mark：mark visited nodes so that they won't be reused.
 
 ### Shortest Path in Binary Matrix
-
-[1091\. Shortest Path in Binary Matrix (Medium)] (https://leetcode.com/problems/shortest-path-in-binary-matrix/) / [力扣](https://leetcode-cn.com/problems/shortest-path-in-binary-matrix/)
+[1091. Shortest Path in Binary Matrix] (https://leetcode.com/problems/shortest-path-in-binary-matrix/) / [力扣](https://leetcode-cn.com/problems/shortest-path-in-binary-matrix/)
 
 ```html
 [[1,1,0,1],
@@ -94,6 +91,51 @@ public int shortestPathBinaryMatrix(int[][] grids) {
         }
         return -1;
     }
+```
+```javascript
+var shortestPathBinaryMatrix = function(grid) {
+    if (grid.length === 1 && grid[0].length === 1) {
+        return grid[0][0] === 0 ? 1 : -1;
+    }
+
+    const rowLen = grid.length;
+    const colLen = grid[0].length;
+
+    let queue = [[0, 0]];
+    let count = 0;
+    const directions = [
+      [1, -1], [1, 0], [1, 1],
+      [0, -1], [0, 1],
+      [-1, -1], [-1, 0], [-1, 1]
+    ];
+
+    while (queue.length > 0) {
+      const nextQueue = [];
+      count++;
+
+      for (const [row, col] of queue) {
+        if (row === rowLen - 1 && col === colLen - 1) {
+          return count;
+        }
+
+        if (grid[row][col] === 1) { continue; }
+
+        grid[row][col] = 1;
+
+        for (const [rowDir, colDir] of directions) {
+          const nextRow = row + rowDir;
+          const nextCol = col + colDir;
+          if (grid[nextRow]?.[nextCol] === 0) {
+            nextQueue.push([nextRow, nextCol]);
+          }
+        }
+      }
+
+      queue = nextQueue;
+    }
+
+    return -1;
+};
 ```
 
 ### 2. 组成整数的最小平方数数量
@@ -521,7 +563,8 @@ function numIslandsHelper(grid, startRow, startCol) {
     numIslandsHelper(grid, startRow, startCol - 1);
 }
 ```
-<!-- @include ../leetcode/0547.friend-circles.md -->
+
+<!-- @include ../leetcode/0547.friend-circles.md -->
 ### Number of Provinces
 [547. Number of Provinces](https://leetcode.com/problems/number-of-provinces/)
 
