@@ -15,10 +15,14 @@ async function processReadMe(readmeFilePath) {
             const file = split[1];
             const filePath = path.join(readmeFileDir, file);
             const includedFileContent = (await fs.promises.readFile(filePath)).toString();
-            readmeContent = readmeContent.replace(
-                new RegExp(`${match}\r{0,1}\n\r{0,1}.*\r{0,1}\n\r{0,1}<!-- @include-end ${file} -->`, 'gm'),
+            readmeContent = readmeContent.replace('\r\n', '\n').replace(
+                new RegExp(`${match}\n{0,1}.*\n{0,1}<!-- @include-end ${file} -->`, 'gm'),
                 `${match.trim()}\n${includedFileContent}\n<!-- @include-end ${file} -->`
             );
+            if (file === '../leetcode/1091.shortest-path-in-binary-matrix.md') {
+                console.log(match);
+                console.log(readmeContent);
+            }
             console.log(`replaced: ${filePath}`);
         }
 

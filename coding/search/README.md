@@ -38,15 +38,15 @@ layer 3:
 - 4 -\> {}
 - 3 -\> {}
 
-每一层遍历的节点都与根节点距离相同。设 d<sub>i</sub> 表示第 i 个节点与根节点的距离，推导出一个结论：对于先遍历的节点 i 与后遍历的节点 j，有 d<sub>i</sub> <= d<sub>j</sub>。利用这个结论，可以求解最短路径等   **最优解**   问题：第一次遍历到目的节点，其所经过的路径为最短路径。应该注意的是，使用 BFS 只能求解无权图的最短路径，无权图是指从一个节点到另一个节点的代价都记为 1。
-
 Implementation of BFS
 
 - queue：store nodes in every round
 - mark：mark visited nodes so that they won't be reused.
 
+<!-- @include ../leetcode/1091.shortest-path-in-binary-matrix.md -->
 ### Shortest Path in Binary Matrix
-[1091. Shortest Path in Binary Matrix] (https://leetcode.com/problems/shortest-path-in-binary-matrix/) / [力扣](https://leetcode-cn.com/problems/shortest-path-in-binary-matrix/)
+
+[1091. Shortest Path in Binary Matrix](https://leetcode.com/problems/shortest-path-in-binary-matrix/)
 
 ```html
 [[1,1,0,1],
@@ -54,8 +54,6 @@ Implementation of BFS
  [1,1,1,1],
  [1,0,1,1]]
 ```
-
-题目描述：0 表示可以经过某个位置，求解从左上角到右下角的最短路径长度。
 
 ```java
 public int shortestPathBinaryMatrix(int[][] grids) {
@@ -137,6 +135,7 @@ var shortestPathBinaryMatrix = function(grid) {
     return -1;
 };
 ```
+<!-- @include-end ../leetcode/1091.shortest-path-in-binary-matrix.md -->
 
 ### 2. 组成整数的最小平方数数量
 
