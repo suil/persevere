@@ -20,6 +20,7 @@
     * Max or Min on a contiguous subarray
         * [Maximum Subarray](#Maximum-Subarray)
         * [Maximum Product Subarray](#maximum-product-subarray)
+        * [Maximum Two Subarrays](#maximum-two-subarray)
     * [Can Place Flowers](#Can-Place-Flowers)
     * [Is Subsequence](#Is-Subsequence)
     * [Non-decreasing Array](#Non-decreasing-Array)
@@ -805,3 +806,45 @@ var gardenNoAdj = function(n, paths) {
     return ans;
 };
 ```
+
+<!-- @include L0041.maximum-subarray-ii -->
+### Maximum Two Subarray
+
+```html
+Given an array of integers, find two non-overlapping subarrays which have the largest sum.
+The number in each subarray should be contiguous.
+Return the largest sum.
+```
+
+```javascript
+  maxTwoSubArrays(nums) {
+    // write your code here
+    const left = [];
+    const right = [];
+    
+    let maxSum = -Infinity;
+    let currentSum = 0;
+    for (let i = 0; i < nums.length; i++) {
+      currentSum = Math.max(currentSum + nums[i], nums[i]);
+      maxSum = Math.max(currentSum, maxSum);
+      left[i] = maxSum;
+    }
+
+    currentSum = 0;
+    maxSum = -Infinity;
+    for (let i = nums.length - 1; i >= 0; i--) {
+      currentSum = Math.max(currentSum + nums[i], nums[i]);
+      maxSum = Math.max(currentSum, maxSum);
+      right[i] = maxSum;
+    }
+
+    currentSum = 0;
+    maxSum = -Infinity;
+    for (let i = 0; i < nums.length - 1; i++) {
+      maxSum = Math.max(maxSum, left[i] + right[i + 1]);
+    }
+
+    return maxSum;
+  }
+```
+<!-- @include-end L0041.maximum-subarray-ii -->
