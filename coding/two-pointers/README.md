@@ -15,6 +15,33 @@
     * [Valid Triangle Number](#valid-triangle-number)
 <!-- GFM-TOC -->
 
+<!-- @include ../leetcode/0001.two-sum.md -->
+### Two Sum
+[1. Two Sum](https://leetcode.com/problems/two-sum/)
+
+```html
+Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.
+
+You may assume that each input would have exactly one solution, and you may not use the same element twice.
+
+You can return the answer in any order.
+```
+
+```javascript
+var twoSum = function(nums, target) {
+    const map = new Map();
+    for (let i = 0; i < nums.length; i++) {
+        const remainder = target - nums[i];
+        if (map.has(remainder)) {
+            return [map.get(remainder), i];
+        }
+        map.set(nums[i], i);
+    }
+    return null;
+};
+```
+<!-- @include-end ../leetcode/0001.two-sum.md -->
+
 Two-pointer is an efficent way to navigate in an array.
 ## Two Sum II
 
