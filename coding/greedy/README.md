@@ -807,7 +807,7 @@ var gardenNoAdj = function(n, paths) {
 };
 ```
 
-<!-- @include L0041.maximum-subarray-ii -->
+<!-- @include L041.maximum-subarray-ii.md -->
 ### Maximum Two Subarray
 
 ```html
@@ -847,4 +847,76 @@ Return the largest sum.
     return maxSum;
   }
 ```
-<!-- @include-end L0041.maximum-subarray-ii -->
+<!-- @include-end L041.maximum-subarray-ii.md -->
+
+<!-- @include L041.maximum-subarray-ii.md -->
+### Maximum Subarray Difference
+
+```html
+Given an array with integers.
+
+Find two non-overlapping subarrays A and B, which ∣SUM(A)−SUM(B)∣ is the largest.
+
+Return the largest difference.
+```
+
+Greedy
+
+```javascript
+  maxDiffSubArrays(nums) {
+    // write your code here
+    const leftSumMax = [];
+    const rightSumMax = [];
+    const leftSumMin = [];
+    const rightSumMin = [];
+
+    let sum = nums[0];
+    let maxSum = -Infinity;
+    leftSumMax[0] = nums[0];
+    for (let i = 1; i < nums.length; i++) {
+      sum = Math.max(sum + nums[i], nums[i]);
+      maxSum = Math.max(maxSum, sum);
+      leftSumMax[i] = maxSum;
+    }
+
+    sum = nums[nums.length - 1];
+    maxSum = -Infinity;
+    rightSumMax[nums.length - 1] = nums[nums.length - 1];
+    for (let i = nums.length - 2; i >= 0; i--) {
+      sum = Math.max(sum + nums[i], nums[i]);
+      maxSum = Math.max(maxSum, sum);
+      rightSumMax[i] = maxSum;
+    }
+
+    sum = nums[0];
+    let minSum = Infinity;
+    leftSumMin[0] = nums[0];
+    for (let i = 1; i < nums.length; i++) {
+      sum = Math.min(sum + nums[i], nums[i]);
+      minSum = Math.min(minSum, sum);
+      leftSumMin[i] = minSum;
+    }
+
+    sum = nums[nums.length - 1];
+    minSum = Infinity;
+    rightSumMin[nums.length - 1] = nums[nums.length - 1];
+    for (let i = nums.length - 2; i >= 0; i--) {
+      sum = Math.min(sum + nums[i], nums[i]);
+      minSum = Math.min(minSum, sum);
+      rightSumMin[i] = minSum;
+    }
+
+    let max = -Infinity
+    for (let i = 0; i < nums.length - 1; i++) {
+      max = Math.max(
+        max, 
+        Math.abs(leftSumMax[i] - rightSumMin[i + 1]),
+        Math.abs(leftSumMin[i] - rightSumMax[i + 1]),
+      );
+    }
+
+    return max;
+  }
+}
+```
+<!-- @include-end L041.maximum-subarray-ii.md -->
