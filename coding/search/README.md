@@ -474,37 +474,6 @@ function maxAreaOfIslandHelper(grid, row, col) {
 }
 ```
 
-```javascript
-var maxAreaOfIsland = function(grid) {
-    let max = 0;
-    for (let row = 0; row < grid.length; row++) {
-        for (let col = 0; col < grid[0].length; col++) {
-            const area = maxAreaOfIslandHelper(grid, row, col);
-            max = Math.max(max, area);
-        }
-    }
-    return max;
-};
-
-function maxAreaOfIslandHelper(grid, row, col) {
-    if (grid[row] === undefined
-        || grid[row][col] === undefined
-        || grid[row][col] === 0
-    ) {
-        return 0;
-    }
-    
-    grid[row][col] = 0;
-    
-    return (1 +
-        maxAreaOfIslandHelper(grid, row + 1, col) +
-        maxAreaOfIslandHelper(grid, row - 1, col) +
-        maxAreaOfIslandHelper(grid, row, col + 1) +
-        maxAreaOfIslandHelper(grid, row, col - 1)
-    );
-}
-```
-
 <!-- @include ../leetcode/0200.number-of-islands.md -->
 ### Number of Islands
 [200. Number of Islands](https://leetcode.com/problems/number-of-islands/)
