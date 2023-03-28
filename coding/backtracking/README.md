@@ -102,7 +102,8 @@ function restoreIpAddressesHelper(s, segments, output) {
     }
 }
 ```
-<!-- @include ../leetcode/0257.binary-tree-paths.md -->
+
+<!-- @include ../leetcode/0257.binary-tree-paths.md -->
 ### Binary Tree Paths
 [257. Binary Tree Paths](https://leetcode.com/problems/binary-tree-paths/)
 
@@ -546,43 +547,97 @@ function isPalindrome (s) {
 }
 ```
 
+<!-- @include 0301.remove-invalid-parentheses.md -->
 ### Remove Invalid Parentheses
-[301. Remove Invalid Parentheses](https://leetcode.com/problems/remove-invalid-parentheses/)
+[301. Remove Invalid Parentheses](https://leetcode.com/problems/remove-invalid-parentheses)
+
+```html
+Given a string s that contains parentheses and letters, remove the minimum number of invalid parentheses to make the input string valid.
+
+Return a list of unique strings that are valid with the minimum number of removals. You may return the answer in any order.
+
+Example 1:
+
+Input: s = "()())()"
+Output: ["(())()","()()()"]
+Example 2:
+
+Input: s = "(a)())()"
+Output: ["(a())()","(a)()()"]
+Example 3:
+
+Input: s = ")("
+Output: [""]
+```
+
 ```javascript
 var removeInvalidParentheses = function(s) {
-    const output = { maxLen: 0, result: [] };
-	removeInvalidParenthesesHelper(s, 0, '', output);
-    return output.result.filter(expr => expr.length === output.maxLen);
-};
-function removeInvalidParenthesesHelper(str, numLeftParen, expression, output) {
-    if (str === '') {
-        if (numLeftParen === 0) {
-            if (!output.result.includes(expression)) {
-                output.result.push(expression);
-                output.maxLen = Math.max(output.maxLen, expression.length);
+    let lremove = 0;
+    let rremove = 0;
+
+    for (let i = 0; i < s.length; i++) {
+        if (s.charAt(i) == '(') {
+            lremove++;
+        } else if (s.charAt(i) == ')') {
+            if (lremove == 0) {
+                rremove++;
+            } else {
+                lremove--;
             }
+        }
+    }
+
+    const res = [];
+    helper(s, 0, lremove, rremove, res);
+
+    return res;
+};
+
+function helper(str, start, lremove, rremove, res) {
+    console.log({str})
+    if (lremove == 0 && rremove == 0) {
+        if (isValid(str)) {
+            res.push(str);
         }
         return;
     }
-    const nextS = str.substring(1);
-    if (str[0] === '(') {
-        // not taken '('
-        removeInvalidParenthesesHelper(nextS, numLeftParen, expression, output);
-        // taken '('
-        removeInvalidParenthesesHelper(nextS, numLeftParen + 1, expression + '(', output);
-    } else if (str[0] === ')') {
-        // has to have a '('
-        if (numLeftParen > 0) {
-            removeInvalidParenthesesHelper(nextS, numLeftParen - 1, expression + ')', output);
+
+    for (let i = start; i < str.length; i++) {
+        if (i != start && str.charAt(i) == str.charAt(i - 1)) {
+            continue;
         }
-        // has
-        removeInvalidParenthesesHelper(nextS, numLeftParen, expression, output);
-    } else {
-        // not parentheses
-        removeInvalidParenthesesHelper(nextS, numLeftParen, expression + str[0], output);
+        // if remaining string cannot be futhur removed return
+        if (lremove + rremove > str.length - i) {
+            return;
+        }
+        // try removing left parenthese
+        if (lremove > 0 && str.charAt(i) == '(') {
+            helper(str.substring(0, i) + str.substring(i + 1), i, lremove - 1, rremove, res);
+        }
+        // try removing right parenthese
+        if (rremove > 0 && str.charAt(i) == ')') {
+            helper(str.substring(0, i) + str.substring(i + 1), i, lremove, rremove - 1, res);
+        }
     }
 }
+
+function isValid(str) {
+    let cnt = 0;
+    for (let i = 0; i < str.length; i++) {
+        if (str.charAt(i) == '(') {
+            cnt++;
+        } else if (str.charAt(i) == ')') {
+            cnt--;
+            if (cnt < 0) {
+                return false;
+            }
+        }
+    }
+
+    return cnt == 0;
+}
 ```
+<!-- @include-end 0301.remove-invalid-parentheses.md -->
 
 ### Expression Add Operators
 [282. Expression Add Operators](https://leetcode.com/problems/expression-add-operators/)
