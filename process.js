@@ -10,9 +10,9 @@ async function processReadMe(readmeFilePath) {
         const matches = readmeContent.match(/<!-- @include .+/ig);
         if (!matches) { return; }
 
-        if (readmeFilePath.match(/backtracking/)) {
-            console.log(readmeFilePath, matches);
-        }
+        // if (readmeFilePath.match(/backtracking/)) {
+        //     console.log(readmeFilePath, matches);
+        // }
 
         for (const match of matches) {
             const split = match.trim().match(/^<!-- @include (.+) -->$/);
