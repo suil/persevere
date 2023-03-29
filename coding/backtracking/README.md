@@ -508,9 +508,29 @@ function combinationSum3Helper(k, target, current, combinations, output) {
 ```
 <!-- @include-end ../leetcode/0216.combination-sum-iii.md -->
 
+<!-- @include ../leetcode/0078.subsets.md -->
 ### Subsets
 
 [78\. Subsets (Medium)](https://leetcode.com/problems/subsets/description/)
+
+```html
+Given an integer array nums of unique elements, return all possible 
+subsets
+ (the power set).
+
+The solution set must not contain duplicate subsets. Return the solution in any order.
+
+ 
+
+Example 1:
+
+Input: nums = [1,2,3]
+Output: [[],[1],[2],[1,2],[3],[1,3],[2,3],[1,2,3]]
+Example 2:
+
+Input: nums = [0]
+Output: [[],[0]]
+```
 
 ```javascript
 var subsets = function(nums) {
@@ -538,10 +558,29 @@ function subsetsHelper(nums, k, current, combinations, output) {
     }
 }
 ```
+<!-- @include-end ../leetcode/0078.subsets.md -->
 
+<!-- @include ../leetcode/0078.subsets-ii.md -->
 ### Subsets II
 
 [90\. Subsets II (Medium)](https://leetcode.com/problems/subsets-ii/description/)
+
+```html
+Given an integer array nums that may contain duplicates, return all possible 
+subsets
+ (the power set).
+
+The solution set must not contain duplicate subsets. Return the solution in any order.
+
+Example 1:
+
+Input: nums = [1,2,2]
+Output: [[],[1],[1,2],[1,2,2],[2],[2,2]]
+Example 2:
+
+Input: nums = [0]
+Output: [[],[0]]
+```
 
 ```javascript
 var subsetsWithDup = function(nums) {
@@ -573,10 +612,29 @@ function subsetsWithDupHelper(nums, k, current, combinations, output) {
     }
 }
 ```
+<!-- @include-end ../leetcode/0078.subsets-ii.md -->
 
+<!-- @include ../leetcode/0131.palindrome-partitioning.md -->
 ### Palindrome Partitioning
 
 [131\. Palindrome Partitioning (Medium)](https://leetcode.com/problems/palindrome-partitioning/description/)
+
+```html
+Given a string s, partition s such that every 
+substring
+ of the partition is a 
+palindrome
+. Return all possible palindrome partitioning of s.
+
+Example 1:
+
+Input: s = "aab"
+Output: [["a","a","b"],["aa","b"]]
+Example 2:
+
+Input: s = "a"
+Output: [["a"]]
+```
 
 ```javascript
 var partition = function(s) {
@@ -613,6 +671,7 @@ function isPalindrome (s) {
     return true;
 }
 ```
+<!-- @include-end ../leetcode/0131.palindrome-partitioning.md -->
 
 <!-- @include ../leetcode/0301.remove-invalid-parentheses.md -->
 ### Remove Invalid Parentheses
@@ -622,6 +681,8 @@ function isPalindrome (s) {
 Given a string s that contains parentheses and letters, remove the minimum number of invalid parentheses to make the input string valid.
 
 Return a list of unique strings that are valid with the minimum number of removals. You may return the answer in any order.
+
+ 
 
 Example 1:
 
@@ -704,10 +765,34 @@ function isValid(str) {
     return cnt == 0;
 }
 ```
-<!-- @include-end 0301.remove-invalid-parentheses.md -->
+<!-- @include-end ../leetcode/0301.remove-invalid-parentheses.md -->
 
+<!-- @include ../leetcode/0282.expression-add-operators.md -->
 ### Expression Add Operators
 [282. Expression Add Operators](https://leetcode.com/problems/expression-add-operators/)
+
+```html
+Given a string num that contains only digits and an integer target, return all possibilities to insert the binary operators '+', '-', and/or '*' between the digits of num so that the resultant expression evaluates to the target value.
+
+Note that operands in the returned expressions should not contain leading zeros.
+
+Example 1:
+
+Input: num = "123", target = 6
+Output: ["1*2*3","1+2+3"]
+Explanation: Both "1*2*3" and "1+2+3" evaluate to 6.
+Example 2:
+
+Input: num = "232", target = 8
+Output: ["2*3+2","2+3*2"]
+Explanation: Both "2*3+2" and "2+3*2" evaluate to 8.
+Example 3:
+
+Input: num = "3456237490", target = 9191
+Output: []
+Explanation: There are no expressions that can be created from "3456237490" to evaluate to 9191.
+```
+
 ```javascript
 var addOperators = function(num, target) {
     const output = [];
@@ -743,9 +828,10 @@ function addOperatorsHelper(num, target, value, delta, path, output) {
     };
 }
 ```
+<!-- @include-end ../leetcode/0282.expression-add-operators.md -->
 
 <!-- @include ../leetcode/0010.regular-expression-matching.md -->
-## Regular Expression Matching
+### Regular Expression Matching
 [10. Regular Expression Matching](https://leetcode.com/problems/regular-expression-matching/)
 ```html
 Given an input string (s) and a pattern (p), implement regular expression matching with support for '.' and '*' where: 
@@ -801,6 +887,7 @@ function isMatchDP(s, p) {
     return dp[s.length][p.length];
 }
 ```
+<!-- @include-end ../leetcode/0010.regular-expression-matching.md -->
 
 <!-- @include ../leetcode/0254.factor-combinations.md -->
 ### Factor Combinations
@@ -853,7 +940,7 @@ function getFactorsHelper(n, current, factors, output) {
     }
 }
 ```
-
+<!-- @include-end ../leetcode/0254.factor-combinations.md -->
 
 <!-- @include ../leetcode/0698.partition-to-k-equal-sum-subsets.md -->
 ## Partition to K Equal Sum Subsets
