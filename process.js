@@ -10,16 +10,20 @@ async function processReadMe(readmeFilePath) {
         const matches = readmeContent.match(/<!-- @include .+/ig);
         if (!matches) { return; }
 
+        if (readmeFilePath.match(/backtracking/)) {
+            console.log(readmeFilePath, matches);
+        }
+
         for (const match of matches) {
             const split = match.trim().match(/^<!-- @include (.+) -->$/);
             const file = split[1];
             const filePath = path.join(readmeFileDir, file);
-            const includedFileContent = (await fs.promises.readFile(filePath)).toString();
+            const includedFileContent = fs.readFileSync(filePath).toString();
             readmeContent = readmeContent.replace(
                 new RegExp(`${match}.*<!-- @include-end ${file} -->`, 'gs'),
                 `${match.trim()}\n${includedFileContent.trim()}\n<!-- @include-end ${file} -->`
             );
-            // if (file.match(/shortest-path-in-binary-matrix/)) {
+            // if (file.match(/letter-combinations-of-a-phone-number.md/)) {
             //     console.log(match);
             //     console.log(readmeContent);
             // }
