@@ -28,47 +28,8 @@ Backtracking is a special case of DFS.
 - Backtracking solves the problem from bottom up.
 - Backtracking needs at least two extra parameters **intermediate result** and **final output**
 
-### Letter Combinations of a Phone Number
-
-[17\. Letter Combinations of a Phone Number (Medium)](https://leetcode.com/problems/letter-combinations-of-a-phone-number/description/)
-
-```javascript
-var letterCombinations = function(digits) {
-    if (digits.length === 0) {
-        return [];
-    }
-    
-    const output = [];
-    letterCombinationsHelper(digits, [], output);
-    return output;
-};
-
-const map = {
-    '2': ['a', 'b', 'c'],
-    '3': ['d', 'e', 'f'],
-    '4': ['g', 'h', 'i'],
-    '5': ['j', 'k', 'l'],
-    '6': ['m', 'n', 'o'],
-    '7': ['p', 'q', 'r', 's'],
-    '8': ['t', 'u', 'v'],
-    '9': ['w', 'x', 'y', 'z'],
-};
-
-function letterCombinationsHelper(digits, combinations, output) {
-    if (digits.length === 0) {
-        output.push(combinations.join(''));
-        return output;
-    }
-    
-    const firstDigit = digits[0];
-    const letters = map[firstDigit];
-    const nextDigits = digits.slice(1);
-
-    for (const letter of letters) {
-        letterCombinationsHelper(nextDigits, [...combinations, letter], output);
-    }
-}
-```
+<!-- @include ../leetcode\0017.letter-combinations-of-a-phone-number.md -->
+<!-- @include-end ../leetcode\0017.letter-combinations-of-a-phone-number.md -->
 
 ### Restore IP Addresses
 
