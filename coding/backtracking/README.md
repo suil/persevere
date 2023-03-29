@@ -90,9 +90,31 @@ function letterCombinationsHelper(digits, combinations, output) {
 ```
 <!-- @include-end ../leetcode/0017.letter-combinations-of-a-phone-number.md -->
 
+<!-- @include ../leetcode/0093.restore-ip-addresses.md -->
 ### Restore IP Addresses
+[93. Restore IP Addresses](https://leetcode.com/problems/restore-ip-addresses/description/)
 
-[93\. Restore IP Addresses (Medium)](https://leetcode.com/problems/restore-ip-addresses/description/)
+```html
+A valid IP address consists of exactly four integers separated by single dots. Each integer is between 0 and 255 (inclusive) and cannot have leading zeros.
+
+For example, "0.1.2.201" and "192.168.1.1" are valid IP addresses, but "0.011.255.245", "192.168.1.312" and "192.168@1.1" are invalid IP addresses.
+Given a string s containing only digits, return all possible valid IP addresses that can be formed by inserting dots into s. You are not allowed to reorder or remove any digits in s. You may return the valid IP addresses in any order.
+
+ 
+
+Example 1:
+
+Input: s = "25525511135"
+Output: ["255.255.11.135","255.255.111.35"]
+Example 2:
+
+Input: s = "0000"
+Output: ["0.0.0.0"]
+Example 3:
+
+Input: s = "101023"
+Output: ["1.0.10.23","1.0.102.3","10.1.0.23","10.10.2.3","101.0.2.3"]
+```
 
 ```javascript
 var restoreIpAddresses = function(s) {
@@ -122,6 +144,7 @@ function restoreIpAddressesHelper(s, segments, output) {
     }
 }
 ```
+<!-- @include-end ../leetcode/0093.restore-ip-addresses.md -->
 
 <!-- @include ../leetcode/0257.binary-tree-paths.md -->
 ### Binary Tree Paths
@@ -163,6 +186,7 @@ function binaryTreePathsHelper(node, paths, output) {
     binaryTreePathsHelper(node.right, nextPaths, output);
 }
 ```
+<!-- @include-end ../leetcode/0257.binary-tree-paths.md -->
 
 <!-- @include ../leetcode/0046.permutations.md -->
 ### Permutations
@@ -205,6 +229,7 @@ function permuteHelper(nums, permutations, output) {
     }
 }
 ```
+<!-- @include-end ../leetcode/0046.permutations.md -->
 
 <!-- @include ../leetcode/0047.permutations-ii.md -->
 ### Permutations II
@@ -245,12 +270,30 @@ function permuteUniqueHelper(nums, permutations, output) {
     }
 }
 ```
+<!-- @include-end ../leetcode/0047.permutations-ii.md -->
 
+<!-- @include ../leetcode/0077.combinations.md -->
 ### Combinations
+[77. Combinations](https://leetcode.com/problems/combinations/description/)
 
-Complexity is exponential.
+```html
+Given two integers n and k, return all possible combinations of k numbers chosen from the range [1, n].
 
-[77\. Combinations (Medium)](https://leetcode.com/problems/combinations/description/)
+You may return the answer in any order.
+
+Example 1:
+
+Input: n = 4, k = 2
+Output: [[1,2],[1,3],[1,4],[2,3],[2,4],[3,4]]
+Explanation: There are 4 choose 2 = 6 total combinations.
+Note that combinations are unordered, i.e., [1,2] and [2,1] are considered to be the same combination.
+
+Example 2:
+
+Input: n = 1, k = 1
+Output: [[1]]
+Explanation: There is 1 choose 1 = 1 total combination.
+```
 
 ```javascript
 var combine = function(n, k) {
@@ -274,6 +317,7 @@ function combineHelper(n, k, current, combinations, output) {
     }
 }
 ```
+<!-- @include-end ../leetcode/0077.combinations.md -->
 
 <!-- @include ../leetcode/0039.combination-sum.md -->
 ### Combination Sum
@@ -334,6 +378,7 @@ function combinationSumHelper(candidates, target, current, combinations, output)
     }
 }
 ```
+<!-- @include-end ../leetcode/0039.combination-sum.md -->
 
 <!-- @include ../leetcode/0040.combination-sum-ii.md -->
 ### Combination Sum II
@@ -392,6 +437,7 @@ function combinationSum2Helper(candidates, target, current, combinations, output
     }
 }
 ```
+<!-- @include-end ../leetcode/0040.combination-sum-ii.md -->
 
 <!-- @include ../leetcode/0216.combination-sum-iii.md -->
 ### Combination Sum III
@@ -460,6 +506,7 @@ function combinationSum3Helper(k, target, current, combinations, output) {
     }
 }
 ```
+<!-- @include-end ../leetcode/0216.combination-sum-iii.md -->
 
 ### Subsets
 
@@ -849,3 +896,5 @@ function canPartitionKSubsetsHelper(nums, target, k, current, currentSum, visite
     return false;
 }
 ```
+<!-- @include-end ../leetcode/0698.partition-to-k-equal-sum-subsets.md -->
+
