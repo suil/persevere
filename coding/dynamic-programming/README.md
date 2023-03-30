@@ -56,7 +56,7 @@ The recursion and dynamic programming are both solve the problem by dividing the
 
 <!-- @include ../leetcode/0070.climbing-stairs.md -->
 ### Climbing Stairs
-[70. Climbing Stairs](https://leetcode.com/problems/climbing-stairs/)
+[70. Climbing Stairs](https://leetcode.com/problems/0070.climbing-stairs/)
 
 ```html
 You are climbing a staircase. It takes n steps to reach the top.
@@ -90,21 +90,30 @@ var climbStairs = function(n) {
 ```
 <!-- @include-end ../leetcode/0070.climbing-stairs.md -->
 
-### 2. 强盗抢劫
+<!-- @include ../leetcode/0198.house-robber.md -->
+### House Robber
+[198. House Robber](https://leetcode.com/problems/house-robber/)
 
-198\. House Robber (Easy)
+```html
+You are a professional robber planning to rob houses along a street. Each house has a certain amount of money stashed, the only constraint stopping you from robbing each of them is that adjacent houses have security systems connected and it will automatically contact the police if two adjacent houses were broken into on the same night.
 
-[Leetcode](https://leetcode.com/problems/house-robber/description/) / [力扣](https://leetcode-cn.com/problems/house-robber/description/)
-
-题目描述：抢劫一排住户，但是不能抢邻近的住户，求最大抢劫量。
-
-定义 dp 数组用来存储最大的抢劫量，其中 dp[i] 表示抢到第 i 个住户时的最大抢劫量。
-
-由于不能抢劫邻近住户，如果抢劫了第 i -1 个住户，那么就不能再抢劫第 i 个住户，所以
-
-<!--<div align="center"><img src="https://latex.codecogs.com/gif.latex?dp[i]=max(dp[i-2]+nums[i],dp[i-1])" class="mathjax-pic"/></div> <br>-->
+Given an integer array nums representing the amount of money of each house, return the maximum amount of money you can rob tonight without alerting the police.
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/2de794ca-aa7b-48f3-a556-a0e2708cb976.jpg" width="350px"> </div><br>
+
+Example 1:
+
+Input: nums = [1,2,3,1]
+Output: 4
+Explanation: Rob house 1 (money = 1) and then rob house 3 (money = 3).
+Total amount you can rob = 1 + 3 = 4.
+Example 2:
+
+Input: nums = [2,7,9,3,1]
+Output: 12
+Explanation: Rob house 1 (money = 2), rob house 3 (money = 9) and rob house 5 (money = 1).
+Total amount you can rob = 2 + 9 + 1 = 12.
+```
 
 ```java
 public int rob(int[] nums) {
@@ -117,6 +126,7 @@ public int rob(int[] nums) {
     return pre1;
 }
 ```
+<!-- @include-end ../leetcode/0198.house-robber.md -->
 
 ### 3. 强盗在环形街区抢劫
 
