@@ -2,7 +2,7 @@
 <!-- GFM-TOC -->
 * [Leetcode 题解 - 动态规划](#leetcode-题解---动态规划)
     * [fibonacci sequence](#fibonacci-sequence)
-        * [Climbing Stairs](#Climbing-Stairs)
+        * [Climbing Stairs](#climbing-stairs)
         * [2. 强盗抢劫](#2-强盗抢劫)
         * [3. 强盗在环形街区抢劫](#3-强盗在环形街区抢劫)
         * [4. 信件错排](#4-信件错排)
