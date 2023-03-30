@@ -233,30 +233,36 @@ var minPathSum = function(grid) {
 ```
 <!-- @include-end ../leetcode/0064.minimum-path-sum.md -->
 
-### 2. 矩阵的总路径数
+<!-- @include ../leetcode/0062.unique-paths.md -->
+### Unique Paths
+[62. Unique Paths](https://leetcode.com/problems/unique-paths/)
 
-62\. Unique Paths (Medium)
+```html
+There is a robot on an m x n grid. The robot is initially located at the top-left corner (i.e., grid[0][0]). 
+The robot tries to move to the bottom-right corner (i.e., grid[m - 1][n - 1]). The robot can only move either down or right at any point in time.
 
-[Leetcode](https://leetcode.com/problems/unique-paths/description/) / [力扣](https://leetcode-cn.com/problems/unique-paths/description/)
+Given the two integers m and n, return the number of possible unique paths that the robot can take to reach the bottom-right corner.
 
-题目描述：统计从矩阵左上角到右下角的路径总数，每次只能向右或者向下移动。
-
-<div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/dc82f0f3-c1d4-4ac8-90ac-d5b32a9bd75a.jpg" width=""> </div><br>
-
-```java
-public int uniquePaths(int m, int n) {
-    int[] dp = new int[n];
-    Arrays.fill(dp, 1);
-    for (int i = 1; i < m; i++) {
-        for (int j = 1; j < n; j++) {
-            dp[j] = dp[j] + dp[j - 1];
+The test cases are generated so that the answer will be less than or equal to 2 * 109.
+```
+ 
+```javascript
+var uniquePaths = function(m, n) {
+    const dp = [...Array(m)].map(_ => [...Array(n)].fill(1));
+    
+    for (let row = 1; row < m; row++) {
+        for (let col = 1; col < n; col++) {
+            dp[row][col] = dp[row - 1][col] + dp[row][col - 1];
         }
     }
-    return dp[n - 1];
-}
+    
+    return dp[m - 1][n - 1];
+};
 ```
 
-也可以直接用数学公式求解，这是一个组合问题。机器人总共移动的次数 S=m+n-2，向下移动的次数 D=m-1，那么问题可以看成从 S 中取出 D 个位置的组合数量，这个问题的解为 C(S, D)。
+could use formula to solve this. This is a combination problem.
+the total movments is S = m + n - 2. downward movment is D = m - 1.
+So the problem is C(S, D).
 
 ```java
 public int uniquePaths(int m, int n) {
@@ -269,6 +275,7 @@ public int uniquePaths(int m, int n) {
     return (int) ret;
 }
 ```
+<!-- @include-end ../leetcode/0062.unique-paths.md -->
 
 ## 数组区间
 
