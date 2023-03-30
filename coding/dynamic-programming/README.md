@@ -190,7 +190,6 @@ private int rob(int[] nums, int first, int last) {
 ### Minimum Path Sum
 [64. Minimum Path Sum](https://leetcode.com/problems/minimum-path-sum/)
 
-```html
 Given a m x n grid filled with non-negative numbers, find a path from top left to bottom right, which minimizes the sum of all numbers along its path.
 
 Note: You can only move either down or right at any point in time.
@@ -209,7 +208,6 @@ Example 2:
 
 Input: grid = [[1,2,3],[4,5,6]]
 Output: 12
-```
 
 ```javascript
 var minPathSum = function(grid) {
