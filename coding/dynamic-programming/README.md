@@ -56,7 +56,7 @@ The recursion and dynamic programming are both solve the problem by dividing the
 
 <!-- @include ../leetcode/0070.climbing-stairs.md -->
 ### Climbing Stairs
-[70. Climbing Stairs](https://leetcode.com/problems/0070.climbing-stairs/)
+[70. Climbing Stairs](https://leetcode.com/problems/climbing-stairs/)
 
 ```html
 You are climbing a staircase. It takes n steps to reach the top.
