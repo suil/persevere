@@ -1,7 +1,7 @@
 # Leetcode 题解 - 动态规划
 <!-- GFM-TOC -->
 * [Leetcode 题解 - 动态规划](#leetcode-题解---动态规划)
-    * [斐波那契数列](#斐波那契数列)
+    * [fibonacci sequence](#fibonacci-sequence)
         * [Climbing Stairs](#Climbing-Stairs)
         * [2. 强盗抢劫](#2-强盗抢劫)
         * [3. 强盗在环形街区抢劫](#3-强盗在环形街区抢劫)
@@ -52,8 +52,7 @@
         * [Ugly Number II](#ugly-number-ii)
 <!-- GFM-TOC -->
 
-
-递归和动态规划都是将原问题拆成多个子问题然后求解，他们之间最本质的区别是，动态规划保存了子问题的解，避免重复计算。
+The recursion and dynamic programming are both solve the problem by dividing the original problem into multiple sub-problems. Their fundamental differences are that the dynamic programming keeps the results of sub-problems, thus avoiding duplicate calculations.
 
 <!-- @include ../leetcode/0070.climbing-stairs.md -->
 ### Climbing Stairs
@@ -89,6 +88,7 @@ var climbStairs = function(n) {
     return dp[n - 1];
 };
 ```
+<!-- @include-end ../leetcode/0070.climbing-stairs.md -->
 
 ### 2. 强盗抢劫
 
