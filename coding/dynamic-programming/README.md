@@ -184,7 +184,7 @@ private int rob(int[] nums, int first, int last) {
 
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/879814ee-48b5-4bcb-86f5-dcc400cb81ad.png" width="250px"> </div><br>
 
-## 矩阵路径
+## Path of Matrix
 
 <!-- @include ../leetcode/0064.minimum-path-sum.md -->
 ### Minimum Path Sum
@@ -277,41 +277,60 @@ public int uniquePaths(int m, int n) {
 ```
 <!-- @include-end ../leetcode/0062.unique-paths.md -->
 
-## 数组区间
+## Array Ranges
 
-### 1. 数组区间和
-
-303\. Range Sum Query - Immutable (Easy)
-
-[Leetcode](https://leetcode.com/problems/range-sum-query-immutable/description/) / [力扣](https://leetcode-cn.com/problems/range-sum-query-immutable/description/)
+<!-- @include ../leetcode/0303.range-sum-query-immutable.md -->
+### Range Sum Query - Immutable
+[303. Range Sum Query - Immutable](https://leetcode.com/problems/range-sum-query-immutable)
 
 ```html
-Given nums = [-2, 0, 3, -5, 2, -1]
+Given an integer array nums, handle multiple queries of the following type:
 
-sumRange(0, 2) -> 1
-sumRange(2, 5) -> -1
-sumRange(0, 5) -> -3
+Calculate the sum of the elements of nums between indices left and right inclusive where left <= right.
+Implement the NumArray class:
+
+NumArray(int[] nums) Initializes the object with the integer array nums.
+int sumRange(int left, int right) Returns the sum of the elements of nums between indices left and right inclusive (i.e. nums[left] + nums[left + 1] + ... + nums[right]).
+ 
+
+Example 1:
+
+Input
+["NumArray", "sumRange", "sumRange", "sumRange"]
+[[[-2, 0, 3, -5, 2, -1]], [0, 2], [2, 5], [0, 5]]
+Output
+[null, 1, -1, -3]
+
+Explanation
+NumArray numArray = new NumArray([-2, 0, 3, -5, 2, -1]);
+numArray.sumRange(0, 2); // return (-2) + 0 + 3 = 1
+numArray.sumRange(2, 5); // return 3 + (-5) + 2 + (-1) = -1
+numArray.sumRange(0, 5); // return (-2) + 0 + 3 + (-5) + 2 + (-1) = -3
 ```
 
-求区间 i \~ j 的和，可以转换为 sum[j + 1] - sum[i]，其中 sum[i] 为 0 \~ i - 1 的和。
-
-```java
-class NumArray {
-
-    private int[] sums;
-
-    public NumArray(int[] nums) {
-        sums = new int[nums.length + 1];
-        for (int i = 1; i <= nums.length; i++) {
-            sums[i] = sums[i - 1] + nums[i - 1];
-        }
+```javascript
+/**
+ * @param {number[]} nums
+ */
+var NumArray = function(nums) {
+    this.prefixSum = [];
+    let sum = 0;
+    for (let i = 0; i < nums.length; i++) {
+        sum += nums[i];
+        this.prefixSum.push(sum);
     }
+};
 
-    public int sumRange(int i, int j) {
-        return sums[j + 1] - sums[i];
-    }
-}
+/** 
+ * @param {number} left 
+ * @param {number} right
+ * @return {number}
+ */
+NumArray.prototype.sumRange = function(left, right) {
+    return this.prefixSum[right] - (this.prefixSum[left - 1] || 0);
+};
 ```
+<!-- @include-end ../leetcode/0303.range-sum-query-immutable.md -->
 
 ### 2. 数组中等差递增子区间的个数
 
