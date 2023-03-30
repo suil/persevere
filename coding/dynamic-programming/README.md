@@ -3,7 +3,7 @@
 * [Leetcode 题解 - 动态规划](#leetcode-题解---动态规划)
     * [fibonacci sequence](#fibonacci-sequence)
         * [Climbing Stairs](#climbing-stairs)
-        * [2. 强盗抢劫](#2-强盗抢劫)
+        * [House Robber](#house-robber)
         * [3. 强盗在环形街区抢劫](#3-强盗在环形街区抢劫)
         * [4. 信件错排](#4-信件错排)
         * [5. 母牛生产](#5-母牛生产)
