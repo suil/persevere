@@ -94,6 +94,7 @@ var climbStairs = function(n) {
 ### House Robber
 [198. House Robber](https://leetcode.com/problems/house-robber/)
 
+```html
 You are a professional robber planning to rob houses along a street. Each house has a certain amount of money stashed, the only constraint stopping you from robbing each of them is that adjacent houses have security systems connected and it will automatically contact the police if two adjacent houses were broken into on the same night.
 
 Given an integer array nums representing the amount of money of each house, return the maximum amount of money you can rob tonight without alerting the police.
@@ -112,7 +113,7 @@ Input: nums = [2,7,9,3,1]
 Output: 12
 Explanation: Rob house 1 (money = 2), rob house 3 (money = 9) and rob house 5 (money = 1).
 Total amount you can rob = 2 + 9 + 1 = 12.
-
+```
 
 ```java
 public int rob(int[] nums) {
@@ -185,43 +186,54 @@ private int rob(int[] nums, int first, int last) {
 
 ## 矩阵路径
 
-### 1. 矩阵的最小路径和
-
-64\. Minimum Path Sum (Medium)
-
-[Leetcode](https://leetcode.com/problems/minimum-path-sum/description/) / [力扣](https://leetcode-cn.com/problems/minimum-path-sum/description/)
+<!-- @include ../leetcode/0064.minimum-path-sum.md -->
+### Minimum Path Sum
+[64. Minimum Path Sum](https://leetcode.com/problems/minimum-path-sum/)
 
 ```html
-[[1,3,1],
- [1,5,1],
- [4,2,1]]
-Given the above grid map, return 7. Because the path 1→3→1→1→1 minimizes the sum.
+Given a m x n grid filled with non-negative numbers, find a path from top left to bottom right, which minimizes the sum of all numbers along its path.
+
+Note: You can only move either down or right at any point in time.
+
+Example 1:
+
+Input: grid = [
+  [1,3,1],
+  [1,5,1],
+  [4,2,1]
+]
+Output: 7
+Explanation: Because the path 1 → 3 → 1 → 1 → 1 minimizes the sum.
+
+Example 2:
+
+Input: grid = [[1,2,3],[4,5,6]]
+Output: 12
 ```
 
-题目描述：求从矩阵的左上角到右下角的最小路径和，每次只能向右和向下移动。
+```javascript
+var minPathSum = function(grid) {
+    const rowLen = grid.length;
+    const colLen = grid[0].length;
+    const dp = [...Array(rowLen)].map(_ => Array(colLen).fill(Infinity));
 
-```java
-public int minPathSum(int[][] grid) {
-    if (grid.length == 0 || grid[0].length == 0) {
-        return 0;
-    }
-    int m = grid.length, n = grid[0].length;
-    int[] dp = new int[n];
-    for (int i = 0; i < m; i++) {
-        for (int j = 0; j < n; j++) {
-            if (j == 0) {
-                dp[j] = dp[j];        // 只能从上侧走到该位置
-            } else if (i == 0) {
-                dp[j] = dp[j - 1];    // 只能从左侧走到该位置
+    for (let row = 0; row < rowLen; row++) {
+        for (let col = 0; col < colLen; col++) {
+            if (row === 0) {
+                dp[row][col] = (dp[row][col - 1] || 0) + grid[row][col];
+            } else if (col === 0) {
+                dp[row][col] = (dp[row - 1]?.[col] || 0) + grid[row][col];
             } else {
-                dp[j] = Math.min(dp[j - 1], dp[j]);
+                dp[row][col] = Math.min(dp[row - 1][col], dp[row][col - 1]) + grid[row][col];
             }
-            dp[j] += grid[i][j];
         }
     }
-    return dp[n - 1];
-}
+
+    console.log(dp)
+    return dp[rowLen - 1][colLen - 1];
+};
 ```
+<!-- @include-end ../leetcode/0064.minimum-path-sum.md -->
 
 ### 2. 矩阵的总路径数
 
