@@ -248,7 +248,6 @@ var minPathSum = function(grid) {
         }
     }
 
-    console.log(dp)
     return dp[rowLen - 1][colLen - 1];
 };
 ```
@@ -353,64 +352,44 @@ NumArray.prototype.sumRange = function(left, right) {
 ```
 <!-- @include-end ../leetcode/0303.range-sum-query-immutable.md -->
 
-### 2. 数组中等差递增子区间的个数
-
-413\. Arithmetic Slices (Medium)
-
-[Leetcode](https://leetcode.com/problems/arithmetic-slices/description/) / [力扣](https://leetcode-cn.com/problems/arithmetic-slices/description/)
+<!-- @include ../leetcode/0413.arithmetic-slices.md -->
+### Arithmetic Slices
+[413. Arithmetic Slices](https://leetcode.com/problems/arithmetic-slices)
 
 ```html
-A = [0, 1, 2, 3, 4]
+An integer array is called arithmetic if it consists of at least three elements and if the difference between any two consecutive elements is the same.
 
-return: 6, for 3 arithmetic slices in A:
+For example, [1,3,5,7,9], [7,7,7,7], and [3,-1,-5,-9] are arithmetic sequences.
+Given an integer array nums, return the number of arithmetic subarrays of nums.
 
-[0, 1, 2],
-[1, 2, 3],
-[0, 1, 2, 3],
-[0, 1, 2, 3, 4],
-[ 1, 2, 3, 4],
-[2, 3, 4]
+A subarray is a contiguous subsequence of the array.
+
+Example 1:
+
+Input: nums = [1,2,3,4]
+Output: 3
+Explanation: We have 3 arithmetic slices in nums: [1, 2, 3], [2, 3, 4] and [1,2,3,4] itself.
+Example 2:
+
+Input: nums = [1]
+Output: 0
 ```
 
-dp[i] 表示以 A[i] 为结尾的等差递增子区间的个数。
-
-当 A[i] - A[i-1] == A[i-1] - A[i-2]，那么 [A[i-2], A[i-1], A[i]] 构成一个等差递增子区间。而且在以 A[i-1] 为结尾的递增子区间的后面再加上一个 A[i]，一样可以构成新的递增子区间。
-
-```html
-dp[2] = 1
-    [0, 1, 2]
-dp[3] = dp[2] + 1 = 2
-    [0, 1, 2, 3], // [0, 1, 2] 之后加一个 3
-    [1, 2, 3]     // 新的递增子区间
-dp[4] = dp[3] + 1 = 3
-    [0, 1, 2, 3, 4], // [0, 1, 2, 3] 之后加一个 4
-    [1, 2, 3, 4],    // [1, 2, 3] 之后加一个 4
-    [2, 3, 4]        // 新的递增子区间
-```
-
-综上，在 A[i] - A[i-1] == A[i-1] - A[i-2] 时，dp[i] = dp[i-1] + 1。
-
-因为递增子区间不一定以最后一个元素为结尾，可以是任意一个元素结尾，因此需要返回 dp 数组累加的结果。
-
-```java
-public int numberOfArithmeticSlices(int[] A) {
-    if (A == null || A.length == 0) {
-        return 0;
-    }
-    int n = A.length;
-    int[] dp = new int[n];
-    for (int i = 2; i < n; i++) {
-        if (A[i] - A[i - 1] == A[i - 1] - A[i - 2]) {
+```javascript
+var numberOfArithmeticSlices = function(nums) {
+    const dp = [...Array(nums.length)].fill(0);
+    
+    let total = 0;
+    for (let i = 2; i < nums.length; i++) {
+        if (nums[i] - nums[i - 1] === nums[i - 1] - nums[i - 2]) {
             dp[i] = dp[i - 1] + 1;
+            total += dp[i];
         }
     }
-    int total = 0;
-    for (int cnt : dp) {
-        total += cnt;
-    }
     return total;
-}
+};
 ```
+<!-- @include-end ../leetcode/0413.arithmetic-slices.md -->
 
 ## 分割整数
 
