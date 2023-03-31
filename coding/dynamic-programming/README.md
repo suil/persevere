@@ -391,28 +391,76 @@ var numberOfArithmeticSlices = function(nums) {
 ```
 <!-- @include-end ../leetcode/0413.arithmetic-slices.md -->
 
-## 分割整数
+## Dividing Integers
+<!-- @include ../leetcode/0343.integer-break.md -->
+### Integer Break
+[343. Integer Break](https://leetcode.com/problems/integer-break)
 
-### 1. 分割整数的最大乘积
+```html
+Given an integer n, break it into the sum of k positive integers, where k >= 2, and maximize the product of those integers.
 
-343\. Integer Break (Medim)
+Return the maximum product you can get.
 
-[Leetcode](https://leetcode.com/problems/integer-break/description/) / [力扣](https://leetcode-cn.com/problems/integer-break/description/)
+Example 1:
 
-题目描述：For example, given n = 2, return 1 (2 = 1 + 1); given n = 10, return 36 (10 = 3 + 3 + 4).
+Input: n = 2
+Output: 1
+Explanation: 2 = 1 + 1, 1 × 1 = 1.
+Example 2:
 
-```java
-public int integerBreak(int n) {
-    int[] dp = new int[n + 1];
-    dp[1] = 1;
-    for (int i = 2; i <= n; i++) {
-        for (int j = 1; j <= i - 1; j++) {
-            dp[i] = Math.max(dp[i], Math.max(j * dp[i - j], j * (i - j)));
+Input: n = 10
+Output: 36
+Explanation: 10 = 3 + 3 + 4, 3 × 3 × 4 = 36.
+```
+
+backtracking solution:
+```javascript
+var integerBreak = function(n) {
+    const nums = [...Array(n)].map((_, index) => index + 1);
+    const output = [];
+    backtrack(nums, n, [], output);
+  
+    let maxProduct = 1;
+    for (const com of output) {
+        const product = com.reduce((p, n) => p * n, 1);
+        maxProduct = Math.max(maxProduct, product);
+    }
+    return maxProduct;
+};
+
+function backtrack(nums, target, combinations, output) {
+    const comSum = combinations.reduce((sum, n) => sum + n, 0);
+    if (nums.length === 0 || comSum >= target) {
+        if (comSum === target && combinations.length >= 2) {
+            output.push([...combinations]);
+        }
+        return;
+    }
+
+    for (let i = 0; i < nums.length; i++) {
+        const nextNums = nums.slice(i);
+        const nextCombinations = [...combinations, nums[i]];
+        backtrack(nextNums, target, nextCombinations, output);
+    }
+}
+```
+
+dynamic programming solution:
+don't need to consider the case of breaking into more than two numbers. as long as we could find two numbers with max product values for themselves, we could guarantee it's the max product as a result.
+
+```javascript
+var integerBreak = function(n) {
+    const dp = [...Array(n + 1)].fill(1);
+    
+    for (let i = 1; i <= n; i++) {
+        for (let j = 1; j <= i - 1; j++) {
+            dp[i] = Math.max(dp[i], dp[j] * (i - j), j * (i - j)); 
         }
     }
     return dp[n];
-}
+};
 ```
+<!-- @include-end ../leetcode/0343.integer-break.md -->
 
 ### 2. 按平方数来分割整数
 
