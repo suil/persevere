@@ -137,70 +137,71 @@ var shortestPathBinaryMatrix = function(grid) {
 ```
 <!-- @include-end ../leetcode/1091.shortest-path-in-binary-matrix.md -->
 
-### 2. 组成整数的最小平方数数量
-
-279\. Perfect Squares (Medium)
-
-[Leetcode](https://leetcode.com/problems/perfect-squares/description/) / [力扣](https://leetcode-cn.com/problems/perfect-squares/description/)
+<!-- @include ../leetcode/0279.perfect-squares.md -->
+### Perfect Squares
+[279. Perfect Squares](https://leetcode.com/problems/perfect-squares/)
 
 ```html
-For example, given n = 12, return 3 because 12 = 4 + 4 + 4; given n = 13, return 2 because 13 = 4 + 9.
+Given an integer n, return the least number of perfect square numbers that sum to n.
+
+A perfect square is an integer that is the square of an integer; in other words, it is the product of some integer with itself. For example, 1, 4, 9, and 16 are perfect squares while 3 and 11 are not.
+
+Example 1:
+
+Input: n = 12
+Output: 3
+Explanation: 12 = 4 + 4 + 4.
+Example 2:
+
+Input: n = 13
+Output: 2
+Explanation: 13 = 4 + 9.
 ```
 
-可以将每个整数看成图中的一个节点，如果两个整数之差为一个平方数，那么这两个整数所在的节点就有一条边。
+BFS:
+```javascript
+var numSquares = function(n) {
+    let queue = [n];
+    let count = 0;
 
-要求解最小的平方数数量，就是求解从节点 n 到节点 0 的最短路径。
+    while (queue.length > 0) {
+        const nextQueue = [];
+        count++;
+        
+        for (const item of queue) {
+            for (let i = 1; i * i <= item; i++) {
+                const remainder = item - i * i;
+                if (remainder === 0) {
+                    return count;
+                }
 
-本题也可以用动态规划求解，在之后动态规划部分中会再次出现。
-
-```java
-public int numSquares(int n) {
-    List<Integer> squares = generateSquares(n);
-    Queue<Integer> queue = new LinkedList<>();
-    boolean[] marked = new boolean[n + 1];
-    queue.add(n);
-    marked[n] = true;
-    int level = 0;
-    while (!queue.isEmpty()) {
-        int size = queue.size();
-        level++;
-        while (size-- > 0) {
-            int cur = queue.poll();
-            for (int s : squares) {
-                int next = cur - s;
-                if (next < 0) {
-                    break;
-                }
-                if (next == 0) {
-                    return level;
-                }
-                if (marked[next]) {
-                    continue;
-                }
-                marked[next] = true;
-                queue.add(next);
+                nextQueue.push(remainder);
             }
+            
+        }
+
+        queue = nextQueue;
+    }
+
+    return -1;
+};
+```
+
+DP:
+```javascript
+var numSquares = function(n) {
+    const dp = [...Array(n + 1)].map((_, index) => index);
+
+    for (let i = 1; i <= n; i++) {
+        for (let j = 1; j * j <= i; j++) {
+            dp[i] = Math.min(dp[i], 1 + dp[i - j * j]);
         }
     }
-    return n;
-}
 
-/**
- * 生成小于 n 的平方数序列
- * @return 1,4,9,...
- */
-private List<Integer> generateSquares(int n) {
-    List<Integer> squares = new ArrayList<>();
-    int square = 1;
-    int diff = 3;
-    while (square <= n) {
-        squares.add(square);
-        square += diff;
-        diff += 2;
-    }
-    return squares;
-}
+    return dp[n];
+};
 ```
+<!-- @include-end ../leetcode/0279.perfect-squares.md -->
 
 ### 3. 最短单词路径
 

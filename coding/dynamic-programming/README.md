@@ -462,43 +462,71 @@ var integerBreak = function(n) {
 ```
 <!-- @include-end ../leetcode/0343.integer-break.md -->
 
-### 2. 按平方数来分割整数
+<!-- @include ../leetcode/0279.perfect-squares.md -->
+### Perfect Squares
+[279. Perfect Squares](https://leetcode.com/problems/perfect-squares/)
 
-279\. Perfect Squares(Medium)
+```html
+Given an integer n, return the least number of perfect square numbers that sum to n.
 
-[Leetcode](https://leetcode.com/problems/perfect-squares/description/) / [力扣](https://leetcode-cn.com/problems/perfect-squares/description/)
+A perfect square is an integer that is the square of an integer; in other words, it is the product of some integer with itself. For example, 1, 4, 9, and 16 are perfect squares while 3 and 11 are not.
 
-题目描述：For example, given n = 12, return 3 because 12 = 4 + 4 + 4; given n = 13, return 2 because 13 = 4 + 9.
+Example 1:
 
-```java
-public int numSquares(int n) {
-    List<Integer> squareList = generateSquareList(n);
-    int[] dp = new int[n + 1];
-    for (int i = 1; i <= n; i++) {
-        int min = Integer.MAX_VALUE;
-        for (int square : squareList) {
-            if (square > i) {
-                break;
-            }
-            min = Math.min(min, dp[i - square] + 1);
-        }
-        dp[i] = min;
-    }
-    return dp[n];
-}
+Input: n = 12
+Output: 3
+Explanation: 12 = 4 + 4 + 4.
+Example 2:
 
-private List<Integer> generateSquareList(int n) {
-    List<Integer> squareList = new ArrayList<>();
-    int diff = 3;
-    int square = 1;
-    while (square <= n) {
-        squareList.add(square);
-        square += diff;
-        diff += 2;
-    }
-    return squareList;
-}
+Input: n = 13
+Output: 2
+Explanation: 13 = 4 + 9.
 ```
+
+BFS:
+```javascript
+var numSquares = function(n) {
+    let queue = [n];
+    let count = 0;
+
+    while (queue.length > 0) {
+        const nextQueue = [];
+        count++;
+        
+        for (const item of queue) {
+            for (let i = 1; i * i <= item; i++) {
+                const remainder = item - i * i;
+                if (remainder === 0) {
+                    return count;
+                }
+
+                nextQueue.push(remainder);
+            }
+            
+        }
+
+        queue = nextQueue;
+    }
+
+    return -1;
+};
+```
+
+DP:
+```javascript
+var numSquares = function(n) {
+    const dp = [...Array(n + 1)].map((_, index) => index);
+
+    for (let i = 1; i <= n; i++) {
+        for (let j = 1; j * j <= i; j++) {
+            dp[i] = Math.min(dp[i], 1 + dp[i - j * j]);
+        }
+    }
+
+    return dp[n];
+};
+```
+<!-- @include-end ../leetcode/0279.perfect-squares.md -->
 
 ### 3. 分割整数构成字母字符串
 
