@@ -530,37 +530,159 @@ var numSquares = function(n) {
 
 ### 3. 分割整数构成字母字符串
 
-91\. Decode Ways (Medium)
+<!-- @include ../leetcode/0091.decode-ways.md -->
+### Decode Ways
+[91. Decode Ways](https://leetcode.com/problems/decode-ways/)
 
-[Leetcode](https://leetcode.com/problems/decode-ways/description/) / [力扣](https://leetcode-cn.com/problems/decode-ways/description/)
+```html
+A message containing letters from A-Z can be encoded into numbers using the following mapping:
 
-题目描述：Given encoded message "12", it could be decoded as "AB" (1 2) or "L" (12).
+'A' -> "1"
+'B' -> "2"
+...
+'Z' -> "26"
+To decode an encoded message, all the digits must be grouped then mapped back into letters using the reverse of the mapping above (there may be multiple ways). For example, "11106" can be mapped into:
 
-```java
-public int numDecodings(String s) {
-    if (s == null || s.length() == 0) {
+"AAJF" with the grouping (1 1 10 6)
+"KJF" with the grouping (11 10 6)
+Note that the grouping (1 11 06) is invalid because "06" cannot be mapped into 'F' since "6" is different from "06".
+
+Given a string s containing only digits, return the number of ways to decode it.
+
+The test cases are generated so that the answer fits in a 32-bit integer.
+
+ 
+
+Example 1:
+
+Input: s = "12"
+Output: 2
+Explanation: "12" could be decoded as "AB" (1 2) or "L" (12).
+Example 2:
+
+Input: s = "226"
+Output: 3
+Explanation: "226" could be decoded as "BZ" (2 26), "VF" (22 6), or "BBF" (2 2 6).
+Example 3:
+
+Input: s = "06"
+Output: 0
+Explanation: "06" cannot be mapped to "F" because of the leading zero ("6" is different from "06").
+```
+
+backtracking:
+```javascript
+const encoding = {
+    '1': 'A',
+    '2': 'B',
+    '3': 'C',
+    '4': 'D',
+    '5': 'E',
+    '6': 'F',
+    '7': 'G',
+    '8': 'H',
+    '9': 'I',
+    '10': 'J',
+    '11': 'K',
+    '12': 'L',
+    '13': 'M',
+    '14': 'N',
+    '15': 'O',
+    '16': 'P',
+    '17': 'Q',
+    '18': 'R',
+    '19': 'S',
+    '20': 'T',
+    '21': 'U',
+    '22': 'V',
+    '23': 'W',
+    '24': 'X',
+    '25': 'Y',
+    '26': 'Z'
+}
+
+function numDecodingsBacktracking(s, output) {
+    if (s.length === 0) {
+        output.count++;
+        return;
+    }
+    
+    for (let i = 1; i <= s.length; i++) { 
+        const leftStr = s.substring(0, i);
+        const decoded = encoding[leftStr];
+        if (!decoded) {
+            break;
+        }
+        const nextS = s.substring(i);
+        numDecodingsBacktracking(nextS, output);
+    }
+}
+```
+
+recursion with memoization:
+```javascript
+var numDecodings = function(s) {
+    const output = recursiveWithMemo(s, 0, new Map());
+    return output;
+};
+
+function recursiveWithMemo(str, index, memo) {
+    // Have we already seen this substring?
+    if (memo.has(index)) {
+        return memo.get(index);
+    }
+    
+    // If the string starts with a zero, it can't be decoded
+    if (str[index] === '0') {
         return 0;
     }
-    int n = s.length();
-    int[] dp = new int[n + 1];
-    dp[0] = 1;
-    dp[1] = s.charAt(0) == '0' ? 0 : 1;
-    for (int i = 2; i <= n; i++) {
-        int one = Integer.valueOf(s.substring(i - 1, i));
-        if (one != 0) {
-            dp[i] += dp[i - 1];
+
+    // If you reach the end of the string
+    // Return 1 for success.
+    if (index >= str.length - 1) {
+        return 1;
+    }
+
+    let ans = recursiveWithMemo(str, index + 1, memo);
+    if (Number(str.substring(index, index + 2)) <= 26) {
+        ans += recursiveWithMemo(str, index + 2, memo);
+    }
+
+    // Save for memoization
+    memo.set(index, ans);
+
+    return ans;
+}
+```
+
+DP:
+```javascript
+var numDecodings = function(s) {
+    if (s == null || s.length == 0) {
+        return 0;
+    }
+
+    const n = s.length;
+    const dp = [...Array(n)].fill(0);
+    dp[0] = encodingMap.has(s[0]) ? 1 : 0;
+    dp[1] = (encodingMap.has(s[1]) ? dp[0] : 0) + (encodingMap.has(s.substr(0, 2)) ? 1 : 0);
+
+    for (let i = 2; i < s.length; i++) {
+        const oneCharStr = s.substr(i, 1);
+        const twoCharStr = s.substr(i - 1, 2);
+
+        if (encodingMap.has(oneCharStr)) {
+            dp[i] = dp[i - 1];
         }
-        if (s.charAt(i - 2) == '0') {
-            continue;
-        }
-        int two = Integer.valueOf(s.substring(i - 2, i));
-        if (two <= 26) {
+        if (encodingMap.has(twoCharStr)) {
             dp[i] += dp[i - 2];
         }
     }
-    return dp[n];
-}
+    return dp[s.length - 1];
+};
+
 ```
+<!-- @include-end ../leetcode/0091.decode-ways.md -->
 
 ## 最长递增子序列
 
