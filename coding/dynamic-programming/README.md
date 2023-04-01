@@ -16,10 +16,10 @@
     * [Dividing Integers](#dividing-integers)
         * [Integer Break](#integer-break)
         * [Perfect Squares](#perfect-squares)
-        * [3. 分割整数构成字母字符串](#3-分割整数构成字母字符串)
+        * [Decode Ways](#decode-ways)
     * [Longest Increasing Subsequence Problem](#longest-increasing-subsequence-problem)
         * [Longest Increasing Subsequence](#longest-increasing-subsequence)
-        * [2. 一组整数对能够构成的最长链](#2-一组整数对能够构成的最长链)
+        * [Maximum Length of Pair Chain](#maximum-length-of-pair-chain)
         * [3. 最长摆动子序列](#3-最长摆动子序列)
     * [Longest Subsequence](#longest-subsequence)
         * [Longest Common Subsequence](#longest-common-subsequence)
@@ -527,8 +527,6 @@ var numSquares = function(n) {
 };
 ```
 <!-- @include-end ../leetcode/0279.perfect-squares.md -->
-
-### Splitting Integer based strings
 
 <!-- @include ../leetcode/0091.decode-ways.md -->
 ### Decode Ways
