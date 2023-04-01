@@ -129,30 +129,6 @@ var intervalIntersection = function(firstList, secondList) {
 ```
 
 <!-- @include ../leetcode/0253.meeting-rooms-ii.md -->
-### Meeting Rooms
-[253. Meeting Rooms](https://leetcode.com/problems/meeting-rooms/)
-```javascript
-var canAttendMeetings = function(intervals) {
-  if (intervals.length === 0) return true;
-
-  intervals.sort((a, b) => a[0] - b[0]);
-
-  let prevEnd = intervals[0][1];
-
-  for (let i = 1; i < intervals.length; i++) {
-    const [currentStart, currentEnd] = intervals[i];
-    if (currentStart >= prevEnd) { // no overlapping
-      prevEnd = currentEnd;
-    } else { // overlapping
-      return false;
-    }
-  }
-
-  return true;
-};
-```
-
-<!-- @include ../leetcode/0253.meeting-rooms-ii.md -->
 ### Meeting Rooms II
 [253. Meeting Rooms](https://leetcode.com/problems/meeting-rooms-ii)
 
@@ -183,7 +159,6 @@ var minMeetingRooms = function(intervals) {
   return meetingEndTimes.length
 };
 ```
-<!-- @include end -->
 
 ```java
 class Solution {
@@ -211,7 +186,34 @@ class Solution {
   }
 }
 ```
-<!-- @include end -->
+<!-- @include-end ../leetcode/0253.meeting-rooms-ii.md -->
+
+```java
+class Solution {
+  public int minMeetingRooms(int[][] intervals) {
+    // edge case
+
+    // initial state
+    Arrays.sort(intervals, (int[] a, int[] b) -> (a[0] - b[0]));
+    PriorityQueue<Integer> minHeap = new PriorityQueue<>((a, b) -> a - b);
+    minHeap.add(intervals[0][1]);
+
+    for (int i = 1; i < intervals.length; i++) {
+      int currentStart = intervals[i][0];
+      int currentEnd = intervals[i][1];
+
+      if (currentStart >= minHeap.peek()) { // not overlapping
+        minHeap.poll();
+        minHeap.add(intervals[i][1]);
+      } else { // overlapping
+        minHeap.add(intervals[i][1]);
+      }
+    }
+
+    return minHeap.size();        
+  }
+}
+```
 
 <!-- @include ../leetcode/0056.merge-intervals.md -->
 ### Merge Intervals
@@ -807,8 +809,8 @@ var gardenNoAdj = function(n, paths) {
 };
 ```
 
-<!-- @include L041.maximum-subarray-ii.md -->
-### Maximum Two Subarray
+<!-- @include ../leetcode/L041.maximum-subarray-ii.md -->
+### Maximum Subarray II
 
 ```html
 Given an array of integers, find two non-overlapping subarrays which have the largest sum.
@@ -847,76 +849,70 @@ Return the largest sum.
     return maxSum;
   }
 ```
-<!-- @include-end L041.maximum-subarray-ii.md -->
+<!-- @include-end ../leetcode/L041.maximum-subarray-ii.md -->
 
-<!-- @include L041.maximum-subarray-ii.md -->
-### Maximum Subarray Difference
+<!-- @include ../leetcode/0646.maximum-length-of-pair-chain.md -->
+### Maximum Length of Pair Chain
+[646. Maximum Length of Pair Chain](https://leetcode.com/problems/maximum-length-of-pair-chain)
 
 ```html
-Given an array with integers.
+You are given an array of n pairs pairs where pairs[i] = [lefti, righti] and lefti < righti.
 
-Find two non-overlapping subarrays A and B, which ∣SUM(A)−SUM(B)∣ is the largest.
+A pair p2 = [c, d] follows a pair p1 = [a, b] if b < c. A chain of pairs can be formed in this fashion.
 
-Return the largest difference.
+Return the length longest chain which can be formed.
+
+You do not need to use up all the given intervals. You can select pairs in any order.
+
+Example 1:
+
+Input: pairs = [[1,2],[2,3],[3,4]]
+Output: 2
+Explanation: The longest chain is [1,2] -> [3,4].
+Example 2:
+
+Input: pairs = [[1,2],[7,8],[4,5]]
+Output: 3
+Explanation: The longest chain is [1,2] -> [4,5] -> [7,8].
 ```
 
-Greedy
-
+DP:
 ```javascript
-  maxDiffSubArrays(nums) {
-    // write your code here
-    const leftSumMax = [];
-    const rightSumMax = [];
-    const leftSumMin = [];
-    const rightSumMin = [];
-
-    let sum = nums[0];
-    let maxSum = -Infinity;
-    leftSumMax[0] = nums[0];
-    for (let i = 1; i < nums.length; i++) {
-      sum = Math.max(sum + nums[i], nums[i]);
-      maxSum = Math.max(maxSum, sum);
-      leftSumMax[i] = maxSum;
+var findLongestChain = function(pairs) {
+    pairs.sort((a, b) => a[0] - b[0]);
+    
+    const n = pairs.length;
+    const dp = [...Array(pairs.length)].fill(1);
+    
+    let maxLen = 1;
+    for (let i = 0; i < n; i++) {
+        for (let j = 0; j < i; j++) {
+            if (pairs[i][0] > pairs[j][1]) {
+                dp[i] = Math.max(dp[i], dp[j] + 1);
+                maxLen = Math.max(maxLen, dp[i]);
+            }
+        }
     }
-
-    sum = nums[nums.length - 1];
-    maxSum = -Infinity;
-    rightSumMax[nums.length - 1] = nums[nums.length - 1];
-    for (let i = nums.length - 2; i >= 0; i--) {
-      sum = Math.max(sum + nums[i], nums[i]);
-      maxSum = Math.max(maxSum, sum);
-      rightSumMax[i] = maxSum;
-    }
-
-    sum = nums[0];
-    let minSum = Infinity;
-    leftSumMin[0] = nums[0];
-    for (let i = 1; i < nums.length; i++) {
-      sum = Math.min(sum + nums[i], nums[i]);
-      minSum = Math.min(minSum, sum);
-      leftSumMin[i] = minSum;
-    }
-
-    sum = nums[nums.length - 1];
-    minSum = Infinity;
-    rightSumMin[nums.length - 1] = nums[nums.length - 1];
-    for (let i = nums.length - 2; i >= 0; i--) {
-      sum = Math.min(sum + nums[i], nums[i]);
-      minSum = Math.min(minSum, sum);
-      rightSumMin[i] = minSum;
-    }
-
-    let max = -Infinity
-    for (let i = 0; i < nums.length - 1; i++) {
-      max = Math.max(
-        max, 
-        Math.abs(leftSumMax[i] - rightSumMin[i + 1]),
-        Math.abs(leftSumMin[i] - rightSumMax[i + 1]),
-      );
-    }
-
-    return max;
-  }
-}
+    
+    return maxLen;
+};
 ```
-<!-- @include-end L041.maximum-subarray-ii.md -->
+
+Greedy:
+```javascript
+var findLongestChain = function(pairs) {
+    pairs.sort((a, b) => a[1] - b[1]);
+
+    let end = pairs[0][1];
+    let count = 1;
+
+    for (let i = 1; i < pairs.length; i++) {
+        if (end < pairs[i][0]) {
+            end = pairs[i][1];
+            count++;
+        }
+    }
+    return count;
+};
+```
+<!-- @include-end ../leetcode/0646.maximum-length-of-pair-chain.md -->
