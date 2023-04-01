@@ -20,7 +20,7 @@
     * [Longest Increasing Subsequence Problem](#longest-increasing-subsequence-problem)
         * [Longest Increasing Subsequence](#longest-increasing-subsequence)
         * [Maximum Length of Pair Chain](#maximum-length-of-pair-chain)
-        * [3. 最长摆动子序列](#3-最长摆动子序列)
+        * [Wiggle Subsequence](#wiggle-subsequence)
     * [Longest Subsequence](#longest-subsequence)
         * [Longest Common Subsequence](#longest-common-subsequence)
         * [Longest Palindromic Subsequence](#longest-palindromic-subsequence)
