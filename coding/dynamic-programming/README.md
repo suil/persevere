@@ -17,8 +17,8 @@
         * [Integer Break](#integer-break)
         * [Perfect Squares](#perfect-squares)
         * [3. 分割整数构成字母字符串](#3-分割整数构成字母字符串)
-    * [Longest Increasing Subsequence](#longest-increasing-subsequence)
-        * [1. 最长递增子序列](#1-最长递增子序列)
+    * [Longest Increasing Subsequence Problem](#longest-increasing-subsequence-problem)
+        * [Longest Increasing Subsequence](#longest-increasing-subsequence)
         * [2. 一组整数对能够构成的最长链](#2-一组整数对能够构成的最长链)
         * [3. 最长摆动子序列](#3-最长摆动子序列)
     * [Longest Subsequence](#longest-subsequence)
@@ -684,7 +684,7 @@ var numDecodings = function(s) {
 ```
 <!-- @include-end ../leetcode/0091.decode-ways.md -->
 
-## Longest Increasing Subsequence
+## Longest Increasing Subsequence Problem
 
 <div align="left"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/ee994da4-0fc7-443d-ac56-c08caf00a204.jpg" width="350px"> </div><br>
 
