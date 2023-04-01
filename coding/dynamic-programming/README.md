@@ -528,7 +528,7 @@ var numSquares = function(n) {
 ```
 <!-- @include-end ../leetcode/0279.perfect-squares.md -->
 
-### 3. 分割整数构成字母字符串
+### Splitting Integer based strings
 
 <!-- @include ../leetcode/0091.decode-ways.md -->
 ### Decode Ways
@@ -688,89 +688,73 @@ var numDecodings = function(s) {
 
 <div align="left"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/ee994da4-0fc7-443d-ac56-c08caf00a204.jpg" width="350px"> </div><br>
 
-### 1. 最长递增子序列
-
-300\. Longest Increasing Subsequence (Medium)
-
-[Leetcode](https://leetcode.com/problems/longest-increasing-subsequence/description/) / [力扣](https://leetcode-cn.com/problems/longest-increasing-subsequence/description/)
-
-```java
-public int lengthOfLIS(int[] nums) {
-    int n = nums.length;
-    int[] dp = new int[n];
-    for (int i = 0; i < n; i++) {
-        int max = 1;
-        for (int j = 0; j < i; j++) {
-            if (nums[i] > nums[j]) {
-                max = Math.max(max, dp[j] + 1);
-            }
-        }
-        dp[i] = max;
-    }
-    return Arrays.stream(dp).max().orElse(0);
-}
-```
-
-使用 Stream 求最大值会导致运行时间过长，可以改成以下形式：
-
-```java
-int ret = 0;
-for (int i = 0; i < n; i++) {
-    ret = Math.max(ret, dp[i]);
-}
-return ret;
-```
-
-以上解法的时间复杂度为 O(N<sup>2</sup>)，可以使用二分查找将时间复杂度降低为 O(NlogN)。
-
-定义一个 tails 数组，其中 tails[i] 存储长度为 i + 1 的最长递增子序列的最后一个元素。对于一个元素 x，
-
-- 如果它大于 tails 数组所有的值，那么把它添加到 tails 后面，表示最长递增子序列长度加 1；
-- 如果 tails[i-1] \< x \<= tails[i]，那么更新 tails[i] = x。
-
-例如对于数组 [4,3,6,5]，有：
+<!-- @include ../leetcode/0300.longest-increasing-subsequence.md -->
+### Longest Increasing Subsequence
+[300. Longest Increasing Subsequence](https://leetcode.com/problems/longest-increasing-subsequence)
 
 ```html
-tails      len      num
-[]         0        4
-[4]        1        3
-[3]        1        6
-[3,6]      2        5
-[3,5]      2        null
+Given an integer array nums, return the length of the longest strictly increasing subsequence.
+
+Example 1:
+
+Input: nums = [10,9,2,5,3,7,101,18]
+Output: 4
+Explanation: The longest increasing subsequence is [2,3,7,101], therefore the length is 4.
+Example 2:
+
+Input: nums = [0,1,0,3,2,3]
+Output: 4
+Example 3:
+
+Input: nums = [7,7,7,7,7,7,7]
+Output: 1
 ```
 
-可以看出 tails 数组保持有序，因此在查找 S<sub>i</sub> 位于 tails 数组的位置时就可以使用二分查找。
+Brute Force Recursion:
+```javascript
+var lengthOfLIS = function(nums) {
+    const output = lengthOfLISBruteForce(nums, 0, -Infinity);
+    return output;
+};
 
-```java
-public int lengthOfLIS(int[] nums) {
-    int n = nums.length;
-    int[] tails = new int[n];
-    int len = 0;
-    for (int num : nums) {
-        int index = binarySearch(tails, len, num);
-        tails[index] = num;
-        if (index == len) {
-            len++;
-        }
+function lengthOfLISBruteForce(nums, current, prevNum) {
+    if (current >= nums.length) {
+        return 0;
     }
-    return len;
-}
 
-private int binarySearch(int[] tails, int len, int key) {
-    int l = 0, h = len;
-    while (l < h) {
-        int mid = l + (h - l) / 2;
-        if (tails[mid] == key) {
-            return mid;
-        } else if (tails[mid] > key) {
-            h = mid;
-        } else {
-            l = mid + 1;
-        }
+    let taken = 0;
+    if (nums[current] > prevNum) {
+        taken = 1 + lengthOfLISBruteForce(nums, current + 1, nums[current]);
     }
-    return l;
+    const notTaken = lengthOfLISBruteForce(nums, current + 1, prevNum);
+
+    return Math.max(taken, notTaken);
 }
 ```
+
+DP:
+```javascript
+var lengthOfLIS = function(nums) {
+    if (nums.length == 1) {
+        return 1;
+    }
+    
+    const dp = [...Array(nums.length)].fill(1);
+    let maxLen = 1;
+    
+    for (let i = 1; i < nums.length; i++) {
+        for (let j = 0; j < i; j++) {
+            if (nums[i] > nums[j]) {
+                dp[i] = Math.max(dp[i], dp[j] + 1)
+                maxLen = Math.max(maxLen, dp[i]);
+            }
+        }
+    }
+
+    return maxLen;
+};
+```
+<!-- @include-end ../leetcode/0300.longest-increasing-subsequence.md -->
 
 ### 2. 一组整数对能够构成的最长链
 
