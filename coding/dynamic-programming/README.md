@@ -17,7 +17,7 @@
         * [Integer Break](#integer-break)
         * [Perfect Squares](#perfect-squares)
         * [3. 分割整数构成字母字符串](#3-分割整数构成字母字符串)
-    * [最长递增子序列](#最长递增子序列)
+    * [Longest Increasing Subsequence](#longest-increasing-subsequence)
         * [1. 最长递增子序列](#1-最长递增子序列)
         * [2. 一组整数对能够构成的最长链](#2-一组整数对能够构成的最长链)
         * [3. 最长摆动子序列](#3-最长摆动子序列)
