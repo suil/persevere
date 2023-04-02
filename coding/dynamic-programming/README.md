@@ -32,7 +32,7 @@
         * [5. 找零钱的硬币数组合](#5-找零钱的硬币数组合)
         * [Word Break](#word-break)
         * [Word Break II](#word-break-ii)
-        * [7. 组合总和](#7-组合总和)
+        * [Combination Sum IV](#combination-sum-iv)
     * [股票交易](#股票交易)
         * [1. 需要冷却期的股票交易](#1-需要冷却期的股票交易)
         * [2. 需要交易费用的股票交易](#2-需要交易费用的股票交易)
@@ -1448,16 +1448,21 @@ function wordBreakHelperMemoization(s, current, wordDict, memo) {
 }
 ```
 
-### 7. 组合总和
+<!-- @include ../leetcode/0377.combination-sum-iv.md -->
+### Combination Sum IV
 
-377\. Combination Sum IV (Medium)
-
-[Leetcode](https://leetcode.com/problems/combination-sum-iv/description/) / [力扣](https://leetcode-cn.com/problems/combination-sum-iv/description/)
+[377. Combination Sum IV](https://leetcode.com/problems/combination-sum-iv)
 
 ```html
-nums = [1, 2, 3]
-target = 4
+Given an array of distinct integers nums and a target integer target, return the number of possible combinations that add up to target.
 
+The test cases are generated so that the answer can fit in a 32-bit integer.
+
+Example 1:
+
+Input: nums = [1,2,3], target = 4
+Output: 7
+Explanation:
 The possible combination ways are:
 (1, 1, 1, 1)
 (1, 1, 2)
@@ -1466,30 +1471,59 @@ The possible combination ways are:
 (2, 1, 1)
 (2, 2)
 (3, 1)
-
 Note that different sequences are counted as different combinations.
+Example 2:
 
-Therefore the output is 7.
+Input: nums = [9], target = 3
+Output: 0
 ```
 
-涉及顺序的完全背包。
+Memoization:
+```javascript
+var combinationSum4 = function(nums, target) {
+    const memo = new Map()
+    return memoize(nums, target, memo);
+};
 
-```java
-public int combinationSum4(int[] nums, int target) {
-    if (nums == null || nums.length == 0) {
-        return 0;
+function memoize(nums, target, memo) {
+    if (target === 0) {
+        return 1;
     }
-    int[] maximum = new int[target + 1];
-    maximum[0] = 1;
-    Arrays.sort(nums);
-    for (int i = 1; i <= target; i++) {
-        for (int j = 0; j < nums.length && nums[j] <= i; j++) {
-            maximum[i] += maximum[i - nums[j]];
+
+    if (memo.has(target)) {
+        return memo.get(target);
+    }
+
+    let res = 0;
+    for (const num of nums) {
+        if (target - num >= 0) {
+            res += memoize(nums, target - num, memo);
         }
     }
-    return maximum[target];
+    memo.set(target, res);
+    return res;
 }
 ```
+
+DP:
+```javascript
+var combinationSum4 = function(nums, target) {
+    const len = nums.length;
+    const dp = [...Array(target + 1)].fill(0);
+    dp[0] = 1;
+    
+    for (let i = 1; i <= target; i++) {
+        for (const num of nums) {
+            if (i >= num) {
+                dp[i] = dp[i] + dp[i - num];
+            }
+        }
+    }
+    
+    return dp[target];
+};
+```
+<!-- @include-end ../leetcode/0377.combination-sum-iv.md -->
 
 ## 股票交易
 
