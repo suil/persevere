@@ -1084,6 +1084,30 @@ public int knapsack(W, N, weights, values) {
 }
 ```
 
+**memoization**
+```javascript
+function knapsackBF(n, capacity, memo) {
+  if (memo.has(`${n}-${capacity}`)) {
+    return memo.get(`${n}-${capacity}`);
+  }
+
+  if (n === 0 || capacity === 0) {
+    return 0;
+  }
+
+  if (weights[n - 1] > capacity) {
+    return knapsackBF(n - 1, capacity);
+  }
+
+  const res = Math.max(
+    knapsackBF(n - 1, capacity, memo),
+    knapsackBF(n - 1, capacity - weights[n - 1], memo) + values[n - 1]
+  );
+  memo.set(`${n}-${capacity}`, res);
+  return res;
+}
+```
+
 **Why the greedy approach is not applicable**  
 
 | id | w | v | v/w |
