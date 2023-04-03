@@ -25,7 +25,7 @@
         * [Longest Common Subsequence](#longest-common-subsequence)
         * [Longest Palindromic Subsequence](#longest-palindromic-subsequence)
     * [0-1 Knapsack](#0-1-knapsack)
-        * [1. 划分数组为和相等的两部分](#1-划分数组为和相等的两部分)
+        * [Partition Equal Subset Sum](#partition-equal-subset-sum)
         * [2. 改变一组数的正负号使得它们的和为一给定数](#2-改变一组数的正负号使得它们的和为一给定数)
         * [3. 01 字符构成最多的字符串](#3-01-字符构成最多的字符串)
         * [4. 找零钱的最少硬币数](#4-找零钱的最少硬币数)
