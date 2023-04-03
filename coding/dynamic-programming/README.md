@@ -1126,47 +1126,75 @@ function knapsackBF(n, capacity, memo) {
 
 - others：items are depending on each other
 
-### 1. 划分数组为和相等的两部分
+<!-- @include ../leetcode/0416.partition-equal-subset-sum.md -->
+### Partition Equal Subset Sum
 
-416\. Partition Equal Subset Sum (Medium)
-
-[Leetcode](https://leetcode.com/problems/partition-equal-subset-sum/description/) / [力扣](https://leetcode-cn.com/problems/partition-equal-subset-sum/description/)
+[416. Partition Equal Subset Sum](https://leetcode.com/problems/partition-equal-subset-sum)
 
 ```html
-Input: [1, 5, 11, 5]
+Given an integer array nums, return true if you can partition the array into two subsets such that the sum of the elements in both subsets is equal or false otherwise.
 
+Example 1:
+
+Input: nums = [1,5,11,5]
 Output: true
-
 Explanation: The array can be partitioned as [1, 5, 5] and [11].
+Example 2:
+
+Input: nums = [1,2,3,5]
+Output: false
+Explanation: The array cannot be partitioned into equal sum subsets.
 ```
 
-可以看成一个背包大小为 sum/2 的 0-1 背包问题。
-
-```java
-public boolean canPartition(int[] nums) {
-    int sum = computeArraySum(nums);
-    if (sum % 2 != 0) {
+Memoization:
+```javascript
+var canPartition = function(nums) {
+    const sum = nums.reduce((sum, n) => sum + n, 0);
+    if (sum % 2 !== 0) {
         return false;
     }
-    int W = sum / 2;
-    boolean[] dp = new boolean[W + 1];
-    dp[0] = true;
-    for (int num : nums) {                 // 0-1 背包一个物品只能用一次
-        for (int i = W; i >= num; i--) {   // 从后往前，先计算 dp[i] 再计算 dp[i-num]
-            dp[i] = dp[i] || dp[i - num];
-        }
-    }
-    return dp[W];
-}
+    return memoization(nums, Math.floor(sum / 2), new Map());
+};
 
-private int computeArraySum(int[] nums) {
-    int sum = 0;
-    for (int num : nums) {
-        sum += num;
+function memoization(nums, target, memo) {
+    if (memo.has(`${nums[0]}-${target}`)) {
+        return memo.get(`${nums[0]}-${target}`);
     }
-    return sum;
+    if (target === 0) {
+        return true;
+    }
+    if (nums.length === 0 || target < 0) {
+        return false;
+    }
+    
+    const taken = memoization(nums.slice(1), target - nums[0], memo);
+    const notTaken = memoization(nums.slice(1), target, memo);
+    const res = taken || notTaken;
+    memo.set(`${nums[0]}-${target}`, res);
+    return res;
 }
 ```
+
+DP:
+```javascript
+var canPartition = function(nums) {
+    const sum = nums.reduce((memo, num) => memo + num, 0);
+    const subsetSum = Math.floor(sum / 2);
+    if (sum % 2 != 0) { return false; }
+    
+    const dp = [...Array(subsetSum + 1)].fill(false);
+    dp[0] = true;
+    
+    for (const num of nums) {
+        for (let i = subsetSum; i >= num; i--) {
+            dp[i] = dp[i - num] || dp[i];
+        }
+    }
+    
+    return dp[subsetSum];
+};
+```
+<!-- @include-end ../leetcode/0416.partition-equal-subset-sum.md -->
 
 ### 2. 改变一组数的正负号使得它们的和为一给定数
 
