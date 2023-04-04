@@ -1467,30 +1467,76 @@ var change = function(amount, coins) {
 ```
 <!-- @include-end ../leetcode/0518.coin-change-ii.md -->
 
+<!-- @include ../leetcode/0139.word-break.md -->
 ### Word Break
-[139\. Word Break (Medium)](https://leetcode.com/problems/word-break/description/)
-Word Dict has not restriction on how many times words can be used. So this is an unbounded knapsack problem.
+[139. Word Break](https://leetcode.com/problems/word-break/)
 
-Since the letters in the string has sequence, this is a sequence required knapsack problem. For sequence-based knapsack problems, outer loop needs to be on knapsack itself.
+```html
+Given a string s and a dictionary of strings wordDict, return true if s can be segmented into a space-separated sequence of one or more dictionary words.
 
+Note that the same word in the dictionary may be reused multiple times in the segmentation.
+
+Example 1:
+
+Input: s = "leetcode", wordDict = ["leet","code"]
+Output: true
+Explanation: Return true because "leetcode" can be segmented as "leet code".
+Example 2:
+
+Input: s = "applepenapple", wordDict = ["apple","pen"]
+Output: true
+Explanation: Return true because "applepenapple" can be segmented as "apple pen apple".
+Note that you are allowed to reuse a dictionary word.
+Example 3:
+
+Input: s = "catsandog", wordDict = ["cats","dog","sand","and","cat"]
+Output: false
+```
+
+Memoization:
 ```javascript
-var wordBreak = function(s, wordDict) {
-    const sLen = s.length;
-    const dp = [...Array(sLen + 1)].fill(false);
+var wordBreak = function(s, wordDict, memo = new Map()) {
+    if (memo.has(s)) {
+        return memo.get(s);
+    }
+    if (s.length === 0) {
+        return true;
+    }
+    if (wordDict.length === 0) {
+        return false;
+    }
+
+    for (let i = 0; i <= s.length; i++) {
+        const word = s.substring(0, i);
+        const nextS = s.substring(i);
+        if (wordDict.includes(word) && wordBreak(nextS, wordDict, memo)) {
+            memo.set(s, true);
+            return true;
+        }
+    }
+    memo.set(s, false);
+    return false;
+};
+```
+
+DP:
+```javascript
+var wordBreak = function(s, wordDict, memo = new Map()) {
+    const dp = [...Array(s.length + 1)].fill(false);
     dp[0] = true;
-    
-    for (let i = 1; i <= sLen; i++) {
+
+    for (let i = 1; i <= s.length; i++) {
         for (const word of wordDict) {
-            const wordLen = word.length;
-            if (i >= wordLen && word === s.substring(i - wordLen, i)) {
-                dp[i] = dp[i] || dp[i - wordLen];
+            if (s.substring(i - word.length, i) === word) {
+                dp[i] = dp[i] || dp[i - word.length];
             }
         }
     }
-    
-    return dp[sLen];
+
+    return dp[s.length];
 };
 ```
+<!-- @include-end ../leetcode/0139.word-break.md -->
 
 <!-- @include ../leetcode/0140.word-break-ii.md -->
 ### Word Break II
@@ -1537,14 +1583,6 @@ function wordBreakHelper(s, wordDict, words, output) {
             wordBreakHelper(nextS, wordDict, nextWords, output);
         }
     }
-    // could loop thru wordDict
-    // for (const word of wordDict) {
-    //     const substr = s.substring(0, word.length);
-    //     if (substr !== word) { continue; }
-    //     const nextS = s.substring(word.length);
-    //     const nextWords = [...words, word];
-    //     wordBreakHelper(nextS, wordDict, nextWords, output, cache);
-    // }
 }
 ```
 
@@ -1578,6 +1616,7 @@ function wordBreakHelperMemoization(s, current, wordDict, memo) {
     return words;
 }
 ```
+<!-- @include-end ../leetcode/0140.word-break-ii.md -->
 
 <!-- @include ../leetcode/0377.combination-sum-iv.md -->
 ### Combination Sum IV

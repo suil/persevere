@@ -875,14 +875,6 @@ function wordBreakHelper(s, wordDict, words, output) {
             wordBreakHelper(nextS, wordDict, nextWords, output);
         }
     }
-    // could loop thru wordDict
-    // for (const word of wordDict) {
-    //     const substr = s.substring(0, word.length);
-    //     if (substr !== word) { continue; }
-    //     const nextS = s.substring(word.length);
-    //     const nextWords = [...words, word];
-    //     wordBreakHelper(nextS, wordDict, nextWords, output, cache);
-    // }
 }
 ```
 
