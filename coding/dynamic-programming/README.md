@@ -1264,45 +1264,71 @@ var findTargetSumWays = function(nums, S) {
 ```
 <!-- @include-end ../leetcode/0494.target-sum.md -->
 
-### 3. 01 字符构成最多的字符串
-
-474\. Ones and Zeroes (Medium)
-
-[Leetcode](https://leetcode.com/problems/ones-and-zeroes/description/) / [力扣](https://leetcode-cn.com/problems/ones-and-zeroes/description/)
+<!-- @include ../leetcode/0474.ones-and-zeroes.md -->
+### Ones and Zeroes
+[474. Ones and Zeroes](https://leetcode.com/problems/ones-and-zeroes)
 
 ```html
-Input: Array = {"10", "0001", "111001", "1", "0"}, m = 5, n = 3
-Output: 4
+You are given an array of binary strings strs and two integers m and n.
 
-Explanation: There are totally 4 strings can be formed by the using of 5 0s and 3 1s, which are "10","0001","1","0"
+Return the size of the largest subset of strs such that there are at most m 0's and n 1's in the subset.
+
+A set x is a subset of a set y if all elements of x are also elements of y.
+
+Example 1:
+
+Input: strs = ["10","0001","111001","1","0"], m = 5, n = 3
+Output: 4
+Explanation: The largest subset with at most 5 0's and 3 1's is {"10", "0001", "1", "0"}, so the answer is 4.
+Other valid but smaller subsets include {"0001", "1"} and {"10", "1", "0"}.
+{"111001"} is an invalid subset because it contains 4 1's, greater than the maximum of 3.
+Example 2:
+
+Input: strs = ["10","0","1"], m = 1, n = 1
+Output: 2
+Explanation: The largest subset is {"0", "1"}, so the answer is 2.
 ```
 
-这是一个多维费用的 0-1 背包问题，有两个背包大小，0 的数量和 1 的数量。
-
-```java
-public int findMaxForm(String[] strs, int m, int n) {
-    if (strs == null || strs.length == 0) {
+Memoization:
+```javascript
+function memoization(strs, numOf0, numOf1) {
+    if (strs.length === 0) {
         return 0;
     }
-    int[][] dp = new int[m + 1][n + 1];
-    for (String s : strs) {    // 每个字符串只能用一次
-        int ones = 0, zeros = 0;
-        for (char c : s.toCharArray()) {
-            if (c == '0') {
-                zeros++;
-            } else {
-                ones++;
-            }
-        }
-        for (int i = m; i >= zeros; i--) {
-            for (int j = n; j >= ones; j--) {
-                dp[i][j] = Math.max(dp[i][j], dp[i - zeros][j - ones] + 1);
+    
+    const countOf0s = strs[0].split('').reduce((c, s) => s === '0' ? c + 1 : c, 0);
+    const countOf1s = strs[0].split('').reduce((c, s) => s === '1' ? c + 1 : c, 0);
+
+    if (countOf0s > numOf0 || countOf1s > numOf1) {
+        return memoization(strs.slice(1), numOf0, numOf1);
+    }
+
+    return Math.max(
+        memoization(strs.slice(1), numOf0 - countOf0s, numOf1 - countOf1s) + 1,
+        memoization(strs.slice(1), numOf0, numOf1),
+    );
+}
+```
+
+DP:
+```javascript
+var findMaxForm = function(strs, m, n) {
+    const dp = [...Array(m + 1)].map(a => [...Array(n + 1)].fill(0));
+    for (const str of strs) {
+        const count0 = strs[0].split('').reduce((c, s) => s === '0' ? c + 1 : c, 0);
+        const count1 = strs[0].split('').reduce((c, s) => s === '1' ? c + 1 : c, 0);
+
+        for (let zero = m; zero >= count0; zero--) {
+            for (let one = n; one >= count1; one--) {
+                dp[zero][one] = Math.max(1 + dp[zero - count0][one - count1], dp[zero][one]);
             }
         }
     }
     return dp[m][n];
-}
+};
+
 ```
+<!-- @include-end ../leetcode/0474.ones-and-zeroes.md -->
 
 ### 4. 找零钱的最少硬币数
 
