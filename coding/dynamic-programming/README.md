@@ -26,7 +26,7 @@
         * [Longest Palindromic Subsequence](#longest-palindromic-subsequence)
     * [0-1 Knapsack](#0-1-knapsack)
         * [Partition Equal Subset Sum](#partition-equal-subset-sum)
-        * [2. 改变一组数的正负号使得它们的和为一给定数](#2-改变一组数的正负号使得它们的和为一给定数)
+        * [Target Sum](#target-sum)
         * [3. 01 字符构成最多的字符串](#3-01-字符构成最多的字符串)
         * [4. 找零钱的最少硬币数](#4-找零钱的最少硬币数)
         * [5. 找零钱的硬币数组合](#5-找零钱的硬币数组合)
@@ -1196,79 +1196,73 @@ var canPartition = function(nums) {
 ```
 <!-- @include-end ../leetcode/0416.partition-equal-subset-sum.md -->
 
-### 2. 改变一组数的正负号使得它们的和为一给定数
-
-494\. Target Sum (Medium)
-
-[Leetcode](https://leetcode.com/problems/target-sum/description/) / [力扣](https://leetcode-cn.com/problems/target-sum/description/)
+<!-- @include ../leetcode/0494.target-sum.md -->
+### Target Sum
+[494. Target Sum](https://leetcode.com/problems/target-sum/)
 
 ```html
-Input: nums is [1, 1, 1, 1, 1], S is 3.
+You are given an integer array nums and an integer target.
+
+You want to build an expression out of nums by adding one of the symbols '+' and '-' before each integer in nums and then concatenate all the integers.
+
+For example, if nums = [2, 1], you can add a '+' before 2 and a '-' before 1 and concatenate them to build the expression "+2-1".
+Return the number of different expressions that you can build, which evaluates to target.
+
+Example 1:
+
+Input: nums = [1,1,1,1,1], target = 3
 Output: 5
-Explanation:
+Explanation: There are 5 ways to assign symbols to make the sum of nums be target 3.
+-1 + 1 + 1 + 1 + 1 = 3
++1 - 1 + 1 + 1 + 1 = 3
++1 + 1 - 1 + 1 + 1 = 3
++1 + 1 + 1 - 1 + 1 = 3
++1 + 1 + 1 + 1 - 1 = 3
+Example 2:
 
--1+1+1+1+1 = 3
-+1-1+1+1+1 = 3
-+1+1-1+1+1 = 3
-+1+1+1-1+1 = 3
-+1+1+1+1-1 = 3
+Input: nums = [1], target = 1
+Output: 1
 
-There are 5 ways to assign symbols to make the sum of nums be target 3.
-```
+This problem can be converted to Subset Sum. So 0-1 Knapsack can solve it。
 
-该问题可以转换为 Subset Sum 问题，从而使用 0-1 背包的方法来求解。
-
-可以将这组数看成两部分，P 和 N，其中 P 使用正号，N 使用负号，有以下推导：
-
-```html
                   sum(P) - sum(N) = target
 sum(P) + sum(N) + sum(P) - sum(N) = target + sum(P) + sum(N)
                        2 * sum(P) = target + sum(nums)
 ```
 
-因此只要找到一个子集，令它们都取正号，并且和等于 (target + sum(nums))/2，就证明存在解。
+memoization:
+```javascript
+var findTargetSumWays = function(nums, target) {
+    if (nums.length === 0) {
+        return target == 0 ? 1 : 0;
+    }
+    return findTargetSumWays(nums.slice(1), target + nums[0]) + findTargetSumWays(nums.slice(1), target - nums[0]);
+};
 
-```java
-public int findTargetSumWays(int[] nums, int S) {
-    int sum = computeArraySum(nums);
+```
+
+DP:
+```javascript
+var findTargetSumWays = function(nums, S) {
+    const sum = nums.reduce((memo, n) => memo + n, 0);
     if (sum < S || (sum + S) % 2 == 1) {
         return 0;
     }
-    int W = (sum + S) / 2;
-    int[] dp = new int[W + 1];
+    const target = (sum + S) / 2;
+
+    const dp = [...Array(target + 1)].fill(false);
     dp[0] = 1;
-    for (int num : nums) {
-        for (int i = W; i >= num; i--) {
+    
+    for (const num of nums) {
+        for (let i = target; i >= num; i--) {
             dp[i] = dp[i] + dp[i - num];
         }
     }
-    return dp[W];
-}
-
-private int computeArraySum(int[] nums) {
-    int sum = 0;
-    for (int num : nums) {
-        sum += num;
-    }
-    return sum;
-}
+    
+    return dp[target];
+};
 ```
-
-DFS 解法：
-
-```java
-public int findTargetSumWays(int[] nums, int S) {
-    return findTargetSumWays(nums, 0, S);
-}
-
-private int findTargetSumWays(int[] nums, int start, int S) {
-    if (start == nums.length) {
-        return S == 0 ? 1 : 0;
-    }
-    return findTargetSumWays(nums, start + 1, S + nums[start])
-            + findTargetSumWays(nums, start + 1, S - nums[start]);
-}
-```
+<!-- @include-end ../leetcode/0494.target-sum.md -->
 
 ### 3. 01 字符构成最多的字符串
 
