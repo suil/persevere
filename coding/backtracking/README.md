@@ -854,58 +854,75 @@ Output: []
 ```
 
 Backtracking with no memoization
-
 ```javascript
 var wordBreak = function(s, wordDict) {
     const output = [];
-    wordBreakHelper(s, wordDict, [], output);
+    backtrack(s, wordDict, [], output);
     return output;
 };
-function wordBreakHelper(s, wordDict, words, output) {
-    if (s.length === 0) {
-        output.push(words.join(' '));
-        return;
-    }
-   
-    for (let i = 0; i < s.length; i++) {
-        const substr = s.substring(0, i + 1);
-        if (wordDict.includes(substr)) {
-            const nextS = s.substring(i + 1);
-            const nextWords = [...words, substr];
-            wordBreakHelper(nextS, wordDict, nextWords, output);
-        }
-    }
+
+function backtrack(s, wordDict, words, output) {
+  if (s.length === 0) {
+      return output.push(words.join(' '));
+  }
+
+  for (const word of wordDict) {
+    if (!s.startsWith(word)) { continue; }
+    const nextS = s.slice(word.length);
+    const nextWords = [...words, word];
+    backtrack(nextS, wordDict, nextWords, output);
+  }
 }
 ```
 
-Backtracking with memoization (top-down dynamic programming)
+Backtracking with memoization
 ```javascript
 var wordBreak = function(s, wordDict) {
-    const memo = new Map();
-    const words = wordBreakHelperMemoization(s, 0, wordDict, memo);
-    return words.map(w => w.join(' '));
+    const output = backtrack(s, wordDict, new Map());
+    return output.map(s => s.join(' '));
 };
-function wordBreakHelperMemoization(s, current, wordDict, memo) {
-    if (memo.has(current)) { return memo.get(current); }
-    
-    if (current >= s.length) {
+
+function backtrack(s, wordDict, memo) {
+    if (memo.has(s)) {
+        return memo.get(s);
+    }
+
+    if (s.length === 0) {
         return [[]];
     }
 
     const words = [];
-    for (let i = current; i < s.length; i++) {
-        const substr = s.substring(current, i + 1);
-        if (wordDict.includes(substr)) {
-            const nextCurrent = i + 1;
-            const nextWords = wordBreakHelperMemoization(s, nextCurrent, wordDict, memo);
+    for (let i = 1; i <= s.length; i++) {
+        const word = s.substring(0, i);
+        if (wordDict.includes(word)) {
+            const nextS = s.substring(i);
+            const nextWords = backtrack(nextS, wordDict, memo);
+            console.log({i, s, nextS, word, nextWords})
             for (const nextWord of nextWords) {
-                words.push([substr, ...nextWord]);
+                words.push([word, ...nextWord]);
             }
         }
     }
-
-    memo.set(current, words);
+    
+    memo.set(s, words);
     return words;
+}
+```
+
+DP:
+```javascript
+function wordBreak(s, wordDict) {
+    const dp = [...Array(s.length + 1)].fill([[]]);
+
+    for (let i = 1; i <= s.length; i++) {
+        for (const word of wordDict) {
+            if (word === s.substring(i - word.length, i)) {
+                dp[i] = dp[i - word.length].map(words => [word, ...words]);
+                break;
+            }
+        }
+    }
+    return dp[s.length];
 }
 ```
 <!-- @include-end ../leetcode/0140.word-break-ii.md -->
