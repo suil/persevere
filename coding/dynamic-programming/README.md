@@ -1330,49 +1330,79 @@ var findMaxForm = function(strs, m, n) {
 ```
 <!-- @include-end ../leetcode/0474.ones-and-zeroes.md -->
 
-### 4. 找零钱的最少硬币数
-
-322\. Coin Change (Medium)
-
-[Leetcode](https://leetcode.com/problems/coin-change/description/) / [力扣](https://leetcode-cn.com/problems/coin-change/description/)
+<!-- @include ../leetcode/0322.coin-change.md -->
+### Coin Change
+[322. Coin Change](https://leetcode.com/problems/coin-change)
 
 ```html
-Example 1:
-coins = [1, 2, 5], amount = 11
-return 3 (11 = 5 + 5 + 1)
+You are given an integer array coins representing coins of different denominations and an integer amount representing a total amount of money.
 
+Return the fewest number of coins that you need to make up that amount. If that amount of money cannot be made up by any combination of the coins, return -1.
+
+You may assume that you have an infinite number of each kind of coin.
+
+Example 1:
+
+Input: coins = [1,2,5], amount = 11
+Output: 3
+Explanation: 11 = 5 + 5 + 1
 Example 2:
-coins = [2], amount = 3
-return -1.
+
+Input: coins = [2], amount = 3
+Output: -1
+Example 3:
+
+Input: coins = [1], amount = 0
+Output: 0
 ```
 
-题目描述：给一些面额的硬币，要求用这些硬币来组成给定面额的钱数，并且使得硬币数量最少。硬币可以重复使用。
+Memoization:
+```javascript
+var coinChange = function(coins, amount, memo = new Map()) {
+    if (memo.has(`${coins[0]}-${amount}`)) {
+        return memo.get(`${coins[0]}-${amount}`);
+    }
 
-- 物品：硬币
-- 物品大小：面额
-- 物品价值：数量
+    if (amount === 0) {
+        return 0;
+    }
 
-因为硬币可以重复使用，因此这是一个完全背包问题。完全背包只需要将 0-1 背包的逆序遍历 dp 数组改为正序遍历即可。
+    if (coins.length === 0 || amount < 0) {
+        return -1;
+    }
 
-```java
-public int coinChange(int[] coins, int amount) {
-    if (amount == 0 || coins == null) return 0;
-    int[] dp = new int[amount + 1];
-    for (int coin : coins) {
-        for (int i = coin; i <= amount; i++) { //将逆序遍历改为正序遍历
-            if (i == coin) {
-                dp[i] = 1;
-            } else if (dp[i] == 0 && dp[i - coin] != 0) {
-                dp[i] = dp[i - coin] + 1;
+    let min = Infinity;
+    for (const coin of coins) {
+        let count = coinChange(coins, amount - coin);
+        if (count != -1) {
+            min = Math.min(min, count + 1);
+        }
+    }
+    const res = min === Infinity ? -1 : min;
+    memo.set(`${coins[0]}-${amount}`, res);
+    return res;
+};
 
-            } else if (dp[i - coin] != 0) {
+```
+
+DP:
+```javascript
+var coinChange = function(coins, amount) {
+    const dp = [...Array(amount + 1)].fill(Infinity);
+    dp[0] = 0;
+    
+    for (const coin of coins) {
+        let min = Infinity;
+        for (let i = coin; i <= amount; i++) {
+            if (i >= coin) {
                 dp[i] = Math.min(dp[i], dp[i - coin] + 1);
             }
         }
     }
-    return dp[amount] == 0 ? -1 : dp[amount];
-}
+    return dp[amount] === Infinity ? -1 : dp[amount];
+};
 ```
+<!-- @include-end ../leetcode/0322.coin-change.md -->
 
 ### 5. 找零钱的硬币数组合
 
