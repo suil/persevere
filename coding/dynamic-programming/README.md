@@ -1118,7 +1118,7 @@ function knapsackBF(n, capacity, memo) {
 
 **Variations**  
 
-- complete knapsack：number of items is unlimited
+- unbounded knapsack：number of items is unlimited
 
 - multiple knapsack: number of items is limited
 
@@ -1469,7 +1469,7 @@ var change = function(amount, coins) {
 
 ### Word Break
 [139\. Word Break (Medium)](https://leetcode.com/problems/word-break/description/)
-Word Dict has not restriction on how many times words can be used. So this is a complete knapsack problem.
+Word Dict has not restriction on how many times words can be used. So this is an unbounded knapsack problem.
 
 Since the letters in the string has sequence, this is a sequence required knapsack problem. For sequence-based knapsack problems, outer loop needs to be on knapsack itself.
 
