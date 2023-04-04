@@ -1404,39 +1404,68 @@ var coinChange = function(coins, amount) {
 ```
 <!-- @include-end ../leetcode/0322.coin-change.md -->
 
-### 5. 找零钱的硬币数组合
+<!-- @include ../leetcode/0518.coin-change-ii.md -->
+### Coin Change II
+[518. Coin Change II](https://leetcode.com/problems/coin-change-ii/)
 
-518\. Coin Change 2 (Medium)
+```html
+You are given an integer array coins representing coins of different denominations and an integer amount representing a total amount of money.
 
-[Leetcode](https://leetcode.com/problems/coin-change-2/description/) / [力扣](https://leetcode-cn.com/problems/coin-change-2/description/)
+Return the number of combinations that make up that amount. If that amount of money cannot be made up by any combination of the coins, return 0.
 
-```text-html-basic
-Input: amount = 5, coins = [1, 2, 5]
+You may assume that you have an infinite number of each kind of coin.
+
+The answer is guaranteed to fit into a signed 32-bit integer.
+
+Example 1:
+
+Input: amount = 5, coins = [1,2,5]
 Output: 4
 Explanation: there are four ways to make up the amount:
 5=5
 5=2+2+1
 5=2+1+1+1
 5=1+1+1+1+1
+Example 2:
+
+Input: amount = 3, coins = [2]
+Output: 0
+Explanation: the amount of 3 cannot be made up just with coins of 2.
+Example 3:
+
+Input: amount = 10, coins = [10]
+Output: 1
 ```
 
-完全背包问题，使用 dp 记录可达成目标的组合数目。
-
-```java
-public int change(int amount, int[] coins) {
-    if (coins == null) {
+Memoization:
+```javascript
+var change = function(amount, coins) {
+    if (amount === 0) {
+        return 1;
+    }
+    if (coins.length === 0 || amount < 0) {
         return 0;
     }
-    int[] dp = new int[amount + 1];
+    const taken = change(amount - coins[0], coins);
+    const notTaken = change(amount, coins.slice(1));
+    return taken + notTaken;
+};
+```
+
+DP:
+```javascript
+var change = function(amount, coins) {
+    const dp = [...Array(amount + 1)].fill(0);
     dp[0] = 1;
-    for (int coin : coins) {
-        for (int i = coin; i <= amount; i++) {
-            dp[i] += dp[i - coin];
+    for (const coin of coins) {
+        for (let i = coin; i <= amount; i++) {
+            dp[i] = dp[i] + dp[i - coin];
         }
     }
     return dp[amount];
-}
+};
 ```
+<!-- @include-end ../leetcode/0518.coin-change-ii.md -->
 
 ### Word Break
 [139\. Word Break (Medium)](https://leetcode.com/problems/word-break/description/)
