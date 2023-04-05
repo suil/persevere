@@ -1656,39 +1656,59 @@ var combinationSum4 = function(nums, target) {
 ```
 <!-- @include-end ../leetcode/0377.combination-sum-iv.md -->
 
-## 股票交易
+## Stock Trading
 
 ### 1. 需要冷却期的股票交易
 
-309\. Best Time to Buy and Sell Stock with Cooldown(Medium)
+<!-- @include ../leetcode/0309.best-time-to-buy-and-sell-stock-with-cooldown.md -->
+### Best Time to Buy and Sell Stock with Cooldown
+[309. Best Time to Buy and Sell Stock with Cooldown](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-cooldown)
 
-[Leetcode](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/description/) / [力扣](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/description/)
+```html
+You are given an array prices where prices[i] is the price of a given stock on the ith day.
 
-题目描述：交易之后需要有一天的冷却时间。
+Find the maximum profit you can achieve. You may complete as many transactions as you like (i.e., buy one and sell one share of the stock multiple times) with the following restrictions:
 
+After you sell your stock, you cannot buy stock on the next day (i.e., cooldown one day).
+Note: You may not engage in multiple transactions simultaneously (i.e., you must sell the stock before you buy again).
+
+Example 1:
+
+Input: prices = [1,2,3,0,2]
+Output: 3
+Explanation: transactions = [buy, sell, cooldown, buy, sell]
+Example 2:
+
+Input: prices = [1]
+Output: 0
+
+```
 <div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/ffd96b99-8009-487c-8e98-11c9d44ef14f.png" width="300px"> </div><br>
 
-```java
-public int maxProfit(int[] prices) {
+```javascript
+var maxProfit = function(prices) {
     if (prices == null || prices.length == 0) {
         return 0;
     }
-    int N = prices.length;
-    int[] buy = new int[N];
-    int[] s1 = new int[N];
-    int[] sell = new int[N];
-    int[] s2 = new int[N];
+    const N = prices.length;
+    const buy = Array(N);
+    const s1 = Array(N);
+    const sell = Array(N);
+    const s2 = Array(N);
     s1[0] = buy[0] = -prices[0];
     sell[0] = s2[0] = 0;
-    for (int i = 1; i < N; i++) {
+
+    for (let i = 1; i < N; i++) {
         buy[i] = s2[i - 1] - prices[i];
         s1[i] = Math.max(buy[i - 1], s1[i - 1]);
         sell[i] = Math.max(buy[i - 1], s1[i - 1]) + prices[i];
         s2[i] = Math.max(s2[i - 1], sell[i - 1]);
     }
+
     return Math.max(sell[N - 1], s2[N - 1]);
-}
+};
 ```
+<!-- @include-end ../leetcode/0309.best-time-to-buy-and-sell-stock-with-cooldown.md -->
 
 ### 2. 需要交易费用的股票交易
 
