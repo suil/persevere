@@ -1714,7 +1714,7 @@ var combinationSum4 = function(nums, target) {
 
 ## Stock Trading
 
-### 1. 需要冷却期的股票交易
+### Best Time to Buy and Sell Stock with Cooldown
 
 <!-- @include ../leetcode/0309.best-time-to-buy-and-sell-stock-with-cooldown.md -->
 ### Best Time to Buy and Sell Stock with Cooldown
