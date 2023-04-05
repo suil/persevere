@@ -1737,31 +1737,29 @@ Example 2:
 
 Input: prices = [1]
 Output: 0
-
 ```
-<div align="center"> <img src="https://cs-notes-1256109796.cos.ap-guangzhou.myqcloud.com/ffd96b99-8009-487c-8e98-11c9d44ef14f.png" width="300px"> </div><br>
 
 ```javascript
 var maxProfit = function(prices) {
     if (prices == null || prices.length == 0) {
         return 0;
     }
-    const N = prices.length;
-    const buy = Array(N);
-    const s1 = Array(N);
-    const sell = Array(N);
-    const s2 = Array(N);
-    s1[0] = buy[0] = -prices[0];
-    sell[0] = s2[0] = 0;
 
-    for (let i = 1; i < N; i++) {
-        buy[i] = s2[i - 1] - prices[i];
-        s1[i] = Math.max(buy[i - 1], s1[i - 1]);
-        sell[i] = Math.max(buy[i - 1], s1[i - 1]) + prices[i];
-        s2[i] = Math.max(s2[i - 1], sell[i - 1]);
+    const len = prices.length;
+    const sell = Array(len);
+    const buy = Array(len);
+    const rest = Array(len);
+
+    sell[0] = 0;
+    buy[0] = -prices[0];
+    rest[0] = 0;
+
+    for (let i = 1; i < prices.length; i++) {
+        buy[i] = Math.max(buy[i - 1], rest[i - 1] - prices[i]);
+        sell[i] = Math.max(sell[i - 1], buy[i - 1] + prices[i]);
+        rest[i] = Math.max(sell[i - 1], Math.max(buy[i - 1], rest[i - 1]));
     }
-
-    return Math.max(sell[N - 1], s2[N - 1]);
+    return sell[prices.length - 1];
 };
 ```
 <!-- @include-end ../leetcode/0309.best-time-to-buy-and-sell-stock-with-cooldown.md -->
