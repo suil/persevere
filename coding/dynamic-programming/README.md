@@ -1829,6 +1829,36 @@ var maxProfit = function(prices) {
     return sell[prices.length - 1];
 };
 ```
+
+```javascript
+var maxProfit = function(prices) {
+    if (prices == null || prices.length == 0) {
+        return 0;
+    }
+
+    const len = prices.length;
+    const maxProfitAfterBuy = Array(len);
+    const maxProfitAfterSell = Array(len);
+    let prevPrice = 0;
+
+    maxProfitAfterBuy[0] = -prices[0];
+    maxProfitAfterSell[0] = 0;
+
+    for (let i = 1; i < len; i++) {
+        maxProfitAfterSell[i] = Math.max(
+            maxProfitAfterSell[i - 1], // hold
+            maxProfitAfterBuy[i - 1] + prices[i] // sell
+        );
+        maxProfitAfterBuy[i] = Math.max(
+            maxProfitAfterBuy[i - 1], // hold
+            prevPrice - prices[i] // buy
+        );
+        prevPrice = maxProfitAfterSell[i - 1];
+    }
+
+    return maxProfitAfterSell[len - 1]
+};
+```
 <!-- @include-end ../leetcode/0309.best-time-to-buy-and-sell-stock-with-cooldown.md -->
 
 ### 2. 需要交易费用的股票交易
