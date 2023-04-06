@@ -1677,7 +1677,7 @@ var maxProfit = function(prices) {
 <!-- @include-end ../leetcode/0121.best-time-to-buy-and-sell-stock.md -->
 
 <!-- @include ../leetcode/0122.best-time-to-buy-and-sell-stock-ii.md -->
-### Best Time to Buy and Sell Stock II
+### 122. Best Time to Buy and Sell Stock II
 [122. Best Time to Buy and Sell Stock II](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii)
 
 ```html
@@ -1779,6 +1779,58 @@ var maxProfit = function(prices) {
 };
 ```
 <!-- @include-end ../leetcode/0123.best-time-to-buy-and-sell-stock-iii.md -->
+
+<!-- @include ../leetcode/0188.best-time-to-buy-and-sell-stock-iv.md -->
+### Best Time to Buy and Sell Stock IV
+[188. Best Time to Buy and Sell Stock IV](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iv)
+
+```html
+You are given an integer array prices where prices[i] is the price of a given stock on the ith day, and an integer k.
+
+Find the maximum profit you can achieve. You may complete at most k transactions: i.e. you may buy at most k times and sell at most k times.
+
+Note: You may not engage in multiple transactions simultaneously (i.e., you must sell the stock before you buy again).
+
+Example 1:
+
+Input: k = 2, prices = [2,4,1]
+Output: 2
+Explanation: Buy on day 1 (price = 2) and sell on day 2 (price = 4), profit = 4-2 = 2.
+Example 2:
+
+Input: k = 2, prices = [3,2,6,5,0,3]
+Output: 7
+Explanation: Buy on day 2 (price = 2) and sell on day 3 (price = 6), profit = 6-2 = 4. Then buy on day 5 (price = 0) and sell on day 6 (price = 3), profit = 3-0 = 3.
+```
+
+```javascript
+var maxProfit = function(kTimes, prices) {
+    const len = prices.length;
+    const maxProfitAfterBuy = [...Array(kTimes)].map(_ => [...Array(len)]);
+    const maxProfitAfterSell = [...Array(kTimes)].map(_ => [...Array(len)]);
+
+    for (let i = 0; i < kTimes; i++) {
+        maxProfitAfterBuy[i][0] = -prices[0];
+        maxProfitAfterSell[i][0] = 0;
+    }
+
+    for (let i = 1; i < len; i++) {
+        for (let k = 0; k < kTimes; k++) {
+            maxProfitAfterSell[k][i] = Math.max(
+                maxProfitAfterSell[k][i - 1], // hold,
+                maxProfitAfterBuy[k][i - 1] + prices[i] // sell
+            );
+            maxProfitAfterBuy[k][i] = Math.max(
+                maxProfitAfterBuy[k][i - 1], // hold
+                (maxProfitAfterSell[k - 1]?.[i - 1] || 0) - prices[i] // buy
+            )
+        }
+    }
+
+    return maxProfitAfterSell[kTimes - 1][len - 1];
+};
+```
+<!-- @include-end ../leetcode/0188.best-time-to-buy-and-sell-stock-iv.md -->
 
 <!-- @include ../leetcode/0309.best-time-to-buy-and-sell-stock-with-cooldown.md -->
 ### Best Time to Buy and Sell Stock with Cooldown
