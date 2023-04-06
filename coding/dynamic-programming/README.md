@@ -34,10 +34,12 @@
         * [Word Break II](#word-break-ii)
         * [Combination Sum IV](#combination-sum-iv)
     * [Stock Trading](#stock-trading)
+        * [Best Time to Buy and Sell Stock](#best-time-to-buy-and-sell-stock)
+        * [Best Time to Buy and Sell Stock II](#best-time-to-buy-and-sell-stock-ii)
         * [Best Time to Buy and Sell Stock III](#best-time-to-buy-and-sell-stock-iii)
+        * [Best Time to Buy and Sell Stock IV](#best-time-to-buy-and-sell-stock-iv)
         * [Best Time to Buy and Sell Stock with Cooldown](#best-time-to-buy-and-sell-stock-with-cooldown)
-        * [2. 需要交易费用的股票交易](#2-需要交易费用的股票交易)
-        * [4. 只能进行 k 次的股票交易](#4-只能进行-k-次的股票交易)
+        * [Best Time to Buy and Sell Stock with Transaction Fee](#best-time-to-buy-and-sell-stock-with-transaction-fee)
     * [字符串编辑](#字符串编辑)
         * [1. 删除两个字符串的字符使它们相等](#1-删除两个字符串的字符使它们相等)
         * [2. 编辑距离](#2-编辑距离)
@@ -1675,7 +1677,7 @@ var maxProfit = function(prices) {
 <!-- @include-end ../leetcode/0121.best-time-to-buy-and-sell-stock.md -->
 
 <!-- @include ../leetcode/0122.best-time-to-buy-and-sell-stock-ii.md -->
-### 122. Best Time to Buy and Sell Stock II
+### Best Time to Buy and Sell Stock II
 [122. Best Time to Buy and Sell Stock II](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii)
 
 ```html
