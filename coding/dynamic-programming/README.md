@@ -2038,36 +2038,6 @@ var combinationSum4 = function(nums, target) {
 ```
 <!-- @include-end ../leetcode/0377.combination-sum-iv.md -->
 
-### 4. 只能进行 k 次的股票交易
-
-188\. Best Time to Buy and Sell Stock IV (Hard)
-
-[Leetcode](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iv/description/) / [力扣](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iv/description/)
-
-```java
-public int maxProfit(int k, int[] prices) {
-    int n = prices.length;
-    if (k >= n / 2) {   // 这种情况下该问题退化为普通的股票交易问题
-        int maxProfit = 0;
-        for (int i = 1; i < n; i++) {
-            if (prices[i] > prices[i - 1]) {
-                maxProfit += prices[i] - prices[i - 1];
-            }
-        }
-        return maxProfit;
-    }
-    int[][] maxProfit = new int[k + 1][n];
-    for (int i = 1; i <= k; i++) {
-        int localMax = maxProfit[i - 1][0] - prices[0];
-        for (int j = 1; j < n; j++) {
-            maxProfit[i][j] = Math.max(maxProfit[i][j - 1], prices[j] + localMax);
-            localMax = Math.max(localMax, maxProfit[i - 1][j] - prices[j]);
-        }
-    }
-    return maxProfit[k][n - 1];
-}
-```
-
 ## 字符串编辑
 
 ### 1. 删除两个字符串的字符使它们相等
