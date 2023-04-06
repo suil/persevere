@@ -1637,6 +1637,79 @@ function wordBreak(s, wordDict) {
 
 ## Stock Trading
 
+<!-- @include ../leetcode/0121.best-time-to-buy-and-sell-stock.md -->
+### Best Time to Buy and Sell Stock
+[121. Best Time to Buy and Sell Stock](https://leetcode.com/problems/best-time-to-buy-and-sell-stock/)
+
+```html
+You are given an array prices where prices[i] is the price of a given stock on the ith day.
+
+You want to maximize your profit by choosing a single day to buy one stock and choosing a different day in the future to sell that stock.
+
+Return the maximum profit you can achieve from this transaction. If you cannot achieve any profit, return 0.
+
+Example 1:
+Input: prices = [7,1,5,3,6,4]
+Output: 5
+Explanation: Buy on day 2 (price = 1) and sell on day 5 (price = 6), profit = 6-1 = 5.
+Note that buying on day 2 and selling on day 1 is not allowed because you must buy before you sell.
+
+Example 2:
+Input: prices = [7,6,4,3,1]
+Output: 0
+Explanation: In this case, no transactions are done and the max profit = 0.
+```
+
+```javascript
+var maxProfit = function(prices) {
+    let minPrice = Infinity;
+    let maxprofit = -Infinity;
+    
+    for (const price of prices) {
+        minPrice = Math.min(minPrice, price);
+        maxprofit = Math.max(maxprofit, price - minPrice);
+    }
+    return maxprofit;
+};
+```
+<!-- @include-end ../leetcode/0121.best-time-to-buy-and-sell-stock.md -->
+
+<!-- @include ../leetcode/0122.best-time-to-buy-and-sell-stock-ii.md -->
+### 122. Best Time to Buy and Sell Stock II
+[122. Best Time to Buy and Sell Stock II](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii)
+
+```html
+You are given an integer array prices where prices[i] is the price of a given stock on the ith day.
+
+On each day, you may decide to buy and/or sell the stock. You can only hold at most one share of the stock at any time. However, you can buy it then immediately sell it on the same day.
+
+Find and return the maximum profit you can achieve.
+```
+
+```javascript
+var maxProfit = function(prices) {
+    const len = prices.length;
+    const maxProfitAfterBuy = Array(len - 1);
+    const maxProfitAfterSell = Array(len - 1);
+    maxProfitAfterBuy[0] = -prices[0];
+    maxProfitAfterSell[0] = 0;
+
+    for (let i = 1; i < len; i++) {
+        maxProfitAfterBuy[i] = Math.max(
+            maxProfitAfterBuy[i - 1], // hold
+            maxProfitAfterSell[i - 1] - prices[i] // buy
+        )
+        maxProfitAfterSell[i] = Math.max(
+            maxProfitAfterSell[i - 1], // hold
+            maxProfitAfterBuy[i - 1] + prices[i] // sell
+        )
+    }
+
+    return maxProfitAfterSell[len - 1];
+};
+```
+<!-- @include-end ../leetcode/0122.best-time-to-buy-and-sell-stock-ii.md -->
+
 <!-- @include ../leetcode/0123.best-time-to-buy-and-sell-stock-iii.md -->
 ### Best Time to Buy and Sell Stock III
 [123. Best Time to Buy and Sell Stock III](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iii)
@@ -1704,6 +1777,135 @@ var maxProfit = function(prices) {
 };
 ```
 <!-- @include-end ../leetcode/0123.best-time-to-buy-and-sell-stock-iii.md -->
+
+<!-- @include ../leetcode/0309.best-time-to-buy-and-sell-stock-with-cooldown.md -->
+### Best Time to Buy and Sell Stock with Cooldown
+[309. Best Time to Buy and Sell Stock with Cooldown](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-cooldown)
+
+```html
+You are given an array prices where prices[i] is the price of a given stock on the ith day.
+
+Find the maximum profit you can achieve. You may complete as many transactions as you like (i.e., buy one and sell one share of the stock multiple times) with the following restrictions:
+
+After you sell your stock, you cannot buy stock on the next day (i.e., cooldown one day).
+Note: You may not engage in multiple transactions simultaneously (i.e., you must sell the stock before you buy again).
+
+Example 1:
+
+Input: prices = [1,2,3,0,2]
+Output: 3
+Explanation: transactions = [buy, sell, cooldown, buy, sell]
+Example 2:
+
+Input: prices = [1]
+Output: 0
+```
+
+```javascript
+var maxProfit = function(prices) {
+    if (prices == null || prices.length == 0) {
+        return 0;
+    }
+
+    const len = prices.length;
+    const sell = Array(len);
+    const buy = Array(len);
+    const rest = Array(len);
+
+    sell[0] = 0;
+    buy[0] = -prices[0];
+    rest[0] = 0;
+
+    for (let i = 1; i < prices.length; i++) {
+        buy[i] = Math.max(buy[i - 1], rest[i - 1] - prices[i]);
+        sell[i] = Math.max(sell[i - 1], buy[i - 1] + prices[i]);
+        rest[i] = Math.max(sell[i - 1], Math.max(buy[i - 1], rest[i - 1]));
+    }
+    return sell[prices.length - 1];
+};
+```
+
+```javascript
+var maxProfit = function(prices) {
+    if (prices == null || prices.length == 0) {
+        return 0;
+    }
+
+    const len = prices.length;
+    const maxProfitAfterBuy = Array(len);
+    const maxProfitAfterSell = Array(len);
+    let prevPrice = 0;
+
+    maxProfitAfterBuy[0] = -prices[0];
+    maxProfitAfterSell[0] = 0;
+
+    for (let i = 1; i < len; i++) {
+        maxProfitAfterSell[i] = Math.max(
+            maxProfitAfterSell[i - 1], // hold
+            maxProfitAfterBuy[i - 1] + prices[i] // sell
+        );
+        maxProfitAfterBuy[i] = Math.max(
+            maxProfitAfterBuy[i - 1], // hold
+            prevPrice - prices[i] // buy
+        );
+        prevPrice = maxProfitAfterSell[i - 1];
+    }
+
+    return maxProfitAfterSell[len - 1]
+};
+```
+<!-- @include-end ../leetcode/0309.best-time-to-buy-and-sell-stock-with-cooldown.md -->
+
+<!-- @include ../leetcode/0714.best-time-to-buy-and-sell-stock-with-transaction-fee.md -->
+### Best Time to Buy and Sell Stock with Transaction Fee
+[714. Best Time to Buy and Sell Stock with Transaction Fee](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-transaction-fee)
+
+```html
+You are given an array prices where prices[i] is the price of a given stock on the ith day, and an integer fee representing a transaction fee.
+
+Find the maximum profit you can achieve. You may complete as many transactions as you like, but you need to pay the transaction fee for each transaction.
+
+Note: You may not engage in multiple transactions simultaneously (i.e., you must sell the stock before you buy again).
+
+Example 1:
+
+Input: prices = [1,3,2,8,4,9], fee = 2
+Output: 8
+Explanation: The maximum profit can be achieved by:
+- Buying at prices[0] = 1
+- Selling at prices[3] = 8
+- Buying at prices[4] = 4
+- Selling at prices[5] = 9
+The total profit is ((8 - 1) - 2) + ((9 - 4) - 2) = 8.
+Example 2:
+
+Input: prices = [1,3,7,5,10,3], fee = 3
+Output: 6
+```
+
+```javascript
+var maxProfit = function(prices, fee) {
+    const len = prices.length;
+    const maxProfitAfterBuy = Array(len);
+    const maxProfitAfterSell = Array(len);
+    maxProfitAfterBuy[0] = -prices[0];
+    maxProfitAfterSell[0] = 0;
+    
+    for (let i = 1; i < len; i++) {
+        maxProfitAfterSell[i] = Math.max(
+            maxProfitAfterSell[i - 1], // on hold
+            maxProfitAfterBuy[i - 1] + prices[i] - fee // sell
+        );
+        maxProfitAfterBuy[i] = Math.max(
+            maxProfitAfterBuy[i - 1], // on hold
+            maxProfitAfterSell[i - 1] - prices[i]
+        );
+    }
+
+    return maxProfitAfterSell[len - 1];
+};
+```
+<!-- @include-end ../leetcode/0714.best-time-to-buy-and-sell-stock-with-transaction-fee.md -->
 
 <!-- @include ../leetcode/0377.combination-sum-iv.md -->
 ### Combination Sum IV
