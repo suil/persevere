@@ -34,6 +34,7 @@
         * [Word Break II](#word-break-ii)
         * [Combination Sum IV](#combination-sum-iv)
     * [Stock Trading](#stock-trading)
+        * [Best Time to Buy and Sell Stock III](#best-time-to-buy-and-sell-stock-iii)
         * [Best Time to Buy and Sell Stock with Cooldown](#best-time-to-buy-and-sell-stock-with-cooldown)
         * [2. 需要交易费用的股票交易](#2-需要交易费用的股票交易)
         * [3. 只能进行两次的股票交易](#3-只能进行两次的股票交易)
@@ -1713,6 +1714,74 @@ var combinationSum4 = function(nums, target) {
 <!-- @include-end ../leetcode/0377.combination-sum-iv.md -->
 
 ## Stock Trading
+
+<!-- @include ../leetcode/0123.best-time-to-buy-and-sell-stock-iii.md -->
+### Best Time to Buy and Sell Stock III
+[123. Best Time to Buy and Sell Stock III](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-iii)
+
+```html
+You are given an array prices where prices[i] is the price of a given stock on the ith day.
+
+Find the maximum profit you can achieve. You may complete at most two transactions.
+
+Note: You may not engage in multiple transactions simultaneously (i.e., you must sell the stock before you buy again).
+
+
+Example 1:
+
+Input: prices = [3,3,5,0,0,3,1,4]
+Output: 6
+Explanation: Buy on day 4 (price = 0) and sell on day 6 (price = 3), profit = 3-0 = 3.
+Then buy on day 7 (price = 1) and sell on day 8 (price = 4), profit = 4-1 = 3.
+Example 2:
+
+Input: prices = [1,2,3,4,5]
+Output: 4
+Explanation: Buy on day 1 (price = 1) and sell on day 5 (price = 5), profit = 5-1 = 4.
+Note that you cannot buy on day 1, buy on day 2 and sell them later, as you are engaging multiple transactions at the same time. You must sell before buying again.
+Example 3:
+
+Input: prices = [7,6,4,3,1]
+Output: 0
+Explanation: In this case, no transaction is done, i.e. max profit = 0.
+```
+
+```javascript
+var maxProfit = function(prices) {
+    const len = prices.length;
+    const maxProfitAfterBuy1 = Array(len);
+    const maxProfitAfterBuy2 = Array(len);
+    const maxProfitAfterSell1 = Array(len);
+    const maxProfitAfterSell2 = Array(len);
+
+    maxProfitAfterBuy1[0] = -prices[0];
+    maxProfitAfterBuy2[0] = -prices[0];
+    maxProfitAfterSell1[0] = 0;
+    maxProfitAfterSell2[0] = 0;
+
+    for (let i = 1; i < len; i++) {
+        maxProfitAfterSell2[i] = Math.max(
+            maxProfitAfterSell2[i - 1], // hold
+            maxProfitAfterBuy2[i - 1] + prices[i] // 2nd sell 
+        );
+        maxProfitAfterBuy2[i] = Math.max(
+            maxProfitAfterBuy2[i - 1], // hold
+            maxProfitAfterSell1[i - 1] - prices[i] // 2nd buy
+        );
+        maxProfitAfterSell1[i] = Math.max(
+            maxProfitAfterSell1[i - 1], // hold
+            maxProfitAfterBuy1[i - 1] + prices[i] // 1st sell
+        );
+        maxProfitAfterBuy1[i] = Math.max(
+            maxProfitAfterBuy1[i - 1], // hold
+            maxProfitAfterSell1[0] - prices[i] // 1st buy
+        );
+    }
+
+    return maxProfitAfterSell2[len - 1];
+};
+```
+<!-- @include-end ../leetcode/0123.best-time-to-buy-and-sell-stock-iii.md -->
 
 ### Best Time to Buy and Sell Stock with Cooldown
 
