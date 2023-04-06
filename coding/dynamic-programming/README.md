@@ -1783,8 +1783,6 @@ var maxProfit = function(prices) {
 ```
 <!-- @include-end ../leetcode/0123.best-time-to-buy-and-sell-stock-iii.md -->
 
-### Best Time to Buy and Sell Stock with Cooldown
-
 <!-- @include ../leetcode/0309.best-time-to-buy-and-sell-stock-with-cooldown.md -->
 ### Best Time to Buy and Sell Stock with Cooldown
 [309. Best Time to Buy and Sell Stock with Cooldown](https://leetcode.com/problems/best-time-to-buy-and-sell-stock-with-cooldown)
