@@ -40,8 +40,8 @@
         * [Best Time to Buy and Sell Stock IV](#best-time-to-buy-and-sell-stock-iv)
         * [Best Time to Buy and Sell Stock with Cooldown](#best-time-to-buy-and-sell-stock-with-cooldown)
         * [Best Time to Buy and Sell Stock with Transaction Fee](#best-time-to-buy-and-sell-stock-with-transaction-fee)
-    * [字符串编辑](#字符串编辑)
-        * [1. 删除两个字符串的字符使它们相等](#1-删除两个字符串的字符使它们相等)
+    * [Editing Words](#editing-words)
+        * [Delete Operation for Two Strings](#delete-operation-for-two-strings)
         * [2. 编辑距离](#2-编辑距离)
         * [3. 复制粘贴字符](#3-复制粘贴字符)
     * String Matching and Manipulationg
@@ -2038,38 +2038,48 @@ var combinationSum4 = function(nums, target) {
 ```
 <!-- @include-end ../leetcode/0377.combination-sum-iv.md -->
 
-## 字符串编辑
+## Editing Words
 
-### 1. 删除两个字符串的字符使它们相等
-
-583\. Delete Operation for Two Strings (Medium)
-
-[Leetcode](https://leetcode.com/problems/delete-operation-for-two-strings/description/) / [力扣](https://leetcode-cn.com/problems/delete-operation-for-two-strings/description/)
+<!-- @include ../leetcode/0583.delete-operation-for-two-strings.md -->
+### Delete Operation for Two Strings
+[583. Delete Operation for Two Strings](https://leetcode.com/problems/delete-operation-for-two-strings/)
 
 ```html
-Input: "sea", "eat"
+Given two strings word1 and word2, return the minimum number of steps required to make word1 and word2 the same.
+
+In one step, you can delete exactly one character in either string.
+
+Example 1:
+
+Input: word1 = "sea", word2 = "eat"
 Output: 2
 Explanation: You need one step to make "sea" to "ea" and another step to make "eat" to "ea".
+Example 2:
+
+Input: word1 = "leetcode", word2 = "etco"
+Output: 4
 ```
 
-可以转换为求两个字符串的最长公共子序列问题。
-
-```java
-public int minDistance(String word1, String word2) {
-    int m = word1.length(), n = word2.length();
-    int[][] dp = new int[m + 1][n + 1];
-    for (int i = 1; i <= m; i++) {
-        for (int j = 1; j <= n; j++) {
-            if (word1.charAt(i - 1) == word2.charAt(j - 1)) {
+```javascript
+var minDistance = function(word1, word2) {
+    const len1 = word1.length;
+    const len2 = word2.length;
+    
+    const dp = [...Array(len1 + 1)].map(_ => [...Array(len2 + 1)].fill(0));
+    for (let i = 1; i <= len1; i++) {
+        for (let j = 1; j <= len2; j++) {
+            if (word1[i - 1] === word2[j - 1]) {
                 dp[i][j] = dp[i - 1][j - 1] + 1;
             } else {
-                dp[i][j] = Math.max(dp[i][j - 1], dp[i - 1][j]);
+                dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
             }
         }
     }
-    return m + n - 2 * dp[m][n];
-}
+    
+    return len1 + len2 - 2 * dp[len1][len2];
+};
 ```
+<!-- @include-end ../leetcode/0583.delete-operation-for-two-strings.md -->
 
 ### 2. 编辑距离
 
