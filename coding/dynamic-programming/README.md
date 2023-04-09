@@ -42,7 +42,7 @@
         * [Best Time to Buy and Sell Stock with Transaction Fee](#best-time-to-buy-and-sell-stock-with-transaction-fee)
     * [Editing Words](#editing-words)
         * [Delete Operation for Two Strings](#delete-operation-for-two-strings)
-        * [2. 编辑距离](#2-编辑距离)
+        * [Edit Distance](#edit-distance)
         * [3. 复制粘贴字符](#3-复制粘贴字符)
     * String Matching and Manipulationg
         * [Regular Expression Matching](../leetcode.md#regular-expression-matching)
@@ -2081,7 +2081,7 @@ var minDistance = function(word1, word2) {
 ```
 <!-- @include-end ../leetcode/0583.delete-operation-for-two-strings.md -->
 
-<!-- @include ../leetcode/0072.-edit-distance.md -->
+<!-- @include ../leetcode/0072.edit-distance.md -->
 ### Edit Distance
 [72. Edit Distance](https://leetcode.com/problems/edit-distance)
 
@@ -2145,36 +2145,59 @@ var minDistance = function(word1, word2) {
     return dp[len1][len2];
 };
 ```
-<!-- @include-end ../leetcode/0072.-edit-distance.md -->
+<!-- @include-end ../leetcode/0072.edit-distance.md -->
 
-### 3. 复制粘贴字符
+<!-- @include ../leetcode/0650.2-keys-keyboard.md -->
+### 2 Keys Keyboard
 
-650\. 2 Keys Keyboard (Medium)
+[650. 2 Keys Keyboard](https://leetcode.com/problems/2-keys-keyboard)
 
-[Leetcode](https://leetcode.com/problems/2-keys-keyboard/description/) / [力扣](https://leetcode-cn.com/problems/2-keys-keyboard/description/)
+```html
+There is only one character 'A' on the screen of a notepad. You can perform one of two operations on this notepad for each step:
 
-题目描述：最开始只有一个字符 A，问需要多少次操作能够得到 n 个字符 A，每次操作可以复制当前所有的字符，或者粘贴。
+Copy All: You can copy all the characters present on the screen (a partial copy is not allowed).
+Paste: You can paste the characters which are copied last time.
+Given an integer n, return the minimum number of operations to get the character 'A' exactly n times on the screen.
 
-```
-Input: 3
+Example 1:
+
+Input: n = 3
 Output: 3
-Explanation:
-Intitally, we have one character 'A'.
+Explanation: Initially, we have one character 'A'.
 In step 1, we use Copy All operation.
 In step 2, we use Paste operation to get 'AA'.
 In step 3, we use Paste operation to get 'AAA'.
+Example 2:
+
+Input: n = 1
+Output: 0
 ```
 
-```java
-public int minSteps(int n) {
+Memoization:
+```javascript
+function memoize(n, clipboardLen, strLen, memo) {
+    if (strLen === n) { return 0; }
+
+    if (clipboardLen > n || strLen > n) { return Infinity; }
+
+    const copy = strLen > clipboardLen ? memoize(n, strLen, strLen, memo) : Infinity;
+    const paste = clipboardLen > 0 ? dfs(n, clipboardLen, strLen + clipboardLen, memo) : Infinity;
+
+    return Math.min(copy, paste) + 1;
+}
+```
+
+```javascript
+function minStepsBF(n) {
     if (n == 1) return 0;
-    for (int i = 2; i <= Math.sqrt(n); i++) {
+    for (let i = 2; i <= Math.sqrt(n); i++) {
         if (n % i == 0) return i + minSteps(n / i);
     }
     return n;
 }
 ```
 
+DP:
 ```java
 public int minSteps(int n) {
     int[] dp = new int[n + 1];
@@ -2191,6 +2214,7 @@ public int minSteps(int n) {
     return dp[n];
 }
 ```
+<!-- @include-end ../leetcode/0650.2-keys-keyboard.md -->
 
 ## Array Crossing
 
