@@ -44,7 +44,7 @@
         * [Delete Operation for Two Strings](#delete-operation-for-two-strings)
         * [Edit Distance](#edit-distance)
         * [2 Keys Keyboard](#2-keys-keyboard)
-    * String Matching and Manipulationg
+    * [String Matching and Manipulationg]
         * [Regular Expression Matching](../leetcode.md#regular-expression-matching)
     * [Array Crossing](#array-crossing)
         * [Paint House](#paint-house)
