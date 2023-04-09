@@ -1,6 +1,6 @@
 # Leetcode 题解 - 动态规划
 <!-- GFM-TOC -->
-* [Leetcode 题解 - 动态规划](#leetcode-题解---动态规划)
+* [Dynamic Programming](#Dynamic-Programmin)
     * [fibonacci sequence](#fibonacci-sequence)
         * [Climbing Stairs](#climbing-stairs)
         * [House Robber](#house-robber)
@@ -44,8 +44,6 @@
         * [Delete Operation for Two Strings](#delete-operation-for-two-strings)
         * [Edit Distance](#edit-distance)
         * [2 Keys Keyboard](#2-keys-keyboard)
-    * [String Matching and Manipulationg]
-        * [Regular Expression Matching](../leetcode.md#regular-expression-matching)
     * [Array Crossing](#array-crossing)
         * [Paint House](#paint-house)
     * [Gaming](#Gaming)
@@ -2248,38 +2246,65 @@ public int minSteps(int n) {
 
 <!-- @include ../leetcode/0256.paint-house.md -->
 ### Paint House
-[256. Paint House](https://leetcode.com/problems/paint-house/)
+
+[256. Paint House](https://leetcode.com/problems/paint-house)
+
 ```html
-There are a row of n houses, each house can be painted with one of the three colors: red, blue or green. The cost of painting each house with a certain color is different. You have to paint all the houses such that no two adjacent houses have the same color.
+There is a row of n houses, where each house can be painted one of three colors: red, blue, or green. The cost of painting each house with a certain color is different. You have to paint all the houses such that no two adjacent houses have the same color.
 
-The cost of painting each house with a certain color is represented by a n x 3 cost matrix. For example, costs[0][0] is the cost of painting house 0 with color red;costs[1][2] is the cost of painting house 1 with color green, and so on... Find the minimum cost to paint all houses.
+The cost of painting each house with a certain color is represented by an n x 3 cost matrix costs.
 
-Note: All costs are positive integers.
+For example, costs[0][0] is the cost of painting house 0 with the color red; costs[1][2] is the cost of painting house 1 with color green, and so on...
+Return the minimum cost to paint all houses.
+
+Example 1:
+
+Input: costs = [[17,2,17],[16,16,5],[14,3,19]]
+Output: 10
+Explanation: Paint house 0 into blue, paint house 1 into green, paint house 2 into blue.
+Minimum cost: 2 + 5 + 3 = 10.
+Example 2:
+
+Input: costs = [[7,6,2]]
+Output: 2
 ```
-Memoization (top down)
 
+Memoization:
 ```javascript
-function minCostMemoization(costs, currentIndex, lastColorIndex, memo) {
-    if (memo.has(`${currentIndex}:${lastColorIndex}`)) {
-        return memo.get(`${currentIndex}:${lastColorIndex}`);
+const RED = 0, BLUE = 1, GREEN = 2;
+var minCost = function(costs) {
+    return Math.min(
+        memoize(costs, 0, RED, new Map()),
+        memoize(costs, 0, BLUE, new Map()),
+        memoize(costs, 0, GREEN, new Map())
+    );
+};
+
+function memoize(costs, n, color, memo) {
+    const memoKey = `${n}-${color}`;
+    if (memo.has(memoKey)) {
+        return memo.get(memoKey);
     }
-    
-    if (currentIndex >= costs.length) {
+
+    if (n >= costs.length) {
         return 0;
     }
-    
-    let min = Infinity;
-    for (let i = 0; i < 3; i++) {
-        if (lastColorIndex === i) {
-            continue;
-        }
-        min = Math.min(min, costs[currentIndex][i] + minCostMemoization(costs, currentIndex + 1, i, memo));
+
+    let totalCost = costs[n][color];
+    if (color === RED) {
+        totalCost += Math.min(memoize(costs, n + 1, BLUE, memo), memoize(costs, n + 1, GREEN, memo));
+    } else if (color === BLUE) {
+        totalCost += Math.min(memoize(costs, n + 1, RED, memo), memoize(costs, n + 1, GREEN, memo));
+    } else if (color === GREEN) {
+        totalCost += Math.min(memoize(costs, n + 1, RED, memo), memoize(costs, n + 1, BLUE, memo));
     }
-    memo.set(`${currentIndex}:${lastColorIndex}`, min)
-    return min;
+
+    memo.set(memoKey, totalCost);
+    return totalCost;
 }
 ```
 
+DP:
 ```javascript
 var minCost = function(costs) {
     let n = costs.length;
@@ -2295,6 +2320,7 @@ var minCost = function(costs) {
     return Math.min(dp[n - 1][0], dp[n - 1][1], dp[n - 1][2]);
 };
 ```
+<!-- @include-end ../leetcode/0256.paint-house.md -->
 
 
 ## Gaming
