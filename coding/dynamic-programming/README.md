@@ -43,7 +43,7 @@
     * [Editing Words](#editing-words)
         * [Delete Operation for Two Strings](#delete-operation-for-two-strings)
         * [Edit Distance](#edit-distance)
-        * [3. 复制粘贴字符](#3-复制粘贴字符)
+        * [2 Keys Keyboard](#2-keys-keyboard)
     * String Matching and Manipulationg
         * [Regular Expression Matching](../leetcode.md#regular-expression-matching)
     * [Array Crossing](#array-crossing)
