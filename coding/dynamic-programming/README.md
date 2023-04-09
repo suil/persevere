@@ -2114,6 +2114,34 @@ exention -> exection (replace 'n' with 'c')
 exection -> execution (insert 'u')
 ```
 
+Memoization:
+```javascript
+function memoize(word1, word2, memo) {
+    if (memo.has(word1 + word2)) {
+        return memo.get(word1 + word2);
+    }
+
+    if (word1.length === 0) {
+        return word2.length;
+    }
+    if (word2.length == 0) {
+        return word1.length;
+    }
+
+    if (word1[0] == word2[0]) {
+        return memoize(word1.substring(1), word2.substring(1), memo);
+    }
+
+    const insertOperation = memoize(word1, word2.substring(1), memo);
+    const deleteOperation = memoize(word1.substring(1), word2, memo);
+    const replaceOperation = memoize(word1.substring(1), word2.substring(1), memo);
+    const numOfOperations = Math.min(insertOperation, Math.min(deleteOperation, replaceOperation)) + 1;
+    memo.set(word1 + word2, numOfOperations);
+    return numOfOperations;
+}
+```
+
+DP:
 ```javascript
 var minDistance = function(word1, word2) {
     if (word1 == null || word2 == null) {
