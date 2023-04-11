@@ -1,8 +1,8 @@
 # Sliding Window
 <!-- GFM-TOC -->
 * [Sliding Window](#sliding-window)
-    * [Window Sum](#Window-Sum)
     * [Simple Sliding Window](#Simple-Sliding-Window)
+        * [Window Sum](#Window-Sum)
         * [Find the Index of the First Occurrence in a String](#Find-the-Index-of-the-First-Occurrence-in-a-String)
     * [Sliding Window + HashMap](#Sliding-window--Hashmap)
         * [Longest Substring with At Most K Distinct Characters](#Longest-Substring-with-At-Most-K-Distinct-Characters)
