@@ -532,6 +532,7 @@ function numIslandsHelper(grid, startRow, startCol) {
     numIslandsHelper(grid, startRow, startCol - 1);
 }
 ```
+<!-- @include-end ../leetcode/0200.number-of-islands.md -->
 
 <!-- @include ../leetcode/0547.friend-circles.md -->
 ### Number of Provinces
