@@ -2,6 +2,7 @@
 <!-- GFM-TOC -->
 * [Dynamic Programming](#Dynamic-Programmin)
     * [fibonacci sequence](#fibonacci-sequence)
+        * [Fibonacci Number](#fibonacci-number)
         * [Climbing Stairs](#climbing-stairs)
         * [House Robber](#house-robber)
         * [House Robber II](#house-robber-ii)
@@ -54,6 +55,68 @@
 <!-- GFM-TOC -->
 
 The recursion and dynamic programming are both solve the problem by dividing the original problem into multiple sub-problems. Their fundamental differences are that the dynamic programming keeps the results of sub-problems, thus avoiding duplicate calculations.
+
+<!-- @include ../leetcode/0509.fibonacci-number.md -->
+### Fibonacci Number
+[509. Fibonacci Number](https://leetcode.com/problems/fibonacci-number)
+
+```html
+The Fibonacci numbers, commonly denoted F(n) form a sequence, called the Fibonacci sequence, such that each number is the sum of the two preceding ones, starting from 0 and 1. That is,
+
+F(0) = 0, F(1) = 1
+F(n) = F(n - 1) + F(n - 2), for n > 1.
+Given n, calculate F(n).
+
+Example 1:
+
+Input: n = 2
+Output: 1
+Explanation: F(2) = F(1) + F(0) = 1 + 0 = 1.
+Example 2:
+
+Input: n = 3
+Output: 2
+Explanation: F(3) = F(2) + F(1) = 1 + 1 = 2.
+Example 3:
+
+Input: n = 4
+Output: 3
+Explanation: F(4) = F(3) + F(2) = 2 + 1 = 3.
+```
+
+memoization:
+```javascript
+function memoize(n, memo) {
+    if (memo.has(n)) {
+      return memo.get(n);
+    }
+    if (n === 0) {
+      return 0;
+    }
+    if (n === 1) {
+      return 1;
+    }
+    const fn = memoize(n - 1, memo) + memoize(n - 2, memo);
+    memo.set(n, fn);
+    return fn;
+}
+```
+
+dp:
+```javascript
+var fib = function(n) {
+    let dp0 = 0;
+    let dp1 = 1;
+
+    for (let i = 2; i <= n; i++) {
+      const oldDp1 = dp1;
+      dp1 = dp0 + dp1;
+      dp0 = oldDp1;
+    }
+    return dp1;
+}
+```
+<!-- @include-end ../leetcode/0509.fibonacci-number.md -->
 
 <!-- @include ../leetcode/0070.climbing-stairs.md -->
 ### Climbing Stairs
