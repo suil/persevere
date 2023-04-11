@@ -15,6 +15,7 @@
         * [Search in Rotated Sorted Array](#search-in-rotated-sorted-array)
         * [Find Minimum in Rotated Sorted Array](#find-minimum-in-rotated-sorted-array)
         * [Find Minimum in Rotated Sorted Array II](#find-minimum-in-rotated-sorted-array-ii)
+    * [Median of Two Sorted Arrays](#median-of-two-sorted-arrays)
 
 <!-- GFM-TOC -->
 
@@ -609,3 +610,66 @@ var findMin = function(nums) {
     return nums[lo];
 };
 ```
+
+<!-- @include ../leetcode/0004.median-of-two-sorted-arrays.md -->
+### Median of Two Sorted Arrays
+[4. Median of Two Sorted Arrays](https://leetcode.com/problems/median-of-two-sorted-arrays)
+
+```html
+Given two sorted arrays nums1 and nums2 of size m and n respectively, return the median of the two sorted arrays.
+
+The overall run time complexity should be O(log (m+n)).
+
+Example 1:
+
+Input: nums1 = [1,3], nums2 = [2]
+Output: 2.00000
+Explanation: merged array = [1,2,3] and median is 2.
+Example 2:
+
+Input: nums1 = [1,2], nums2 = [3,4]
+Output: 2.50000
+Explanation: merged array = [1,2,3,4] and median is (2 + 3) / 2 = 2.5.
+```
+
+```javascript
+var findMedianSortedArrays = function(nums1, nums2) {
+    // Recur in proper oder
+    if (nums1.length > nums2.length) {
+        return findMedianSortedArrays(nums2, nums1);
+    }
+    
+    const num1Len = nums1.length, num2Len = nums2.length;
+    let lo = 0, hi = num1Len;
+     
+    // Iterate to find the mid
+    while (lo <= hi) {
+        // Get the floor values 
+        const partitionX = (lo + hi) / 2 | 0;
+        const partitionY = (num1Len + num2Len + 1) / 2 - partitionX | 0;
+        
+        // Get the max of first array and min of last array
+        let maxLeftX = partitionX === 0 ? -Infinity : nums1[partitionX - 1];
+        let minRightX = partitionX === num1Len ? Infinity : nums1[partitionX];
+        
+        // Get the max of second array and min of first array
+        let maxLeftY = partitionY === 0 ? -Infinity : nums2[partitionY - 1];
+        let minRightY = partitionY === num2Len ? Infinity : nums2[partitionY];
+        
+        if (maxLeftX <= minRightY && maxLeftY <= minRightX) {
+            // If odd 
+            if((num1Len + num2Len) & 1) return Math.max(maxLeftX, maxLeftY);
+            // if even
+            return (Math.max(maxLeftX, maxLeftY) + Math.min(minRightX, minRightY)) / 2;
+        }
+        if (maxLeftX > minRightY) {
+            // Continue the search in upperbound
+            hi = partitionX - 1;
+        } else {
+            // Continue the search in lowerbound
+            lo = partitionX + 1;
+        }
+    }
+};
+```
+<!-- @include-end ../leetcode/0004.median-of-two-sorted-arrays.md -->
