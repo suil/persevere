@@ -741,6 +741,7 @@ var intersection = function(nums1, nums2) {
     return [...set2];
 };
 ```
+<!-- @include-end ../leetcode/0349.intersection-of-two-arrays.md -->
 
 
 <!-- @include ../leetcode/0350.intersection-of-two-arrays-ii.md -->

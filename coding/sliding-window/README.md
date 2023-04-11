@@ -1,6 +1,7 @@
 # Sliding Window
 <!-- GFM-TOC -->
 * [Sliding Window](#sliding-window)
+    * [Window Sum](#Window-Sum)
     * [Simple Sliding Window](#Simple-Sliding-Window)
         * [Find the Index of the First Occurrence in a String](#Find-the-Index-of-the-First-Occurrence-in-a-String)
     * [Sliding Window + HashMap](#Sliding-window--Hashmap)
@@ -29,6 +30,44 @@ for (let i = 0; i < s.length; i++) {
 }
 ```
 ## Simple Sliding Window
+
+<!-- @include ../leetcode/L604.window-sum.md -->
+### Window Sum
+[604. Window Sum] (https://www.lintcode.com/problem/604/description)
+
+```html
+Given an array of n integers, and a moving window(size k), move the window at each iteration from the start of the array, find the sum of the element inside the window at each moving.
+
+Example 1
+
+Input：array = [1,2,7,8,5], k = 3
+Output：[10,17,20]
+Explanation：
+1 + 2 + 7 = 10
+2 + 7 + 8 = 17
+7 + 8 + 5 = 20
+```
+
+```javascript
+  winSum(nums, k) {
+    // write your code here
+    if (nums == null || nums.length < k || k <= 0) {
+        return [];
+    }
+
+    const sums = Array(nums.length - k + 1).fill(0);
+    for (let i = 0; i < k; i++) {
+        sums[0] += nums[i];
+    }
+
+    for (let i = 1; i < sums.length; i++) {
+        sums[i] = sums[i - 1] - nums[i - 1] + nums[i + k - 1];
+    }
+
+    return sums;
+  }
+```
+<!-- @include-end ../leetcode/L604.window-sum.md -->
 
 <!-- @include ../leetcode/0028.find-the-index-of-the-first-occurrence-in-a-string.md -->
 ### Find the Index of the First Occurrence in a String
