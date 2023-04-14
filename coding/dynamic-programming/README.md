@@ -52,7 +52,9 @@
         * [Can I Win](#can-i-win)
     * [Ugly Number](#ugly-number)
         * [Ugly Number II](#ugly-number-ii)
-    [Number of Ways to Stay in the Same Place After Some Steps](#number-of-ways-to-stay-in-the-same-place-after-some-steps)
+    * [Jump Game Problem](#jump-game-problem)
+        * [Jump Game](#jump-game)
+    * [Number of Ways to Stay in the Same Place After Some Steps](#number-of-ways-to-stay-in-the-same-place-after-some-steps)
 
 <!-- GFM-TOC -->
 
@@ -2610,6 +2612,68 @@ function dp(s1, s2, s3) {
 }
 ```
 <!-- @include-end ../leetcode/0097.interleaving-string.md -->
+
+<!-- @include ../leetcode/0055.jump-game.md -->
+### Jump Game
+[55. Jump Game](https://leetcode.com/problems/jump-game)
+
+```html
+You are given an integer array nums. You are initially positioned at the array's first index, and each element in the array represents your maximum jump length at that position.
+
+Return true if you can reach the last index, or false otherwise.
+
+Example 1:
+
+Input: nums = [2,3,1,1,4]
+Output: true
+Explanation: Jump 1 step from index 0 to 1, then 3 steps to the last index.
+Example 2:
+
+Input: nums = [3,2,1,0,4]
+Output: false
+Explanation: You will always arrive at index 3 no matter what. Its maximum jump length is 0, which makes it impossible to reach the last index.
+```
+
+memoization:
+```javascript
+function memoize(nums, currentIndex, memo) {
+    if (memo.has(currentIndex)) {
+        return memo.get(currentIndex);
+    }
+    if (currentIndex > nums.length) {
+        return false;
+    }
+    if (currentIndex === nums.length - 1) {
+        return true;
+    }
+
+    const maxNumSteps = nums[currentIndex];
+    for (let i = 1; i <= maxNumSteps; i++) {
+        if (memoize(nums, currentIndex + i, memo)) {
+            memo.set(currentIndex, true);
+            return true;
+        }
+    }
+    memo.set(currentIndex, false);
+    return false;
+}
+```
+
+dp:
+```javascript
+function dp(nums) {
+    const dp = Array(nums.length).fill(false);
+    dp[nums.length - 1] = true;
+
+    for (let i = nums.length - 2; i >= 0; i--) {
+        for (let j = 1; j <= nums[i]; j++) {
+            dp[i] = dp[i] || (dp[i + j] || false);
+        }
+    }
+    return dp[0];
+}
+```
+<!-- @include-end ../leetcode/0055.jump-game.md -->
 
 <!-- @include ../leetcode/1269.number-of-ways-to-stay-in-the-same-place-after-some-steps.md -->
 ### Number of Ways to Stay in the Same Place After Some Steps
