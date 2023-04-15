@@ -10,6 +10,7 @@
         * [Sort Characters By Frequency](#Sort-Characters-By-Frequency)
     * [Sorting for fixed small number of items](#Sorting-for-fixed-small-number-of-items)
         * [Sort Colors (Medium)](#Sort-Colors)
+        * [Sort Colors II](#sort-colors-ii)
     * [Sort Transformed Array](#sort-transformed-array)
 <!-- GFM-TOC -->
 
@@ -201,7 +202,8 @@ var frequencySort = function(s) {
 ```
 
 ## Sorting for fixed small number of values in an array
-<!-- @include ../leetcode/0075.sort-colors.md -->
+
+<!-- @include ../leetcode/0075.sort-colors.md -->
 ### Sort Colors
 [75. Sort Colors](https://leetcode.com/problems/sort-colors/)
 
@@ -247,6 +249,70 @@ var sortColors = function(nums) {
     }
 };
 ```
+<!-- @include ../leetcode/L143.sort-colors-ii.md -->
+### Sort Colors II
+[143 · Sort Colors II](https://www.lintcode.com/problem/143)
+
+```html
+Given an array of n objects with k different colors (numbered from 1 to k), sort them so that objects of the same color are adjacent, with the colors in the order 1, 2, ... k.
+
+Example1
+
+Input: 
+[3,2,2,1,4] 
+4
+Output: 
+[1,2,2,3,4]
+
+Example2
+
+Input: 
+[2,1,1,2,2] 
+2
+Output: 
+[1,1,2,2,2]
+```
+
+```javascript
+class Solution {
+  sortColors2(colors, k) {
+    // write your code here
+    if (colors === null || colors.length === 0) {
+      return;
+    }
+    this.rainbowSort(colors, 0, colors.length - 1, 1, k);
+  }
+
+  rainbowSort(colors, left, right, colorFrom, colorTo) {
+    if (colorFrom === colorTo) {
+        return;
+    }
+    if (left >= right) {
+        return;
+    }
+
+    const colorMid = Math.floor((colorFrom + colorTo) / 2);
+    let l = left, r = right;
+    while (l <= r) {
+        while (l <= r && colors[l] <= colorMid) {
+          l++;
+        }
+        while (l <= r && colors[r] > colorMid) {
+          r--;
+        }
+        if (l <= r) {
+          [colors[l], colors[r]] = [colors[r], colors[l]];
+          l++;
+          r--;
+        }
+    }
+    
+    this.rainbowSort(colors, left, r, colorFrom, colorMid);
+    this.rainbowSort(colors, l, right, colorMid + 1, colorTo);
+  }
+}
+```
+<!-- @include-end ../leetcode/L143.sort-colors-ii.md -->
 
 <!-- @include ../leetcode/0360.sort-transformed-array.md -->
 ### Sort Transformed Array
