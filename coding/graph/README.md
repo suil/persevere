@@ -508,14 +508,16 @@ var validTree = function(n, edges) {
     
     return visited.size === n;
 };
-function hasCycle(graph, current, last, visited) {
+function hasCycle(graph, current, prev, visited) {
+    if (visited.has(current)) {
+        return true;
+    }
     visited.add(current);
-    const neighbors = graph.get(current) || [];
+    neighbors = graph[current];
     for (const neighbor of neighbors) {
-        if (visited.has(neighbor)) {
-            if (neighbor !== last) { return true; }
-        } else {
-            if (hasCycle(graph, neighbor, current, visited)) { return true; }
+        if (neighbor === prev) { continue; }
+        if (hasCycle(graph, neighbor, current, visited)) {
+            return true;
         }
     }
     return false;
