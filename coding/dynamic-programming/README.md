@@ -52,6 +52,10 @@
         * [Can I Win](#can-i-win)
     * [Ugly Number](#ugly-number)
         * [Ugly Number II](#ugly-number-ii)
+    * [Jump Game Problem](#jump-game-problem)
+        * [Jump Game](#jump-game)
+    * [Number of Ways to Stay in the Same Place After Some Steps](#number-of-ways-to-stay-in-the-same-place-after-some-steps)
+
 <!-- GFM-TOC -->
 
 The recursion and dynamic programming are both solve the problem by dividing the original problem into multiple sub-problems. Their fundamental differences are that the dynamic programming keeps the results of sub-problems, thus avoiding duplicate calculations.
@@ -2608,3 +2612,169 @@ function dp(s1, s2, s3) {
 }
 ```
 <!-- @include-end ../leetcode/0097.interleaving-string.md -->
+
+<!-- @include ../leetcode/0055.jump-game.md -->
+### Jump Game
+[55. Jump Game](https://leetcode.com/problems/jump-game)
+
+```html
+You are given an integer array nums. You are initially positioned at the array's first index, and each element in the array represents your maximum jump length at that position.
+
+Return true if you can reach the last index, or false otherwise.
+
+Example 1:
+
+Input: nums = [2,3,1,1,4]
+Output: true
+Explanation: Jump 1 step from index 0 to 1, then 3 steps to the last index.
+Example 2:
+
+Input: nums = [3,2,1,0,4]
+Output: false
+Explanation: You will always arrive at index 3 no matter what. Its maximum jump length is 0, which makes it impossible to reach the last index.
+```
+
+memoization:
+```javascript
+function memoize(nums, currentIndex, memo) {
+    if (memo.has(currentIndex)) {
+        return memo.get(currentIndex);
+    }
+    if (currentIndex > nums.length) {
+        return false;
+    }
+    if (currentIndex === nums.length - 1) {
+        return true;
+    }
+
+    const maxNumSteps = nums[currentIndex];
+    for (let i = 1; i <= maxNumSteps; i++) {
+        if (memoize(nums, currentIndex + i, memo)) {
+            memo.set(currentIndex, true);
+            return true;
+        }
+    }
+    memo.set(currentIndex, false);
+    return false;
+}
+```
+
+dp:
+```javascript
+function dp(nums) {
+    const dp = Array(nums.length).fill(false);
+    dp[nums.length - 1] = true;
+
+    for (let i = nums.length - 2; i >= 0; i--) {
+        for (let j = 1; j <= nums[i]; j++) {
+            dp[i] = dp[i] || (dp[i + j] || false);
+        }
+    }
+    return dp[0];
+}
+```
+<!-- @include-end ../leetcode/0055.jump-game.md -->
+
+<!-- @include ../leetcode/1269.number-of-ways-to-stay-in-the-same-place-after-some-steps.md -->
+### Number of Ways to Stay in the Same Place After Some Steps
+[1269. Number of Ways to Stay in the Same Place After Some Steps](https://leetcode.com/problems/number-of-ways-to-stay-in-the-same-place-after-some-steps/description/)
+
+```html
+You have a pointer at index 0 in an array of size arrLen. At each step, you can move 1 position to the left, 1 position to the right in the array, or stay in the same place (The pointer should not be placed outside the array at any time).
+
+Given two integers steps and arrLen, return the number of ways such that your pointer is still at index 0 after exactly steps steps. Since the answer may be too large, return it modulo 109 + 7.
+
+Example 1:
+
+Input: steps = 3, arrLen = 2
+Output: 4
+Explanation: There are 4 differents ways to stay at index 0 after 3 steps.
+Right, Left, Stay
+Stay, Right, Left
+Right, Stay, Left
+Stay, Stay, Stay
+Example 2:
+
+Input: steps = 2, arrLen = 4
+Output: 2
+Explanation: There are 2 differents ways to stay at index 0 after 2 steps
+Right, Left
+Stay, Stay
+Example 3:
+
+Input: steps = 4, arrLen = 2
+Output: 8
+```
+
+backtracking:
+```javascript
+var numWays = function(steps, arrLen) {
+    const output = { count: 0 }
+    backtrack(steps, arrLen, 0, 0, output);
+    return output.count;
+};
+
+function backtrack(steps, arrLen, currentPos, stepTaken, output) {
+    if (currentPos < 0 || currentPos >= arrLen || stepTaken > steps) {
+        return;
+    }
+
+    if (currentPos === 0 && stepTaken === steps) {
+        output.count++;
+        return;
+    }
+
+
+    const right = backtrack(steps, arrLen, currentPos + 1, stepTaken + 1, output);
+    const left = backtrack(steps, arrLen, currentPos - 1, stepTaken + 1, output);
+    const stay = backtrack(steps, arrLen, currentPos, stepTaken + 1, output);
+}
+```
+
+memoization:
+```javascript
+function memoize(steps, arrLen, currentPos, memo) {
+    const MODULO = 1000000007;
+    const key = `${steps}-${currentPos}`;
+
+if (memo.has(key)) {
+        return memo.get(key);
+    }
+
+    if (currentPos < 0 || currentPos >= arrLen || steps < 0) {
+        memo.set(key, 0);
+        return 0;
+    }
+
+    if (steps === 0 && currentPos === 0) {
+        memo.set(key, 1);
+        return 1;
+    }
+
+    const right = memoize(steps - 1, arrLen, currentPos + 1, memo);
+    const left = memoize(steps - 1, arrLen, currentPos - 1, memo);
+    const stay = memoize(steps - 1, arrLen, currentPos, memo);
+    const numOfWays = (right + left + stay) % MODULO;
+
+    memo.set(key, numOfWays);
+    return numOfWays;
+}
+```
+
+dp:
+```javascript
+function dp(steps, arrLen) {
+    const MODULO = 1000000007;
+    
+    const dp = [...Array(steps + 1)].map(_ => [...Array(arrLen)].fill(0));
+    dp[0][0] = 1;
+
+    for (let step = 1; step <= steps; step++) {
+        for (let pos = 0; pos < arrLen; pos++) {
+            dp[step][pos] = (dp[step - 1][pos] + (dp[step - 1][pos - 1] || 0) + (dp[step - 1][pos + 1] || 0)) % MODULO;
+        }
+    }
+    return dp[steps][0];
+}
+```
+<!-- @include-end ../leetcode/1269.number-of-ways-to-stay-in-the-same-place-after-some-steps.md -->
