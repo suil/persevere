@@ -19,6 +19,7 @@
     * [Find Eventual Safe States](#find-eventual-safe-states)
     * [Evaluate Division](#evaluate-division)
     * [Find Eventual Safe States](#find-eventual-safe-states)
+    * [Find if Path Exists in Graph](#find-if-path-exists-in-graph)
 <!-- GFM-TOC -->
 
 <!-- @include ../leetcode/0785.is-graph-bipartite.md -->
@@ -79,6 +80,7 @@ function isBipartiteHelper(graph, current, marker, visited) {
     return true;
 }
 ```
+<!-- @include-end ../leetcode/0785.is-graph-bipartite.md -->
 
 ## Topology Sorting
 
@@ -160,6 +162,7 @@ function hasCircle(graph, current, visited, visiting) {
     return false;
 }
 ```
+<!-- @include-end ../leetcode/0207.course-schedule.md -->
 
 <!-- @include ../leetcode/0210.course-schedule-ii.md -->
 ### Course Schedule II
@@ -233,6 +236,7 @@ function hasCircle(graph, current, visited, visiting, orders) {
     return false;
 }
 ```
+<!-- @include-end ../leetcode/0210.course-schedule-ii.md -->
 
 <!-- @include ../leetcode/0684.redundant-connection.md -->
 ### Redundant Connection
@@ -296,6 +300,7 @@ class UnionFind {
     }
 }
 ```
+<!-- @include-end ../leetcode/0684.redundant-connection.md -->
 
 <!-- @include ../leetcode/0133.clone-graph.md -->
 ### Clone Graph
@@ -363,6 +368,8 @@ function cloneGraphHelper(node, map) {
     return newNode;
 }
 ```
+<!-- @include-end ../leetcode/0133.clone-graph.md -->
+
 ## Connected Components in Graph
 <!-- @include ../leetcode/0323.number-of-connected-components-in-an-undirected-graph.md -->
 ### Number of Connected Components in an Undirected Graph
@@ -457,6 +464,7 @@ class UnionFind {
     }
 }
 ```
+<!-- @include-end ../leetcode/0323.number-of-connected-components-in-an-undirected-graph.md -->
 
 <!-- @include ../leetcode/0261.graph-valid-tree.md -->
 ### Graph Valid Tree
@@ -555,6 +563,7 @@ var validTree = function(n, edges) {
     return uf.size === 1;
 };
 ```
+<!-- @include-end ../leetcode/0261.graph-valid-tree.md -->
 
 <!-- @include ../leetcode/0277.find-the-celebrity.md -->
 ### Find the Celebrity
@@ -601,6 +610,7 @@ var solution = function(knows) {
     };
 };
 ```
+<!-- @include-end ../leetcode/0277.find-the-celebrity.md -->
 
 <!-- @include ../leetcode/0733.flood-fill.md -->
 ### Flood Fill
@@ -651,6 +661,7 @@ function floodFillHelper(image, currentRow, currentCol, oldColor, newColor, visi
     floodFillHelper(image, currentRow, currentCol - 1, oldColor, newColor, visited);
 }
 ```
+<!-- @include-end ../leetcode/0733.flood-fill.md -->
 
 <!-- @include ../leetcode/0827.making-a-large-island.md -->
 ### Making A Large Island
@@ -741,6 +752,7 @@ function dfs(grid, row, col, color) {
         + dfs(grid, row, col - 1, color);
 }
 ```
+<!-- @include-end ../leetcode/0827.making-a-large-island.md -->
 
 <!-- @include ../leetcode/1162.as-far-from-land-as-possible.md -->
 ### As Far from Land as Possible
@@ -797,6 +809,7 @@ var maxDistance = function(grid) {
     return ret === 0 ? -1 : ret;
 };
 ```
+<!-- @include-end ../leetcode/1162.as-far-from-land-as-possible.md -->
 
 <!-- @include ../leetcode/0841.keys-and-rooms.md -->
 ### Keys and Rooms
@@ -843,6 +856,7 @@ function dfs(rooms, currentRoom, visited) {
     }
 }
 ```
+<!-- @include-end ../leetcode/0841.keys-and-rooms.md -->
 
 <!-- @include ../leetcode/1202.smallest-string-with-swaps.md -->
 ### Smallest String With Swaps
@@ -962,6 +976,7 @@ function dfs(s, graph, current, indexes, visited) {
     }
 }
 ```
+<!-- @include-end ../leetcode/1202.smallest-string-with-swaps.md -->
 
 <!-- @include ../leetcode/0802.find-eventual-safe-states.md -->
 ### Find Eventual Safe States
@@ -1016,119 +1031,76 @@ function dfs(graph, curr, visited) {
     return true;
 }
 ```
+<!-- @include-end ../leetcode/0802.find-eventual-safe-states.md -->
 
-<!-- @include ../leetcode/0399.evaluate-division.md -->
-### Evaluate Division
-[399. Evaluate Division](https://leetcode.com/problems/evaluate-division/)
+<!-- @include ../leetcode/1971.find-if-path-exists-in-graph.md -->
+### Find if Path Exists in Graph
+
+[1971. Find if Path Exists in Graph](https://leetcode.com/problems/find-if-path-exists-in-graph/description/)
 
 ```html
-You are given an array of variable pairs equations and an array of real numbers values, where equations[i] = [Ai, Bi] and values[i] represent the equation Ai / Bi = values[i]. Each Ai or Bi is a string that represents a single variable.
+There is a bi-directional graph with n vertices, where each vertex is labeled from 0 to n - 1 (inclusive). The edges in the graph are represented as a 2D integer array edges, where each edges[i] = [ui, vi] denotes a bi-directional edge between vertex ui and vertex vi. Every vertex pair is connected by at most one edge, and no vertex has an edge to itself.
 
-You are also given some queries, where queries[j] = [Cj, Dj] represents the jth query where you must find the answer for Cj / Dj = ?.
+You want to determine if there is a valid path that exists from vertex source to vertex destination.
 
-Return the answers to all queries. If a single answer cannot be determined, return -1.0.
-
-Note: The input is always valid. You may assume that evaluating the queries will not result in division by zero and that there is no contradiction.
+Given edges and the integers n, source, and destination, return true if there is a valid path from source to destination, or false otherwise.
 
 Example 1:
 
-Input: equations = [["a","b"],["b","c"]], values = [2.0,3.0], queries = [["a","c"],["b","a"],["a","e"],["a","a"],["x","x"]]
-Output: [6.00000,0.50000,-1.00000,1.00000,-1.00000]
-Explanation: 
-Given: a / b = 2.0, b / c = 3.0
-queries are: a / c = ?, b / a = ?, a / e = ?, a / a = ?, x / x = ?
-return: [6.0, 0.5, -1.0, 1.0, -1.0 ]
+Input: n = 3, edges = [[0,1],[1,2],[2,0]], source = 0, destination = 2
+Output: true
+Explanation: There are two paths from vertex 0 to vertex 2:
+- 0 → 1 → 2
+- 0 → 2
 
 Example 2:
 
-Input: equations = [["a","b"],["b","c"],["bc","cd"]], values = [1.5,2.5,5.0], queries = [["a","c"],["c","b"],["bc","cd"],["cd","bc"]]
-Output: [3.75000,0.40000,5.00000,0.20000]
-Example 3:
-
-Input: equations = [["a","b"]], values = [0.5], queries = [["a","b"],["b","a"],["a","c"],["x","y"]]
-Output: [0.50000,2.00000,-1.00000,-1.00000]
+Input: n = 6, edges = [[0,1],[0,2],[3,5],[5,4],[4,3]], source = 0, destination = 5
+Output: false
+Explanation: There is no path from vertex 0 to vertex 5.
 ```
 
+dfs:
 ```javascript
-var calcEquation = function(equations, values, queries) {
-    const graph = {};
-    for (let i = 0; i < equations.length; i++) {
-        const [u, v] = equations[i];
-        const value = values[i];
-        if (!graph[u]) { graph [u] = {}; }
-        if (!graph[v]) { graph [v] = {}; }
-        graph[u][v] = value;
-        graph[v][u] = 1 / value;
+function dfs(graph, current, visited, destination) {
+    if (current === destination) {
+        return true;
     }
-
-    return queries.map(query => dfs(graph, query[0], query[1], new Set()));
-};
-
-function dfs(graph, x, y, visited) {
-    if (!graph[x] || !graph[y]) { return -1; }
-
-    if (y in graph[x]) { return graph[x][y]; }
-
-    for (let neighbor in graph[x]) {
-        if (visited.has(neighbor)) { continue; }
-        visited.add(neighbor);
-
-        const current = dfs(graph, neighbor, y, visited);
-        if (current !== -1) { return graph[x][neighbor] * current; }
+    if (visited[current] === true) {
+        return false;
     }
-    return -1;
-};
-```
-<!-- @include ../leetcode/0802.find-eventual-safe-states.md -->
-### Find Eventual Safe States
-[802. Find Eventual Safe States](https://leetcode.com/problems/find-eventual-safe-states/)
-
-```html
-We start at some node in a directed graph, and every turn, we walk along a directed edge of the graph. If we reach a terminal node (that is, it has no outgoing directed edges), we stop.
-
-We define a starting node to be safe if we must eventually walk to a terminal node. More specifically, there is a natural number k, so that we must have stopped at a terminal node in less than k steps for any choice of where to walk.
-
-Return an array containing all the safe nodes of the graph. The answer should be sorted in ascending order.
-
-The directed graph has n nodes with labels from 0 to n - 1, where n is the length of graph. The graph is given in the following form: graph[i] is a list of labels j such that (i, j) is a directed edge of the graph, going from node i to node j.
-
-Example 1:
-
-Illustration of graph
-Input: graph = [[1,2],[2,3],[5],[0],[5],[],[]]
-Output: [2,4,5,6]
-Explanation: The given graph is shown above.
-Example 2:
-
-Input: graph = [[1,2,3,4],[1,2],[3,4],[0,4],[]]
-Output: [4]
-```
-
-```javascript
-const UNVISITED = 0, VISITING = -1, VISITED = 1;
-var eventualSafeNodes = function(graph) {
-    const visited = Array(graph.length).fill(UNVISITED);
-    const res = [];
-    for (let i = 0; i < graph.length; i++) {
-        if (dfs(graph, i, visited)) { res.push(i); }
-    }
-    return res;
-};
-function dfs(graph, curr, visited) {
-    if (visited[curr] !== UNVISITED) {
-        return visited[curr] === VISITED;
-    }
-
-    // if (graph[curr].length === 0) { return true; }
-
-    visited[curr] = VISITING;
-
-    for (const neighbor of graph[curr]) {
-        if (!dfs(graph, neighbor, visited)) {
-            return false;
+    visited[current] = true;
+    for (const node of graph[current]) {
+        if (dfs(graph, node, visited, destination) === true) {
+            return true;
         }
     }
-    visited[curr] = VISITED;
-    return true;
+    return false;
 }
 ```
+
+bfs:
+```javascript
+function bfs(graph, visited, source, destination) {
+    let queue = [source];
+    
+    while (queue.length > 0) {
+       const nextQueue = [];
+       for (const node of queue) {
+           if (visited[node]) {
+               continue;
+           }
+           if (node === destination) {
+               return true;
+           }
+           visited[node] = true;
+           const neighbors = graph[node];
+           nextQueue.push(...neighbors);
+       }
+       queue = nextQueue;
+    }
+
+    return false;
+}
+```
+<!-- @include-end ../leetcode/1971.find-if-path-exists-in-graph.md -->

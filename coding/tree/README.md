@@ -248,6 +248,7 @@ var diameterOfBinaryTree = function(root) {
     return diameter
 };
 ```
+<!-- @include-end ../leetcode/0543.diameter-of-binary-tree.md -->
 
 ### Diameter of Binary Tree
 Diameter of the binary tree = left depth + right depth
@@ -1156,6 +1157,7 @@ var maxPathSum = function(root) {
     return max;
 };
 ```
+<!-- @include-end ../leetcode/0124.binary-tree-maximum-path-sum.md -->
 
 <!-- @include ../leetcode/0543.diameter-of-binary-tree.md -->
 ## Diameter of Binary Tree
