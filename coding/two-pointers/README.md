@@ -10,7 +10,8 @@
     * [Linked List Cycle](#Linked-List-Cycle)
     * [Longest Word in Dictionary through Deleting](#Longest-Word-in-Dictionary-through-Deleting)
     * [Trapping Rain Water](#trapping-rain-water)
-    * [Shortest Word Distance II](../leetcode.md#shortest-word-distance-ii)
+    * [Shortest Word Distance II](#shortest-word-distance-ii)
+    * [Find Words](#find-words)
 * Three Pointers
     * [Valid Triangle Number](#valid-triangle-number)
 <!-- GFM-TOC -->
@@ -485,3 +486,60 @@ var longestPalindrome = function(s) {
 };
 ```
 <!-- @include-end ../leetcode/0005.longest-palindromic-substring.md -->
+
+<!-- @include ../leetcode/L194.find-words.md -->
+### Find Words
+
+[194. Find Words](https://www.lintcode.com/problem/194/description)
+
+Given a string str and a dictionary dict, you need to find out which words in the dictionary are subsequences of the string and return those words.The order of the words returned should be the same as the order in the dictionary.
+
+Example 1:
+
+Input:
+str="bcogtadsjofisdhklasdj"
+dict=["book","code","tag"]
+Output:
+["book"]
+Explanation:Only book is a subsequence of str
+
+Example 2:
+
+Input:
+str="nmownhiterer"
+dict=["nowhere","monitor","moniter"]
+Output:
+["nowhere","moniter"]
+
+```javascript
+export class Solution {
+  /**
+   * @param str: the string
+   * @param dict: the dictionary
+   * @return: return words which  are subsequences of the string
+   */
+  findWords(str, dict) {
+    // write your code here.
+    const output = [];
+    for (const word of dict) {
+      if (this.findWord(str, word)) {
+        output.push(word);
+      }
+    }
+    return output;
+  }
+
+  findWord(str, target) {
+    let pStr = 0;
+    let pTarget = 0;
+    while (pStr < str.length && pTarget < target.length) {
+      if (str[pStr] === target[pTarget]) {
+        pTarget++;
+      }
+      pStr++;
+    }
+    return pTarget === target.length;
+  }
+}
+```
+<!-- @include-end ../leetcode/L194.find-words.md -->
