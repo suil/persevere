@@ -27,6 +27,7 @@
             * [Subarray Sum Equals K](#Subarray-Sum-Equals-K)
             * [Continuous Subarray Sum](#continuous-subarray-sum)
             * [Maximum Product Subarray](#maximum-product-subarray)
+        * [Subarray Sum II](#subarray-sum-ii)
 
     * [Matrix](#Matrix)
         * [Search a 2D Matrix II](#search-a-2d-matrix-ii)
@@ -68,6 +69,7 @@ var moveZeroes = function(nums) {
     }
 };
 ```
+<!-- @include-end ../leetcode/0283.move-zeroes.md -->
 
 <!-- @include ../leetcode/0566.reshape-the-matrix.md -->
 ### Reshape the Matrix
@@ -104,6 +106,28 @@ Output:
 Explanation:
 There is no way to reshape a 2 * 2 matrix to a 2 * 4 matrix. So output the original matrix.
 ```
+
+```javascript
+var matrixReshape = function(nums, r, c) {
+    let m = nums.length, n = nums[0].length;
+    
+    if (m * n != r * c) {
+        return nums;
+    }
+    
+    const reshapedNums = [...Array(r)].map(a => [...Array(c)]);
+
+    let index = 0;
+    for (let i = 0; i < r; i++) {
+        for (let j = 0; j < c; j++) {
+            reshapedNums[i][j] = nums[Math.floor(index / n)][index % n];
+            index++;
+        }
+    }
+    return reshapedNums;
+};
+```
+<!-- @include-end ../leetcode/0566.reshape-the-matrix.md -->
 
 ```javascript
 var matrixReshape = function(nums, r, c) {
@@ -166,6 +190,7 @@ var findMaxConsecutiveOnes = function(nums) {
     return Math.max(maxOnes, countOnes);
 };
 ```
+<!-- @include-end ../leetcode/0485.max-consecutive-ones.md -->
 
 <!-- @include ../leetcode/0378.kth-smallest-element-in-a-sorted-matrix.md -->
 ### Kth Smallest Element in a Sorted Matrix
@@ -206,6 +231,7 @@ var kthSmallest = function(matrix, k) {
     return lo;
 };
 ```
+<!-- @include-end ../leetcode/0378.kth-smallest-element-in-a-sorted-matrix.md -->
 
 <!-- @include ../leetcode/0645.set-mismatch.md -->
 ### Set Mismatch
@@ -248,6 +274,7 @@ var findErrorNums = function(nums) {
     return [dup, missing];
 };
 ```
+<!-- @include-end ../leetcode/0645.set-mismatch.md -->
 
 <!-- @include ../leetcode/0287.find-the-duplicate-number.md -->
 ### Find the Duplicate Number
@@ -295,8 +322,7 @@ var findDuplicate = function(nums) {
     return l;
 };
 ```
-
-
+<!-- @include-end ../leetcode/0287.find-the-duplicate-number.md -->
 
 ## 8. 数组相邻差值的个数
 
@@ -538,6 +564,7 @@ var subarraySum = function(nums, k) {
     return count;
 };
 ```
+<!-- @include-end ../leetcode/0560.subarray-sum-equals-k.md -->
 
 <!-- @include ../leetcode/0523.continuous-subarray-sum.md -->
 ### Continuous Subarray Sum
@@ -580,6 +607,7 @@ var checkSubarraySum = function(nums, k) {
     return false;
 };
 ```
+<!-- @include-end ../leetcode/0523.continuous-subarray-sum.md -->
 
 <!-- @include ../leetcode/0152.maximum-product-subarray.md -->
 ### Maximum Product Subarray
@@ -619,6 +647,7 @@ var maxProduct = function(nums) {
     return max;
 };
 ```
+<!-- @include-end ../leetcode/0152.maximum-product-subarray.md -->
 
 <!-- @include ../leetcode/0238.product-of-array-except-self.md -->
 ### Product of Array Except Self
@@ -655,6 +684,7 @@ var productExceptSelf = function(nums) {
     return output;
 };
 ```
+<!-- @include-end ../leetcode/0238.product-of-array-except-self.md -->
 
 ### Leftmost Column with at Least a One
 [1428. Leftmost Column with at Least a One](https://leetcode.com/problems/leftmost-column-with-at-least-a-one/)
@@ -802,6 +832,7 @@ var intersect = function(nums1, nums2) {
     return res;
 };
 ```
+<!-- @include-end ../leetcode/0350.intersection-of-two-arrays-ii.md -->
 
 ## Nested Array
 <!-- @include ../leetcode/0339.nested-list-weight-sum.md -->
@@ -837,6 +868,7 @@ function depthSumHelper(nestedList, depth) {
     return sum;
 }
 ```
+<!-- @include-end ../leetcode/0339.nested-list-weight-sum.md -->
 
 <!-- @include ../leetcode/0364.nested-list-weight-sum-ii.md -->
 ### Nested List Weight Sum II
@@ -879,279 +911,7 @@ function helper(nestedList, depth, flattened) {
     }
 }
 ```
-
-
-<!-- @include ../leetcode/0341.flatten-nested-list-iterator.md -->
-### Flatten Nested List Iterator
-[341. Flatten Nested List Iterator](https://leetcode.com/problems/flatten-nested-list-iterator/)
-```html
-You are given a nested list of integers nestedList. Each element is either an integer or a list whose elements may also be integers or other lists. Implement an iterator to flatten it.
-
-Implement the NestedIterator class:
-
-NestedIterator(List<NestedInteger> nestedList) Initializes the iterator with the nested list nestedList.
-int next() Returns the next integer in the nested list.
-boolean hasNext() Returns true if there are still some integers in the nested list and false otherwise.
-
-Example 1:
-
-Input: nestedList = [[1,1],2,[1,1]]
-Output: [1,1,2,1,1]
-Explanation: By calling next repeatedly until hasNext returns false, the order of elements returned by next should be: [1,1,2,1,1].
-Example 2:
-
-Input: nestedList = [1,[4,[6]]]
-Output: [1,4,6]
-Explanation: By calling next repeatedly until hasNext returns false, the order of elements returned by next should be: [1,4,6].
-```
-
-```javascript
-var NestedIterator = function(nestedList) {
-    function flattern(list) {
-        if (!list) {
-            return [];
-        }
-        let flattenedList = [];
-        for (const item of list) {
-            if (item.isInteger()) {
-                flattenedList.push(item.getInteger());
-            } else {
-                flattenedList = [...flattenedList, ...flattern(item.getList())];
-            }
-        }
-        return flattenedList;
-    }
-    this.flattenedList = flattern(nestedList);
-};
-NestedIterator.prototype.hasNext = function() {
-    return this.flattenedList.length > 0;
-};
-NestedIterator.prototype.next = function() {
-    return this.flattenedList.shift();
-};
-```
-
-<!-- @include ../leetcode/0373.find-k-pairs-with-smallest-sums.md -->
-### Find K Pairs with Smallest Sums
-[373. Find K Pairs with Smallest Sums](https://leetcode.com/problems/find-k-pairs-with-smallest-sums/)
-
-```html
-You are given two integer arrays nums1 and nums2 sorted in ascending order and an integer k.
-Define a pair (u, v) which consists of one element from the first array and one element from the second array.
-Return the k pairs (u1, v1), (u2, v2), ..., (uk, vk) with the smallest sums.
-
-Example 1:
-Input: nums1 = [1,7,11], nums2 = [2,4,6], k = 3
-Output: [[1,2],[1,4],[1,6]]
-Explanation: The first 3 pairs are returned from the sequence: [1,2],[1,4],[1,6],[7,2],[7,4],[11,2],[7,6],[11,4],[11,6]
-
-Example 2:
-Input: nums1 = [1,1,2], nums2 = [1,2,3], k = 2
-Output: [[1,1],[1,1]]
-Explanation: The first 2 pairs are returned from the sequence: [1,1],[1,1],[1,2],[2,1],[1,2],[2,2],[1,3],[1,3],[2,3]
-
-Example 3:
-Input: nums1 = [1,2], nums2 = [3], k = 3
-Output: [[1,3],[2,3]]
-Explanation: All possible pairs are returned from the sequence: [1,3],[2,3]
-```
-
-```javascript
-var kSmallestPairs = function(nums1, nums2, k) {
-    const res = [];
-    if (nums1.length === 0 || nums2.length === 0 || k === 0) { return res; }
-    const queue = new FastPriorityQueue((a, b) => a.sum < b.sum)
-    
-    for (let i = 0; i < Math.min(nums1.length, k); i++) {
-        queue.add({
-            index1: i,
-            index2: 0,
-            sum: nums1[i] + nums2[0]
-        });
-    }
-
-    while (k > 0 && queue.size > 0) {
-        const num = queue.poll();
-        res.push([
-            nums1[num.index1],
-            nums2[num.index2] 
-        ]);
-        if (num.index2 < nums2.length - 1) {
-            queue.add({
-                index1: num.index1,
-                index2: num.index2 + 1,
-                sum: nums1[num.index1] + nums2[num.index2 + 1]
-            });
-        }
-        k--;
-    }
-    return res;
-};
-```
-
-## Matrix
-
-<!-- @include ../leetcode/0240.search-a-2d-matrix-ii.md -->
-### Search a 2D Matrix II
-[240. Search a 2D Matrix II](https://leetcode.com/problems/search-a-2d-matrix-ii/description/)
-
-```html
-Write an efficient algorithm that searches for a target value in an m x n integer matrix. The matrix has the following properties:
-
-Integers in each row are sorted in ascending from left to right.
-Integers in each column are sorted in ascending from top to bottom.
-
-Example 1:
-[ 1, 4, 7,11,15]
-[ 2, 5, 8,12,19]
-[ 3, 6, 9,16,22]
-[10,13,14,17,24]
-[18,21,23,26,30]
-Input: matrix = [[1,4,7,11,15],[2,5,8,12,19],[3,6,9,16,22],[10,13,14,17,24],[18,21,23,26,30]], target = 5
-Output: true
-
-Example 2:
-[ 1, 4, 7,11,15]
-[ 2, 5, 8,12,19]
-[ 3, 6, 9,16,22]
-[10,13,14,17,24]
-[18,21,23,26,30]
-Input: matrix = [[1,4,7,11,15],[2,5,8,12,19],[3,6,9,16,22],[10,13,14,17,24],[18,21,23,26,30]], target = 20
-Output: false
-```
-```javascript
-var searchMatrix = function(matrix, target) {
-    const firstRow = matrix[0];
-    const targetColIdex = binarySearch(firstRow, target);
-    
-    const searchColArray = 
-    console.log(targetColIdex)
-};
-function binarySearch(array, target) {
-    let low = 0, high = array.length - 1;
-    while (low <= high) {
-        const mid = Math.floor(low + (high - low) / 2);
-        if (array[mid] === target) {
-            return mid;
-        }
-        if (array[mid] > target) {
-            high = mid - 1;
-        } else {
-            low = mid + 1
-        }
-    }
-    return low - 1;
-}
-```
-
-<!-- @include ../leetcode/0311.sparse-matrix-multiplication.md -->
-### Sparse Matrix Multiplication
-[311. Sparse Matrix Multiplication](https://leetcode.com/problems/sparse-matrix-multiplication/)
-
-```html
-Given two sparse matrices mat1 of size m x k and mat2 of size k x n, return the result of mat1 x mat2. You may assume that multiplication is always possible.
-
-Example 1:
-
-[1, 0, 0]
-[-1,0, 3]
-
-[7,0,0],
-[0,0,0],
-[0,0,1]
-
-Input: mat1 = [[1,0,0],[-1,0,3]], mat2 = [[7,0,0],[0,0,0],[0,0,1]]
-Output: [[7,0,0],[-7,0,3]]
-
-Example 2:
-Input: mat1 = [[0]], mat2 = [[0]]
-Output: [[0]]
-```
-
-```javascript
-var multiply = function(mat1, mat2) {
-    const res = [];
-    for (let row = 0; row < mat1.length; row++) {
-        res.push([]);
-        for (let col = 0; col < mat2[0].length; col++) {
-            let sum = 0;
-            for (let i = 0; i < mat2.length; i++) {
-                sum += mat1[row][i] * mat2[i][col];
-            }
-            res[row][col] = sum
-        }
-    }
-    return res;
-};
-```
-
-
-### Range Sum Query 2D - Immutable
-[304. Range Sum Query 2D - Immutable](https://leetcode.com/problems/range-sum-query-2d-immutable/)
-```javascript
-var NumMatrix = function(matrix) {
-    if (matrix == null || matrix.length === 0 || matrix[0].length === 0) return;
-
-    const rowLen = matrix.length;
-    const colLen = matrix[0].length;
-
-    const dp = [...Array(rowLen + 1)].map(_ => [...Array(colLen + 1)].fill(0));
-    for (let row = 0; row < rowLen; row++) {
-        for (let col = 0; col < colLen; col++) {
-            dp[row + 1][col + 1] = dp[row + 1][col] + dp[row][col + 1] + matrix[row][col] - dp[row][col];
-        }
-    }
-    this.dp = dp;
-};
-NumMatrix.prototype.sumRegion = function(row1, col1, row2, col2) {
-    return this.dp[row2 + 1][col2 + 1]
-        - this.dp[row1][col2 + 1]
-        - this.dp[row2 + 1][col1]
-        + this.dp[row1][col1];
-};
-```
-
-<!-- @include ../leetcode/0364.nested-list-weight-sum-ii.md -->
-### Nested List Weight Sum II
-[364. Nested List Weight Sum II](https://leetcode.com/problems/nested-list-weight-sum-ii/)
-```html
-Given a nested list of integers, return the sum of all integers in the list weighted by their depth.
-
-Each element is either an integer, or a list -- whose elements may also be integers or other lists.
-
-Different from the previous question where weight is increasing from root to leaf, now the weight is defined from bottom up. i.e., the leaf level integers have weight 1, and the root level integers have the largest weight.
-
-Example 1: Given the list [[1,1],2,[1,1]], return 8. (four 1's at depth 1, one 2 at depth 2)
-
-Example 2: Given the list [1,[4,[6]]], return 17. (one 1 at depth 3, one 4 at depth 2, and one 6 at depth 1; 1*3 + 4*2 + 6*1 = 17)
-```
-
-```javascript
-var depthSumInverse = function(nestedList) {
-    const flattened = [];
-    helper(nestedList, 0, flattened);
-    
-    let weight = flattened.length, sum = 0;
-    for (const item of flattened) {
-        for (let i = 0; i < item.length; i++) {
-            sum += item[i] * weight;
-        }
-        weight--;
-    }
-    return sum;
-};
-function helper(nestedList, depth, flattened) {
-    if (!flattened[depth]) { flattened[depth] = []; }
-    
-    for (const item of nestedList) {
-        if (item.isInteger()) {
-            flattened[depth].push(item.getInteger());
-        } else {
-            helper(item.getList(), depth + 1, flattened);
-        }
-    }
-}
-```
+<!-- @include-end ../leetcode/0364.nested-list-weight-sum-ii.md -->
 
 <!-- @include ../leetcode/0054.spiral-matrix.md -->
 ### Spiral Matrix
@@ -1208,3 +968,65 @@ var spiralOrder = function(matrix) {
     return ans;
 };
 ```
+<!-- @include-end ../leetcode/0054.spiral-matrix.md -->
+
+<!-- @include ../leetcode/L404.subarray-sum-ii.md -->
+### Subarray Sum II
+[404.Subarray Sum II](https://www.lintcode.com/problem/404/description)
+
+```html
+Given an positive integer array A and an interval. Return the number of subarrays whose sum is in the range of given interval.
+
+Wechat reply 【Two Sigma】 get the latest requent Interview questions. (wechat id : jiuzhang1104)
+
+
+Subarray is a part of origin array with continuous index and contain at least one number.
+
+Example 1:
+
+Input: A = [1, 2, 3, 4], start = 1, end = 3
+Output: 4
+Explanation: All possible subarrays: [1](sum = 1), [1, 2](sum = 3), [2](sum = 2), [3](sum = 3).
+Example 2:
+
+Input: A = [1, 2, 3, 4], start = 1, end = 100
+Output: 10
+Explanation: Any subarray is ok.
+```
+
+```javascript
+export class Solution {
+  /**
+   * @param a: An integer array
+   * @param start: An integer
+   * @param end: An integer
+   * @return: the number of possible answer
+   */
+  subarraySumII(a, start, end) {
+    // write your code here
+    // special cases
+    if(a == null || a.length == 0 || start > end){
+        return 0;
+    }
+
+    //preix sum
+    const sum = [...Array(a.length + 1)].fill(0);
+
+    for (let i = 1; i <= a.length; i++){
+      sum[i] = sum[i - 1] + a[i - 1];
+    }
+
+    let count = 0;
+    for (let i = 0; i < a.length; i++) {
+      for (let j = i + 1; j <= a.length; j++) {
+        const diff = sum[j] - sum[i];
+          if (diff >= start && diff <= end){
+            count++;
+          }
+      }
+    }
+    return count;
+  }
+}
+```
+<!-- @include-end ../leetcode/L404.subarray-sum-ii.md -->
