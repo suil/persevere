@@ -437,7 +437,7 @@ var triangleNumber = function(nums) {
 ```
 
 <!-- @include ../leetcode/0005.longest-palindromic-substring.md -->
-### Add Two Numbers
+### Longest Palindromic Substring
 [5. Longest Palindromic Substring](https://leetcode.com/problems/longest-palindromic-substring)
 
 ```html
