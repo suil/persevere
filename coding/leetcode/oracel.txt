@@ -238,67 +238,67 @@ Easy
 46.8%
 Hard
 
-92. Reverse Linked List II
+92. Reverse Linked List II [X]
 50.9%
 Med.
 
-103. Binary Tree Zigzag Level Order Traversal
+103. Binary Tree Zigzag Level Order Traversal [X]
 63.0%
 Med.
 
-107. Binary Tree Level Order Traversal II
+107. Binary Tree Level Order Traversal II [X]
 67.5%
 Med.
 
-121. Best Time to Buy and Sell Stock
+121. Best Time to Buy and Sell Stock [X]
 56.3%
 Easy
 
-125. Valid Palindrome
+125. Valid Palindrome [X]
 52.6%
 Easy
 
-148. Sort List
+148. Sort List [X]
 63.7%
 Med.
 
-150. Evaluate Reverse Polish Notation
+150. Evaluate Reverse Polish Notation [X]
 56.8%
 Med.
 
-151. Reverse Words in a String
+151. Reverse Words in a String [X]
 55.3%
 Med.
 
-169. Majority Element
+169. Majority Element [X]
 66.1%
 Easy
 
-206. Reverse Linked List
+206. Reverse Linked List [X]
 80.2%
 Easy
 
-230. Kth Smallest Element in a BST
+230. Kth Smallest Element in a BST [X]
 76.4%
 Med.
 
-242. Valid Anagram
+242. Valid Anagram [x]
 67.7%
 Easy
 
-273. Integer to English Words
+273. Integer to English Words [X]
 34.8%
 Hard
 
-283. Move Zeroes
+283. Move Zeroes [X]
 63.5%
 Easy
 
-295. Find Median from Data Stream
+295. Find Median from Data Stream [X]
 54.1%
 Hard
 
-366. Find Leaves of Binary Tree
+366. Find Leaves of Binary Tree [x]
 81.2%
 Med.
 
@@ -334,23 +334,23 @@ Easy
 56.8%
 Med.
 
-796. Rotate String
+796. Rotate String [X]
 65.0%
 Easy
 
-815. Bus Routes
+815. Bus Routes [X]
 47.1%
 Hard
 
-981. Time Based Key-Value Store
+981. Time Based Key-Value Store [X]
 49.7%
 Med.
 
-987. Vertical Order Traversal of a Binary Tree
+987. Vertical Order Traversal of a Binary Tree [X]
 53.1%
 Hard
 
-994. Rotting Oranges
+994. Rotting Oranges [X]
 58.0%
 Med.
 
@@ -434,6 +434,6 @@ Hard
 30.9%
 Med.
 
-3650. Minimum Cost Path with Edge Reversals
+3650. Minimum Cost Path with Edge Reversals [X]
 61.8%
 Med.
