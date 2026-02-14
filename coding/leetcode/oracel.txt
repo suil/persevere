@@ -354,7 +354,7 @@ Hard
 58.0%
 Med.
 
-1095. Find in Mountain Array
+1095. Find in Mountain Array [X]
 41.0%
 Hard
 
