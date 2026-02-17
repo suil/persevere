@@ -358,39 +358,39 @@ Med.
 41.0%
 Hard
 
-1169. Invalid Transactions
+1169. Invalid Transactions [X]
 32.0%
 Med.
 
-1190. Reverse Substrings Between Each Pair of Parentheses
+1190. Reverse Substrings Between Each Pair of Parentheses [X]
 71.9%
 Med.
 
-1200. Minimum Absolute Difference
+1200. Minimum Absolute Difference [X]
 75.0%
 Easy
 
-1249. Minimum Remove to Make Valid Parentheses
+1249. Minimum Remove to Make Valid Parentheses [X]
 71.2%
 Med.
 
-1254. Number of Closed Islands
+1254. Number of Closed Islands [X]
 67.0%
 Med.
 
-1290. Convert Binary Number in a Linked List to Integer
+1290. Convert Binary Number in a Linked List to Integer [X]
 82.3%
 Easy
 
-1312. Minimum Insertion Steps to Make a String Palindrome
+1312. Minimum Insertion Steps to Make a String Palindrome [X]
 73.6%
 Hard
 
-1526. Minimum Number of Increments on Subarrays to Form a Target Array
+1526. Minimum Number of Increments on Subarrays to Form a Target Array [X]
 78.1%
 Hard
 
-1539. Kth Missing Positive Number
+1539. Kth Missing Positive Number [X]
 63.2%
 Easy
 
@@ -398,27 +398,27 @@ Easy
 78.4%
 Hard
 
-1669. Merge In Between Linked Lists
+1669. Merge In Between Linked Lists [X]
 82.8%
 Med.
 
-1944. Number of Visible People in a Queue
+1944. Number of Visible People in a Queue [X]
 72.3%
 Hard
 
-2008. Maximum Earnings From Taxi
+2008. Maximum Earnings From Taxi [X]
 46.2%
 Med.
 
-2204. Distance to a Cycle in Undirected Graph
+2204. Distance to a Cycle in Undirected Graph [X]
 73.4%
 Hard
 
-2291. Maximum Profit From Trading Stocks
+2291. Maximum Profit From Trading Stocks [x]
 48.0%
 Med.
 
-2402. Meeting Rooms III
+2402. Meeting Rooms III [X]
 51.7%
 Hard
 
