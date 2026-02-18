@@ -422,7 +422,7 @@ Med.
 51.7%
 Hard
 
-2603. Collect Coins in a Tree
+2603. Collect Coins in a Tree [X]
 39.4%
 Hard
 
