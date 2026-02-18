@@ -1,0 +1,8 @@
+{
+  "name": "leetcode-scripts",
+  "type": "module",
+  "private": true,
+  "dependencies": {
+    "leetcode-query": "^2.0.0"
+  }
+}
