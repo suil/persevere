@@ -149,7 +149,6 @@ ${code}
 
 # Complexity
 **Time:**
-
 **Space:**
 `;
 
